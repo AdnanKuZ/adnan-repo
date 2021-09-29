@@ -1,0 +1,7 @@
+2021/09/29-11:18:36.257 c80 Reusing MANIFEST C:\Users\majd.h\AppData\Local\Temp\flutter_tools.a383e12b\flutter_tools_chrome_device.af3ec937\Default\IndexedDB\https_web.telegram.org_0.indexeddb.leveldb/MANIFEST-000001
+2021/09/29-11:18:36.257 c80 Recovering log #3
+2021/09/29-11:18:36.257 c80 Reusing old log C:\Users\majd.h\AppData\Local\Temp\flutter_tools.a383e12b\flutter_tools_chrome_device.af3ec937\Default\IndexedDB\https_web.telegram.org_0.indexeddb.leveldb/000003.log 
+2021/09/29-11:20:51.480 d5c Level-0 table #5: started
+2021/09/29-11:20:51.482 d5c Level-0 table #5: 1277 bytes OK
+2021/09/29-11:20:51.483 d5c Delete type=0 #3
+2021/09/29-11:20:51.483 d5c Manual compaction at level-0 from (begin) .. (end); will stop at (end)
