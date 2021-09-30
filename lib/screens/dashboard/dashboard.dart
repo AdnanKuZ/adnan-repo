@@ -33,15 +33,10 @@ class DashboardScreen extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             // We want this side menu only for large screen
-            if (Responsive.isDesktop(context))
-              Expanded(
-                // default flex = 1
-                // and it takes 1/6 part of the screen
-                child: SideMenu(),
-              ),
+            if (!Responsive.isMobile(context))
+              SideMenu(),
+
             Expanded(
-                // It takes 5/6 part of the screen
-                flex: 20,
                 //child: HomeScreen(),
                 child: IndexedStack(
                   index: getStackIndex(
