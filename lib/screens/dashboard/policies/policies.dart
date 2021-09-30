@@ -15,36 +15,39 @@ class PoliciesScreen extends StatelessWidget {
         padding: EdgeInsets.fromLTRB(
             menuPadding, defaultPadding, defaultPadding, defaultPadding),
         child: Container(
+          height: MediaQuery.of(context).size.height,
           width: 1200,
           child: Column(
             children: [
               PoliciesHeader(),
-              //PoliciesBody(),
-              Container(
-                color: Color(0xFFFAFAFA),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Expanded(
-                      flex: 5,
-                      child: Column(
-                        children: [
-                          SizedBox(height: defaultPadding),
-                          RecentFiles(),
-                        ],
-                      ),
-                    ),
-                    if (!Responsive.isMobile(context))
-                      SizedBox(width: defaultPadding),
-                    // // On Mobile means if the screen is less than 850 we dont want to show it
-                    // if (!Responsive.isMobile(context))
-                    //   Expanded(
-                    //     flex: 2,
-                    //     child: StarageDetails(),
-                    //   ),
-                  ],
-                ),
-              )
+              // no Itmes
+              Expanded(flex: 1, child: PoliciesEmptyBody())
+              //Expanded(child: PoliciesFilledBody()),
+              // Container(
+              //   color: Color(0xFFFAFAFA),
+              //   child: Row(
+              //     crossAxisAlignment: CrossAxisAlignment.start,
+              //     children: [
+              //       Expanded(
+              //         flex: 5,
+              //         child: Column(
+              //           children: [
+              //             SizedBox(height: defaultPadding),
+              //             RecentFiles(),
+              //           ],
+              //         ),
+              //       ),
+              //       if (!Responsive.isMobile(context))
+              //         SizedBox(width: defaultPadding),
+              //       // // On Mobile means if the screen is less than 850 we dont want to show it
+              //       // if (!Responsive.isMobile(context))
+              //       //   Expanded(
+              //       //     flex: 2,
+              //       //     child: StarageDetails(),
+              //       //   ),
+              //     ],
+              //   ),
+              // )
             ],
           ),
         ),

@@ -1,9 +1,6 @@
-import 'package:admin/providers/MenuProvider.dart';
 import 'package:admin/responsive.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:provider/provider.dart';
-
 import '../../../constants.dart';
 
 class PoliciesBody extends StatelessWidget {
@@ -13,19 +10,7 @@ class PoliciesBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: Color(0xFFFAFAFA),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Text(
-            "data",
-            style: TextStyle(color: Colors.black),
-          ),
-        ],
-      ),
-    );
+    return PoliciesFilledBody();
   }
 }
 
@@ -37,29 +22,49 @@ class PoliciesEmptyBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.only(left: defaultPadding),
       padding: EdgeInsets.symmetric(
         horizontal: defaultPadding,
         vertical: defaultPadding / 2,
       ),
       decoration: BoxDecoration(
-        color: secondaryColor,
         borderRadius: const BorderRadius.all(Radius.circular(10)),
-        border: Border.all(color: Colors.white10),
       ),
       child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Image.asset(
-            "assets/images/profile_pic.png",
-            height: 38,
+          Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                "No Policies Yet",
+                style: Theme.of(context).textTheme.headline6?.copyWith(
+                    color: Colors.black, fontWeight: FontWeight.bold),
+              ),
+              Text(
+                  "Start adding some policies to see them displayed here\nand manager thtough them",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                      fontSize: 14,
+                      color: textGray,
+                      fontWeight: FontWeight.w500)),
+              SizedBox(height: 30,),
+              ElevatedButton.icon(
+                style: TextButton.styleFrom(
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8)),
+                  backgroundColor: primaryColor,
+                  padding: EdgeInsets.symmetric(
+                    horizontal: defaultPadding,
+                    vertical:
+                        defaultPadding / (Responsive.isMobile(context) ? 1 : 1),
+                  ),
+                ),
+                onPressed: () {},
+                icon: Icon(Icons.add),
+                label: Text("Add New"),
+              ),
+            ],
           ),
-          if (!Responsive.isMobile(context))
-            Padding(
-              padding:
-                  const EdgeInsets.symmetric(horizontal: defaultPadding / 2),
-              child: Text("Angelina Jolie"),
-            ),
-          Icon(Icons.keyboard_arrow_down),
         ],
       ),
     );
@@ -73,26 +78,69 @@ class PoliciesFilledBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return TextField(
-      decoration: InputDecoration(
-        hintText: "Search",
-        fillColor: secondaryColor,
-        filled: true,
-        border: OutlineInputBorder(
-          borderSide: BorderSide.none,
-          borderRadius: const BorderRadius.all(Radius.circular(10)),
-        ),
-        suffixIcon: InkWell(
-          onTap: () {},
-          child: Container(
-            padding: EdgeInsets.all(defaultPadding * 0.75),
-            margin: EdgeInsets.symmetric(horizontal: defaultPadding / 2),
-            decoration: BoxDecoration(
-              color: primaryColor,
-              borderRadius: const BorderRadius.all(Radius.circular(10)),
+    return Container(
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(10.0),
+          color: Color(0xFFFAFAFA),
+          border: Border.all(color: Color(0xFFFAFAFA), width: 3.0)),
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Text(
+              "data",
+              style: TextStyle(color: Colors.black),
             ),
-            child: SvgPicture.asset("assets/icons/Search.svg"),
-          ),
+            Text(
+              "data",
+              style: TextStyle(color: Colors.black),
+            ),
+            Text(
+              "data",
+              style: TextStyle(color: Colors.black),
+            ),
+            Text(
+              "data",
+              style: TextStyle(color: Colors.black),
+            ),
+            Text(
+              "data",
+              style: TextStyle(color: Colors.black),
+            ),
+            Text(
+              "data",
+              style: TextStyle(color: Colors.black),
+            ),
+            Text(
+              "data",
+              style: TextStyle(color: Colors.black),
+            ),
+            Text(
+              "data",
+              style: TextStyle(color: Colors.black),
+            ),
+            Text(
+              "data",
+              style: TextStyle(color: Colors.black),
+            ),
+            Text(
+              "data",
+              style: TextStyle(color: Colors.black),
+            ),
+            Text(
+              "data",
+              style: TextStyle(color: Colors.black),
+            ),
+            Text(
+              "data",
+              style: TextStyle(color: Colors.black),
+            ),
+            Text(
+              "data",
+              style: TextStyle(color: Colors.black),
+            ),
+          ],
         ),
       ),
     );

@@ -19,27 +19,38 @@ class PoliciesHeader extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.fromLTRB(0, 0, 0, 32),
           child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text("Device Code: 9a8273d32",
-                  style: TextStyle(
-                    color: Colors.black,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 10,
-                  )),
-              Padding(
-                padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
-                child: Text("|",
-                    style: TextStyle(
-                      color: textGray,
-                      fontSize: 10,
-                    )),
+              Row(
+                children: [
+                  Text("Device Code: 9a8273d32",
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 10,
+                      )),
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
+                    child: Text("|",
+                        style: TextStyle(
+                          color: textGray,
+                          fontSize: 10,
+                        )),
+                  ),
+                  Text("Device Code: 9a8273d32",
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 10,
+                      )),
+                ],
               ),
-              Text("Device Code: 9a8273d32",
-                  style: TextStyle(
-                    color: Colors.black,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 10,
-                  )),
+              IconButton(
+                  padding: EdgeInsets.fromLTRB(0, 0, 8, 0),
+                  color: Colors.black,
+                  icon: Icon(Icons.settings),
+                  onPressed: () {},
+                  constraints: BoxConstraints()),
             ],
           ),
         ),
@@ -88,6 +99,9 @@ class PoliciesHeader extends StatelessWidget {
               label: Text("Add New"),
             ),
           ],
+        ),
+        SizedBox(
+          height: 16,
         ),
       ],
     );
