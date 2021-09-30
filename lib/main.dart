@@ -1,5 +1,6 @@
 import 'package:admin/constants.dart';
 import 'package:admin/providers/MenuProvider.dart';
+import 'package:admin/screens/auth/login/login_screen.dart';
 import 'package:admin/screens/dashboard/dashboard.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -27,7 +28,7 @@ class MyApp extends StatelessWidget {
             create: (context) => MenuProvider(),
           ),
         ],
-        child: DashboardScreen(),
+        child: LoginScreen(),
       ),
     );
   }
