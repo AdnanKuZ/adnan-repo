@@ -13,3 +13,4 @@ const menuSeperatorColor = Color(0xFFEAEAEA);
 const textGray = Color(0xFFBEBEBE);
 const defaultPadding = 16.0;
 const menuPadding = 48.0;
+const digitCode = 8;

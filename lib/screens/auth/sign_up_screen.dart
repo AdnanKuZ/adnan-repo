@@ -17,6 +17,7 @@ class SignUpScreen extends StatefulWidget {
 
 class _SignUpScreenState extends State<SignUpScreen> {
   final pageController = PageController();
+  final signUpScreenFormKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -31,15 +32,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
             Container(
               width: MediaQuery.of(context).size.width,
               height: MediaQuery.of(context).size.height,
-              decoration: BoxDecoration(
-                  image: DecorationImage(
-                      image: ExactAssetImage(
-                        'images/igor-miske-Px3iBXV-4TU-unsplash.jpg',
-                      ),
-                      fit: BoxFit.cover)),
-              child: BackdropFilter(
-                filter: ImageFilter.blur(sigmaX: 13, sigmaY: 13),
-              ),
+              child: Image.asset('assets/images/igor-miske-Px3iBXV-4TU-unsplash.jpg',fit: BoxFit.cover,)
             ),
             SingleChildScrollView(
               child: LayoutBuilder(
@@ -56,6 +49,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                 alignment: Alignment.centerRight,
                                 child: signupMode.mode == 'Sign Up' ///////////
                                     ? SignUpWidget(
+                                        signUpFormKey: signUpScreenFormKey,
                                         isMobile: false,
                                         isPc: true,
                                       )
@@ -103,6 +97,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               ),
                               signupMode.mode == 'Sign Up' ///////////
                                   ? SignUpWidget(
+                                      signUpFormKey: signUpScreenFormKey,
                                       isMobile: false,
                                       isPc: false,
                                     )
@@ -144,6 +139,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               ),
                               signupMode.mode == 'Sign Up' ///////////
                                   ? SignUpWidget(
+                                      signUpFormKey: signUpScreenFormKey,
                                       isMobile: false,
                                       isPc: false,
                                     )

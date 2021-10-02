@@ -1,6 +1,7 @@
 import 'package:admin/constants.dart';
 import 'package:admin/providers/authProviders.dart';
 import 'package:admin/screens/auth/sign_up_screen.dart';
+import 'package:admin/screens/dashboard/dashboard.dart';
 import 'package:admin/widgets/common/elevated_button_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:admin/widgets/common/text_field_widget.dart';
@@ -10,13 +11,17 @@ import 'package:provider/provider.dart';
 class LoginWidget extends StatelessWidget {
   final emailController = TextEditingController();
   final passController = TextEditingController();
-  // final textFieldController = TextEditingController();
-  final _formKey = GlobalKey<FormState>();
+
   final bool isPc;
   final bool isMobile;
   final bool? isTablet;
+  final GlobalKey<FormState> loginFormKey;
 
-  LoginWidget({required this.isMobile, this.isTablet, required this.isPc});
+  LoginWidget(
+      {required this.isMobile,
+      this.isTablet,
+      required this.isPc,
+      required this.loginFormKey});
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +36,7 @@ class LoginWidget extends StatelessWidget {
             borderRadius: isPc
                 ? BorderRadius.only(
                     bottomRight: Radius.circular(40)) /////Mobile
-                : BorderRadius.circular(40)),
+                : BorderRadius.circular(25)),
         /////Pc and Tablet
         padding: isPc
             ? EdgeInsets.symmetric(horizontal: 85, vertical: 50) //Pc
@@ -55,6 +60,7 @@ class LoginWidget extends StatelessWidget {
               ),
               Text(
                 'Enter your credentials to login now',
+                textAlign: TextAlign.center,
                 style: TextStyle(
                     color: Colors.black54,
                     fontSize: 13,
@@ -64,8 +70,8 @@ class LoginWidget extends StatelessWidget {
                 height: 40,
               ),
               Form(
-                autovalidateMode: AutovalidateMode.onUserInteraction,
-                key: _formKey,
+                // autovalidateMode: AutovalidateMode.onUserInteraction,
+                key: loginFormKey,
                 child: Column(
                   children: [
                     CustomTextField(
@@ -133,7 +139,11 @@ class LoginWidget extends StatelessWidget {
               Row(children: [
                 Expanded(
                   child: CustomElevatedButton(
-                    onpressed: () {},
+                    onpressed: () {
+                      if (loginFormKey.currentState!.validate()) {
+                        Navigator.push(context, MaterialPageRoute(builder: (context)=>DashboardScreen()));
+                      }
+                    },
                     buttonColor: primaryColor,
                     icon: FontAwesomeIcons.signInAlt,
                     splashColor: Colors.white,
@@ -156,7 +166,6 @@ class LoginWidget extends StatelessWidget {
                     title: 'Sign Up',
                     iconColor: primaryColor,
                     onpressed: () {
-                      // loginmode.setMode("Sign Up");
                       Navigator.push(
                           context,
                           MaterialPageRoute(

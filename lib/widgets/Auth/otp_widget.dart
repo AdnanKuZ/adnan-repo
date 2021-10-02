@@ -63,9 +63,10 @@ class OtpWidget extends StatelessWidget {
               height: 50,
             ),
             VerificationCode(
-              length: 4,
+              length: digitCode,
               underlineColor: Colors.black54,
-              textStyle: TextStyle(color: Colors.black87, fontSize: 30),
+              textStyle: TextStyle(color: Colors.black87, fontSize: 20),
+              itemSize: 22,
               keyboardType: TextInputType.number,
               clearAll: Padding(
                 padding: const EdgeInsets.all(8.0),

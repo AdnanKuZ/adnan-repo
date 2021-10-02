@@ -8,12 +8,12 @@ import 'package:provider/provider.dart';
 
 class ResetPassWidget extends StatelessWidget {
   final passController = TextEditingController();
-  final _formKey = GlobalKey<FormState>();
   final bool isPc;
   final bool isMobile;
   final bool? isTablet;
+  final GlobalKey<FormState> loginFormKey;
 
-  ResetPassWidget({required this.isMobile, this.isTablet, required this.isPc});
+  ResetPassWidget({required this.isMobile, this.isTablet, required this.isPc,required this.loginFormKey});
 
   @override
   Widget build(BuildContext context) {
@@ -52,6 +52,7 @@ class ResetPassWidget extends StatelessWidget {
               ),
               Text(
                 'Enter the new password twice in order',
+                textAlign: TextAlign.center,
                 style: TextStyle(
                     color: Colors.black54,
                     fontSize: 13,
@@ -59,6 +60,7 @@ class ResetPassWidget extends StatelessWidget {
               ),
               Text(
                 'to change password',
+                textAlign: TextAlign.center,
                 style: TextStyle(
                     color: Colors.black54,
                     fontSize: 13,
@@ -69,11 +71,22 @@ class ResetPassWidget extends StatelessWidget {
               ),
               Form(
                 autovalidateMode: AutovalidateMode.onUserInteraction,
-                key: _formKey,
+                key: loginFormKey,
                 child: Column(
                   children: [
                     CustomTextField(
-                      state: false,
+                      suffixIcon: IconButton(
+                        onPressed: () {
+                          passProvider.setPassState(!passProvider.state);
+                        },
+                        icon: Icon(
+                          FontAwesomeIcons.eye,
+                          color:
+                              passProvider.state ? primaryColor : Colors.grey,
+                          size: 16,
+                        ),
+                      ),
+                      state: passProvider.state,
                       hintText: 'Password',
                       keyboardType: TextInputType.text,
                       validator: (value) {
@@ -87,7 +100,18 @@ class ResetPassWidget extends StatelessWidget {
                        height: 18,
                     ),
                     CustomTextField(
-                      state: false,
+                      suffixIcon: IconButton(
+                        onPressed: () {
+                          passProvider.setPassState(!passProvider.state);
+                        },
+                        icon: Icon(
+                          FontAwesomeIcons.eye,
+                          color:
+                              passProvider.state ? primaryColor : Colors.grey,
+                          size: 16,
+                        ),
+                      ),
+                      state: passProvider.state,
                       hintText: 'Confirm Password',
                       keyboardType: TextInputType.text,
                       validator: (value) {

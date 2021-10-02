@@ -8,12 +8,12 @@ import 'package:provider/provider.dart';
 
 class ForgotPassWidget extends StatelessWidget {
   final emailController = TextEditingController();
-  final _formKey = GlobalKey<FormState>();
   final bool isPc;
   final bool isMobile;
   final bool? isTablet;
+  final GlobalKey<FormState> loginFormKey;
 
-  ForgotPassWidget({required this.isMobile, this.isTablet, required this.isPc});
+  ForgotPassWidget({required this.isMobile, this.isTablet, required this.isPc,required this.loginFormKey});
 
   @override
   Widget build(BuildContext context) {
@@ -49,6 +49,7 @@ class ForgotPassWidget extends StatelessWidget {
             ),
             Text(
               'Enter the email you are connected with in',
+              textAlign: TextAlign.center,
               style: TextStyle(
                   color: Colors.black54,
                   fontSize: 13,
@@ -56,6 +57,7 @@ class ForgotPassWidget extends StatelessWidget {
             ),
             Text(
               'order to reset password',
+              textAlign: TextAlign.center,
               style: TextStyle(
                   color: Colors.black54,
                   fontSize: 13,
@@ -65,8 +67,7 @@ class ForgotPassWidget extends StatelessWidget {
               height: 55,
             ),
             Form(
-              autovalidateMode: AutovalidateMode.onUserInteraction,
-              key: _formKey,
+              key: loginFormKey,
               child: CustomTextField(
                 state: false,
                 hintText: 'Email Address',
@@ -91,9 +92,10 @@ class ForgotPassWidget extends StatelessWidget {
                   icon: FontAwesomeIcons.shieldAlt,
                   splashColor: Colors.white,
                   textColor: Colors.white,
-                  title: 'Reset Password',
+                  title: 'Reset Pass',
                   iconColor: Colors.white,
                   onpressed: () {
+                    if(loginFormKey.currentState!.validate())
                     loginmode.setMode('Reset Pass');
                   },
                 ),
@@ -102,27 +104,29 @@ class ForgotPassWidget extends StatelessWidget {
             SizedBox(
               height: 10,
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  'Already have an account?',
-                  style: TextStyle(
-                      color: Colors.black54,
-                      fontSize: 13,
-                      fontWeight: FontWeight.w400),
-                ),
-                TextButton(
-                  onPressed: () {
-                    loginmode.setMode('Login');
-                  },
-                  child: Text('sign in',
-                      style: TextStyle(
-                          color: Colors.black87,
-                          fontSize: 13,
-                          fontWeight: FontWeight.w600)),
-                )
-              ],
+            FittedBox(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    'Already have an account?',
+                    style: TextStyle(
+                        color: Colors.black54,
+                        fontSize: 13,
+                        fontWeight: FontWeight.w400),
+                  ),
+                  TextButton(
+                    onPressed: () {
+                      loginmode.setMode('Login');
+                    },
+                    child: Text('sign in',
+                        style: TextStyle(
+                            color: Colors.black87,
+                            fontSize: 13,
+                            fontWeight: FontWeight.w600)),
+                  )
+                ],
+              ),
             )
           ],
         ),

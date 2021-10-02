@@ -1,4 +1,5 @@
 import 'package:admin/constants.dart';
+import 'package:admin/repositories/authRepo.dart';
 import 'package:admin/widgets/common/elevated_button_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:admin/widgets/common/text_field_widget.dart';
@@ -10,31 +11,38 @@ import 'package:admin/screens/auth/login_screen.dart';
 class SignUpWidget extends StatelessWidget {
   final emailController = TextEditingController();
   final passController = TextEditingController();
+  final deviceIdController = TextEditingController();
   final textFieldController = TextEditingController();
-  final _formKey = GlobalKey<FormState>();
+  final _authRepo = AuthRepositories();
 
   final bool isPc;
   final bool isMobile;
   final bool? isTablet;
+  final GlobalKey<FormState> signUpFormKey;
 
-  SignUpWidget({required this.isMobile, this.isTablet, required this.isPc});
+  SignUpWidget({required this.isMobile, this.isTablet, required this.isPc,required this.signUpFormKey});
 
   @override
   Widget build(BuildContext context) {
     final passProvider = Provider.of<AuthProvider>(context);
     final signupMode = Provider.of<SignUpModes>(context, listen: false);
+    Map<String, String> authData = {
+      "email": "",
+      "password": "",
+      "deviceId": "",
+    };
     return Container(
-      height: 565,
-      width: 500,
+      height: 500,
+      width: 480,
       decoration: BoxDecoration(
           color: Color(0XFFFFFFFF),
           borderRadius: isPc
               ? BorderRadius.only(bottomRight: Radius.circular(40))
-              : BorderRadius.circular(40)),
+              : BorderRadius.circular(30)),
       padding: isPc
-          ? EdgeInsets.symmetric(horizontal: 85, vertical: 40)
+          ? EdgeInsets.symmetric(horizontal: 85, vertical: 50)
           : isMobile
-              ? EdgeInsets.symmetric(horizontal: 20, vertical: 40)
+              ? EdgeInsets.symmetric(horizontal: 15, vertical: 40)
               : EdgeInsets.symmetric(horizontal: 70, vertical: 40),
       child: SingleChildScrollView(
         child: Consumer<SignUpModes>(
@@ -63,10 +71,11 @@ class SignUpWidget extends StatelessWidget {
                     ),
                     Form(
                       autovalidateMode: AutovalidateMode.onUserInteraction,
-                      key: _formKey,
+                      key: signUpFormKey,
                       child: Column(
                         children: [
                           CustomTextField(
+                            controller: emailController,
                             state: false,
                             hintText: 'Enter your email',
                             keyboardType: TextInputType.emailAddress,
@@ -124,6 +133,7 @@ class SignUpWidget extends StatelessWidget {
                             height: 15,
                           ),
                           CustomTextField(
+                            controller: deviceIdController,
                             state: false,
                             hintText: 'Device identifier',
                             keyboardType: TextInputType.text,
@@ -144,7 +154,18 @@ class SignUpWidget extends StatelessWidget {
                       Expanded(
                         child: CustomElevatedButton(
                           onpressed: () {
-                            signupMode.setMode("Otp");
+                            authData = {
+                              "email": emailController.text,
+                              "password": passController.text,
+                              "deviceId": deviceIdController.text,
+                            };
+                            print(authData);
+                            if (RegExp(
+                                    r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                                .hasMatch(emailController.text)) {
+                              _authRepo.register(authData);
+                              signupMode.setMode("Otp");
+                            }
                           },
                           buttonColor: primaryColor,
                           icon: FontAwesomeIcons.userPlus,
