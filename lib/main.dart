@@ -7,7 +7,6 @@ import 'package:admin/screens/dashboard/dashboard.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
-import 'package:admin/screens/homescreen.dart';
 
 void main() {
   runApp(MyApp());

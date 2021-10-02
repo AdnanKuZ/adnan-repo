@@ -36,15 +36,6 @@ class SignUpModes extends ChangeNotifier {
   }
 }
 
-// class AuthModes extends ChangeNotifier {
-//   String authMode = 'Login';
-//   String get mode => authMode;
-//   void setMode(String mode) {
-//     authMode = mode;
-//     notifyListeners();
-//   }
-// }
-
                           
                          
                               

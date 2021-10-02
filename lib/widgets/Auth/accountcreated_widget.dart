@@ -1,9 +1,9 @@
 import 'package:admin/constants.dart';
 import 'package:admin/providers/authProviders.dart';
 import 'package:admin/screens/auth/sign_up_screen.dart';
-import 'package:admin/widgets/Auth/elevated_button_widget.dart';
+import 'package:admin/widgets/common/elevated_button_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:admin/widgets/Auth/text_field_widget.dart';
+import 'package:admin/widgets/common/text_field_widget.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 
