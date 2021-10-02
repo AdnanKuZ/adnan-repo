@@ -60,7 +60,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                         isPc: true,
                                       )
                                     : signupMode.mode == 'Otp' /////////////
-                                        ? OtpWidget()
+                                        ? OtpWidget(
+                                          isMobile: false,
+                                          isPc: true,
+                                        )
                                         : signupMode.mode ==
                                                 'Account Created' //////////////
                                             ? AccountCreatedWidget(
@@ -104,7 +107,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                       isPc: false,
                                     )
                                   : signupMode.mode == 'Otp' /////////////
-                                      ? OtpWidget()
+                                      ? OtpWidget(
+                                        isMobile: false,
+                                        isPc: false,
+                                      )
                                       : signupMode.mode ==
                                               'Account Created' //////////////
                                           ? AccountCreatedWidget(
@@ -142,7 +148,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                       isPc: false,
                                     )
                                   : signupMode.mode == 'Otp' /////////////
-                                      ? OtpWidget()
+                                      ? OtpWidget(
+                                        isMobile: false,
+                                        isPc: false,
+                                      )
                                       : signupMode.mode ==
                                               'Account Created' //////////////
                                           ? AccountCreatedWidget(

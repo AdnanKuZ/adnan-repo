@@ -1,11 +1,10 @@
 import 'package:admin/constants.dart';
 import 'package:admin/providers/authProviders.dart';
-import 'package:admin/screens/auth/sign_up_screen.dart';
 import 'package:admin/widgets/common/elevated_button_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:admin/widgets/common/text_field_widget.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
+import 'package:admin/screens/auth/login_screen.dart';
 
 class AccountCreatedWidget extends StatelessWidget {
   final bool isPc;
@@ -17,7 +16,7 @@ class AccountCreatedWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final loginmode = Provider.of<LoginModes>(context, listen: false);
+    final signupMode = Provider.of<SignUpModes>(context, listen: false);
     return Container(
       height: 500,
       width: 480,
@@ -36,15 +35,18 @@ class AccountCreatedWidget extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            SizedBox(height: 40,),
-            Center(
-              child: Icon(
-                FontAwesomeIcons.checkCircle,
-                color: primaryColor,
-                size: 70,
-              )
+            SizedBox(
+              height: 40,
             ),
-            SizedBox(height: 100,),
+            Center(
+                child: Icon(
+              FontAwesomeIcons.checkCircle,
+              color: primaryColor,
+              size: 70,
+            )),
+            SizedBox(
+              height: 100,
+            ),
             Text(
               'ACCOUNT CREATED',
               style: TextStyle(
@@ -76,7 +78,9 @@ class AccountCreatedWidget extends StatelessWidget {
               Expanded(
                 child: CustomElevatedButton(
                   onpressed: () {
-                    loginmode.setMode('Login');
+                    signupMode.setMode("Sign Up");
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => LoginScreen()));
                   },
                   buttonColor: primaryColor,
                   icon: FontAwesomeIcons.signInAlt,

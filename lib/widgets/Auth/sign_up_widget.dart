@@ -71,10 +71,12 @@ class SignUpWidget extends StatelessWidget {
                             hintText: 'Enter your email',
                             keyboardType: TextInputType.emailAddress,
                             validator: (value) {
-                              // if (emailController. )
-                              //   return 'email invalid';
-                              // else
-                              return null;
+                              if (!RegExp(
+                                      r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                                  .hasMatch(value))
+                                return 'email invalid';
+                              else
+                                return null;
                             },
                           ),
                           SizedBox(
@@ -142,7 +144,7 @@ class SignUpWidget extends StatelessWidget {
                       Expanded(
                         child: CustomElevatedButton(
                           onpressed: () {
-                            signupMode.setMode("Account Created");
+                            signupMode.setMode("Otp");
                           },
                           buttonColor: primaryColor,
                           icon: FontAwesomeIcons.userPlus,

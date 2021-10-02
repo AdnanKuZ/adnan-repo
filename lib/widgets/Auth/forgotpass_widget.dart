@@ -17,7 +17,7 @@ class ForgotPassWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final loginmode = Provider.of<LoginModes>(context,listen: false);
+    final loginmode = Provider.of<LoginModes>(context, listen: false);
     return Container(
       height: 500,
       width: 480,
@@ -72,10 +72,12 @@ class ForgotPassWidget extends StatelessWidget {
                 hintText: 'Email Address',
                 keyboardType: TextInputType.emailAddress,
                 validator: (value) {
-                  // if (emailController. )
-                  //   return 'email invalid';
-                  // else
-                  return null;
+                  if (!RegExp(
+                          r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                      .hasMatch(value))
+                    return 'email invalid';
+                  else
+                    return null;
                 },
               ),
             ),

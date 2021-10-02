@@ -21,7 +21,7 @@ class LoginWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final passProvider = Provider.of<AuthProvider>(context);
-    final loginmode = Provider.of<LoginModes>(context,listen: false);
+    final loginmode = Provider.of<LoginModes>(context, listen: false);
     return Consumer<AuthProvider>(
       builder: (context, state, child) => Container(
         height: 500,
@@ -73,10 +73,12 @@ class LoginWidget extends StatelessWidget {
                       hintText: 'Enter your email',
                       keyboardType: TextInputType.emailAddress,
                       validator: (value) {
-                        // if (emailController. )
-                        //   return 'email invalid';
-                        // else
-                        return null;
+                        if (!RegExp(
+                                r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                            .hasMatch(value))
+                          return 'email invalid';
+                        else
+                          return null;
                       },
                     ),
                     SizedBox(
