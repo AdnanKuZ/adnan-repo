@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:admin/constants.dart';
 
+typedef OnPressed = void Function();
+
 class CustomElevatedButton extends StatelessWidget {
   final Color buttonColor;
   final Color splashColor;
   final Color textColor;
   final Color iconColor;
   final String title;
-  final IconData? icon;
+  final IconData icon;
+  final OnPressed? onpressed;
 
   CustomElevatedButton(
       {required this.buttonColor,
@@ -15,13 +18,13 @@ class CustomElevatedButton extends StatelessWidget {
       required this.textColor,
       required this.iconColor,
       required this.title,
-      required this.icon});
+      required this.icon,
+      this.onpressed});
 
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
-      onPressed: () {},
-      
+      onPressed: onpressed,
       child: Container(
         padding: EdgeInsets.symmetric(horizontal: 14),
         child: Row(
@@ -33,7 +36,11 @@ class CustomElevatedButton extends StatelessWidget {
               style: TextStyle(color: textColor),
             ),
             Spacer(),
-            Icon(icon,color: iconColor,size: 20,),
+            Icon(
+              icon,
+              color: iconColor,
+              size: 20,
+            ),
           ],
         ),
       ),
