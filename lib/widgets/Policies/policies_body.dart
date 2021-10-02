@@ -1,5 +1,6 @@
 import 'package:admin/responsive.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import '../../../constants.dart';
 
@@ -95,31 +96,21 @@ class _PoliciesFilledBodyState extends State<PoliciesFilledBody> {
             color: Color(0xFFFAFAFA)),
         child: Padding(
           padding: const EdgeInsets.fromLTRB(8, 8, 8, 0),
-          child: Column(
-            children: [
-              Text('test'),
-              Text('test'),
-              Text('test'),
-              Text('test'),
-              Text('test'),
-              Text('test'),
-              Text('test'),
-              Text('test'),
-              Text('test'),
-              Text('test'),
-              Text('test'),
-              Text('test'),
-              Text('test'),
-              Text('test'),
-              Text('test'),
-              Text('test'),
-              Text('test'),
-              Text('test'),
-              Text('test'),
-              Text('test'),
-              Text('test'),
-              Text('test'),
-            ],
+          child: new StaggeredGridView.countBuilder(
+            crossAxisCount: 4,
+            itemCount: 8,
+            itemBuilder: (BuildContext context, int index) => new Container(
+                color: Colors.green,
+                child: new Center(
+                  child: new CircleAvatar(
+                    backgroundColor: Colors.white,
+                    child: new Text('$index'),
+                  ),
+                )),
+            staggeredTileBuilder: (int index) =>
+                new StaggeredTile.count(2, index.isEven ? 2 : 1),
+            mainAxisSpacing: 4.0,
+            crossAxisSpacing: 4.0,
           ),
         ));
   }
