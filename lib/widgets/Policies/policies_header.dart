@@ -77,7 +77,7 @@ class PoliciesHeader extends StatelessWidget {
                           "Policies",
                           style: Theme.of(context)
                               .textTheme
-                              .headline6
+                              .headline5
                               ?.copyWith(
                                   color: Colors.black,
                                   fontWeight: FontWeight.bold),
