@@ -1,7 +1,6 @@
 import 'package:admin/constants.dart';
 import 'package:admin/widgets/Policies/policies_body.dart';
 import 'package:admin/widgets/Policies/policies_header.dart';
-import 'package:admin/widgets/storage_details.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
