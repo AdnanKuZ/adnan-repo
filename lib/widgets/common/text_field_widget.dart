@@ -36,65 +36,40 @@ class CustomTextField extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       height: 55,
-        decoration: BoxDecoration(boxShadow: [
-          BoxShadow(
-            color: Colors.blue.shade50.withOpacity(0.6),
-            spreadRadius: 1,
-            blurRadius: 8,
-            offset: Offset(3, 3),
-          )
-        ]),
-        child: TextFormField(
-          focusNode: focusNode,
-          controller: controller,
-          obscureText: state,
-          decoration: InputDecoration(
-            alignLabelWithHint: true,
-            contentPadding:
-                EdgeInsets.symmetric(horizontal: 45.5, vertical: 14),
-            filled: true,
-            fillColor: Colors.white,
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(6),
-            ),
-            hintText: hintText,
-            prefixStyle: TextStyle(textBaseline: TextBaseline.alphabetic),
-            hintStyle: TextStyle(color: Colors.grey),
-            suffixIcon: suffixIcon,
-            errorMaxLines: 1,
-            prefixIcon: prefixIcon,
-            prefix: prefix,
-          ),
-          maxLines: maxLines,
-          validator: validator,
-          style: TextStyle(color: Colors.black, fontSize: 14),
-          keyboardType: keyboardType,
-          textInputAction: textInputAction,
-          onFieldSubmitted: submit,
-        child: 
-        TextFormField(
+      decoration: BoxDecoration(boxShadow: [
+        BoxShadow(
+          color: Colors.blue.shade50.withOpacity(0.6),
+          spreadRadius: 1,
+          blurRadius: 8,
+          offset: Offset(3, 3),
+        )
+      ]),
+      child: TextFormField(
+        focusNode: focusNode,
         onChanged: onChanged,
         controller: controller,
         obscureText: state,
         decoration: InputDecoration(
-          contentPadding: EdgeInsets.only(right: 14.5,left: 14.5, top: 10),
+          contentPadding: EdgeInsets.only(right: 14.5, left: 14.5, top: 14),
           filled: true,
           fillColor: Colors.white,
-          
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(6),
           ),
-          // enabledBorder: InputBorder.none,
           hintText: hintText,
           hintStyle: TextStyle(color: Colors.grey),
           suffixIcon: suffixIcon,
           errorStyle: TextStyle(fontSize: 12, height: 0.2),
-
+          prefixIcon: prefixIcon,
+          prefix: prefix,
         ),
+        maxLines: maxLines,
         validator: validator,
         style: TextStyle(color: Colors.black, fontSize: 14),
         keyboardType: keyboardType,
-          ),
-      );
+        textInputAction: textInputAction,
+        onFieldSubmitted: submit,
+      ),
+    );
   }
 }
