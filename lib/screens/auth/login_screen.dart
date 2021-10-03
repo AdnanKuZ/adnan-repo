@@ -1,4 +1,4 @@
-import 'dart:ui';
+import 'package:admin/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:admin/widgets/Auth/login_widget.dart';
 import 'package:admin/widgets/Auth/readMore.dart';
@@ -35,9 +35,14 @@ class _LoginScreenState extends State<LoginScreen> {
                 width: MediaQuery.of(context).size.width,
                 height: MediaQuery.of(context).size.height,
                 child: Image.asset(
-                  'assets/images/igor-miske-Px3iBXV-4TU-unsplash.jpg',
+                  'assets/images/background_new.jpeg',
                   fit: BoxFit.cover,
                 )),
+            Container(
+              width: MediaQuery.of(context).size.width,
+                height: MediaQuery.of(context).size.height,
+                color: Colors.black87.withOpacity(0.5),
+            ),
             SingleChildScrollView(
               child: LayoutBuilder(
                 builder: (context, constraints) {
@@ -99,11 +104,9 @@ class _LoginScreenState extends State<LoginScreen> {
                           Container(
                             width: 60,
                             height: 60,
-                            child: Icon(
-                              FontAwesomeIcons.addressCard,
-                              color: Colors.white,
-                              size: 50,
-                            ),
+                            child: Image.asset(
+                              "assets/images/logo.png",
+                            )
                           ),
                           SizedBox(
                             height: 50,
@@ -152,11 +155,9 @@ class _LoginScreenState extends State<LoginScreen> {
                             Container(
                               width: 60,
                               height: 60,
-                              child: Icon(
-                                FontAwesomeIcons.addressCard,
-                                color: Colors.white,
-                                size: 50,
-                              ),
+                              child: Image.asset(
+                              "assets/images/logo.png",
+                            )
                             ),
                             SizedBox(
                               height: 50,

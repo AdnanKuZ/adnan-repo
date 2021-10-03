@@ -20,11 +20,16 @@ class SignUpWidget extends StatelessWidget {
   final bool? isTablet;
   final GlobalKey<FormState> signUpFormKey;
 
-  SignUpWidget({required this.isMobile, this.isTablet, required this.isPc,required this.signUpFormKey});
+  SignUpWidget(
+      {required this.isMobile,
+      this.isTablet,
+      required this.isPc,
+      required this.signUpFormKey});
 
   @override
   Widget build(BuildContext context) {
-    final passProvider = Provider.of<AuthProvider>(context);
+    final passHiddenProvider = Provider.of<PassHiddenProvider>(context);
+    final emailValidProvider = Provider.of<EmailValidProvider>(context);
     final signupMode = Provider.of<SignUpModes>(context, listen: false);
     Map<String, String> authData = {
       "email": "",
@@ -45,161 +50,168 @@ class SignUpWidget extends StatelessWidget {
               ? EdgeInsets.symmetric(horizontal: 15, vertical: 40)
               : EdgeInsets.symmetric(horizontal: 70, vertical: 40),
       child: SingleChildScrollView(
-        child: Consumer<SignUpModes>(
-            builder: (context, mode, child) => Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Text(
-                      'SIGN UP',
-                      style: TextStyle(
-                          color: Colors.black,
-                          fontWeight: FontWeight.w800,
-                          fontSize: 18),
-                    ),
-                    SizedBox(
-                      height: 12,
-                    ),
-                    Text(
-                      'Fill the data below to create your account',
-                      style: TextStyle(
-                          color: Colors.grey,
-                          fontSize: 13,
-                          fontWeight: FontWeight.w400),
-                    ),
-                    SizedBox(
-                      height: 33,
-                    ),
-                    Form(
-                      autovalidateMode: AutovalidateMode.onUserInteraction,
-                      key: signUpFormKey,
-                      child: Column(
-                        children: [
-                          CustomTextField(
-                            controller: emailController,
-                            state: false,
-                            hintText: 'Enter your email',
-                            keyboardType: TextInputType.emailAddress,
-                            validator: (value) {
-                              if (!RegExp(
-                                      r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
-                                  .hasMatch(value))
-                                return 'email invalid';
-                              else
-                                return null;
-                            },
-                          ),
-                          SizedBox(
-                            height: 15,
-                          ),
-                          CustomTextField(
-                            controller: passController,
-                            suffixIcon: IconButton(
-                              onPressed: () {
-                                passProvider.setPassState(!passProvider.state);
-                              },
-                              icon: Icon(
-                                FontAwesomeIcons.eye,
-                                color: passProvider.state
-                                    ? primaryColor
-                                    : Colors.grey,
-                                size: 16,
-                              ),
-                            ),
-                            state: passProvider.state,
-                            hintText: 'Enter password',
-                            keyboardType: TextInputType.text,
-                            validator: (value) {
-                              if (value.isEmpty || value.length < 6)
-                                return 'password invalid';
-                              else
-                                return null;
-                            },
-                          ),
-                          SizedBox(
-                            height: 15,
-                          ),
-                          CustomTextField(
-                            state: passProvider.state,
-                            hintText: 'Confirm password',
-                            keyboardType: TextInputType.text,
-                            validator: (value) {
-                              if (value != passController.text)
-                                return 'password does not match';
-                              else
-                                return null;
-                            },
-                          ),
-                          SizedBox(
-                            height: 15,
-                          ),
-                          CustomTextField(
-                            controller: deviceIdController,
-                            state: false,
-                            hintText: 'Device identifier',
-                            keyboardType: TextInputType.text,
-                            validator: (value) {
-                              // if (value != passController.text)
-                              //   return 'password does not match';
-                              // else
-                              return null;
-                            },
-                          ),
-                        ],
-                      ),
-                    ),
-                    SizedBox(
-                      height: 25,
-                    ),
-                    Row(children: [
-                      Expanded(
-                        child: CustomElevatedButton(
-                          onpressed: () {
-                            authData = {
-                              "email": emailController.text,
-                              "password": passController.text,
-                              "deviceId": deviceIdController.text,
-                            };
-                            print(authData);
-                            if (RegExp(
-                                    r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
-                                .hasMatch(emailController.text)) {
-                              _authRepo.register(authData);
-                              signupMode.setMode("Otp");
-                            }
-                          },
-                          buttonColor: primaryColor,
-                          icon: FontAwesomeIcons.userPlus,
-                          splashColor: Colors.white,
-                          textColor: Colors.white,
-                          title: 'Sign Up',
-                          iconColor: Colors.white,
-                        ),
-                      ),
-                    ]),
-                    SizedBox(
-                      height: 12,
-                    ),
-                    Row(children: [
-                      Expanded(
-                        child: CustomElevatedButton(
-                          onpressed: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => LoginScreen()));
-                          },
-                          buttonColor: Colors.white,
-                          icon: FontAwesomeIcons.signInAlt,
-                          splashColor: primaryColor,
-                          textColor: primaryColor,
-                          title: 'Login',
-                          iconColor: primaryColor,
-                        ),
-                      ),
-                    ]),
-                  ],
-                )),
-      ),
+          child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Text(
+            'SIGN UP',
+            style: TextStyle(
+                color: Colors.black, fontWeight: FontWeight.w800, fontSize: 18),
+          ),
+          SizedBox(
+            height: 12,
+          ),
+          Text(
+            'Fill the data below to create your account',
+            style: TextStyle(
+                color: Colors.grey, fontSize: 13, fontWeight: FontWeight.w400),
+          ),
+          SizedBox(
+            height: 33,
+          ),
+          Form(
+            autovalidateMode: AutovalidateMode.onUserInteraction,
+            key: signUpFormKey,
+            child: Column(
+              children: [
+                CustomTextField(
+                  onChanged: (value) {
+                      RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                          .hasMatch(value) 
+                      ? emailValidProvider.setEmailState(true)
+                      : emailValidProvider.setEmailState(false);
+                    },
+                  controller: emailController,
+                  suffixIcon: IconButton(
+                    onPressed: null,
+                    icon: Consumer<EmailValidProvider>(
+                        builder: (context, state, child) => Icon(
+                              FontAwesomeIcons.check,
+                              color: state.validState ? primaryColor : Colors.grey,
+                              size: 16,
+                            )),
+                  ),
+                  state: false,
+                  hintText: 'Enter your email',
+                  keyboardType: TextInputType.emailAddress,
+                  validator: (value) {
+                    if (!RegExp(
+                            r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                        .hasMatch(value))
+                      return 'email invalid';
+                    else {
+                      return null;
+                    }
+                  },
+                ),
+                SizedBox(
+                  height: 15,
+                ),
+                CustomTextField(
+                  controller: passController,
+                  suffixIcon: IconButton(
+                    onPressed: () {
+                      passHiddenProvider
+                          .setPassState(!passHiddenProvider.state);
+                    },
+                    icon: Consumer<PassHiddenProvider>(
+                        builder: (context, state, child) => Icon(
+                              FontAwesomeIcons.eye,
+                              color: state.state ? primaryColor : Colors.grey,
+                              size: 16,
+                            )),
+                  ),
+                  state: passHiddenProvider.state,
+                  hintText: 'Enter password',
+                  keyboardType: TextInputType.text,
+                  validator: (value) {
+                    if (value.isEmpty || value.length < 6)
+                      return 'password invalid';
+                    else
+                      return null;
+                  },
+                ),
+                SizedBox(
+                  height: 15,
+                ),
+                CustomTextField(
+                  state: passHiddenProvider.state,
+                  hintText: 'Confirm password',
+                  keyboardType: TextInputType.text,
+                  validator: (value) {
+                    if (value != passController.text)
+                      return 'password does not match';
+                    else
+                      return null;
+                  },
+                ),
+                SizedBox(
+                  height: 15,
+                ),
+                CustomTextField(
+                  controller: deviceIdController,
+                  state: false,
+                  hintText: 'Device identifier',
+                  keyboardType: TextInputType.text,
+                  validator: (value) {
+                    // if (value != passController.text)
+                    //   return 'password does not match';
+                    // else
+                    return null;
+                  },
+                ),
+              ],
+            ),
+          ),
+          SizedBox(
+            height: 25,
+          ),
+          Row(children: [
+            Expanded(
+              child: CustomElevatedButton(
+                onpressed: () {
+                  authData = {
+                    "email": emailController.text,
+                    "password": passController.text,
+                    "deviceId": deviceIdController.text,
+                  };
+                  if (RegExp(
+                          r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                      .hasMatch(emailController.text)) {
+                    _authRepo.register(authData);
+                    signupMode.setMode("Otp");
+                  }
+                },
+                buttonColor: primaryColor,
+                icon: FontAwesomeIcons.userPlus,
+                splashColor: Colors.white,
+                textColor: Colors.white,
+                title: 'Sign Up',
+                iconColor: Colors.white,
+              ),
+            ),
+          ]),
+          SizedBox(
+            height: 12,
+          ),
+          Row(children: [
+            Expanded(
+              child: CustomElevatedButton(
+                onpressed: () {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => LoginScreen()));
+                },
+                buttonColor: Colors.white,
+                icon: FontAwesomeIcons.signInAlt,
+                splashColor: primaryColor,
+                textColor: primaryColor,
+                title: 'Login',
+                iconColor: primaryColor,
+              ),
+            ),
+          ]),
+        ],
+      )),
     );
   }
 }

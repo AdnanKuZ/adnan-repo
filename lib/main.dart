@@ -22,13 +22,19 @@ class MyApp extends StatelessWidget {
             create: (context) => MenuProvider(),
           ),
           ChangeNotifierProvider(
-            create: (context) => AuthProvider(),
+            create: (context) => PassHiddenProvider(),
+          ),
+          ChangeNotifierProvider(
+            create: (context) => EmailValidProvider(),
           ),
           ChangeNotifierProvider(
             create: (context) => LoginModes(),
           ),
           ChangeNotifierProvider(
             create: (context) => SignUpModes(),
+          ),
+          ChangeNotifierProvider(
+            create: (context) => IsLoading(),
           ),
         ],
         child: MaterialApp(
@@ -40,7 +46,7 @@ class MyApp extends StatelessWidget {
                 .apply(bodyColor: Colors.white),
             canvasColor: backgroundColor,
           ),
-          home: DashboardScreen(),
+          home: LoginScreen(),
         ));
   }
 }

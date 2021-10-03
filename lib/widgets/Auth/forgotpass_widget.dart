@@ -5,19 +5,27 @@ import 'package:flutter/material.dart';
 import 'package:admin/widgets/common/text_field_widget.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
+import 'package:admin/repositories/authRepo.dart';
 
 class ForgotPassWidget extends StatelessWidget {
   final emailController = TextEditingController();
+  final _authRepo = AuthRepositories();
+
   final bool isPc;
   final bool isMobile;
   final bool? isTablet;
   final GlobalKey<FormState> loginFormKey;
 
-  ForgotPassWidget({required this.isMobile, this.isTablet, required this.isPc,required this.loginFormKey});
+  ForgotPassWidget(
+      {required this.isMobile,
+      this.isTablet,
+      required this.isPc,
+      required this.loginFormKey});
 
   @override
   Widget build(BuildContext context) {
     final loginmode = Provider.of<LoginModes>(context, listen: false);
+    final emailValidProvider = Provider.of<EmailValidProvider>(context);
     return Container(
       height: 500,
       width: 480,
@@ -67,18 +75,37 @@ class ForgotPassWidget extends StatelessWidget {
               height: 55,
             ),
             Form(
+              autovalidateMode: AutovalidateMode.always,
               key: loginFormKey,
               child: CustomTextField(
+                controller: emailController,
+                onChanged: (value) {
+                  RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                          .hasMatch(value)
+                      ? emailValidProvider.setEmailState(true)
+                      : emailValidProvider.setEmailState(false);
+                },
+                suffixIcon: IconButton(
+                  onPressed: null,
+                  icon: Consumer<EmailValidProvider>(
+                    builder: (context, state, child) => Icon(
+                      FontAwesomeIcons.check,
+                      color: state.validState ? primaryColor : Colors.grey,
+                      size: 16,
+                    ),
+                  ),
+                ),
                 state: false,
-                hintText: 'Email Address',
+                hintText: 'Enter your email',
                 keyboardType: TextInputType.emailAddress,
                 validator: (value) {
                   if (!RegExp(
                           r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
-                      .hasMatch(value))
+                      .hasMatch(value)) {
                     return 'email invalid';
-                  else
+                  } else {
                     return null;
+                  }
                 },
               ),
             ),
@@ -94,9 +121,13 @@ class ForgotPassWidget extends StatelessWidget {
                   textColor: Colors.white,
                   title: 'Reset Pass',
                   iconColor: Colors.white,
-                  onpressed: () {
-                    if(loginFormKey.currentState!.validate())
-                    loginmode.setMode('Reset Pass');
+                  onpressed: () async {
+                    var result =
+                        await _authRepo.requestResetPass(emailController.text);
+                    if (result)
+                      loginmode.setMode('Reset Pass');
+                    else
+                      print("request failed");
                   },
                 ),
               ),

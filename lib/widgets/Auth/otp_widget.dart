@@ -5,8 +5,10 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_verification_code/flutter_verification_code.dart';
+import 'package:admin/repositories/authRepo.dart';
 
 class OtpWidget extends StatelessWidget {
+  final _authRepo = AuthRepositories();
   final bool isPc;
   final bool isMobile;
   final bool? isTablet;
@@ -15,6 +17,7 @@ class OtpWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var otpCode = '00000000';
     final signupMode = Provider.of<SignUpModes>(context, listen: false);
     return Container(
       height: 500,
@@ -66,7 +69,7 @@ class OtpWidget extends StatelessWidget {
               length: digitCode,
               underlineColor: Colors.black54,
               textStyle: TextStyle(color: Colors.black87, fontSize: 20),
-              itemSize: 22,
+              // itemSize: 30,
               keyboardType: TextInputType.number,
               clearAll: Padding(
                 padding: const EdgeInsets.all(8.0),
@@ -78,15 +81,19 @@ class OtpWidget extends StatelessWidget {
                       color: Colors.blue[700]),
                 ),
               ),
-              onCompleted: (String value) {},
+              onCompleted: (String value) {
+                otpCode = value;
+              },
               onEditing: (bool value) {},
             ),
-            SizedBox(height: 10,),
+            SizedBox(
+              height: 10,
+            ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
-                  'Didn\' recieve code yet?',
+                  'Didn\'t recieve code yet?',
                   style: TextStyle(
                       color: Colors.black54,
                       fontSize: 13,
@@ -116,8 +123,16 @@ class OtpWidget extends StatelessWidget {
                   textColor: Colors.white,
                   title: 'Verify Account',
                   iconColor: Colors.white,
-                  onpressed: () {
-                    signupMode.setMode('Account Created');
+                  onpressed: () async {
+                    print(otpCode);
+                    bool result = await _authRepo.verifyEmail(otpCode);
+                    if (result == true){
+                      print('Email confirmed');
+                      signupMode.setMode('Account Created');
+                      }
+                    else{
+                      print('Email confirmation error');
+                    }
                   },
                 ),
               ),

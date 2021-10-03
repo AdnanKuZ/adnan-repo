@@ -1,4 +1,4 @@
-import 'dart:ui';
+import 'package:admin/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:admin/widgets/Auth/readMore.dart';
 import 'package:admin/widgets/Auth/sign_up_widget.dart';
@@ -32,7 +32,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
             Container(
               width: MediaQuery.of(context).size.width,
               height: MediaQuery.of(context).size.height,
-              child: Image.asset('assets/images/igor-miske-Px3iBXV-4TU-unsplash.jpg',fit: BoxFit.cover,)
+              color: primaryColor.withOpacity(0.5),
+              child: Image.asset('assets/images/background_new.jpeg',fit: BoxFit.cover,)
+            ),
+            Container(
+              width: MediaQuery.of(context).size.width,
+                height: MediaQuery.of(context).size.height,
+                color: Colors.black87.withOpacity(0.5),
             ),
             SingleChildScrollView(
               child: LayoutBuilder(
@@ -86,11 +92,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               Container(
                                 width: 60,
                                 height: 60,
-                                child: Icon(
-                                  FontAwesomeIcons.addressCard,
-                                  color: Colors.white,
-                                  size: 50,
-                                ),
+                                child: Image.asset(
+                              "assets/images/logo.png",
+                            )
                               ),
                               SizedBox(
                                 height: 50,
@@ -128,11 +132,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               Container(
                                 width: 60,
                                 height: 60,
-                                child: Icon(
-                                  FontAwesomeIcons.addressCard,
-                                  color: Colors.white,
-                                  size: 50,
-                                ),
+                                child: Image.asset(
+                              "assets/images/logo.png",
+                            )
                               ),
                               SizedBox(
                                 height: 40,
