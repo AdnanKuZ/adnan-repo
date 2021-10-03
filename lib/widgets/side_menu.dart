@@ -70,7 +70,7 @@ class _SideMenuState extends State<SideMenu> {
                     children: [
                       DrawerListTile(
                         navigation: DashboardRoute.ContactUs,
-                        svgSrc: "assets/icons/menu_setting.svg",
+                        svgSrc: "assets/icons/menu_notification.svg",
                       ),
                       DrawerListTile(
                         navigation: DashboardRoute.About,
