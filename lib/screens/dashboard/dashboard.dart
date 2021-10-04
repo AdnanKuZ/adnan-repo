@@ -44,12 +44,6 @@ class DashboardScreen extends StatelessWidget {
                   children: [HomeScreen(), PoliciesScreen()],
                 )),
           ],
-          // if (Provider.of<MenuProvider>(context).dashboardRoute ==
-          //               DashboardRoute.Home)
-          //             HomeScreen(),
-          //           if (Provider.of<MenuProvider>(context).dashboardRoute ==
-          //               DashboardRoute.Policies)
-          //             PoliciesScreen()
         ),
       ),
     );

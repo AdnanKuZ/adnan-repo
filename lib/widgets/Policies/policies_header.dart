@@ -59,38 +59,7 @@ class PoliciesHeader extends StatelessWidget {
                             constraints: BoxConstraints()),
                       ],
                     )
-                  : Container(
-                    color: Colors.black,
-                    child: Wrap(
-                      alignment: WrapAlignment.spaceBetween,
-                      children: [
-                        IconButton(
-                            padding: EdgeInsets.fromLTRB(0, 0, 8, 0),
-                            color: Colors.black,
-                            icon: Icon(Icons.settings),
-                            onPressed: () {
-                              onSettingsPressed();
-                            },
-                            constraints: BoxConstraints()),
-                        IconButton(
-                            padding: EdgeInsets.fromLTRB(0, 0, 8, 0),
-                            color: Colors.black,
-                            icon: Icon(Icons.settings),
-                            onPressed: () {
-                              onSettingsPressed();
-                            },
-                            constraints: BoxConstraints()),
-                        IconButton(
-                            padding: EdgeInsets.fromLTRB(0, 0, 8, 0),
-                            color: Colors.black,
-                            icon: Icon(Icons.settings),
-                            onPressed: () {
-                              onSettingsPressed();
-                            },
-                            constraints: BoxConstraints()),
-                      ],
-                    ),
-                  )),
+                  : null),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -100,14 +69,7 @@ class PoliciesHeader extends StatelessWidget {
                   children: [
                     Row(
                       children: [
-                        if (Responsive.isMobile(context))
-                          IconButton(
-                              padding: EdgeInsets.fromLTRB(0, 0, 8, 0),
-                              color: Colors.black,
-                              icon: Icon(Icons.menu),
-                              onPressed:
-                                  context.read<MenuProvider>().controlMenu,
-                              constraints: BoxConstraints()),
+                        // context.read<MenuProvider>().controlMenu
                         Text(
                           "Policies",
                           style: Theme.of(context)
