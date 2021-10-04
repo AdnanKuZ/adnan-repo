@@ -33,41 +33,8 @@ class _ConctactUsScreenState extends State<ConctactUsScreen> {
     final _iconSize = 20.0;
     final _heightPadding = 20.0;
     return Scaffold(
-      drawer: SafeArea(
-        child: SideMenu(),
-      ),
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        elevation: 8,
-        centerTitle: true,
-        leading: Builder(
-          builder: (BuildContext context) {
-            return IconButton(
-              icon: const Icon(
-                Icons.menu,
-                color: Colors.black,
-              ),
-              onPressed: () {
-                Scaffold.of(context).openDrawer();
-              },
-              tooltip: MaterialLocalizations.of(context).openAppDrawerTooltip,
-            );
-          },
-        ),
-        title: SizedBox(
-            height: 40,
-            width: 40,
-            child: Image.asset("assets/images/logo.png")),
-        actions: [
-          IconButton(
-            onPressed: () {},
-            icon: Icon(
-              Icons.settings,
-              color: Colors.black,
-            ),
-          ),
-        ],
-      ),
+      
+      
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -221,7 +188,9 @@ class _ConctactUsScreenState extends State<ConctactUsScreen> {
                                         maxLines: 8,
                                         validator: (value) {
                                           if (value == null || value == '')
-                                            return 'Email is required';
+                                            return 'Message is required';
+                                          if (value.toString().length < 10)
+                                            return 'Message is too short';
                                           return null;
                                         },
                                         state: false,
