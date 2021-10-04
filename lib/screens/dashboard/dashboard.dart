@@ -28,7 +28,7 @@ class DashboardScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       key: context.read<MenuProvider>().scaffoldKey,
-      drawer: SafeArea(child: SideMenu()),
+      drawer: SideMenu(),
       appBar: Responsive.isMobile(context)
           ? AppBar(
               backgroundColor: Colors.white,

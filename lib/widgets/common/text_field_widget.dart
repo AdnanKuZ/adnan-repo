@@ -9,7 +9,7 @@ class CustomTextField extends StatelessWidget {
   final String hintText;
   final TextInputType keyboardType;
   final TextEditingController? controller;
-  final bool state;
+  final bool? state;
   final FormFieldValidator validator;
   final int? maxLines;
   final void Function(String)? submit;
@@ -17,6 +17,7 @@ class CustomTextField extends StatelessWidget {
   final TextInputAction? textInputAction;
   final OnChanged? onChanged;
   final double? leftPadding;
+  final double? topPadding;
 
   CustomTextField(
       {required this.hintText,
@@ -25,18 +26,19 @@ class CustomTextField extends StatelessWidget {
       this.onChanged,
       this.controller,
       this.suffixIcon,
-      required this.state,
+      this.state,
       this.maxLines,
       this.submit,
       this.focusNode,
       this.textInputAction,
       this.prefixIcon,
-      this.prefix, this.leftPadding});
+      this.prefix,
+      this.leftPadding,
+      this.topPadding});
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 55,
       decoration: BoxDecoration(boxShadow: [
         BoxShadow(
           color: Colors.blue.shade50.withOpacity(0.6),
@@ -49,9 +51,13 @@ class CustomTextField extends StatelessWidget {
         focusNode: focusNode,
         onChanged: onChanged,
         controller: controller,
-        obscureText: state,
+        obscureText: state ?? false,
         decoration: InputDecoration(
-          contentPadding: EdgeInsets.only(right: 14.5, left:leftPadding?? 14.5, top: 14),
+          contentPadding: EdgeInsets.only(
+            right: 14.5,
+            left: leftPadding ?? 14.5,
+            top: topPadding ?? 14,
+          ),
           filled: true,
           fillColor: Colors.white,
           border: OutlineInputBorder(
