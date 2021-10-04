@@ -9,7 +9,6 @@ class ContactUsProvider with ChangeNotifier {
   ContactUsProvider(this._token);
 
   Future<bool> addMessage(ContactUs contactUs) async {
-    print(contactUs);
     //final encodedData = json.encode({});
     return false;
   }

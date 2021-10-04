@@ -9,7 +9,7 @@ class CustomTextField extends StatelessWidget {
   final String hintText;
   final TextInputType keyboardType;
   final TextEditingController? controller;
-  final bool state;
+  final bool? state;
   final FormFieldValidator validator;
   final int? maxLines;
   final void Function(String)? submit;
@@ -17,6 +17,7 @@ class CustomTextField extends StatelessWidget {
   final TextInputAction? textInputAction;
   final OnChanged? onChanged;
   final double? leftPadding;
+  final double? topPadding;
 
   CustomTextField(
       {required this.hintText,
@@ -25,44 +26,57 @@ class CustomTextField extends StatelessWidget {
       this.onChanged,
       this.controller,
       this.suffixIcon,
-      required this.state,
+      this.state,
       this.maxLines,
       this.submit,
       this.focusNode,
       this.textInputAction,
       this.prefixIcon,
       this.prefix,
-      this.leftPadding});
+      this.leftPadding,
+      this.topPadding});
 
   @override
   Widget build(BuildContext context) {
-    return TextFormField(
-      focusNode: focusNode,
-      onChanged: onChanged,
-      controller: controller,
-      obscureText: state,
-      decoration: InputDecoration(
-        contentPadding:
-            EdgeInsets.only(right: 14.5, left: leftPadding ?? 14.5, top: 14),
-        filled: true,
-        fillColor: Colors.white,
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(6),
+    return Container(
+      decoration: BoxDecoration(boxShadow: [
+        BoxShadow(
+          color: Colors.blue.shade50.withOpacity(0.6),
+          spreadRadius: 1,
+          blurRadius: 8,
+          offset: Offset(3, 3),
+        )
+      ]),
+      child: TextFormField(
+        focusNode: focusNode,
+        onChanged: onChanged,
+        controller: controller,
+        obscureText: state ?? false,
+        decoration: InputDecoration(
+          contentPadding: EdgeInsets.only(
+            right: 14.5,
+            left: leftPadding ?? 14.5,
+            top: topPadding ?? 14,
+          ),
+          filled: true,
+          fillColor: Colors.white,
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(6),
+          ),
+          hintText: hintText,
+          hintStyle: TextStyle(color: Colors.grey),
+          suffixIcon: suffixIcon,
+          errorStyle: TextStyle(fontSize: 12, height: 0.2),
+          prefixIcon: prefixIcon,
+          prefix: prefix,
         ),
-        hintText: hintText,
-        hintStyle: TextStyle(color: Colors.grey),
-        suffixIcon: suffixIcon,
-        errorStyle: TextStyle(fontSize: 12, height: 0.3),
-        prefixIcon: prefixIcon,
-        prefix: prefix,
+        maxLines: maxLines,
+        validator: validator,
+        style: TextStyle(color: Colors.black, fontSize: 14),
+        keyboardType: keyboardType,
+        textInputAction: textInputAction,
+        onFieldSubmitted: submit,
       ),
-      maxLines: maxLines,
-      validator: validator,
-      style: TextStyle(color: Colors.black, fontSize: 14),
-      keyboardType: keyboardType,
-      textInputAction: textInputAction,
-      onFieldSubmitted: submit,
     );
-  
   }
 }

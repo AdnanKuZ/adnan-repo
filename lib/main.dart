@@ -8,6 +8,7 @@ import 'package:admin/screens/dashboard/dashboard.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
+import 'package:responsive_framework/responsive_framework.dart';
 
 void main() {
   runApp(MyApp());
@@ -34,23 +35,30 @@ class MyApp extends StatelessWidget {
           ChangeNotifierProvider(
             create: (context) => SignUpModes(),
           ),
-          ChangeNotifierProvider(
-            create: (context) => IsLoading()
-          ),
+          ChangeNotifierProvider(create: (context) => IsLoading()),
           ChangeNotifierProvider(
             create: (_) => ContactUsProvider(null),
           ),
         ],
         child: MaterialApp(
+          builder: (context, widget) => ResponsiveWrapper.builder(
+            ClampingScrollWrapper.builder(context, widget!),
+            breakpoints: const [
+              ResponsiveBreakpoint.resize(850, name: MOBILE),
+              ResponsiveBreakpoint.autoScale(850, name: TABLET),
+              ResponsiveBreakpoint.resize(1100, name: DESKTOP),
+            ],
+          ),
           debugShowCheckedModeBanner: false,
           title: 'OneFi',
           theme: ThemeData.dark().copyWith(
+            primaryColor: primaryColor,
             scaffoldBackgroundColor: backgroundColor,
             textTheme: GoogleFonts.poppinsTextTheme(Theme.of(context).textTheme)
                 .apply(bodyColor: Colors.white),
             canvasColor: backgroundColor,
           ),
-          home: StepperScreen(),
+          home: DashboardScreen(),
         ));
   }
 }

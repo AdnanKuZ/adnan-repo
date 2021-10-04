@@ -2,6 +2,7 @@ import 'package:admin/dialogs/settings_dialog.dart';
 import 'package:admin/enums/RouteEnum.dart';
 import 'package:admin/providers/MenuProvider.dart';
 import 'package:admin/responsive.dart';
+import 'package:admin/screens/dashboard/FAQs/faqs.dart';
 import 'package:admin/screens/dashboard/contact_us/contact_us.dart';
 import 'package:admin/screens/dashboard/members_and_devices/members_and_devices.dart';
 import 'package:admin/screens/dashboard/policies/policies.dart';
@@ -21,7 +22,7 @@ class DashboardScreen extends StatelessWidget {
         return 2;
       case DashboardRoute.ContactUs:
         return 3;
-      case DashboardRoute.About:
+      case DashboardRoute.FAQs:
         return 4;
       case DashboardRoute.MembersAndDevices:
         return 5;
@@ -36,7 +37,7 @@ class DashboardScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       key: context.read<MenuProvider>().scaffoldKey,
-      drawer: SafeArea(child: SideMenu()),
+      drawer: SideMenu(),
       appBar: Responsive.isMobile(context)
           ? AppBar(
               backgroundColor: Colors.white,
@@ -94,8 +95,8 @@ class DashboardScreen extends StatelessWidget {
                 SizedBox(),
                 // Contact us
                 ConctactUsScreen(),
-                // About
-                SizedBox(),
+                FAQsScreen(),
+
                 // Members And Devices
                 MembersAndDevicesScreen(),
                 // Terms And Conditions
