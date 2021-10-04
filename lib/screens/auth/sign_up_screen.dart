@@ -1,4 +1,4 @@
-import 'dart:ui';
+import 'package:admin/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:admin/widgets/Auth/readMore.dart';
 import 'package:admin/widgets/Auth/sign_up_widget.dart';
@@ -17,6 +17,7 @@ class SignUpScreen extends StatefulWidget {
 
 class _SignUpScreenState extends State<SignUpScreen> {
   final pageController = PageController();
+  final signUpScreenFormKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -31,15 +32,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
             Container(
               width: MediaQuery.of(context).size.width,
               height: MediaQuery.of(context).size.height,
-              decoration: BoxDecoration(
-                  image: DecorationImage(
-                      image: ExactAssetImage(
-                        'images/igor-miske-Px3iBXV-4TU-unsplash.jpg',
-                      ),
-                      fit: BoxFit.cover)),
-              child: BackdropFilter(
-                filter: ImageFilter.blur(sigmaX: 13, sigmaY: 13),
-              ),
+              color: primaryColor.withOpacity(0.5),
+              child: Image.asset('assets/images/background_new.jpeg',fit: BoxFit.cover,)
+            ),
+            Container(
+              width: MediaQuery.of(context).size.width,
+                height: MediaQuery.of(context).size.height,
+                color: Colors.black87.withOpacity(0.5),
             ),
             SingleChildScrollView(
               child: LayoutBuilder(
@@ -56,11 +55,15 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                 alignment: Alignment.centerRight,
                                 child: signupMode.mode == 'Sign Up' ///////////
                                     ? SignUpWidget(
+                                        signUpFormKey: signUpScreenFormKey,
                                         isMobile: false,
                                         isPc: true,
                                       )
                                     : signupMode.mode == 'Otp' /////////////
-                                        ? OtpWidget()
+                                        ? OtpWidget(
+                                          isMobile: false,
+                                          isPc: true,
+                                        )
                                         : signupMode.mode ==
                                                 'Account Created' //////////////
                                             ? AccountCreatedWidget(
@@ -89,22 +92,24 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               Container(
                                 width: 60,
                                 height: 60,
-                                child: Icon(
-                                  FontAwesomeIcons.addressCard,
-                                  color: Colors.white,
-                                  size: 50,
-                                ),
+                                child: Image.asset(
+                              "assets/images/logo.png",
+                            )
                               ),
                               SizedBox(
                                 height: 50,
                               ),
                               signupMode.mode == 'Sign Up' ///////////
                                   ? SignUpWidget(
+                                      signUpFormKey: signUpScreenFormKey,
                                       isMobile: false,
                                       isPc: false,
                                     )
                                   : signupMode.mode == 'Otp' /////////////
-                                      ? OtpWidget()
+                                      ? OtpWidget(
+                                        isMobile: false,
+                                        isPc: false,
+                                      )
                                       : signupMode.mode ==
                                               'Account Created' //////////////
                                           ? AccountCreatedWidget(
@@ -127,22 +132,24 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               Container(
                                 width: 60,
                                 height: 60,
-                                child: Icon(
-                                  FontAwesomeIcons.addressCard,
-                                  color: Colors.white,
-                                  size: 50,
-                                ),
+                                child: Image.asset(
+                              "assets/images/logo.png",
+                            )
                               ),
                               SizedBox(
                                 height: 40,
                               ),
                               signupMode.mode == 'Sign Up' ///////////
                                   ? SignUpWidget(
+                                      signUpFormKey: signUpScreenFormKey,
                                       isMobile: false,
                                       isPc: false,
                                     )
                                   : signupMode.mode == 'Otp' /////////////
-                                      ? OtpWidget()
+                                      ? OtpWidget(
+                                        isMobile: false,
+                                        isPc: false,
+                                      )
                                       : signupMode.mode ==
                                               'Account Created' //////////////
                                           ? AccountCreatedWidget(

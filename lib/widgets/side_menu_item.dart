@@ -22,9 +22,11 @@ class DrawerListTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final _providerInstance = Provider.of<MenuProvider>(context);
     return ListTile(
       onTap: () {
-        context.read<MenuProvider>().setDashboardRoute(navigation);
+        // context.read<MenuProvider>().setDashboardRoute(navigation);
+        _providerInstance.setDashboardRoute(navigation);
       },
       selected: Provider.of<MenuProvider>(context).dashboardRoute == navigation,
       horizontalTitleGap: 0.0,
@@ -33,7 +35,9 @@ class DrawerListTile extends StatelessWidget {
         padding: const EdgeInsets.fromLTRB(8.0, 0, 0, 0),
         child: SvgPicture.asset(
           svgSrc,
-          color: Provider.of<MenuProvider>(context).dashboardRoute == navigation ? menuSelectedIconColor : menuUnSelectedIconColor,
+          color: Provider.of<MenuProvider>(context).dashboardRoute == navigation
+              ? menuSelectedIconColor
+              : menuUnSelectedIconColor,
           height: 20,
         ),
       ),
