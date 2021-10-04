@@ -178,7 +178,9 @@ class LoginWidget extends StatelessWidget {
                                   "email": emailController.text,
                                   "password": passController.text,
                                 };
-                                isLoading.setLoadingState(true);
+
+                                if(loginFormKey.currentState!.validate()){
+                                  isLoading.setLoadingState(true);
                                 String result = await _authRepo.login(authData);
                                 if (result == 'Login Failed') {
                                   print("loginError");
@@ -190,6 +192,7 @@ class LoginWidget extends StatelessWidget {
                                           builder: (context) =>
                                               DashboardScreen()));
                                   isLoading.setLoadingState(false);
+                                }
                                 }
                               },
                               buttonColor: primaryColor,
