@@ -6,20 +6,20 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../../constants.dart';
 
-class PoliciesHeader extends StatelessWidget {
+class MembersAndDevicesHeader extends StatelessWidget {
   final bool showAddButton;
-  final Function onSettingsPressed;
-  const PoliciesHeader(
-      {required this.showAddButton, required this.onSettingsPressed});
+  const MembersAndDevicesHeader({required this.showAddButton});
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
         DashboardHeader(),
-        DashboardTitle(title: 'Policies',
-          descriptions: 'Check your ongoing policies and manage them!',
-          showAddButton: showAddButton,)
+        DashboardTitle(
+          title: 'Members And Devices',
+          descriptions: 'Check your current members and devices configurations',
+          showAddButton: showAddButton,
+        )
       ],
     );
   }

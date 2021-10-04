@@ -1,8 +1,5 @@
-import 'package:admin/dialogs/settings_dialog.dart';
-import 'package:admin/providers/MenuProvider.dart';
 import 'package:admin/responsive.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import '../../../constants.dart';
 
 class DashboardTitle extends StatelessWidget {
