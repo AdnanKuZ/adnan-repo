@@ -1,11 +1,11 @@
 import 'dart:ui';
 
-class Bandwidth {
+class BandwidthModel {
   String? day;
   String? bandwidth;
   String? date;
 
-  Bandwidth({
+  BandwidthModel({
     this.day,
     this.bandwidth,
     this.date

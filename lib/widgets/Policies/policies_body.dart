@@ -22,56 +22,59 @@ class PoliciesEmptyBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.symmetric(
-        horizontal: defaultPadding,
-        vertical: defaultPadding / 2,
-      ),
-      decoration: BoxDecoration(
-        borderRadius: const BorderRadius.all(Radius.circular(10)),
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Expanded(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  "No Policies Yet",
-                  textAlign: TextAlign.center,
-                  style: Theme.of(context).textTheme.headline6?.copyWith(
-                      color: Colors.black, fontWeight: FontWeight.bold),
-                ),
-                Text(
-                    "Start adding some policies to see  and manager thtough them",
+    return SingleChildScrollView(
+      child: Container(
+        padding: EdgeInsets.symmetric(
+          horizontal: defaultPadding,
+          vertical: defaultPadding / 2,
+        ),
+        decoration: BoxDecoration(
+          borderRadius: const BorderRadius.all(Radius.circular(10)),
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Expanded(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Image.asset("assets/images/empty_policies.png", width: 300,),
+                  Text(
+                    "No Policies Yet",
                     textAlign: TextAlign.center,
-                    style: TextStyle(
-                        fontSize: 14,
-                        color: textGray,
-                        fontWeight: FontWeight.w500)),
-                SizedBox(
-                  height: 30,
-                ),
-                ElevatedButton.icon(
-                  style: TextButton.styleFrom(
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8)),
-                    backgroundColor: primaryColor,
-                    padding: EdgeInsets.symmetric(
-                      horizontal: defaultPadding,
-                      vertical: defaultPadding /
-                          (Responsive.isMobile(context) ? 1 : 1),
-                    ),
+                    style: Theme.of(context).textTheme.headline6?.copyWith(
+                        color: Colors.black, fontWeight: FontWeight.bold),
                   ),
-                  onPressed: () {},
-                  icon: Icon(Icons.add),
-                  label: Text("Add New"),
-                ),
-              ],
+                  Text(
+                      "Start adding some policies to see  and manager thtough them",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                          fontSize: 14,
+                          color: textGray,
+                          fontWeight: FontWeight.w500)),
+                  SizedBox(
+                    height: 30,
+                  ),
+                  ElevatedButton.icon(
+                    style: TextButton.styleFrom(
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8)),
+                      backgroundColor: primaryColor,
+                      padding: EdgeInsets.symmetric(
+                        horizontal: defaultPadding,
+                        vertical: defaultPadding /
+                            (Responsive.isMobile(context) ? 1 : 1),
+                      ),
+                    ),
+                    onPressed: () {},
+                    icon: Icon(Icons.add),
+                    label: Text("Add New"),
+                  ),
+                ],
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

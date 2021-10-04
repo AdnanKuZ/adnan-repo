@@ -1,9 +1,9 @@
-class Device {
+class DeviceModel {
   String? name;
   String? ip;
   String? mac;
 
-  Device({
+  DeviceModel({
     this.name,
     this.ip,
     this.mac

@@ -1,10 +1,10 @@
 import 'package:admin/models/device.dart';
 
-class Member {
+class MemberModel {
   String? name;
-  List<Device>? devices;
+  List<DeviceModel>? devices;
   
-  Member({
+  MemberModel({
     this.name,
     this.devices
   });
