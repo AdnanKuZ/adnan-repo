@@ -9,8 +9,11 @@ const menuUnSelectedBackgroundColor = Color(0xFFFFFFFF);
 const menuUnSelectedIconColor = Color(0xFFD9D9D9);
 const menuSelectedIconColor = Color(0xFFFFFFFF);
 const menuSeperatorColor = Color(0xFFEAEAEA);
+const redColor = Color(0xFFF05523);
+const lightGrayColor = Color(0xFFE2E2E2);
 
-const textGray = Color(0xFFBEBEBE);
+const textGray = Color(0xFF7F7F7F);
+
 const defaultPadding = 16.0;
 const menuPadding = 48.0;
 const digitCode = 8;
