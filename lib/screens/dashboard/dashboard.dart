@@ -24,6 +24,10 @@ class DashboardScreen extends StatelessWidget {
         return 4;
       case DashboardRoute.MembersAndDevices:
         return 5;
+      case DashboardRoute.TermsAndConditions:
+        return 6;
+      case DashboardRoute.LegalStatement:
+        return 7;
     }
   }
 
@@ -73,20 +77,30 @@ class DashboardScreen extends StatelessWidget {
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // We want this side menu only for large screen
+            // Web side menu
             if (!Responsive.isMobile(context)) SideMenu(),
 
             Expanded(
-                //child: HomeScreen(),
                 child: IndexedStack(
               index: getStackIndex(
                   Provider.of<MenuProvider>(context).dashboardRoute),
               children: [
+                // Home
                 HomeScreen(),
+                // Policies
                 PoliciesScreen(),
+                // Statistics
                 SizedBox(),
+                // Contact us
                 ConctactUsScreen(),
+                // About
                 SizedBox(),
+                // Members And Devices
+                SizedBox(),
+                // Terms And Conditions
+                SizedBox(),
+                // Legal Statment
+                SizedBox()
               ],
             )),
           ],
