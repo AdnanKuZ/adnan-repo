@@ -1,9 +1,9 @@
 enum DashboardRoute {
-  Home, 
-  Policies, 
-  Statistics, 
+  Home,
+  Policies,
+  Statistics,
   ContactUs,
-  About,
+  FAQs,
   MembersAndDevices,
   TermsAndConditions,
   LegalStatement,

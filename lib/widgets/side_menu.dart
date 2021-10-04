@@ -73,7 +73,7 @@ class _SideMenuState extends State<SideMenu> {
                         svgSrc: "assets/icons/menu_notification.svg",
                       ),
                       DrawerListTile(
-                        navigation: DashboardRoute.About,
+                        navigation: DashboardRoute.FAQs,
                         svgSrc: "assets/icons/menu_setting.svg",
                       ),
                     ],
