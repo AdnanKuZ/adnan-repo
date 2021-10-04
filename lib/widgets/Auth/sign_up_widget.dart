@@ -28,7 +28,8 @@ class SignUpWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final passHiddenProvider = Provider.of<PassHiddenProvider>(context,listen: false);
+    final passHiddenProvider =
+        Provider.of<PassHiddenProvider>(context, listen: false);
     final emailValidProvider = Provider.of<EmailValidProvider>(context);
     final signupMode = Provider.of<SignUpModes>(context, listen: false);
     Map<String, String> authData = {
@@ -45,10 +46,10 @@ class SignUpWidget extends StatelessWidget {
               ? BorderRadius.only(bottomRight: Radius.circular(40))
               : BorderRadius.circular(30)),
       padding: isPc
-          ? EdgeInsets.symmetric(horizontal: 85, vertical: 50)
+          ? EdgeInsets.only(left: 85, right: 85, top: 50, bottom: 30)
           : isMobile
-              ? EdgeInsets.symmetric(horizontal: 15, vertical: 40)
-              : EdgeInsets.symmetric(horizontal: 70, vertical: 40),
+              ? EdgeInsets.only(left: 15, right: 15, top: 50, bottom: 30)
+              : EdgeInsets.only(left: 70, right: 70, top: 50, bottom: 30),
       child: SingleChildScrollView(
           child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -76,13 +77,13 @@ class SignUpWidget extends StatelessWidget {
               children: [
                 Container(
                   decoration: BoxDecoration(boxShadow: [
-                      BoxShadow(
-                        color: Colors.blue.shade50.withOpacity(0.6),
-                        spreadRadius: 1,
-                        blurRadius: 8,
-                        offset: Offset(3, 3),
-                      )
-                    ]),
+                    BoxShadow(
+                      color: Colors.blue.shade50.withOpacity(0.6),
+                      spreadRadius: 1,
+                      blurRadius: 8,
+                      offset: Offset(3, 3),
+                    )
+                  ]),
                   child: CustomTextField(
                     onChanged: (value) {
                       RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
@@ -96,8 +97,9 @@ class SignUpWidget extends StatelessWidget {
                       icon: Consumer<EmailValidProvider>(
                           builder: (context, state, child) => Icon(
                                 FontAwesomeIcons.check,
-                                color:
-                                    state.validState ? primaryColor : Colors.grey,
+                                color: state.validState
+                                    ? primaryColor
+                                    : Colors.grey,
                                 size: 16,
                               )),
                     ),
@@ -120,13 +122,13 @@ class SignUpWidget extends StatelessWidget {
                 ),
                 Container(
                   decoration: BoxDecoration(boxShadow: [
-                      BoxShadow(
-                        color: Colors.blue.shade50.withOpacity(0.6),
-                        spreadRadius: 1,
-                        blurRadius: 8,
-                        offset: Offset(3, 3),
-                      )
-                    ]),
+                    BoxShadow(
+                      color: Colors.blue.shade50.withOpacity(0.6),
+                      spreadRadius: 1,
+                      blurRadius: 8,
+                      offset: Offset(3, 3),
+                    )
+                  ]),
                   child: CustomTextField(
                     maxLines: 1,
                     controller: passController,
@@ -161,13 +163,13 @@ class SignUpWidget extends StatelessWidget {
                 ),
                 Container(
                   decoration: BoxDecoration(boxShadow: [
-                      BoxShadow(
-                        color: Colors.blue.shade50.withOpacity(0.6),
-                        spreadRadius: 1,
-                        blurRadius: 8,
-                        offset: Offset(3, 3),
-                      )
-                    ]),
+                    BoxShadow(
+                      color: Colors.blue.shade50.withOpacity(0.6),
+                      spreadRadius: 1,
+                      blurRadius: 8,
+                      offset: Offset(3, 3),
+                    )
+                  ]),
                   child: CustomTextField(
                     maxLines: 1,
                     state: passHiddenProvider.state,
@@ -186,13 +188,13 @@ class SignUpWidget extends StatelessWidget {
                 ),
                 Container(
                   decoration: BoxDecoration(boxShadow: [
-                      BoxShadow(
-                        color: Colors.blue.shade50.withOpacity(0.6),
-                        spreadRadius: 1,
-                        blurRadius: 8,
-                        offset: Offset(3, 3),
-                      )
-                    ]),
+                    BoxShadow(
+                      color: Colors.blue.shade50.withOpacity(0.6),
+                      spreadRadius: 1,
+                      blurRadius: 8,
+                      offset: Offset(3, 3),
+                    )
+                  ]),
                   child: CustomTextField(
                     controller: deviceIdController,
                     state: false,
@@ -212,34 +214,37 @@ class SignUpWidget extends StatelessWidget {
           SizedBox(
             height: 25,
           ),
-          Row(children: [
-            Expanded(
-              child: CustomElevatedButton(
-                onpressed: () async {
-                  if (signUpFormKey.currentState!.validate()) {
-                    authData = {
-                      "email": emailController.text,
-                      "password": passController.text,
-                      "deviceId": deviceIdController.text,
-                    };
-                    var result = await _authRepo.register(authData);
-                    if(result == 'Success') {
-                      signupMode.setMode("Otp");
-                    }else if(result == 'Bad Request') {
-                      print('bad request');
-                    }else
-                      print('server error');
-                  }
-                },
-                buttonColor: primaryColor,
-                icon: FontAwesomeIcons.userPlus,
-                splashColor: Colors.white,
-                textColor: Colors.white,
-                title: 'Sign Up',
-                iconColor: Colors.white,
+          Consumer<IsLoading>(
+            builder: (context,state,child) => Row(children: [
+              Expanded(
+                child: !state.isLoadingState 
+                ? CustomElevatedButton(
+                  onpressed: () async {
+                    if (signUpFormKey.currentState!.validate()) {
+                      authData = {
+                        "email": emailController.text,
+                        "password": passController.text,
+                        "deviceId": deviceIdController.text,
+                      };
+                      var result = await _authRepo.register(authData);
+                      if(result == 'Success') {
+                        signupMode.setMode("Otp");
+                      }else if(result == 'Bad Request') {
+                        print('bad request');
+                      }else
+                        print('server error');
+                    }
+                  },
+                  buttonColor: primaryColor,
+                  icon: FontAwesomeIcons.userPlus,
+                  splashColor: Colors.white,
+                  textColor: Colors.white,
+                  title: 'Sign Up',
+                  iconColor: Colors.white,
+                ): Center(child: CircularProgressIndicator()),
               ),
-            ),
-          ]),
+            ]),
+          ),
           SizedBox(
             height: 12,
           ),
