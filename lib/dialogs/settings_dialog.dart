@@ -1,12 +1,10 @@
 import 'package:admin/constants.dart';
+import 'package:admin/enums/RouteEnum.dart';
+import 'package:admin/providers/MenuProvider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/src/provider.dart';
 
-SettingsDialog(
-    {required BuildContext context,
-    required Function onMembersAndDevicesClicked,
-    required Function onTermsAndConditionsClicked,
-    required Function onLegalStatementClicked,
-    required Function onLogout}) {
+SettingsDialog({required BuildContext context}) {
   Widget DialogItem(IconData icon, String title, Function onClick) {
     return Container(
       margin: EdgeInsets.all(4),
@@ -61,13 +59,30 @@ SettingsDialog(
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                DialogItem(Icons.policy, "Members & Devices",
-                    () => onMembersAndDevicesClicked()),
-                DialogItem(Icons.policy, "Terms & Conditions",
-                    () => onTermsAndConditionsClicked()),
-                DialogItem(Icons.policy, "Legal Statement",
-                    () => onLegalStatementClicked()),
-                DialogItem(Icons.policy, "Logout", () => onLogout()),
+                DialogItem(Icons.policy, "Members & Devices", () {
+                  Navigator.pop(context);
+                  context
+                      .read<MenuProvider>()
+                      .setDashboardRoute(DashboardRoute.MembersAndDevices);
+                }),
+                DialogItem(
+                    Icons.policy,
+                    "Terms & Conditions",
+                    () {
+                      Navigator.pop(context);
+                      context
+                        .read<MenuProvider>()
+                        .setDashboardRoute(DashboardRoute.TermsAndConditions);
+                    }),
+                DialogItem(Icons.policy, "Legal Statement", () {
+                  Navigator.pop(context);
+                  context
+                      .read<MenuProvider>()
+                      .setDashboardRoute(DashboardRoute.LegalStatement);
+                }),
+                DialogItem(Icons.policy, "Logout", () {
+                  Navigator.pop(context);
+                }),
               ],
             ),
           ),

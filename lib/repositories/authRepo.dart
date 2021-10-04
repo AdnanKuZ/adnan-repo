@@ -6,7 +6,7 @@ class AuthRepositories {
   final String baseUrl =
       'https://sohobuiserver.azurewebsites.net//api/Account/';
 
-  void register(Map<String, String> signUpData) async {
+  Future<String> register(Map<String, String> signUpData) async {
     SharedPreferences _prefs = await SharedPreferences.getInstance();
     _prefs.setString('email', signUpData['email'].toString());
     final Uri url = Uri.parse('$baseUrl' + 'Register');
@@ -23,6 +23,12 @@ class AuthRepositories {
     );
     print('body : ' + response.body);
     print('status code : ' + response.statusCode.toString());
+    if (response.statusCode == 204)
+      return 'Success';
+    else if (response.statusCode == 400)
+      return 'Bad Request';
+    else
+      return 'Server Error';
   }
 
   Future<bool> verifyEmail(String otpCode) async {
@@ -98,7 +104,7 @@ class AuthRepositories {
       return false;
   }
 
-  void changePassword(Map<String,String> passwords) async{
+  void changePassword(Map<String, String> passwords) async {
     final Uri url = Uri.parse('$baseUrl' + 'ChangePassword');
     var jsonPasswords = json.encode(passwords);
     http.Response response = await http.post(

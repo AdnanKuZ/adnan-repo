@@ -1,53 +1,18 @@
 import 'package:admin/constants.dart';
-import 'package:admin/dialogs/settings_dialog.dart';
-import 'package:admin/models/policy.dart';
 import 'package:admin/responsive.dart';
-import 'package:admin/widgets/dashboard/policies/policies_body.dart';
-import 'package:admin/widgets/dashboard/policies/policies_header.dart';
-import 'package:admin/widgets/dashboard/policies/policy/policy.dart';
+import 'package:admin/widgets/dashboard/members_and_devices/members_and_devices_header.dart';
+import 'package:admin/widgets/dashboard/members_and_devices/members_and_devices_list_item.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
-class PoliciesScreen extends StatefulWidget {
+class MembersAndDevicesScreen extends StatefulWidget {
   @override
-  State<PoliciesScreen> createState() => _PoliciesScreenState();
+  State<MembersAndDevicesScreen> createState() =>
+      _MembersAndDevicesScreenState();
 }
 
-class _PoliciesScreenState extends State<PoliciesScreen> {
-  @override
-  Widget build(BuildContext context) {
-    return SafeArea(child: PoliciesFilledScreen(policies: [...policiesTest]));
-    //return SafeArea(child: PoliciesEmptyScreen());
-  }
-}
-
-class PoliciesEmptyScreen extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.fromLTRB(
-          Responsive.isMobile(context) ? defaultPadding : menuPadding,
-          defaultPadding,
-          defaultPadding,
-          0),
-      child: Column(
-        children: [
-          PoliciesHeader(
-              showAddButton: false),
-          Expanded(child: Container(child: PoliciesEmptyBody()))
-        ],
-      ),
-    );
-  }
-}
-
-class PoliciesFilledScreen extends StatelessWidget {
-  final List<PolicyModel> policies;
-
-  const PoliciesFilledScreen({required this.policies, Key? key})
-      : super(key: key);
-
+class _MembersAndDevicesScreenState extends State<MembersAndDevicesScreen> {
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -59,13 +24,13 @@ class PoliciesFilledScreen extends StatelessWidget {
             defaultPadding,
             Responsive.isMobile(context) ? 0 : defaultPadding,
             0),
-        child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
+        child:
+            Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
           Padding(
             padding: Responsive.isMobile(context)
                 ? EdgeInsets.fromLTRB(defaultPadding, 0, defaultPadding, 0)
                 : EdgeInsets.all(0),
-            child: PoliciesHeader(
-                showAddButton: true),
+            child: MembersAndDevicesHeader(showAddButton: true),
           ),
           Expanded(
             child: Container(
@@ -84,11 +49,9 @@ class PoliciesFilledScreen extends StatelessWidget {
                     : Responsive.is425(context)
                         ? 1
                         : 3,
-                itemCount: policies.length,
-                itemBuilder: (BuildContext context, int index) => new Container(
-                    child: PolicyWidget(
-                  policy: policies[index],
-                )),
+                itemCount: 8,
+                itemBuilder: (BuildContext context, int index) =>
+                    new Container(child: DeviceWidget(title: "Device name",)),
                 staggeredTileBuilder: (int index) => new StaggeredTile.fit(1),
                 mainAxisSpacing: 8.0,
                 crossAxisSpacing: 8.0,

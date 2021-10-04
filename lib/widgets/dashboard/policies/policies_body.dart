@@ -1,7 +1,6 @@
 import 'package:admin/responsive.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import '../../../constants.dart';
 
 class PoliciesBody extends StatelessWidget {
@@ -46,7 +45,7 @@ class PoliciesEmptyBody extends StatelessWidget {
                         color: Colors.black, fontWeight: FontWeight.bold),
                   ),
                   Text(
-                      "Start adding some policies to see  and manager thtough them",
+                      "Start adding some policies to see displayed here and manager through them",
                       textAlign: TextAlign.center,
                       style: TextStyle(
                           fontSize: 14,

@@ -1,7 +1,10 @@
 enum DashboardRoute {
-  Home, 
-  Policies, 
-  Statistics, 
+  Home,
+  Policies,
+  Statistics,
   ContactUs,
-  FAQs
+  FAQs,
+  MembersAndDevices,
+  TermsAndConditions,
+  LegalStatement,
 }

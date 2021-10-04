@@ -24,7 +24,7 @@ class LoginModes extends ChangeNotifier {
   ///'Forgot Pass'
   ///'Reset Pass'
   ///'Changed Pass'
-  String loginMode = 'Reset Pass';
+  String loginMode = 'Login';
   String get mode => loginMode;
   void setMode(String mode) {
     loginMode = mode;
