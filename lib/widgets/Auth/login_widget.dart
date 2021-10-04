@@ -31,7 +31,7 @@ class LoginWidget extends StatelessWidget {
     final emailValidProvider =
         Provider.of<EmailValidProvider>(context, listen: false);
     final loginmode = Provider.of<LoginModes>(context, listen: false);
-    final isLoading = Provider.of<IsLoading>(context,listen: false);
+    final isLoading = Provider.of<IsLoading>(context, listen: false);
     Map<String, String> authData = {
       "email": "",
       "password": "",
@@ -81,65 +81,87 @@ class LoginWidget extends StatelessWidget {
               key: loginFormKey,
               child: Column(
                 children: [
-                  CustomTextField(
-                    controller: emailController,
-                    onChanged: (value) {
-                      RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
-                              .hasMatch(value)
-                          ? emailValidProvider.setEmailState(true)
-                          : emailValidProvider.setEmailState(false);
-                    },
-                    suffixIcon: IconButton(
-                      onPressed: null,
-                      icon: Consumer<EmailValidProvider>(
-                        builder: (context, state, child) => Icon(
-                          FontAwesomeIcons.check,
-                          color: state.validState ? primaryColor : Colors.grey,
-                          size: 16,
+                  Container(
+                    decoration: BoxDecoration(boxShadow: [
+                      BoxShadow(
+                        color: Colors.blue.shade50.withOpacity(0.6),
+                        spreadRadius: 1,
+                        blurRadius: 8,
+                        offset: Offset(3, 3),
+                      )
+                    ]),
+                    child: CustomTextField(
+                      controller: emailController,
+                      onChanged: (value) {
+                        RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                                .hasMatch(value)
+                            ? emailValidProvider.setEmailState(true)
+                            : emailValidProvider.setEmailState(false);
+                      },
+                      suffixIcon: IconButton(
+                        onPressed: null,
+                        icon: Consumer<EmailValidProvider>(
+                          builder: (context, state, child) => Icon(
+                            FontAwesomeIcons.check,
+                            color:
+                                state.validState ? primaryColor : Colors.grey,
+                            size: 16,
+                          ),
                         ),
                       ),
+                      state: false,
+                      hintText: 'Enter your email',
+                      keyboardType: TextInputType.emailAddress,
+                      validator: (value) {
+                        if (!RegExp(
+                                r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                            .hasMatch(value)) {
+                          return 'email invalid';
+                        } else {
+                          return null;
+                        }
+                      },
                     ),
-                    state: false,
-                    hintText: 'Enter your email',
-                    keyboardType: TextInputType.emailAddress,
-                    validator: (value) {
-                      if (!RegExp(
-                              r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
-                          .hasMatch(value)) {
-                        return 'email invalid';
-                      } else {
-                        return null;
-                      }
-                    },
                   ),
                   SizedBox(
                     height: 18,
                   ),
                   Consumer<PassHiddenProvider>(
-                    builder: (context, state, child) => CustomTextField(
-                      controller: passController,
-                      suffixIcon: IconButton(
-                        onPressed: () {
-                          passHiddenProvider
-                              .setPassState(!passHiddenProvider.state);
-                        },
-                        icon: Icon(
-                          FontAwesomeIcons.eye,
-                          color: passHiddenProvider.state
-                              ? primaryColor
-                              : Colors.grey,
-                          size: 16,
+                    builder: (context, state, child) => Container(
+                      decoration: BoxDecoration(boxShadow: [
+                      BoxShadow(
+                        color: Colors.blue.shade50.withOpacity(0.6),
+                        spreadRadius: 1,
+                        blurRadius: 8,
+                        offset: Offset(3, 3),
+                      )
+                    ]),
+                      child: CustomTextField(
+                        maxLines: 1,
+                        controller: passController,
+                        suffixIcon: IconButton(
+                          onPressed: () {
+                            passHiddenProvider
+                                .setPassState(!passHiddenProvider.state);
+                          },
+                          icon: Icon(
+                            FontAwesomeIcons.eye,
+                            color: passHiddenProvider.state
+                                ? primaryColor
+                                : Colors.grey,
+                            size: 16,
+                          ),
                         ),
+                        state: passHiddenProvider.state,
+                        hintText: 'Enter password',
+                        keyboardType: TextInputType.text,
+                        validator: (value) {
+                          if (value.isEmpty)
+                            return 'password empty';
+                          else
+                            return null;
+                        },
                       ),
-                      state: passHiddenProvider.state,
-                      hintText: 'Enter password',
-                      keyboardType: TextInputType.text,
-                      validator: (value) {
-                        if (value.isEmpty || value.length < 6)
-                          return 'password invalid';
-                        else
-                          return null;
-                      },
                     ),
                   ),
                 ],
@@ -179,20 +201,21 @@ class LoginWidget extends StatelessWidget {
                                   "password": passController.text,
                                 };
 
-                                if(loginFormKey.currentState!.validate()){
+                                if (loginFormKey.currentState!.validate()) {
                                   isLoading.setLoadingState(true);
-                                String result = await _authRepo.login(authData);
-                                if (result == 'Login Failed') {
-                                  print("loginError");
-                                  isLoading.setLoadingState(false);
-                                } else {
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              DashboardScreen()));
-                                  isLoading.setLoadingState(false);
-                                }
+                                  String result =
+                                      await _authRepo.login(authData);
+                                  if (result == 'Login Failed') {
+                                    print("loginError");
+                                    isLoading.setLoadingState(false);
+                                  } else {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                DashboardScreen()));
+                                    isLoading.setLoadingState(false);
+                                  }
                                 }
                               },
                               buttonColor: primaryColor,

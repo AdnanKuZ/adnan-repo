@@ -3,6 +3,7 @@ import 'package:admin/providers/MenuProvider.dart';
 import 'package:admin/providers/authProviders.dart';
 import 'package:admin/providers/contactUsProvider.dart';
 import 'package:admin/screens/auth/login_screen.dart';
+import 'package:admin/screens/stepper/stepper_screen.dart';
 import 'package:admin/screens/dashboard/dashboard.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -49,10 +50,7 @@ class MyApp extends StatelessWidget {
                 .apply(bodyColor: Colors.white),
             canvasColor: backgroundColor,
           ),
-          home: DashboardScreen(),
-          //home: LoginScreen(),
-          //home: ConctactUsScreen(),
-          //home: LoginScreen(),
+          home: StepperScreen(),
         ));
   }
 }

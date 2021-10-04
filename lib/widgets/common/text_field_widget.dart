@@ -31,46 +31,38 @@ class CustomTextField extends StatelessWidget {
       this.focusNode,
       this.textInputAction,
       this.prefixIcon,
-      this.prefix, this.leftPadding});
+      this.prefix,
+      this.leftPadding});
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 55,
-      decoration: BoxDecoration(boxShadow: [
-        BoxShadow(
-          color: Colors.blue.shade50.withOpacity(0.6),
-          spreadRadius: 1,
-          blurRadius: 8,
-          offset: Offset(3, 3),
-        )
-      ]),
-      child: TextFormField(
-        focusNode: focusNode,
-        onChanged: onChanged,
-        controller: controller,
-        obscureText: state,
-        decoration: InputDecoration(
-          contentPadding: EdgeInsets.only(right: 14.5, left:leftPadding?? 14.5, top: 14),
-          filled: true,
-          fillColor: Colors.white,
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(6),
-          ),
-          hintText: hintText,
-          hintStyle: TextStyle(color: Colors.grey),
-          suffixIcon: suffixIcon,
-          errorStyle: TextStyle(fontSize: 12, height: 0.2),
-          prefixIcon: prefixIcon,
-          prefix: prefix,
+    return TextFormField(
+      focusNode: focusNode,
+      onChanged: onChanged,
+      controller: controller,
+      obscureText: state,
+      decoration: InputDecoration(
+        contentPadding:
+            EdgeInsets.only(right: 14.5, left: leftPadding ?? 14.5, top: 14),
+        filled: true,
+        fillColor: Colors.white,
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(6),
         ),
-        maxLines: maxLines,
-        validator: validator,
-        style: TextStyle(color: Colors.black, fontSize: 14),
-        keyboardType: keyboardType,
-        textInputAction: textInputAction,
-        onFieldSubmitted: submit,
+        hintText: hintText,
+        hintStyle: TextStyle(color: Colors.grey),
+        suffixIcon: suffixIcon,
+        errorStyle: TextStyle(fontSize: 12, height: 0.3),
+        prefixIcon: prefixIcon,
+        prefix: prefix,
       ),
+      maxLines: maxLines,
+      validator: validator,
+      style: TextStyle(color: Colors.black, fontSize: 14),
+      keyboardType: keyboardType,
+      textInputAction: textInputAction,
+      onFieldSubmitted: submit,
     );
+  
   }
 }
