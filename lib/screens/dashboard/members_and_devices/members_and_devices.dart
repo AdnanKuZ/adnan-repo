@@ -51,7 +51,7 @@ class _MembersAndDevicesScreenState extends State<MembersAndDevicesScreen> {
                         : 3,
                 itemCount: 8,
                 itemBuilder: (BuildContext context, int index) =>
-                    new Container(child: DeviceWidget(title: "Device name",)),
+                    new Container(child: MemberWidget(member: "Device name", devices: ['iPhone', 'Tab'],)),
                 staggeredTileBuilder: (int index) => new StaggeredTile.fit(1),
                 mainAxisSpacing: 8.0,
                 crossAxisSpacing: 8.0,
