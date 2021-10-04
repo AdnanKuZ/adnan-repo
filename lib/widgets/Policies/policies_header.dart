@@ -1,14 +1,14 @@
 import 'package:admin/providers/MenuProvider.dart';
 import 'package:admin/responsive.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
-
 import '../../../constants.dart';
 
 class PoliciesHeader extends StatelessWidget {
   final bool showAddButton;
-  const PoliciesHeader(this.showAddButton);
+  final Function onSettingsPressed;
+  const PoliciesHeader(
+      {required this.showAddButton, required this.onSettingsPressed});
 
   @override
   Widget build(BuildContext context) {
@@ -17,45 +17,49 @@ class PoliciesHeader extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Padding(
-            padding: const EdgeInsets.fromLTRB(0, 0, 0, 32),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Expanded(
-                  child: Wrap(
-                    children: [
-                      Text("Device Code: 9a8273d32",
-                          style: TextStyle(
+              padding: const EdgeInsets.fromLTRB(0, 0, 0, 32),
+              child: !Responsive.isMobile(context)
+                  ? Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Expanded(
+                          child: Wrap(
+                            children: [
+                              Text("Device Code: 9a8273d32",
+                                  style: TextStyle(
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 10,
+                                  )),
+                              Padding(
+                                padding:
+                                    const EdgeInsets.fromLTRB(10, 0, 10, 0),
+                                child: Text("|",
+                                    style: TextStyle(
+                                      color: textGray,
+                                      fontSize: 10,
+                                    )),
+                              ),
+                              Text("Device Code: 9a8273d32",
+                                  style: TextStyle(
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 10,
+                                  )),
+                            ],
+                          ),
+                        ),
+                        IconButton(
+                            padding: EdgeInsets.fromLTRB(0, 0, 8, 0),
                             color: Colors.black,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 10,
-                          )),
-                      Padding(
-                        padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
-                        child: Text("|",
-                            style: TextStyle(
-                              color: textGray,
-                              fontSize: 10,
-                            )),
-                      ),
-                      Text("Device Code: 9a8273d32",
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 10,
-                          )),
-                    ],
-                  ),
-                ),
-                IconButton(
-                    padding: EdgeInsets.fromLTRB(0, 0, 8, 0),
-                    color: Colors.black,
-                    icon: Icon(Icons.settings),
-                    onPressed: () {},
-                    constraints: BoxConstraints()),
-              ],
-            ),
-          ),
+                            icon: Icon(Icons.settings),
+                            onPressed: () {
+                              onSettingsPressed();
+                            },
+                            constraints: BoxConstraints()),
+                      ],
+                    )
+                  : null),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -65,14 +69,7 @@ class PoliciesHeader extends StatelessWidget {
                   children: [
                     Row(
                       children: [
-                        if (!Responsive.isDesktop(context))
-                          IconButton(
-                              padding: EdgeInsets.fromLTRB(0, 0, 8, 0),
-                              color: Colors.black,
-                              icon: Icon(Icons.menu),
-                              onPressed:
-                                  context.read<MenuProvider>().controlMenu,
-                              constraints: BoxConstraints()),
+                        // context.read<MenuProvider>().controlMenu
                         Text(
                           "Policies",
                           style: Theme.of(context)

@@ -1,8 +1,8 @@
-class App {
+class AppModel {
   String? name;
   String? image;
 
-  App({
+  AppModel({
     this.name,
     this.image,
   });

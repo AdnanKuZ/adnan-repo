@@ -3,5 +3,8 @@ enum DashboardRoute {
   Policies, 
   Statistics, 
   ContactUs,
-  About
+  About,
+  MembersAndDevices,
+  TermsAndConditions,
+  LegalStatement,
 }
