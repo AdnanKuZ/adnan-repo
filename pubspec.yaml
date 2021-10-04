@@ -42,6 +42,8 @@ dependencies:
   shared_preferences: 
   rxdart: ^0.27.2
   cupertino_stepper: ^0.2.0
+  enhance_stepper: ^0.0.9
+  auto_size_text_pk: ^3.0.0
 
 dev_dependencies:
   flutter_test:
