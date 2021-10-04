@@ -1,8 +1,9 @@
 // Members
-import 'package:admin/widgets/policies/policy/card.dart';
 import 'package:expandable/expandable.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+
+import 'card.dart';
 
 class MembersWidget extends StatefulWidget {
   final Function onClick;

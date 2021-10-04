@@ -1,5 +1,5 @@
 import 'package:admin/models/policy.dart';
-import 'package:admin/widgets/policies/policy/seperator.dart';
+import 'package:admin/widgets/dashboard/policies/policy/seperator.dart';
 import 'package:expandable/expandable.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';

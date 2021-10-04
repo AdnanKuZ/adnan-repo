@@ -2,9 +2,9 @@ import 'package:admin/constants.dart';
 import 'package:admin/dialogs/settings_dialog.dart';
 import 'package:admin/models/policy.dart';
 import 'package:admin/responsive.dart';
-import 'package:admin/widgets/Policies/policies_body.dart';
-import 'package:admin/widgets/Policies/policies_header.dart';
-import 'package:admin/widgets/policies/policy/policy.dart';
+import 'package:admin/widgets/dashboard/policies/policies_body.dart';
+import 'package:admin/widgets/dashboard/policies/policies_header.dart';
+import 'package:admin/widgets/dashboard/policies/policy/policy.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
@@ -34,10 +34,7 @@ class PoliciesEmptyScreen extends StatelessWidget {
       child: Column(
         children: [
           PoliciesHeader(
-              showAddButton: false,
-              onSettingsPressed: () {
-                SettingsDialog(context: context);
-              }),
+              showAddButton: false),
           Expanded(child: Container(child: PoliciesEmptyBody()))
         ],
       ),
@@ -68,10 +65,7 @@ class PoliciesFilledScreen extends StatelessWidget {
                 ? EdgeInsets.fromLTRB(defaultPadding, 0, defaultPadding, 0)
                 : EdgeInsets.all(0),
             child: PoliciesHeader(
-                showAddButton: true,
-                onSettingsPressed: () {
-                  SettingsDialog(context: context);
-                }),
+                showAddButton: true),
           ),
           Expanded(
             child: Container(

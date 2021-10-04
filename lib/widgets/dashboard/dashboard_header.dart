@@ -1,14 +1,12 @@
+import 'package:admin/dialogs/settings_dialog.dart';
 import 'package:admin/providers/MenuProvider.dart';
 import 'package:admin/responsive.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../../constants.dart';
 
-class PoliciesHeader extends StatelessWidget {
-  final bool showAddButton;
-  final Function onSettingsPressed;
-  const PoliciesHeader(
-      {required this.showAddButton, required this.onSettingsPressed});
+class DashboardHeader extends StatelessWidget {
+  const DashboardHeader();
 
   @override
   Widget build(BuildContext context) {
@@ -54,62 +52,12 @@ class PoliciesHeader extends StatelessWidget {
                             color: Colors.black,
                             icon: Icon(Icons.settings),
                             onPressed: () {
-                              onSettingsPressed();
+                              SettingsDialog(context: context);
                             },
                             constraints: BoxConstraints()),
                       ],
                     )
                   : null),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      children: [
-                        // context.read<MenuProvider>().controlMenu
-                        Text(
-                          "Policies",
-                          style: Theme.of(context)
-                              .textTheme
-                              .headline5
-                              ?.copyWith(
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.bold),
-                        ),
-                      ],
-                    ),
-                    Text("Check your ongoing policies and manage them!",
-                        style: TextStyle(
-                            fontSize: 10,
-                            color: textGray,
-                            fontWeight: FontWeight.w600)),
-                  ],
-                ),
-              ),
-              if (showAddButton)
-                ElevatedButton.icon(
-                  style: TextButton.styleFrom(
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8)),
-                    backgroundColor: primaryColor,
-                    padding: EdgeInsets.symmetric(
-                      horizontal: defaultPadding,
-                      vertical: defaultPadding /
-                          (Responsive.isMobile(context) ? 1 : 1),
-                    ),
-                  ),
-                  onPressed: () {},
-                  icon: Icon(Icons.add),
-                  label: Text("Add New"),
-                ),
-            ],
-          ),
-          SizedBox(
-            height: 16,
-          ),
         ],
       ),
     );

@@ -3,6 +3,7 @@ import 'package:admin/enums/RouteEnum.dart';
 import 'package:admin/providers/MenuProvider.dart';
 import 'package:admin/responsive.dart';
 import 'package:admin/screens/dashboard/contact_us/contact_us.dart';
+import 'package:admin/screens/dashboard/members_and_devices/members_and_devices.dart';
 import 'package:admin/screens/dashboard/policies/policies.dart';
 import 'package:admin/widgets/side_menu.dart';
 import 'package:flutter/material.dart';
@@ -96,7 +97,7 @@ class DashboardScreen extends StatelessWidget {
                 // About
                 SizedBox(),
                 // Members And Devices
-                SizedBox(),
+                MembersAndDevicesScreen(),
                 // Terms And Conditions
                 SizedBox(),
                 // Legal Statment
