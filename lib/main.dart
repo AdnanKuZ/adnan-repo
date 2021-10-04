@@ -51,8 +51,7 @@ class MyApp extends StatelessWidget {
                 .apply(bodyColor: Colors.white),
             canvasColor: backgroundColor,
           ),
-          home: LoginScreen(),
-          home: ConctactUsScreen(),
+          home: DashboardScreen(),
         ));
   }
 }

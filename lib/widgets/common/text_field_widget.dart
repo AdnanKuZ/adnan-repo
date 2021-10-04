@@ -16,6 +16,7 @@ class CustomTextField extends StatelessWidget {
   final FocusNode? focusNode;
   final TextInputAction? textInputAction;
   final OnChanged? onChanged;
+  final double? leftPadding;
 
   CustomTextField(
       {required this.hintText,
@@ -30,7 +31,7 @@ class CustomTextField extends StatelessWidget {
       this.focusNode,
       this.textInputAction,
       this.prefixIcon,
-      this.prefix});
+      this.prefix, this.leftPadding});
 
   @override
   Widget build(BuildContext context) {
@@ -50,7 +51,7 @@ class CustomTextField extends StatelessWidget {
         controller: controller,
         obscureText: state,
         decoration: InputDecoration(
-          contentPadding: EdgeInsets.only(right: 14.5, left: 14.5, top: 14),
+          contentPadding: EdgeInsets.only(right: 14.5, left:leftPadding?? 14.5, top: 14),
           filled: true,
           fillColor: Colors.white,
           border: OutlineInputBorder(
