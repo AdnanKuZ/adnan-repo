@@ -9,7 +9,8 @@ class DashboardTitle extends StatelessWidget {
   final String title;
   final String descriptions;
   final bool showAddButton;
-  const DashboardTitle({required this.title, required this.descriptions, required this.showAddButton});
+  final Function? onAddButtonClicked;
+  const DashboardTitle({required this.title, required this.descriptions, this.showAddButton = false, this.onAddButtonClicked});
 
   @override
   Widget build(BuildContext context) {
@@ -58,7 +59,9 @@ class DashboardTitle extends StatelessWidget {
                           (Responsive.isMobile(context) ? 1 : 1),
                     ),
                   ),
-                  onPressed: () {},
+                  onPressed: () {
+                    onAddButtonClicked!();
+                  },
                   icon: Icon(Icons.add),
                   label: Text("Add New"),
                 ),
