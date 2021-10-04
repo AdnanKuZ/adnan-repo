@@ -1,6 +1,7 @@
 import 'package:admin/enums/RouteEnum.dart';
 import 'package:admin/providers/MenuProvider.dart';
 import 'package:admin/responsive.dart';
+import 'package:admin/screens/dashboard/FAQs/faqs.dart';
 import 'package:admin/screens/dashboard/contact_us/contact_us.dart';
 import 'package:admin/screens/dashboard/policies/policies.dart';
 import 'package:admin/widgets/side_menu.dart';
@@ -19,7 +20,7 @@ class DashboardScreen extends StatelessWidget {
         return 2;
       case DashboardRoute.ContactUs:
         return 3;
-      case DashboardRoute.About:
+      case DashboardRoute.FAQs:
         return 4;
     }
   }
@@ -81,7 +82,7 @@ class DashboardScreen extends StatelessWidget {
                 PoliciesScreen(),
                 SizedBox(),
                 ConctactUsScreen(),
-                SizedBox(),
+                FAQsScreen(),
               ],
             )),
           ],

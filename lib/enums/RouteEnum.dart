@@ -3,5 +3,5 @@ enum DashboardRoute {
   Policies, 
   Statistics, 
   ContactUs,
-  About
+  FAQs
 }

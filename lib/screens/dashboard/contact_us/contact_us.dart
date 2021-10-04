@@ -35,7 +35,6 @@ class _ConctactUsScreenState extends State<ConctactUsScreen> {
     if (!_formKey.currentState!.validate()) return;
 
     _formKey.currentState!.save();
-    print('fuck ${_firstNameCon.value}');
     final message = ContactUs(
       _firstNameCon.text,
       _lastNameCon.text,
