@@ -1,3 +1,4 @@
+import 'package:admin/dialogs/settings_dialog.dart';
 import 'package:admin/enums/RouteEnum.dart';
 import 'package:admin/providers/MenuProvider.dart';
 import 'package:admin/responsive.dart';
@@ -21,6 +22,8 @@ class DashboardScreen extends StatelessWidget {
         return 3;
       case DashboardRoute.About:
         return 4;
+      case DashboardRoute.MembersAndDevices:
+        return 5;
     }
   }
 
@@ -55,7 +58,9 @@ class DashboardScreen extends StatelessWidget {
                   child: Image.asset("assets/images/logo.png")),
               actions: [
                 IconButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    SettingsDialog(context: context);
+                  },
                   icon: Icon(
                     Icons.settings,
                     color: Colors.black,
