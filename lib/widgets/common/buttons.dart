@@ -4,11 +4,11 @@ import 'package:flutter/material.dart';
 
 import '../../responsive.dart';
 
-class StepperButton extends StatelessWidget {
+class FilledButton extends StatelessWidget {
   String title;
   Function onPress;
 
-  StepperButton({required this.title, required this.onPress, Key? key})
+  FilledButton({required this.title, required this.onPress, Key? key})
       : super(key: key);
 
   @override
@@ -29,11 +29,11 @@ class StepperButton extends StatelessWidget {
   }
 }
 
-class AddNewMemberButton extends StatelessWidget {
+class BorderButton extends StatelessWidget {
   String title;
   Function onPress;
 
-  AddNewMemberButton({required this.title, required this.onPress, Key? key})
+  BorderButton({required this.title, required this.onPress, Key? key})
       : super(key: key);
 
   @override

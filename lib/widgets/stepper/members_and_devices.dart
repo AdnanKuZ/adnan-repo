@@ -52,12 +52,24 @@ class MembersAndDevicesStepperWidget extends StatelessWidget {
               )
             ],
           ),
+          // Devices
+          StepperDevicesList()
+          // Members
         ],
-
-        // Members
-
-        // Devices
       ),
+    );
+  }
+}
+
+class StepperDevicesList extends StatelessWidget {
+  const StepperDevicesList({ Key? key }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        
+      ],
     );
   }
 }
