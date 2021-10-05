@@ -1,5 +1,6 @@
 import 'package:admin/constants.dart';
 import 'package:admin/screens/stepper/apps_step.dart';
+import 'package:admin/widgets/common/buttons.dart';
 import 'package:admin/widgets/stepper/members_and_devices/members_and_devices.dart';
 import 'package:admin/widgets/stepper/bandwidth.dart';
 import 'package:flutter/material.dart';
@@ -77,8 +78,6 @@ class _StepperScreenState extends State<StepperScreen> {
                           return Container();
                         },
                         onStepTapped: (int index) {
-                          // print(index);
-                          // print(instance.stageStates[index]);
                           if (instance.stageStates[index]) {
                             _stageProvider.setStageIndex = index;
                           }
@@ -128,11 +127,14 @@ class _StepperScreenState extends State<StepperScreen> {
                                         : Colors.grey),
                               ),
                               content: Container(
-                                margin: EdgeInsets.symmetric(horizontal: 56),
-                                child: Column(
-                                  children: [StepperUpperWidget(index: 2)],
-                                ),
-                              )),
+                                  margin: EdgeInsets.symmetric(horizontal: 56),
+                                  child: FilledButton(
+                                    title: 'Next ',
+                                    onPress: () {
+                                      _stageProvider.setStageState = 2;
+                                      _stageProvider.setStageIndex = _stageProvider.stageIndex + 1;
+                                    },
+                                  ))),
                           EnhanceStep(
                               isActive: instance.stageStates[3] ? true : false,
                               state: StepState.complete,
@@ -158,11 +160,14 @@ class _StepperScreenState extends State<StepperScreen> {
                                         : Colors.grey),
                               ),
                               content: Container(
-                                margin: EdgeInsets.symmetric(horizontal: 56),
-                                child: Column(
-                                  children: [StepperUpperWidget(index: 4)],
-                                ),
-                              ))
+                                  margin: EdgeInsets.symmetric(horizontal: 56),
+                                  child: FilledButton(
+                                    title: "Next",
+                                    onPress: () {
+                                      _stageProvider.setStageState = 5;
+                                      _stageProvider.setStageIndex = _stageProvider.stageIndex + 1;
+                                    },
+                                  )))
                         ],
                       ),
                     ),
@@ -177,51 +182,51 @@ class _StepperScreenState extends State<StepperScreen> {
   }
 }
 
-class StepperUpperWidget extends StatelessWidget {
-  final int index;
-  const StepperUpperWidget({Key? key, required this.index}) : super(key: key);
+// class StepperUpperWidget extends StatelessWidget {
+//   final int index;
+//   const StepperUpperWidget({Key? key, required this.index}) : super(key: key);
 
-  @override
-  Widget build(BuildContext context) {
-    final provider = Provider.of<StageProvider>(context, listen: false);
-    return Container(
-      height: 42,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          AutoSizeText(
-            'Let\'s select members and devices for this policy' +
-                index.toString(),
-            maxLines: 1,
-            maxFontSize: 22,
-            minFontSize: 13,
-            style: TextStyle(color: Colors.black, fontSize: 22),
-          ),
-          Spacer(),
-          Column(
-            children: [
-              Expanded(
-                child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                      primary: primaryColor,
-                      padding: EdgeInsets.symmetric(horizontal: 30)),
-                  onPressed: () {
-                    // print(provider.stageIndex.toString());
-                    provider.setStageState = index;
-                    provider.setStageIndex = provider.stageIndex + 1;
-                  },
-                  child: Text(
-                    'Next Step',
-                    style: TextStyle(color: Colors.white, fontSize: 16),
-                  ),
-                ),
-              ),
-            ],
-          )
-        ],
-      ),
-    );
-    ;
-  }
-}
+//   @override
+//   Widget build(BuildContext context) {
+//     final provider = Provider.of<StageProvider>(context, listen: false);
+//     return Container(
+//       height: 42,
+//       child: Row(
+//         mainAxisAlignment: MainAxisAlignment.start,
+//         crossAxisAlignment: CrossAxisAlignment.center,
+//         children: [
+//           AutoSizeText(
+//             'Let\'s select members and devices for this policy' +
+//                 index.toString(),
+//             maxLines: 1,
+//             maxFontSize: 22,
+//             minFontSize: 13,
+//             style: TextStyle(color: Colors.black, fontSize: 22),
+//           ),
+//           Spacer(),
+//           Column(
+//             children: [
+//               Expanded(
+//                 child: ElevatedButton(
+//                   style: ElevatedButton.styleFrom(
+//                       primary: primaryColor,
+//                       padding: EdgeInsets.symmetric(horizontal: 30)),
+//                   onPressed: () {
+//                     // print(provider.stageIndex.toString());
+//                     provider.setStageState = index;
+//                     provider.setStageIndex = provider.stageIndex + 1;
+//                   },
+//                   child: Text(
+//                     'Next Step',
+//                     style: TextStyle(color: Colors.white, fontSize: 16),
+//                   ),
+//                 ),
+//               ),
+//             ],
+//           )
+//         ],
+//       ),
+//     );
+//     ;
+//   }
+// }

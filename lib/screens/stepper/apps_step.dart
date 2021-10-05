@@ -1,8 +1,8 @@
 import 'package:admin/constants.dart';
 import 'package:admin/models/app.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/painting.dart';
+import 'package:provider/provider.dart';
+import 'package:admin/providers/stepperProviders.dart';
 
 class AppsStepScreen extends StatefulWidget {
   AppsStepScreen({Key? key}) : super(key: key);
@@ -40,6 +40,7 @@ class _AppsStepScreenState extends State<AppsStepScreen> {
   ];
   @override
   Widget build(BuildContext context) {
+    final provider = Provider.of<StageProvider>(context, listen: false);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisAlignment: MainAxisAlignment.start,
@@ -52,7 +53,8 @@ class _AppsStepScreenState extends State<AppsStepScreen> {
             });
           },
           nextButton: () {
-
+            provider.setStageState = 3;
+            provider.setStageIndex = provider.stageIndex + 1;
           },
         ),
         const SizedBox(height: 24),

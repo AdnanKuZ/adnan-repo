@@ -14,9 +14,8 @@ class StageProvider extends ChangeNotifier {
   }
 
   set setStageIndex(int index) {
-    if (_currentStep <= 3) {
+    if (_currentStep < 4) {
       _currentStep = index;
-
       notifyListeners();
     }
   }
