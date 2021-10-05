@@ -45,15 +45,38 @@ class _AppsStepScreenState extends State<AppsStepScreen> {
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
         PageHeader(
-          customAppButton: () {},
+          customAppButton: () async {
+            await showDialog(
+              context: context,
+              builder: (_) {
+                return AlertDialog(
+                  backgroundColor: Colors.white,
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(10))),
+                  content: Container(
+                    padding:
+                        EdgeInsets.symmetric(horizontal: 16.0, vertical: 10),
+                    height: MediaQuery.of(context).size.height * 0.3,
+                    width: MediaQuery.of(context).size.width * 0.302,
+                    child: AddAppForm(
+                      (name, link) {
+                        list2.add(AppModel(name: name, image: 'assets/images/chrome.png', link: link));
+                        print(list2);
+                        Navigator.pop(context);
+                      },
+                    ),
+                  ),
+                );
+              },
+            );
+            setState(() {});
+          },
           selectAllButton: () {
             setState(() {
               isCheckAll = !isCheckAll;
             });
           },
-          nextButton: () {
-
-          },
+          nextButton: () {},
         ),
         const SizedBox(height: 24),
         Row(
@@ -92,7 +115,8 @@ class _AppsStepScreenState extends State<AppsStepScreen> {
           child: ListView.builder(
             scrollDirection: Axis.horizontal,
             itemCount: list.length,
-            itemBuilder: (_, i) => CheckBoxItem(list[i], () {},isCheck: isCheckAll),
+            itemBuilder: (_, i) =>
+                CheckBoxItem(list[i], () {}, isCheck: isCheckAll),
           ),
         ),
         const SizedBox(height: 20),
@@ -109,7 +133,8 @@ class _AppsStepScreenState extends State<AppsStepScreen> {
             itemBuilder: (_, i) => CheckBoxItem(
               list2[i],
               () {},
-              isPreDefined: true,isCheck: isCheckAll,
+              isPreDefined: true,
+              isCheck: isCheckAll,
             ),
           ),
         ),
@@ -132,6 +157,72 @@ class _AppsStepScreenState extends State<AppsStepScreen> {
           ],
         ),
       ],
+    );
+  }
+}
+
+class AddAppForm extends StatelessWidget {
+  final Function onSubmit;
+  AddAppForm(this.onSubmit);
+  final _formKey = GlobalKey<FormState>();
+  final nameCon = TextEditingController();
+  final linkCon = TextEditingController();
+  void submit() {
+    if (!_formKey.currentState!.validate()) return;
+    onSubmit(nameCon.text, linkCon.text);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return SingleChildScrollView(
+      child: Form(
+        key: _formKey,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            TextFormField(
+              controller: nameCon,
+              style: TextStyle(color: Colors.black),
+              decoration: InputDecoration(
+                hintText: 'App Name',
+                hintStyle: TextStyle(color: Colors.grey),
+              ),
+              validator: (value) {
+                if (value == null || value.isEmpty)
+                  return 'the name could not be empty';
+                return null;
+              },
+            ),
+            const SizedBox(height: 12),
+            TextFormField(
+              controller: linkCon,
+              style: TextStyle(color: Colors.black),
+              decoration: InputDecoration(
+                hintText: 'App Link',
+                hintStyle: TextStyle(color: Colors.grey),
+              ),
+              validator: (value) {
+                if (value == null || value.isEmpty)
+                  return 'The link could not be empty';
+                return null;
+              },
+            ),
+            SizedBox(height: MediaQuery.of(context).size.height * 0.07),
+            ElevatedButton(
+              onPressed: submit,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(vertical: 12.0),
+                child: Text('Add Custom App'),
+              ),
+              style: ElevatedButton.styleFrom(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(6),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }
@@ -176,9 +267,8 @@ class PageHeader extends StatelessWidget {
         CustomCard(
           child: TextButton(
             onPressed: this.selectAllButton,
-            child: Text(isCheckAll?
-              'Unselect All Apps'
-            :  'Select All Apps',
+            child: Text(
+              isCheckAll ? 'Unselect All Apps' : 'Select All Apps',
               style: TextStyle(color: Colors.black),
             ),
           ),
@@ -215,86 +305,89 @@ class CheckBoxItem extends StatefulWidget {
 class _CheckBoxItemState extends State<CheckBoxItem> {
   @override
   Widget build(BuildContext context) {
-   widget.isCheck;
+    widget.isCheck;
     final app = widget.app;
     final isPreDefined = widget.isPreDefined;
     return Padding(
       padding: const EdgeInsets.only(right: 16.0),
       child: GestureDetector(
-        onTap: () {
+        onTap:isCheckAll?null: () {
           widget.onCheck();
           setState(() {
             widget.isCheck = !widget.isCheck;
           });
         },
-        child: CustomCard(
-          child: Container(
-            width: MediaQuery.of(context).size.width * cardSize,
-            height: MediaQuery.of(context).size.width * cardSize,
-            padding: const EdgeInsets.all(8.0),
-            child: Column(
-              children: [
-                Row(
-                  children: [
-                    if (isPreDefined ?? false)
-                      GestureDetector(
-                        onTap: () {},
-                        child: Icon(
-                          Icons.edit,
-                          color: Colors.grey.shade400,
-                          size: 16,
-                        ),
-                      ),
-                    Spacer(),
-                    GestureDetector(
-                      onTap: () {},
-                      child: Container(
-                        color: Colors.grey.shade400.withOpacity(0.3),
-                        width: 16,
-                        height: 16,
-                        child: Checkbox(
-                          value: widget.isCheck,
-                          onChanged: (_) {
-                            setState(() {
-                              widget.isCheck = !widget.isCheck;
-                            });
-                          },
-                          activeColor: primaryColor,
-                        ),
-                      ),
-                    )
-                  ],
-                ),
-                Expanded(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+        child: Opacity(
+          opacity: 1,
+          child: CustomCard(
+            child: Container(
+              width: MediaQuery.of(context).size.width * cardSize,
+              height: MediaQuery.of(context).size.width * cardSize,
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
+                children: [
+                  Row(
                     children: [
-                      CircleAvatar(
-                        minRadius: 20,
-                        maxRadius: 20,
-                        backgroundColor: Colors.white,
-                        child: Image.asset(
-                          app.image!,
-                          fit: BoxFit.fill,
-                        ),
-                      ),
-                      Text(
-                        '${app.name}',
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold, color: Colors.black),
-                      ),
                       if (isPreDefined ?? false)
-                        Text(
-                          '${app.link}',
-                          style: TextStyle(
-                            fontSize: 10,
-                            color: Colors.black,
+                        GestureDetector(
+                          onTap: () {},
+                          child: Icon(
+                            Icons.edit,
+                            color: Colors.grey.shade400,
+                            size: 16,
                           ),
                         ),
+                      Spacer(),
+                      GestureDetector(
+                        onTap: () {},
+                        child: Container(
+                          color: Colors.grey.shade400.withOpacity(0.3),
+                          width: 16,
+                          height: 16,
+                          child: Checkbox(
+                            value: widget.isCheck,
+                            onChanged: (_) {
+                              setState(() {
+                                widget.isCheck = !widget.isCheck;
+                              });
+                            },
+                            activeColor: primaryColor,
+                          ),
+                        ),
+                      )
                     ],
                   ),
-                ),
-              ],
+                  Expanded(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        CircleAvatar(
+                          minRadius: 20,
+                          maxRadius: 20,
+                          backgroundColor: Colors.white,
+                          child: Image.asset(
+                            app.image!,
+                            fit: BoxFit.fill,
+                          ),
+                        ),
+                        Text(
+                          '${app.name}',
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold, color: Colors.black),
+                        ),
+                        if (isPreDefined ?? false)
+                          Text(
+                            '${app.link}',
+                            style: TextStyle(
+                              fontSize: 10,
+                              color: Colors.black,
+                            ),
+                          ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
         ),
