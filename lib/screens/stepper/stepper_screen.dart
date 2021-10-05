@@ -1,4 +1,5 @@
 import 'package:admin/constants.dart';
+import 'package:admin/widgets/stepper/members_and_devices.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:cupertino_stepper/cupertino_stepper.dart';
@@ -41,7 +42,7 @@ class _StepperScreenState extends State<StepperScreen> {
                     SizedBox(width: 13),
                     Text(
                       'Back to Dashboard',
-                      style: TextStyle(color: Colors.black87, fontSize: 13),
+                      style: TextStyle(color: Colors.black87, fontSize: 13, fontWeight: FontWeight.bold),
                     ),
                     Spacer(),
                     Icon(
