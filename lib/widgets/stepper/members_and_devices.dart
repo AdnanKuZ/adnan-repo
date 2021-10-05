@@ -1,11 +1,13 @@
 import 'package:admin/constants.dart';
+import 'package:admin/models/device.dart';
+import 'package:admin/models/member.dart';
 import 'package:admin/widgets/common/buttons.dart';
 import 'package:auto_size_text_pk/auto_size_text_pk.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class MembersAndDevicesStepperWidget extends StatelessWidget {
-  const MembersAndDevicesStepperWidget({Key? key}) : super(key: key);
+  MembersAndDevicesStepperWidget({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -32,12 +34,16 @@ class MembersAndDevicesStepperWidget extends StatelessWidget {
                     title: "Add New Device",
                     onPress: () {},
                   ),
-                  Container(width: 8,),
+                  Container(
+                    width: 8,
+                  ),
                   BorderButton(
                     title: "Add New Member",
                     onPress: () {},
                   ),
-                  Container(width: 8,),
+                  Container(
+                    width: 8,
+                  ),
                   FilledButton(
                     title: "Next Step",
                     onPress: () {},
@@ -47,6 +53,10 @@ class MembersAndDevicesStepperWidget extends StatelessWidget {
             ],
           ),
         ],
+
+        // Members
+
+        // Devices
       ),
     );
   }
