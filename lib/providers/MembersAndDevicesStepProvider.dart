@@ -51,7 +51,6 @@ class MembersAndDevicesStepProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-
   bool areAllDevicesChecked() {
     for (DeviceModel device in devices) {
       if (!device.isSelected) return false;
@@ -65,5 +64,33 @@ class MembersAndDevicesStepProvider extends ChangeNotifier {
     }
     areDevicesChecked = areAllDevicesChecked();
     notifyListeners();
+  }
+
+  void setDeviceChecked(int index, bool check) {
+    devices[index].isSelected = check;
+    areDevicesChecked = areAllDevicesChecked();
+    notifyListeners();
+  }
+
+  void setMemberDeviceChecked(int memberIndex, int deviceIndex, bool check) {
+    members[memberIndex].devices?[deviceIndex].isSelected = check;
+    notifyListeners();
+  }
+
+  void setAllMemberDevicesChecked(int memberIndex, bool check) {
+    for (DeviceModel device in members[memberIndex].devices!) {
+      device.isSelected = check;
+    }
+    notifyListeners();
+  }
+
+  bool areAllMemberDevicesChecked(int memeberIndex) {
+    for (DeviceModel device in members[memeberIndex].devices!) {
+      if (!device.isSelected) {
+        return false;
+      }
+    }
+    
+    return members[memeberIndex].devices!.length > 0;
   }
 }

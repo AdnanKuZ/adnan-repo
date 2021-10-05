@@ -1,4 +1,5 @@
 import 'package:admin/constants.dart';
+import 'package:admin/providers/MembersAndDevicesStepProvider.dart';
 import 'package:admin/providers/MenuProvider.dart';
 import 'package:admin/providers/authProviders.dart';
 import 'package:admin/providers/contactUsProvider.dart';
@@ -44,6 +45,9 @@ class MyApp extends StatelessWidget {
           ),
           ChangeNotifierProvider(
             create: (context) => StageProvider(),
+          ),
+          ChangeNotifierProvider(
+            create: (context) => MembersAndDevicesStepProvider(),
           ),
         ],
         child: MaterialApp(

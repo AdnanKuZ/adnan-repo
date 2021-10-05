@@ -14,7 +14,9 @@ class StepperCheckbox extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: onChecked(!isChecked),
+      onTap: () {
+        onChecked(!isChecked);
+      },
       child: Container(
         width: 30,
         height: 30,
