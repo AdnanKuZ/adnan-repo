@@ -76,6 +76,7 @@ class _StepperScreenState extends State<StepperScreen> {
                         }
                       },
                       steps: [
+                        // Devices And Members
                         EnhanceStep(
                             isActive: _stepperIndex > 0 ? true : false,
                             state: StepState.complete,

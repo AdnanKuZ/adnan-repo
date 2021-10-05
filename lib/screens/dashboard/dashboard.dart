@@ -87,17 +87,12 @@ class DashboardScreen extends StatelessWidget {
               index: getStackIndex(
                   Provider.of<MenuProvider>(context).dashboardRoute),
               children: [
-                // Home
                 HomeScreen(),
-                // Policies
                 PoliciesScreen(),
                 // Statistics
                 SizedBox(),
-                // Contact us
                 ConctactUsScreen(),
                 FAQsScreen(),
-
-                // Members And Devices
                 MembersAndDevicesScreen(),
                 // Terms And Conditions
                 SizedBox(),
