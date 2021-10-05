@@ -2,8 +2,9 @@ import 'package:admin/constants.dart';
 import 'package:admin/providers/MenuProvider.dart';
 import 'package:admin/providers/authProviders.dart';
 import 'package:admin/providers/contactUsProvider.dart';
+import 'package:admin/providers/dropDownProvider.dart';
 import 'package:admin/providers/stepperProviders.dart';
-import 'package:admin/screens/auth/login_screen.dart';
+// import 'package:admin/screens/auth/login_screen.dart';
 import 'package:admin/screens/stepper/stepper_screen.dart';
 import 'package:admin/screens/dashboard/dashboard.dart';
 import 'package:flutter/material.dart';
@@ -44,6 +45,9 @@ class MyApp extends StatelessWidget {
           ),
           ChangeNotifierProvider(
             create: (context) => StageProvider(),
+          ),
+          ChangeNotifierProvider(
+            create: (context) => DropDownProvider(),
           ),
         ],
         child: MaterialApp(

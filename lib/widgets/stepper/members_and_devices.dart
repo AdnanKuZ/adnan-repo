@@ -51,7 +51,7 @@ class MembersAndDevicesStepperWidget extends StatelessWidget {
                     title: "Next Step",
                     onPress: () {
                       print("${provider.stageIndex}");
-                      provider.setStageState = 1;
+                      provider.setStageState = 0;
                       provider.setStageIndex = provider.stageIndex + 1;
                       print("${provider.stageIndex}");
                     },

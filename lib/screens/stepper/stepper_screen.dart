@@ -25,7 +25,7 @@ class _StepperScreenState extends State<StepperScreen> {
         child: Container(
           width: MediaQuery.of(context).size.width,
           height: MediaQuery.of(context).size.height,
-          padding: EdgeInsets.symmetric(vertical: 30),
+          padding: EdgeInsets.symmetric(vertical: 20),
           child: Column(
             children: [
               Container(
@@ -43,7 +43,10 @@ class _StepperScreenState extends State<StepperScreen> {
                     SizedBox(width: 13),
                     Text(
                       'Back to Dashboard',
-                      style: TextStyle(color: Colors.black87, fontSize: 13, fontWeight: FontWeight.bold),
+                      style: TextStyle(
+                          color: Colors.black87,
+                          fontSize: 13,
+                          fontWeight: FontWeight.bold),
                     ),
                     Spacer(),
                     Icon(
@@ -73,9 +76,12 @@ class _StepperScreenState extends State<StepperScreen> {
                           return Container();
                         },
                         onStepTapped: (int index) {
+                          // print(index);
+                          // print(instance.stageStates[index]);
                           if (instance.stageStates[index]) {
                             _stageProvider.setStageIndex = index;
                           }
+                          print(_stageProvider.stageIndex);
                         },
                         steps: [
                           EnhanceStep(
@@ -91,9 +97,7 @@ class _StepperScreenState extends State<StepperScreen> {
                               content: Container(
                                 margin: EdgeInsets.symmetric(horizontal: 56),
                                 child: Column(
-                                  children: [
-                                    MembersAndDevicesStepperWidget()
-                                  ],
+                                  children: [MembersAndDevicesStepperWidget()],
                                 ),
                               )),
                           EnhanceStep(
@@ -109,9 +113,7 @@ class _StepperScreenState extends State<StepperScreen> {
                               content: Container(
                                 margin: EdgeInsets.symmetric(horizontal: 56),
                                 child: Column(
-                                  children: [
-                                    BandwidthStepperWidget()
-                                  ],
+                                  children: [BandwidthStepperWidget()],
                                 ),
                               )),
                           EnhanceStep(
@@ -127,9 +129,7 @@ class _StepperScreenState extends State<StepperScreen> {
                               content: Container(
                                 margin: EdgeInsets.symmetric(horizontal: 56),
                                 child: Column(
-                                  children: [
-                                    StepperUpperWidget(index: 3)
-                                  ],
+                                  children: [StepperUpperWidget(index: 2)],
                                 ),
                               )),
                           EnhanceStep(
@@ -145,9 +145,7 @@ class _StepperScreenState extends State<StepperScreen> {
                               content: Container(
                                 margin: EdgeInsets.symmetric(horizontal: 56),
                                 child: Column(
-                                  children: [
-                                    StepperUpperWidget(index: 4)
-                                  ],
+                                  children: [StepperUpperWidget(index: 3)],
                                 ),
                               )),
                           EnhanceStep(
@@ -163,9 +161,7 @@ class _StepperScreenState extends State<StepperScreen> {
                               content: Container(
                                 margin: EdgeInsets.symmetric(horizontal: 56),
                                 child: Column(
-                                  children: [
-                                    StepperUpperWidget(index: 5)
-                                  ],
+                                  children: [StepperUpperWidget(index: 4)],
                                 ),
                               ))
                         ],
@@ -181,9 +177,10 @@ class _StepperScreenState extends State<StepperScreen> {
     );
   }
 }
+
 class StepperUpperWidget extends StatelessWidget {
   final int index;
-  const StepperUpperWidget({Key? key,required this.index}) : super(key: key);
+  const StepperUpperWidget({Key? key, required this.index}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -211,7 +208,7 @@ class StepperUpperWidget extends StatelessWidget {
                       primary: primaryColor,
                       padding: EdgeInsets.symmetric(horizontal: 30)),
                   onPressed: () {
-                    print(provider.stageIndex.toString());
+                    // print(provider.stageIndex.toString());
                     provider.setStageState = index;
                     provider.setStageIndex = provider.stageIndex + 1;
                   },
@@ -225,6 +222,7 @@ class StepperUpperWidget extends StatelessWidget {
           )
         ],
       ),
-    );;
+    );
+    ;
   }
 }
