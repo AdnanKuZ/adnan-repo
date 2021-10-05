@@ -1,28 +1,35 @@
 import 'package:flutter/material.dart';
 
-class StageProvider extends ChangeNotifier {
-  List<bool> _stageStates = [
-    false,
-    false,
-    false,
-    false,
-    false
-  ];
-  int _currentStep = 0;
+class StageStateProvider extends ChangeNotifier {
+  bool _stage1State = false;
+  bool _stage2State = false;
+  bool _stage3State = false;
+  bool _stage4State = false;
+  bool _stage5State = false;
 
-  List<bool> get stageStates => _stageStates;
+  bool get stage1State => _stage1State;
+  bool get stage2State => _stage2State;
+  bool get stage3State => _stage3State;
+  bool get stage4State => _stage4State;
+  bool get stage5State => _stage5State;
 
-  int get stageIndex => _currentStep;
-
-  set setStageState(int stageIndex) {
-    _stageStates[stageIndex-1] = true;
-        notifyListeners();
-  }
-
-  set setStageIndex(int index) {
-    if (_currentStep <= 3) {
-      _currentStep = index;
-      notifyListeners();
+  void setStageState(bool stageState, int stageIndex) {
+    switch (stageIndex) {
+      case 1 :
+        _stage1State = stageState;
+      break;
+      case 2 :
+        _stage2State = stageState;
+      break;
+      case 3 :
+        _stage3State = stageState;
+      break;
+      case 4 :
+        _stage4State = stageState;
+      break;
+      case 5 :
+        _stage5State = stageState;
+      break;
     }
   }
 }

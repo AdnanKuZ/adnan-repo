@@ -1,11 +1,14 @@
 import 'package:admin/constants.dart';
 import 'package:admin/models/device.dart';
 import 'package:admin/models/member.dart';
+import 'package:admin/providers/MembersAndDevicesStepProvider.dart';
+import 'package:admin/providers/MenuProvider.dart';
 import 'package:admin/widgets/common/buttons.dart';
 import 'package:admin/widgets/common/checkboxs.dart';
 import 'package:auto_size_text_pk/auto_size_text_pk.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class MembersAndDevicesStepperWidget extends StatelessWidget {
   MembersAndDevicesStepperWidget({Key? key}) : super(key: key);
@@ -67,15 +70,23 @@ class StepperDevicesList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final provider = Provider.of<MembersAndDevicesStepProvider>(context);
+
     return Column(
       children: [
         Padding(
           padding: const EdgeInsets.all(8.0),
           child: Row(
             children: [
-              StepperCheckbox(
-                isChecked: false,
-                onChecked: (isChecked) {},
+              Consumer<MembersAndDevicesStepProvider>(
+                builder: (context, instance, child) {
+                  return StepperCheckbox(
+                    isChecked: instance.getAreDevicesChecked,
+                    onChecked: (isChecked) {
+                      provider.setAllDevicesChecked(isChecked);
+                    },
+                  );
+                },
               ),
               Container(
                 width: 20,
@@ -89,7 +100,7 @@ class StepperDevicesList extends StatelessWidget {
           ),
         ),
         ListView.builder(
-          shrinkWrap: true,
+            shrinkWrap: true,
             itemCount: 10,
             itemBuilder: (context, index) {
               return Padding(
