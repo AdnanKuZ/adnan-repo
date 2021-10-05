@@ -2,6 +2,7 @@ import 'package:admin/constants.dart';
 import 'package:admin/models/device.dart';
 import 'package:admin/models/member.dart';
 import 'package:admin/widgets/common/buttons.dart';
+import 'package:admin/widgets/common/checkboxs.dart';
 import 'package:auto_size_text_pk/auto_size_text_pk.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -62,13 +63,55 @@ class MembersAndDevicesStepperWidget extends StatelessWidget {
 }
 
 class StepperDevicesList extends StatelessWidget {
-  const StepperDevicesList({ Key? key }) : super(key: key);
+  const StepperDevicesList({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
-        
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Row(
+            children: [
+              StepperCheckbox(
+                isChecked: false,
+                onChecked: (isChecked) {},
+              ),
+              Container(
+                width: 20,
+              ),
+              Text(
+                "Select All Devices",
+                style:
+                    TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+              )
+            ],
+          ),
+        ),
+        ListView.builder(
+          shrinkWrap: true,
+            itemCount: 10,
+            itemBuilder: (context, index) {
+              return Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Row(
+                  children: [
+                    StepperCheckbox(
+                      isChecked: false,
+                      onChecked: (isChecked) {},
+                    ),
+                    Container(
+                      width: 20,
+                    ),
+                    Text(
+                      "Select All Devices",
+                      style: TextStyle(
+                          color: Colors.black, fontWeight: FontWeight.bold),
+                    )
+                  ],
+                ),
+              );
+            }),
       ],
     );
   }
