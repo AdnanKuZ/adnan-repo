@@ -13,23 +13,17 @@ class StageStateProvider extends ChangeNotifier {
   bool get stage4State => _stage4State;
   bool get stage5State => _stage5State;
 
-  void setStageState(bool stageState, int stageIndex) {
-    switch (stageIndex) {
-      case 1 :
-        _stage1State = stageState;
-      break;
-      case 2 :
-        _stage2State = stageState;
-      break;
-      case 3 :
-        _stage3State = stageState;
-      break;
-      case 4 :
-        _stage4State = stageState;
-      break;
-      case 5 :
-        _stage5State = stageState;
-      break;
+  int get stageIndex => _currentStep;
+
+  set setStageState(int stageIndex) {
+    _stageStates[stageIndex] = true;
+        notifyListeners();
+  }
+
+  set setStageIndex(int index) {
+    if (_currentStep <= 3) {
+      _currentStep = index;
+      notifyListeners();
     }
   }
 }

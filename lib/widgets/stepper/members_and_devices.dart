@@ -9,12 +9,14 @@ import 'package:auto_size_text_pk/auto_size_text_pk.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:admin/providers/stepperProviders.dart';
 
 class MembersAndDevicesStepperWidget extends StatelessWidget {
   MembersAndDevicesStepperWidget({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final provider = Provider.of<StageProvider>(context, listen: false);
     return Container(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -50,7 +52,12 @@ class MembersAndDevicesStepperWidget extends StatelessWidget {
                   ),
                   FilledButton(
                     title: "Next Step",
-                    onPress: () {},
+                    onPress: () {
+                      print("${provider.stageIndex}");
+                      provider.setStageState = 1;
+                      provider.setStageIndex = provider.stageIndex + 1;
+                      print("${provider.stageIndex}");
+                    },
                   )
                 ],
               )

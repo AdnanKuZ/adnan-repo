@@ -7,41 +7,29 @@ class CustomElevatedButton extends StatelessWidget {
   final Color buttonColor;
   final Color splashColor;
   final Color textColor;
-  final Color iconColor;
+  final Color? iconColor;
   final String title;
-  final IconData icon;
+  final IconData? icon;
   final OnPressed? onpressed;
 
   CustomElevatedButton(
       {required this.buttonColor,
       required this.splashColor,
       required this.textColor,
-      required this.iconColor,
+       this.iconColor,
       required this.title,
-      required this.icon,
+       this.icon,
       this.onpressed});
 
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
       onPressed: onpressed,
-      child: Container(
-        padding: EdgeInsets.symmetric(horizontal: 14),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            Spacer(),
-            Text(
-              title,
-              style: TextStyle(color: textColor),
-            ),
-            Spacer(),
-            Icon(
-              icon,
-              color: iconColor,
-              size: 20,
-            ),
-          ],
+      child: Text(
+        title,
+        style: TextStyle(
+          color: textColor,
+          
         ),
       ),
       style: ElevatedButton.styleFrom(
