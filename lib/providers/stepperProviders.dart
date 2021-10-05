@@ -15,7 +15,7 @@ class StageProvider extends ChangeNotifier {
   int get stageIndex => _currentStep;
 
   set setStageState(int stageIndex) {
-    _stageStates[stageIndex-1] = true;
+    _stageStates[stageIndex] = true;
         notifyListeners();
   }
 
