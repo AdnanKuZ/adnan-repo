@@ -1,4 +1,5 @@
 import 'package:admin/constants.dart';
+import 'package:admin/screens/stepper/apps_step.dart';
 import 'package:admin/widgets/stepper/members_and_devices/members_and_devices.dart';
 import 'package:admin/widgets/stepper/bandwidth.dart';
 import 'package:flutter/material.dart';
@@ -144,11 +145,7 @@ class _StepperScreenState extends State<StepperScreen> {
                               ),
                               content: Container(
                                 margin: EdgeInsets.symmetric(horizontal: 56),
-                                child: Column(
-                                  children: [
-                                    StepperUpperWidget(index: 4)
-                                  ],
-                                ),
+                                child: AppsStepScreen(),
                               )),
                           EnhanceStep(
                               isActive: instance.stageStates[4] ? true : false,

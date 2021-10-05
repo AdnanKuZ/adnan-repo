@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class StageProvider extends ChangeNotifier {
   List<bool> _stageStates = [false, false, false, false, false];
 
-  int _currentStep = 0;
+  int _currentStep = 3;
 
   List<bool> get stageStates => _stageStates;
 
