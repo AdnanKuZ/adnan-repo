@@ -2,8 +2,8 @@ import 'package:admin/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:cupertino_stepper/cupertino_stepper.dart';
-import 'package:enhance_stepper/enhance_stepper.dart';
 import 'package:auto_size_text_pk/auto_size_text_pk.dart';
+import 'package:admin/widgets/common/enhance_stepper.dart';
 
 class StepperScreen extends StatefulWidget {
   StepperScreen({Key? key}) : super(key: key);

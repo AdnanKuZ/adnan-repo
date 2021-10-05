@@ -9,8 +9,6 @@ class TestWidget extends StatelessWidget {
     return Scaffold(
       body: Center(
           child: Container(
-        // height: 50,
-        // width: 150,
         child: AutoSizeText(
           'Let\'s select members and devices for this policy',
           maxLines: 1,
