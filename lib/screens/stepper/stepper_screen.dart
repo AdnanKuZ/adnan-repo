@@ -5,6 +5,8 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:cupertino_stepper/cupertino_stepper.dart';
 import 'package:auto_size_text_pk/auto_size_text_pk.dart';
 import 'package:admin/widgets/common/enhance_stepper.dart';
+import 'package:provider/provider.dart';
+import 'package:admin/providers/stepperProviders.dart';
 
 class StepperScreen extends StatefulWidget {
   StepperScreen({Key? key}) : super(key: key);
@@ -14,9 +16,9 @@ class StepperScreen extends StatefulWidget {
 }
 
 class _StepperScreenState extends State<StepperScreen> {
-  int _stepperIndex = 0;
   @override
   Widget build(BuildContext context) {
+    final _stageProvider = Provider.of<StageProvider>(context, listen: false);
     return Scaffold(
       body: SingleChildScrollView(
         child: Container(
@@ -53,98 +55,120 @@ class _StepperScreenState extends State<StepperScreen> {
               ),
               Expanded(
                 child: Container(
-                  // color: Colors.amber.withOpacity(0.4),
                   child: Theme(
                     data: Theme.of(context).copyWith(
                       colorScheme: ColorScheme.light(
                         primary: primaryColor,
                       ),
                     ),
-                    child: EnhanceStepper(
-                      stepIconSize: 25,
-                      type: StepperType.horizontal,
-                      currentStep: _stepperIndex,
-                      physics: ScrollPhysics(),
-                      controlsBuilder: (BuildContext context,
-                          {onStepContinue, onStepCancel}) {
-                        return Container();
-                      },
-                      onStepTapped: (int index) {
-                        if (_stepperIndex >= index) {
-                          setState(() {
-                            _stepperIndex = index;
-                          });
-                        }
-                      },
-                      steps: [
-                        // Devices And Members
-                        EnhanceStep(
-                            isActive: _stepperIndex > 0 ? true : false,
-                            state: StepState.complete,
-                            title: Text(
-                              ' Members & Devices   ',
-                              style: TextStyle(color: _stepperIndex > 0 ? primaryColor : Colors.grey),
-                            ),
-                            content: Container(
-                              margin: EdgeInsets.symmetric(horizontal: 56),
-                              child: Column(
-                                children: [
-                                  MembersAndDevicesStepperWidget()
-                                ],
+                    child: Consumer<StageProvider>(
+                      builder: (context, instance, child) => EnhanceStepper(
+                        stepIconSize: 25,
+                        type: StepperType.horizontal,
+                        currentStep: instance.stageIndex,
+                        physics: ScrollPhysics(),
+                        controlsBuilder: (BuildContext context,
+                            {onStepContinue, onStepCancel}) {
+                          return Container();
+                        },
+                        onStepTapped: (int index) {
+                          if (instance.stageStates[index]) {
+                            _stageProvider.setStageIndex = index;
+                          }
+                        },
+                        steps: [
+                          EnhanceStep(
+                              isActive: instance.stageStates[0] ? true : false,
+                              state: StepState.complete,
+                              title: Text(
+                                ' Members & Devices   ',
+                                style: TextStyle(
+                                    color: instance.stageStates[0]
+                                        ? primaryColor
+                                        : Colors.grey),
                               ),
-                            )),
-                        EnhanceStep(
-                            isActive: _stepperIndex > 1 ? true : false,
-                            state: StepState.complete,
-                            title: Text(
-                              ' Bandwidth   ',
-                              style: TextStyle(color: _stepperIndex > 1 ? primaryColor : Colors.grey),
-                            ),
-                            content: Container(
-                              margin: EdgeInsets.symmetric(horizontal: 56),
-                              child: Column(
-                                children: [stepperUpperWidget()],
+                              content: Container(
+                                margin: EdgeInsets.symmetric(horizontal: 56),
+                                child: Column(
+                                  children: [
+                                    StepperUpperWidget(index: 1,),
+                                  ],
+                                ),
+                              )),
+                          EnhanceStep(
+                              isActive: instance.stageStates[1] ? true : false,
+                              state: StepState.complete,
+                              title: Text(
+                                ' Bandwidth   ',
+                                style: TextStyle(
+                                    color: instance.stageStates[1]
+                                        ? primaryColor
+                                        : Colors.grey),
                               ),
-                            )),
-                        EnhanceStep(
-                            isActive: _stepperIndex > 2 ? true : false,
-                            state: StepState.complete,
-                            title: Text(
-                              ' Connection   ',
-                              style: TextStyle(color: _stepperIndex > 2 ? primaryColor : Colors.grey),
-                            ),
-                            content: Container(
-                              margin: EdgeInsets.symmetric(horizontal: 56),
-                              child: Column(
-                                children: [stepperUpperWidget()],
+                              content: Container(
+                                margin: EdgeInsets.symmetric(horizontal: 56),
+                                child: Column(
+                                  children: [
+                                    StepperUpperWidget(index: 2)
+                                  ],
+                                ),
+                              )),
+                          EnhanceStep(
+                              isActive: instance.stageStates[2] ? true : false,
+                              state: StepState.complete,
+                              title: Text(
+                                ' Connection   ',
+                                style: TextStyle(
+                                    color: instance.stageStates[2]
+                                        ? primaryColor
+                                        : Colors.grey),
                               ),
-                            )),
-                        EnhanceStep(
-                            isActive: _stepperIndex > 3 ? true : false,
-                            state: StepState.complete,
-                            title: Text(
-                              ' Apps   ',
-                              style: TextStyle(color: _stepperIndex > 3 ? primaryColor : Colors.grey),
-                            ),
-                            content: Container(
-                              margin: EdgeInsets.symmetric(horizontal: 56),
-                              child: Column(
-                                children: [stepperUpperWidget()],
+                              content: Container(
+                                margin: EdgeInsets.symmetric(horizontal: 56),
+                                child: Column(
+                                  children: [
+                                    StepperUpperWidget(index: 3)
+                                  ],
+                                ),
+                              )),
+                          EnhanceStep(
+                              isActive: instance.stageStates[3] ? true : false,
+                              state: StepState.complete,
+                              title: Text(
+                                ' Apps   ',
+                                style: TextStyle(
+                                    color: instance.stageStates[3]
+                                        ? primaryColor
+                                        : Colors.grey),
                               ),
-                            )),
-                        EnhanceStep(
-                            state: StepState.complete,
-                            title: Text(
-                              ' Policy name  ',
-                              style: TextStyle(color: Colors.grey),
-                            ),
-                            content: Container(
-                              margin: EdgeInsets.symmetric(horizontal: 56),
-                              child: Column(
-                                children: [stepperUpperWidget()],
+                              content: Container(
+                                margin: EdgeInsets.symmetric(horizontal: 56),
+                                child: Column(
+                                  children: [
+                                    StepperUpperWidget(index: 4)
+                                  ],
+                                ),
+                              )),
+                          EnhanceStep(
+                              isActive: instance.stageStates[4] ? true : false,
+                              state: StepState.complete,
+                              title: Text(
+                                ' Policy name  ',
+                                style: TextStyle(
+                                    color: instance.stageStates[4]
+                                        ? primaryColor
+                                        : Colors.grey),
                               ),
-                            ))
-                      ],
+                              content: Container(
+                                margin: EdgeInsets.symmetric(horizontal: 56),
+                                child: Column(
+                                  children: [
+                                    StepperUpperWidget(index: 5)
+                                  ],
+                                ),
+                              ))
+                        ],
+                      ),
                     ),
                   ),
                 ),
@@ -155,8 +179,14 @@ class _StepperScreenState extends State<StepperScreen> {
       ),
     );
   }
+}
+class StepperUpperWidget extends StatelessWidget {
+  final int index;
+  const StepperUpperWidget({Key? key,required this.index}) : super(key: key);
 
-  Widget stepperUpperWidget() {
+  @override
+  Widget build(BuildContext context) {
+    final provider = Provider.of<StageProvider>(context, listen: false);
     return Container(
       height: 42,
       child: Row(
@@ -164,7 +194,8 @@ class _StepperScreenState extends State<StepperScreen> {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           AutoSizeText(
-            'Let\'s select members and devices for this policy',
+            'Let\'s select members and devices for this policy' +
+                index.toString(),
             maxLines: 1,
             maxFontSize: 22,
             minFontSize: 13,
@@ -179,12 +210,9 @@ class _StepperScreenState extends State<StepperScreen> {
                       primary: primaryColor,
                       padding: EdgeInsets.symmetric(horizontal: 30)),
                   onPressed: () {
-                    setState(() {   /////add a test if the stage is done using a provider before
-                      if (_stepperIndex == 4)
-                        print('lastStep');
-                      else
-                        _stepperIndex++;
-                    });
+                    print(provider.stageIndex.toString());
+                    provider.setStageState = index;
+                    provider.setStageIndex = provider.stageIndex + 1;
                   },
                   child: Text(
                     'Next Step',
@@ -196,6 +224,6 @@ class _StepperScreenState extends State<StepperScreen> {
           )
         ],
       ),
-    );
+    );;
   }
 }
