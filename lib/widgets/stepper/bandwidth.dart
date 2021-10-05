@@ -36,7 +36,7 @@ class BandwidthStepperWidget extends StatelessWidget {
                   onPressed: () {
                     print(provider.stageIndex.toString());
                     provider.setStageState = 1;
-                    provider.setStageIndex = provider.stageIndex + 1;
+                    provider.incrementIndex();
                   },
                   child: Text(
                     'Next Step',

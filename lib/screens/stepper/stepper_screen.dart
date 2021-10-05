@@ -37,10 +37,15 @@ class _StepperScreenState extends State<StepperScreen> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Icon(
-                      Icons.arrow_back_sharp,
-                      color: Colors.black87,
-                      size: 22,
+                    InkWell(
+                      onTap:(){
+                        Navigator.pop(context);
+                      },
+                      child: Icon(
+                        Icons.arrow_back_sharp,
+                        color: Colors.black87,
+                        size: 22,
+                      ),
                     ),
                     SizedBox(width: 13),
                     Text(
@@ -51,10 +56,15 @@ class _StepperScreenState extends State<StepperScreen> {
                           fontWeight: FontWeight.bold),
                     ),
                     Spacer(),
-                    Icon(
-                      Icons.disabled_by_default_rounded,
-                      color: Color(0xFFEEA3A3),
-                      size: 45,
+                    InkWell(
+                      onTap: () {
+                        Navigator.pop(context);
+                      },
+                      child: Icon(
+                        Icons.disabled_by_default_rounded,
+                        color: Color(0xFFEEA3A3),
+                        size: 45,
+                      ),
                     )
                   ],
                 ),
@@ -79,7 +89,7 @@ class _StepperScreenState extends State<StepperScreen> {
                         },
                         onStepTapped: (int index) {
                           if (instance.stageStates[index]) {
-                            _stageProvider.setStageIndex = index;
+                            _stageProvider.incrementIndex();
                           }
                           print(_stageProvider.stageIndex);
                         },
@@ -132,7 +142,7 @@ class _StepperScreenState extends State<StepperScreen> {
                                     title: 'Next ',
                                     onPress: () {
                                       _stageProvider.setStageState = 2;
-                                      _stageProvider.setStageIndex = _stageProvider.stageIndex + 1;
+                                      _stageProvider.incrementIndex();
                                     },
                                   ))),
                           EnhanceStep(
@@ -165,7 +175,7 @@ class _StepperScreenState extends State<StepperScreen> {
                                     title: "Next",
                                     onPress: () {
                                       _stageProvider.setStageState = 5;
-                                      _stageProvider.setStageIndex = _stageProvider.stageIndex + 1;
+                                      _stageProvider.incrementIndex();
                                     },
                                   )))
                         ],

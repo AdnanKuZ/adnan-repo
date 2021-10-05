@@ -54,7 +54,7 @@ class _AppsStepScreenState extends State<AppsStepScreen> {
           },
           nextButton: () {
             provider.setStageState = 3;
-            provider.setStageIndex = provider.stageIndex + 1;
+            provider.incrementIndex();
           },
         ),
         const SizedBox(height: 24),
