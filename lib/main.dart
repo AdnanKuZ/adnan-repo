@@ -2,6 +2,7 @@ import 'package:admin/constants.dart';
 import 'package:admin/providers/MenuProvider.dart';
 import 'package:admin/providers/authProviders.dart';
 import 'package:admin/providers/contactUsProvider.dart';
+import 'package:admin/providers/stepperProviders.dart';
 import 'package:admin/screens/auth/login_screen.dart';
 import 'package:admin/screens/stepper/stepper_screen.dart';
 import 'package:admin/screens/dashboard/dashboard.dart';
@@ -35,9 +36,14 @@ class MyApp extends StatelessWidget {
           ChangeNotifierProvider(
             create: (context) => SignUpModes(),
           ),
-          ChangeNotifierProvider(create: (context) => IsLoading()),
+          ChangeNotifierProvider(
+            create: (context) => IsLoading()
+          ),
           ChangeNotifierProvider(
             create: (_) => ContactUsProvider(null),
+          ),
+          ChangeNotifierProvider(
+            create: (context) => StageProvider(),
           ),
         ],
         child: MaterialApp(
