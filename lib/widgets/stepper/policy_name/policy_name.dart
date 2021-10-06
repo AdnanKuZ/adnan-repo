@@ -49,10 +49,7 @@ class PolicyNameStepWidget extends StatelessWidget {
                       FilledButton(
                         title: "Next Step",
                         onPress: () {
-                          print("${stageProvider.stageIndex}");
-                          stageProvider.setStageState = 1;
-                          stageProvider.incrementIndex();
-                          print("${stageProvider.stageIndex}");
+                          stageProvider.setStageState = 4;
                         },
                       )
                     ],

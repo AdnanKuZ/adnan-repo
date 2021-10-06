@@ -40,10 +40,7 @@ class ReadMoreWidget extends StatelessWidget {
             // color: Colors.lightBlue.shade300,
             height: 170,
             width: 285,
-            child: PageView(
-              controller: controller,
-              children: [
-                Column(
+            child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Container(
@@ -75,18 +72,7 @@ class ReadMoreWidget extends StatelessWidget {
                         )),
                   ],
                 ),
-                Container(
-                  child: Center(
-                    child: Text('2',style: TextStyle(color: Colors.white),),
-                  ),
-                ),
-                Container(
-                  child: Center(
-                    child: Text('3',style: TextStyle(color: Colors.white),),
-                  ),
-                ),
-              ],
-            ),
+            // PageView(a
           ),
           /////////////////////////////////
           SizedBox(

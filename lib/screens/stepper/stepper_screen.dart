@@ -182,13 +182,7 @@ class _StepperScreenState extends State<StepperScreen> {
                                             ? primaryColor
                                             : Colors.grey),
                                   ),
-                                  content: Container(
-                                      child: FilledButton(
-                                    title: "Next",
-                                    onPress: () {
-                                      _stageProvider.setStageState = 4;
-                                    },
-                                  )))
+                                  content: PolicyNameStepWidget())
                             ],
                           ),
                         ),
