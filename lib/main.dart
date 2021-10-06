@@ -1,5 +1,6 @@
 import 'package:admin/constants.dart';
 import 'package:admin/providers/MenuProvider.dart';
+import 'package:admin/providers/add_device_provider.dart';
 import 'package:admin/providers/authProviders.dart';
 import 'package:admin/providers/bandwidthProvider.dart';
 import 'package:admin/providers/conncetionProvider.dart';
@@ -60,6 +61,9 @@ class MyApp extends StatelessWidget {
           ),
           ChangeNotifierProvider(
             create: (context) => ConnectionProvider()
+          ),
+          ChangeNotifierProvider(
+            create: (context) => AddDeviceProvider()
           )
         ],
         child: MaterialApp(
@@ -72,7 +76,7 @@ class MyApp extends StatelessWidget {
                 .apply(bodyColor: Colors.white),
             canvasColor: backgroundColor,
           ),
-          home: StepperScreen(),
+          home: DashboardScreen(),
         ));
   }
 }

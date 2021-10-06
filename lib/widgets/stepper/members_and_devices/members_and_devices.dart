@@ -1,9 +1,15 @@
+import 'dart:convert';
+
 import 'package:admin/constants.dart';
+import 'package:admin/dialogs/add_device_dialog.dart';
 import 'package:admin/dialogs/add_member_dialog.dart';
+import 'package:admin/dialogs/loading_dialog.dart';
 import 'package:admin/models/device.dart';
 import 'package:admin/models/member.dart';
 import 'package:admin/providers/MembersAndDevicesStepProvider.dart';
 import 'package:admin/providers/MenuProvider.dart';
+import 'package:admin/providers/add_device_provider.dart';
+import 'package:admin/server/requests.dart';
 import 'package:admin/widgets/common/buttons.dart';
 import 'package:admin/widgets/common/checkboxs.dart';
 import 'package:auto_size_text_pk/auto_size_text_pk.dart';
@@ -12,7 +18,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:provider/provider.dart';
 import 'package:admin/providers/stepperProviders.dart';
-
 import '../../../responsive.dart';
 
 class MembersAndDevicesStepperWidget extends StatelessWidget {
@@ -20,7 +25,10 @@ class MembersAndDevicesStepperWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final provider = Provider.of<MembersAndDevicesStepProvider>(context, listen: false);
+    final provider =
+        Provider.of<MembersAndDevicesStepProvider>(context, listen: false);
+    final addDeviceProvider =
+        Provider.of<AddDeviceProvider>(context, listen: false);
     final stageProvider = Provider.of<StageProvider>(context, listen: false);
 
     return Container(
@@ -44,17 +52,49 @@ class MembersAndDevicesStepperWidget extends StatelessWidget {
                 children: [
                   BorderButton(
                     title: "Add New Device",
-                    onPress: () {},
+                    icon: Icons.add,
+                    onPress: () async {
+                      // Showing loading dialog
+                      LoadingDialog(context: context);
+                      // Requesting devices
+                      var devicesResponse = await requestDevices();
+                      // Setting devices in provider
+                      addDeviceProvider.setDevices(devicesResponse);
+                      // Requesting memebers
+                      var membersResponse = await requestMembers();
+                      print(membersResponse.toString());
+                      // Setting members in provider
+                      addDeviceProvider.setMembers(membersResponse);
+                      // Hiding loading dialog
+                      Navigator.pop(context);
+                      // Showing add device dialog
+                      DeviceModel result = await AddDeviceDialog(context: context);
+                      if(result.id == null) {
+                        // Device already exist
+                        requestExistingDevice(result);
+                      } else {
+                        // Device does not exist
+                        requestNewDevice(result);
+                      }
+                      print('Dialog data');
+                      print(jsonEncode(result));
+                    },
                   ),
                   Container(
                     width: 8,
                   ),
                   BorderButton(
                     title: "Add New Member",
+                    icon: Icons.add,
                     onPress: () async {
                       String result = await AddMemberDialog(context: context);
-                      provider.addMember(MemberModel(name: result, devices: []));
-                      
+                      LoadingDialog(context: context);
+                      bool response = await requestAddMember(result);
+                      if (response) {
+                        provider
+                            .addMember(MemberModel(name: result, devices: []));
+                      }
+                      Navigator.pop(context);
                     },
                   ),
                   Container(
@@ -185,25 +225,31 @@ class StepperMemberList extends StatelessWidget {
                 Wrap(
                   children: [
                     Consumer<MembersAndDevicesStepProvider>(
-                  builder: (context, instance, child) {
-                    return StepperCheckbox(
-                      isChecked: instance.areAllMemberDevicesChecked(gridIndex),
-                      onChecked: (isChecked) {
-                        provider.setAllMemberDevicesChecked(gridIndex, isChecked);
+                      builder: (context, instance, child) {
+                        return StepperCheckbox(
+                          isChecked:
+                              instance.areAllMemberDevicesChecked(gridIndex),
+                          onChecked: (isChecked) {
+                            provider.setAllMemberDevicesChecked(
+                                gridIndex, isChecked);
+                          },
+                        );
                       },
-                    );
-                  },
-                ),
-                Container(
-                  width: 20,
-                ),
-                Text(
-                  member.name.toString(),
-                  style: TextStyle(color: Colors.black),
-                )
+                    ),
+                    Container(
+                      width: 20,
+                    ),
+                    Text(
+                      member.name.toString(),
+                      style: TextStyle(color: Colors.black),
+                    )
                   ],
                 ),
-                RoundedAddButton(onClick: () {}, borderColor: primaryColor, iconColor: primaryColor,),
+                RoundedAddButton(
+                  onClick: () {},
+                  borderColor: primaryColor,
+                  iconColor: primaryColor,
+                ),
               ],
             ),
           ),
@@ -228,7 +274,8 @@ class StepperMemberList extends StatelessWidget {
                           StepperCheckbox(
                             isChecked: member.devices![index].isSelected,
                             onChecked: (isChecked) {
-                              provider.setMemberDeviceChecked(gridIndex, index, isChecked);
+                              provider.setMemberDeviceChecked(
+                                  gridIndex, index, isChecked);
                             },
                           ),
                           Container(
