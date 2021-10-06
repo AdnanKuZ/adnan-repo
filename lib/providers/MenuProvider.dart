@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 class MenuProvider extends ChangeNotifier {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   GlobalKey<ScaffoldState> get scaffoldKey => _scaffoldKey;
-  DashboardRoute dashboardRoute = DashboardRoute.Policies;
+  DashboardRoute dashboardRoute = DashboardRoute.FAQs;
 
   void controlMenu() {
     if (!_scaffoldKey.currentState!.isDrawerOpen) {
