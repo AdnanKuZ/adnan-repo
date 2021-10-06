@@ -2,6 +2,8 @@ import 'package:admin/constants.dart';
 import 'package:admin/providers/MenuProvider.dart';
 import 'package:admin/providers/add_device_provider.dart';
 import 'package:admin/providers/authProviders.dart';
+import 'package:admin/providers/bandwidthProvider.dart';
+import 'package:admin/providers/conncetionProvider.dart';
 import 'package:admin/providers/contactUsProvider.dart';
 import 'package:admin/providers/dropDownProvider.dart';
 import 'package:admin/providers/stepperProviders.dart';
@@ -55,18 +57,15 @@ class MyApp extends StatelessWidget {
             create: (context) => MembersAndDevicesStepProvider()
           ),
           ChangeNotifierProvider(
+            create: (context) => BandwidthProvider()
+          ),
+          ChangeNotifierProvider(
+            create: (context) => ConnectionProvider()
+          )
             create: (context) => AddDeviceProvider(),
           ),
         ],
         child: MaterialApp(
-          // builder: (context, widget) => ResponsiveWrapper.builder(
-          //   ClampingScrollWrapper.builder(context, widget!),
-          //   breakpoints: const [
-          //     ResponsiveBreakpoint.resize(850, name: MOBILE),
-          //     ResponsiveBreakpoint.autoScale(850, name: TABLET),
-          //     ResponsiveBreakpoint.resize(1100, name: DESKTOP),
-          //   ],
-          // ),
           debugShowCheckedModeBanner: false,
           title: 'OneFi',
           theme: ThemeData.dark().copyWith(

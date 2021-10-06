@@ -1,5 +1,5 @@
 import 'package:admin/constants.dart';
-import 'package:admin/screens/stepper/apps_step.dart';
+import 'package:admin/widgets/stepper/apps_step.dart';
 import 'package:admin/widgets/common/buttons.dart';
 import 'package:admin/widgets/stepper/members_and_devices/members_and_devices.dart';
 import 'package:admin/widgets/stepper/bandwidth.dart';
@@ -11,7 +11,7 @@ import 'package:auto_size_text_pk/auto_size_text_pk.dart';
 import 'package:admin/widgets/common/enhance_stepper.dart';
 import 'package:provider/provider.dart';
 import 'package:admin/providers/stepperProviders.dart';
-
+import 'package:admin/widgets/stepper/connection.dart';
 class StepperScreen extends StatefulWidget {
   StepperScreen({Key? key}) : super(key: key);
 
@@ -28,12 +28,13 @@ class _StepperScreenState extends State<StepperScreen> {
         child: Container(
           width: MediaQuery.of(context).size.width,
           height: MediaQuery.of(context).size.height,
+          margin: EdgeInsets.symmetric(horizontal: 70),
           padding: EdgeInsets.symmetric(vertical: 20),
           child: Column(
             children: [
               Container(
+                margin: EdgeInsets.symmetric(horizontal: 4),
                 height: 60,
-                margin: EdgeInsets.symmetric(horizontal: 80),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -106,7 +107,6 @@ class _StepperScreenState extends State<StepperScreen> {
                                         : Colors.grey),
                               ),
                               content: Container(
-                                margin: EdgeInsets.symmetric(horizontal: 56),
                                 child: Column(
                                   children: [MembersAndDevicesStepperWidget()],
                                 ),
@@ -122,7 +122,6 @@ class _StepperScreenState extends State<StepperScreen> {
                                         : Colors.grey),
                               ),
                               content: Container(
-                                margin: EdgeInsets.symmetric(horizontal: 56),
                                 child: Column(
                                   children: [BandwidthStepperWidget()],
                                 ),
@@ -138,14 +137,8 @@ class _StepperScreenState extends State<StepperScreen> {
                                         : Colors.grey),
                               ),
                               content: Container(
-                                  margin: EdgeInsets.symmetric(horizontal: 56),
-                                  child: FilledButton(
-                                    title: 'Next ',
-                                    onPress: () {
-                                      _stageProvider.setStageState = 2;
-                                      _stageProvider.incrementIndex();
-                                    },
-                                  ))),
+                                  child: ConnectionStepperWidget())
+                                  ),
                           EnhanceStep(
                               isActive: instance.stageStates[3] ? true : false,
                               state: StepState.complete,
@@ -157,7 +150,6 @@ class _StepperScreenState extends State<StepperScreen> {
                                         : Colors.grey),
                               ),
                               content: Container(
-                                margin: EdgeInsets.symmetric(horizontal: 56),
                                 child: AppsStepScreen(),
                               )),
                           EnhanceStep(

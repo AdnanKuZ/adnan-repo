@@ -3,9 +3,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class StepperCheckbox extends StatelessWidget {
-  bool isChecked = false;
+  final bool isChecked;
   Color? color;
-  Function onChecked;
+  final Function onChecked;
 
   StepperCheckbox({required this.isChecked, required this.onChecked ,Key? key}) {
     this.color = isChecked ? primaryColor : lightGrayColor;
