@@ -277,6 +277,7 @@ class _CheckBoxItemState extends State<CheckBoxItem> {
     final app = widget.app;
     final isPreDefined = widget.isPreDefined;
     return Container(
+      // color: ,
       width: 138,
       height: 138,
       child: GestureDetector(
@@ -371,8 +372,6 @@ class CustomCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 138,
-      height: 138,
       decoration: BoxDecoration(
       color: color ?? Colors.white,
         borderRadius: BorderRadius.circular(4),

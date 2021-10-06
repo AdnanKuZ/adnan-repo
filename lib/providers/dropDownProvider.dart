@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 
 class DropDownProvider extends ChangeNotifier {
+
   Map<String,String> _bandwidthChosenValue = {
     "All Days"  : "Full Bandwidth", //1
     "Sunday"  : "Full Bandwidth", //2

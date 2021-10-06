@@ -8,8 +8,9 @@ import 'package:admin/screens/dashboard/members_and_devices/members_and_devices.
 import 'package:admin/screens/dashboard/policies/policies.dart';
 import 'package:admin/widgets/side_menu.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/src/provider.dart';
 import 'home/home.dart';
+import 'package:provider/provider.dart';
+import 'package:admin/screens/dashboard/statistics/statistics.dart';
 
 class DashboardScreen extends StatelessWidget {
   int getStackIndex(DashboardRoute route) {
@@ -89,7 +90,7 @@ class DashboardScreen extends StatelessWidget {
               children: [
                 HomeScreen(),
                 PoliciesScreen(),
-                // Statistics
+                Statistics(),
                 SizedBox(),
                 ConctactUsScreen(),
                 FAQsScreen(),

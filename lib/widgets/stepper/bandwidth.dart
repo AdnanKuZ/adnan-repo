@@ -8,105 +8,142 @@ import 'package:admin/widgets/common/buttons.dart';
 import 'package:admin/widgets/stepper/bandwidth_row_widget.dart';
 
 class BandwidthStepperWidget extends StatelessWidget {
-  const BandwidthStepperWidget({Key? key}) : super(key: key);
+  final BoxConstraints? constraints;
+  const BandwidthStepperWidget({Key? key,this.constraints}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final provider = Provider.of<StageProvider>(context, listen: false);
-    return Container(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Container(
-            child: Row(
-              children: [
-                Text(
-                  'Would you like to add any bandwidth limitaions for this policy ?',
-                  maxLines: 1,
-                  style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 22,
-                      fontWeight: FontWeight.bold),
-                ),
-                Spacer(),
-                // FilledButton(
-                //   title: "Next Step",
-                //   onPress: () {
-                //     provider.setStageState = 1;
-                //     provider.incrementIndex()
-                //   },
-                // )
-                ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                      primary: primaryColor,
-                      padding: EdgeInsets.symmetric(horizontal: 35,vertical: 18),
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)), 
-                    ),
-                  onPressed: () {
-                    // print(provider.stageIndex.toString());
-                    provider.setStageState = 1;
-                    provider.incrementIndex();
-                  },
-                  child: Text(
-                    'Next Step',
-                    style: TextStyle(color: Colors.white, fontSize: 16),
-                  ),
-                ),
-              ],
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        constraints!.maxWidth > 860 ? Row(
+          children: [
+            Text(
+              'Would you like to add any bandwidth limitaions for this policy ?',
+              maxLines: 1,
+              style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 22,
+                  fontWeight: FontWeight.bold),
             ),
-          ),
-          SizedBox(
-            height: 30,
-          ),
-          Container(
-            padding: EdgeInsets.only(top: 20),
-            child: Column(
-              children: [
-                BandwidthRowWidget(
-                  day: "All Days",
-                  title: 'All Days',
-                  allDays: true,
-                ),
-                BandwidthRowWidget(
-                  day: "Sunday",
-                  title: "Sunday",
-                  allDays: false,
-                ),
-                BandwidthRowWidget(
-                  day: "Monday",
-                  title: "Monday",
-                  allDays: false,
-                ),
-                BandwidthRowWidget(
-                  day: "Thursday",
-                  title: "Thursday",
-                  allDays: false,
-                ),
-                BandwidthRowWidget(
-                  day: "Wednsday",
-                  title: "Wednsday",
-                  allDays: false,
-                ),
-                BandwidthRowWidget(
-                  day: "Thursday",
-                  title: "Thursday",
-                  allDays: false,
-                ),
-                BandwidthRowWidget(
-                  day: "Friday",
-                  title: "Friday",
-                  allDays: false,
-                ),
-                BandwidthRowWidget(
-                  day: "Saturday",
-                  title: "Saturday",
-                  allDays: false,
-                ),
-              ],
+            Spacer(),
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                primary: primaryColor,
+                padding: EdgeInsets.symmetric(horizontal: 35, vertical: 18),
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8)),
+              ),
+              onPressed: () {
+                // print(provider.stageIndex.toString());
+                provider.setStageState = 1;
+                provider.incrementIndex();
+              },
+              child: Text(
+                'Next Step',
+                style: TextStyle(color: Colors.white, fontSize: 16),
+              ),
             ),
+          ],
+        ):
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Text(
+              'Would you like to add any ',
+              maxLines: 1,
+              style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 22,
+                  fontWeight: FontWeight.bold),
+            ),
+            Text(
+              'bandwidth limitaions for this policy ?',
+              maxLines: 1,
+              style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 22,
+                  fontWeight: FontWeight.bold),
+            ),
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                primary: primaryColor,
+                padding: EdgeInsets.symmetric(horizontal: 35, vertical: 18),
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8)),
+              ),
+              onPressed: () {
+                // print(provider.stageIndex.toString());
+                provider.setStageState = 1;
+                provider.incrementIndex();
+              },
+              child: Text(
+                'Next Step',
+                style: TextStyle(color: Colors.white, fontSize: 16),
+              ),
+            ),
+          ],
+        ),
+        SizedBox(
+          height: 30,
+        ),
+        Container(
+          padding: EdgeInsets.only(top: 20),
+          child: Column(
+            children: [
+              BandwidthRowWidget(
+                constraints: constraints,
+                day: "All Days",
+                title: 'All Days',
+                allDays: true,
+              ),
+              BandwidthRowWidget(
+                constraints: constraints,
+                day: "Sunday",
+                title: "Sunday",
+                allDays: false,
+              ),
+              BandwidthRowWidget(
+                constraints: constraints,
+                day: "Monday",
+                title: "Monday",
+                allDays: false,
+              ),
+              BandwidthRowWidget(
+                constraints: constraints,
+                day: "Thursday",
+                title: "Thursday",
+                allDays: false,
+              ),
+              BandwidthRowWidget(
+                constraints: constraints,
+                day: "Wednsday",
+                title: "Wednsday",
+                allDays: false,
+              ),
+              BandwidthRowWidget(
+                constraints: constraints,
+                day: "Thursday",
+                title: "Thursday",
+                allDays: false,
+              ),
+              BandwidthRowWidget(
+                constraints: constraints,
+                day: "Friday",
+                title: "Friday",
+                allDays: false,
+              ),
+              BandwidthRowWidget(
+                constraints: constraints,
+                day: "Saturday",
+                title: "Saturday",
+                allDays: false,
+              ),
+            ],
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }
