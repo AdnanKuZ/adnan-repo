@@ -51,8 +51,7 @@ class PolicyNameStepWidget extends StatelessWidget {
                         onPress: () {
                           print("${stageProvider.stageIndex}");
                           stageProvider.setStageState = 1;
-                          stageProvider.setStageIndex =
-                              stageProvider.stageIndex + 1;
+                          stageProvider.incrementIndex();
                           print("${stageProvider.stageIndex}");
                         },
                       )
