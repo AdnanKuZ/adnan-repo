@@ -1,5 +1,6 @@
 import 'package:admin/constants.dart';
 import 'package:admin/screens/stepper/apps_step.dart';
+import 'package:admin/widgets/common/buttons.dart';
 import 'package:admin/widgets/stepper/members_and_devices/members_and_devices.dart';
 import 'package:admin/widgets/stepper/bandwidth.dart';
 import 'package:flutter/material.dart';
@@ -26,7 +27,7 @@ class _StepperScreenState extends State<StepperScreen> {
         child: Container(
           width: MediaQuery.of(context).size.width,
           height: MediaQuery.of(context).size.height,
-          padding: EdgeInsets.symmetric(vertical: 30),
+          padding: EdgeInsets.symmetric(vertical: 20),
           child: Column(
             children: [
               Container(
@@ -36,21 +37,34 @@ class _StepperScreenState extends State<StepperScreen> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Icon(
-                      Icons.arrow_back_sharp,
-                      color: Colors.black87,
-                      size: 22,
+                    InkWell(
+                      onTap:(){
+                        Navigator.pop(context);
+                      },
+                      child: Icon(
+                        Icons.arrow_back_sharp,
+                        color: Colors.black87,
+                        size: 22,
+                      ),
                     ),
                     SizedBox(width: 13),
                     Text(
                       'Back to Dashboard',
-                      style: TextStyle(color: Colors.black87, fontSize: 13, fontWeight: FontWeight.bold),
+                      style: TextStyle(
+                          color: Colors.black87,
+                          fontSize: 13,
+                          fontWeight: FontWeight.bold),
                     ),
                     Spacer(),
-                    Icon(
-                      Icons.disabled_by_default_rounded,
-                      color: Color(0xFFEEA3A3),
-                      size: 45,
+                    InkWell(
+                      onTap: () {
+                        Navigator.pop(context);
+                      },
+                      child: Icon(
+                        Icons.disabled_by_default_rounded,
+                        color: Color(0xFFEEA3A3),
+                        size: 45,
+                      ),
                     )
                   ],
                 ),
@@ -75,8 +89,9 @@ class _StepperScreenState extends State<StepperScreen> {
                         },
                         onStepTapped: (int index) {
                           if (instance.stageStates[index]) {
-                            _stageProvider.setStageIndex = index;
+                            _stageProvider.setIndex = index;
                           }
+                          print(_stageProvider.stageIndex);
                         },
                         steps: [
                           EnhanceStep(
@@ -92,9 +107,7 @@ class _StepperScreenState extends State<StepperScreen> {
                               content: Container(
                                 margin: EdgeInsets.symmetric(horizontal: 56),
                                 child: Column(
-                                  children: [
-                                    MembersAndDevicesStepperWidget()
-                                  ],
+                                  children: [MembersAndDevicesStepperWidget()],
                                 ),
                               )),
                           EnhanceStep(
@@ -110,9 +123,7 @@ class _StepperScreenState extends State<StepperScreen> {
                               content: Container(
                                 margin: EdgeInsets.symmetric(horizontal: 56),
                                 child: Column(
-                                  children: [
-                                    BandwidthStepperWidget()
-                                  ],
+                                  children: [BandwidthStepperWidget()],
                                 ),
                               )),
                           EnhanceStep(
@@ -126,13 +137,14 @@ class _StepperScreenState extends State<StepperScreen> {
                                         : Colors.grey),
                               ),
                               content: Container(
-                                margin: EdgeInsets.symmetric(horizontal: 56),
-                                child: Column(
-                                  children: [
-                                    StepperUpperWidget(index: 3)
-                                  ],
-                                ),
-                              )),
+                                  margin: EdgeInsets.symmetric(horizontal: 56),
+                                  child: FilledButton(
+                                    title: 'Next ',
+                                    onPress: () {
+                                      _stageProvider.setStageState = 2;
+                                      _stageProvider.incrementIndex();
+                                    },
+                                  ))),
                           EnhanceStep(
                               isActive: instance.stageStates[3] ? true : false,
                               state: StepState.complete,
@@ -158,13 +170,13 @@ class _StepperScreenState extends State<StepperScreen> {
                                         : Colors.grey),
                               ),
                               content: Container(
-                                margin: EdgeInsets.symmetric(horizontal: 56),
-                                child: Column(
-                                  children: [
-                                    StepperUpperWidget(index: 5)
-                                  ],
-                                ),
-                              ))
+                                  margin: EdgeInsets.symmetric(horizontal: 56),
+                                  child: FilledButton(
+                                    title: "Next",
+                                    onPress: () {
+                                      _stageProvider.setStageState = 4;
+                                    },
+                                  )))
                         ],
                       ),
                     ),
@@ -178,50 +190,4 @@ class _StepperScreenState extends State<StepperScreen> {
     );
   }
 }
-class StepperUpperWidget extends StatelessWidget {
-  final int index;
-  const StepperUpperWidget({Key? key,required this.index}) : super(key: key);
 
-  @override
-  Widget build(BuildContext context) {
-    final provider = Provider.of<StageProvider>(context, listen: false);
-    return Container(
-      height: 42,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          AutoSizeText(
-            'Let\'s select members and devices for this policy' +
-                index.toString(),
-            maxLines: 1,
-            maxFontSize: 22,
-            minFontSize: 13,
-            style: TextStyle(color: Colors.black, fontSize: 22),
-          ),
-          Spacer(),
-          Column(
-            children: [
-              Expanded(
-                child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                      primary: primaryColor,
-                      padding: EdgeInsets.symmetric(horizontal: 30)),
-                  onPressed: () {
-                    print(provider.stageIndex.toString());
-                    provider.setStageState = index;
-                    provider.setStageIndex = provider.stageIndex + 1;
-                  },
-                  child: Text(
-                    'Next Step',
-                    style: TextStyle(color: Colors.white, fontSize: 16),
-                  ),
-                ),
-              ),
-            ],
-          )
-        ],
-      ),
-    );;
-  }
-}

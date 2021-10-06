@@ -1,9 +1,10 @@
 import 'package:admin/constants.dart';
-import 'package:admin/providers/MembersAndDevicesStepProvider.dart';
 import 'package:admin/providers/MenuProvider.dart';
 import 'package:admin/providers/authProviders.dart';
 import 'package:admin/providers/contactUsProvider.dart';
+import 'package:admin/providers/dropDownProvider.dart';
 import 'package:admin/providers/stepperProviders.dart';
+import 'package:admin/providers/MembersAndDevicesStepProvider.dart';
 import 'package:admin/screens/auth/login_screen.dart';
 import 'package:admin/screens/stepper/stepper_screen.dart';
 import 'package:admin/screens/dashboard/dashboard.dart';
@@ -47,8 +48,11 @@ class MyApp extends StatelessWidget {
             create: (context) => StageProvider(),
           ),
           ChangeNotifierProvider(
-            create: (context) => MembersAndDevicesStepProvider(),
+            create: (context) => DropDownProvider(),
           ),
+          ChangeNotifierProvider(
+            create: (context) => MembersAndDevicesStepProvider()
+          )
         ],
         child: MaterialApp(
           // builder: (context, widget) => ResponsiveWrapper.builder(

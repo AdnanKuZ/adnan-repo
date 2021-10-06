@@ -1,12 +1,13 @@
 import 'package:admin/constants.dart';
 import 'package:admin/dialogs/add_app_dialog.dart';
-import 'package:admin/dialogs/log_out_dialog.dart';
 import 'package:admin/models/app.dart';
 import 'package:admin/responsive.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:responsive_framework/responsive_framework.dart';
+import 'package:provider/provider.dart';
+import 'package:admin/providers/stepperProviders.dart';
 
 class AppsStepScreen extends StatefulWidget {
   AppsStepScreen({Key? key}) : super(key: key);
@@ -44,6 +45,7 @@ class _AppsStepScreenState extends State<AppsStepScreen> {
   ];
   @override
   Widget build(BuildContext context) {
+    final provider = Provider.of<StageProvider>(context, listen: false);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisAlignment: MainAxisAlignment.start,
@@ -68,7 +70,11 @@ class _AppsStepScreenState extends State<AppsStepScreen> {
               isCheckAll = !isCheckAll;
             });
           },
-          nextButton: () {},
+
+          nextButton: () {
+            provider.setStageState = 3;
+            provider.incrementIndex();
+          },
         ),
         const SizedBox(height: 24),
         Row(
