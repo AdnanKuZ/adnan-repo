@@ -18,8 +18,11 @@ class _FAQsScreenState extends State<FAQsScreen> {
   final List<FAQs> list = [
     FAQs(
       'this is a question',
-      answer: 'this is an answer',
+      answer:
+          'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Dui s aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sintoccaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod temporrincididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dowLorem ipsum dolor sitamet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitatincididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris',
       suggestions: [
+        FAQs('this is a question', answer: 'this is an answer'),
+        FAQs('this is a question', answer: 'this is an answer'),
         FAQs('this is a question', answer: 'this is an answer'),
         FAQs('this is a question', answer: 'this is an answer'),
       ],
@@ -36,8 +39,11 @@ class _FAQsScreenState extends State<FAQsScreen> {
         children: [
           SearchHeader(searchCon: searchCon),
           SizedBox(height: 20),
-          Column(
-            children: list.map((e) => ExpandableItem(e)).toList(),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 48.0, vertical: 20),
+            child: Column(
+              children: list.map((e) => ExpandableItem(e)).toList(),
+            ),
           ),
         ],
       ),
@@ -94,7 +100,7 @@ class _ExpandableItemState extends State<ExpandableItem> {
               ),
               header: SizedBox(
                 height: widget.color != null
-                    ? MediaQuery.of(context).size.height * 0.09
+                    ? MediaQuery.of(context).size.height * 0.075
                     : null,
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 8.0),
@@ -104,23 +110,40 @@ class _ExpandableItemState extends State<ExpandableItem> {
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10),
                     ),
-                    child: ListTile(
-                      leading: Text(
-                        widget.faQs.question,
-                        style: TextStyle(
-                          fontSize: widget.color == null ? 18 : 12,
-                          color: widget.color == null
-                              ? Colors.white
-                              : Colors.black,
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal:12.0),
+                      child: ListTile(
+                        leading: Text(
+                          widget.faQs.question,
+                          style: TextStyle(
+                            fontSize: widget.color == null ? 18 : 16,
+                            color: widget.color == null
+                                ? Colors.white
+                                : Colors.black,
+                          ),
                         ),
-                      ),
-                      trailing: Padding(
-                        padding: EdgeInsets.only(
-                            bottom: widget.color != null ? 6.0 : 0),
-                        child: Icon(
-                          isClose ? Icons.arrow_right : Icons.arrow_drop_down,
-                          color:
-                              widget.color != null ? Colors.grey : Colors.white,
+                        trailing: Container(
+                          height: 20,
+                          width: 20,
+                          decoration: BoxDecoration(
+                              color: widget.color == null
+                                  ? Colors.white
+                                  : Colors.grey,
+                              border: Border.all(
+                                color: widget.color == null
+                                    ? Colors.white
+                                    : Colors.grey,
+                              ),
+                              borderRadius: BorderRadius.all(Radius.circular(4))),
+                          child: Icon(
+                            isClose
+                                ? Icons.keyboard_arrow_down_rounded
+                                : Icons.keyboard_arrow_right_rounded,
+                            color: widget.color == null
+                                ? Colors.black
+                                : Colors.white,
+                            size: 18,
+                          ),
                         ),
                       ),
                     ),
@@ -130,21 +153,24 @@ class _ExpandableItemState extends State<ExpandableItem> {
               collapsed: SizedBox(),
               expanded: Container(
                 color: Colors.white,
-                padding: EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                padding: EdgeInsets.symmetric(horizontal: 12, vertical: 12),
                 child: Column(
                   children: [
                     Row(
                       children: [
-                        Text(
-                          '${widget.faQs.answer ?? 'there is no answer yet'}',
-                          textAlign: TextAlign.left,
-                          style: TextStyle(
-                            color: Colors.grey,
+                        Flexible(
+                          child: Text(
+                            '${widget.faQs.answer ?? 'there is no answer yet'}',
+                            overflow: TextOverflow.visible,
+                            textAlign: TextAlign.left,
+                            style: TextStyle(
+                              color: Colors.grey,
+                            ),
                           ),
                         ),
                       ],
                     ),
-                    SizedBox(height: 8),
+                    SizedBox(height: 12),
                     if (widget.faQs.suggestions != null)
                       Column(
                         children: widget.faQs.suggestions!
@@ -190,82 +216,89 @@ class SearchHeader extends StatelessWidget {
       color: primaryColor,
       height: (MediaQuery.of(context).size.height / 100) * 40,
       child: Padding(
-        padding: EdgeInsets.symmetric(
-          vertical: 45.0,
-          horizontal: Responsive.isMobile(context) ? 26 : 160,
-        ),
-        child: Stack(
-          children: [
-            //Image.asset('name'),
-            Column(
-              children: [
-                Text(
-                  'How may we help you?',
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 20,
-                    color: Colors.white,
+          padding: EdgeInsets.only(top: 30),
+        child: Padding(
+          padding: EdgeInsets.symmetric(
+            vertical: 45.0,
+            horizontal: Responsive.isMobile(context)
+                ? 26
+                : MediaQuery.of(context).size.width * 0.183,
+          ),
+          child: Stack(
+            children: [
+              //Image.asset('name'),
+              Column(
+                children: [
+                  Text(
+                    'How may we help you?',
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 20,
+                      color: Colors.white,
+                    ),
                   ),
-                ),
-                const SizedBox(height: 24),
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(8),
-                  child: TextField(
-                    controller: searchCon,
-                    textAlign: TextAlign.center,
-                    cursorColor: Colors.white,
-                    decoration: InputDecoration(
-                      suffixIcon: IconButton(
-                        onPressed: () {},
-                        icon: Icon(
-                          Icons.manage_search_rounded,
-                          color: Colors.white,
+                  const SizedBox(height: 24),
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(8),
+                    child: TextField(
+                      controller: searchCon,
+                      textAlign: TextAlign.center,
+                      cursorColor: Colors.white,
+                      decoration: InputDecoration(
+                        suffixIcon: IconButton(
+                          onPressed: () {},
+                          icon: Icon(
+                            Icons.manage_search_rounded,
+                            color: Colors.white,
+                          ),
                         ),
+                        filled: true,
+                        fillColor: Colors.white.withOpacity(0.4),
+                        hintText: 'I have a question about...',
+                        hintStyle: TextStyle(
+                          color: Colors.white.withOpacity(0.4),
+                        ),
+                        focusedBorder: InputBorder.none,
+                        enabledBorder: InputBorder.none,
+                        errorBorder: InputBorder.none,
+                        disabledBorder: InputBorder.none,
                       ),
-                      filled: true,
-                      fillColor: Colors.white.withOpacity(0.4),
-                      hintText: 'I have a question about...',
-                      hintStyle: TextStyle(
-                        color: Colors.white.withOpacity(0.4),
-                      ),
-                      focusedBorder: InputBorder.none,
-                      enabledBorder: InputBorder.none,
-                      errorBorder: InputBorder.none,
-                      disabledBorder: InputBorder.none,
+                      onSubmitted: (_) {},
                     ),
-                    onSubmitted: (_) {},
                   ),
-                ),
-                const SizedBox(height: 30),
-                Wrap(
-                  spacing: 16,
-                  runSpacing: Responsive.isMobile(context) ? 14 : 0,
-                  children: [
-                    SuggestionSearch(
-                      'How it works?',
-                      onTap: () {},
-                    ),
-                    SuggestionSearch(
-                      'How to craete a new policy?',
-                      onTap: () {},
-                    ),
-                    SuggestionSearch(
-                      'How to link a device?',
-                      onTap: () {},
-                    ),
-                    SuggestionSearch(
-                      'What is policy?',
-                      onTap: () {},
-                    ),
-                    SuggestionSearch(
-                      'How to add members?',
-                      onTap: () {},
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          ],
+                  const SizedBox(height: 30),
+                  Wrap(
+                    spacing: Responsive.isMobile(context)
+                        ? 16
+                        : MediaQuery.of(context).size.width * 0.025,
+                    runSpacing: Responsive.isMobile(context) ? 14 : 0,
+                    children: [
+                      SuggestionSearch(
+                        'How it works?',
+                        onTap: () {},
+                      ),
+                      SuggestionSearch(
+                        'How to craete a new policy?',
+                        onTap: () {},
+                      ),
+                      SuggestionSearch(
+                        'How to link a device?',
+                        onTap: () {},
+                      ),
+                      SuggestionSearch(
+                        'What is policy?',
+                        onTap: () {},
+                      ),
+                      SuggestionSearch(
+                        'How to add members?',
+                        onTap: () {},
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );
