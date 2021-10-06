@@ -1,8 +1,12 @@
 import 'package:admin/constants.dart';
+import 'package:admin/dialogs/add_app_dialog.dart';
+import 'package:admin/dialogs/log_out_dialog.dart';
 import 'package:admin/models/app.dart';
+import 'package:admin/responsive.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
+import 'package:responsive_framework/responsive_framework.dart';
 
 class AppsStepScreen extends StatefulWidget {
   AppsStepScreen({Key? key}) : super(key: key);
@@ -46,27 +50,15 @@ class _AppsStepScreenState extends State<AppsStepScreen> {
       children: [
         PageHeader(
           customAppButton: () async {
-            await showDialog(
-              context: context,
-              builder: (_) {
-                return AlertDialog(
-                  backgroundColor: Colors.white,
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(10))),
-                  content: Container(
-                    padding:
-                        EdgeInsets.symmetric(horizontal: 16.0, vertical: 10),
-                    height: MediaQuery.of(context).size.height * 0.3,
-                    width: MediaQuery.of(context).size.width * 0.302,
-                    child: AddAppForm(
-                      (name, link) {
-                        list2.add(AppModel(name: name, image: 'assets/images/chrome.png', link: link));
-                        print(list2);
-                        Navigator.pop(context);
-                      },
-                    ),
-                  ),
-                );
+            await showAddAppDialog(
+              context,
+              (name, link) {
+                list2.add(AppModel(
+                  name: name,
+                  image: 'assets/images/chrome.png',
+                  link: link,
+                ));
+                Navigator.pop(context);
               },
             );
             setState(() {});
@@ -111,12 +103,27 @@ class _AppsStepScreenState extends State<AppsStepScreen> {
         ),
         const SizedBox(height: 20),
         SizedBox(
-          height: MediaQuery.of(context).size.width * cardSize,
-          child: ListView.builder(
-            scrollDirection: Axis.horizontal,
+          height: Responsive.isDesktop(context)
+              ? MediaQuery.of(context).size.width * cardSize
+              : null,
+          child: GridView.builder(
+            shrinkWrap: true,
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              mainAxisSpacing: 6,
+              crossAxisSpacing: 6,
+                crossAxisCount: Responsive.isMobile(context)
+                    ? 2
+                    : Responsive.isTablet(context)
+                        ? 4
+                        : 1),
+            scrollDirection:
+                Responsive.isDesktop(context) ? Axis.horizontal : Axis.vertical,
             itemCount: list.length,
-            itemBuilder: (_, i) =>
-                CheckBoxItem(list[i], () {}, isCheck: isCheckAll),
+            itemBuilder: (_, i) => CheckBoxItem(
+              list[i],
+              () {},
+              isCheck: isCheckAll,
+            ),
           ),
         ),
         const SizedBox(height: 20),
@@ -139,90 +146,35 @@ class _AppsStepScreenState extends State<AppsStepScreen> {
           ),
         ),
         const SizedBox(height: 28),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            Icon(
-              Icons.info,
-              color: primaryColor,
-            ),
-            SizedBox(width: 20),
-            Text(
-              'Setup your app restriction from our pre-defined or custom in order to control the apps working or \nblocked on the devices added under this policy',
-              style: TextStyle(
-                color: Colors.grey,
-                fontSize: 10,
-              ),
-            ),
-          ],
-        ),
+        BottomInfo(),
       ],
     );
   }
 }
 
-class AddAppForm extends StatelessWidget {
-  final Function onSubmit;
-  AddAppForm(this.onSubmit);
-  final _formKey = GlobalKey<FormState>();
-  final nameCon = TextEditingController();
-  final linkCon = TextEditingController();
-  void submit() {
-    if (!_formKey.currentState!.validate()) return;
-    onSubmit(nameCon.text, linkCon.text);
-  }
+class BottomInfo extends StatelessWidget {
+  const BottomInfo({
+    Key? key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Form(
-        key: _formKey,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            TextFormField(
-              controller: nameCon,
-              style: TextStyle(color: Colors.black),
-              decoration: InputDecoration(
-                hintText: 'App Name',
-                hintStyle: TextStyle(color: Colors.grey),
-              ),
-              validator: (value) {
-                if (value == null || value.isEmpty)
-                  return 'the name could not be empty';
-                return null;
-              },
-            ),
-            const SizedBox(height: 12),
-            TextFormField(
-              controller: linkCon,
-              style: TextStyle(color: Colors.black),
-              decoration: InputDecoration(
-                hintText: 'App Link',
-                hintStyle: TextStyle(color: Colors.grey),
-              ),
-              validator: (value) {
-                if (value == null || value.isEmpty)
-                  return 'The link could not be empty';
-                return null;
-              },
-            ),
-            SizedBox(height: MediaQuery.of(context).size.height * 0.07),
-            ElevatedButton(
-              onPressed: submit,
-              child: Padding(
-                padding: const EdgeInsets.symmetric(vertical: 12.0),
-                child: Text('Add Custom App'),
-              ),
-              style: ElevatedButton.styleFrom(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(6),
-                ),
-              ),
-            ),
-          ],
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: [
+        Icon(
+          Icons.info,
+          color: primaryColor,
         ),
-      ),
+        SizedBox(width: 20),
+        Text(
+          'Setup your app restriction from our pre-defined or custom in order to control the apps working or \nblocked on the devices added under this policy',
+          style: TextStyle(
+            color: Colors.grey,
+            fontSize: 10,
+          ),
+        ),
+      ],
     );
   }
 }
@@ -241,47 +193,58 @@ class PageHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
+    return ResponsiveRowColumn(
+      layout: MediaQuery.of(context).size.width>1200
+          ? ResponsiveRowColumnType.ROW
+          : ResponsiveRowColumnType.COLUMN,
+      rowMainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Expanded(
+        ResponsiveRowColumnItem(
           child: Text(
             'Do you have any app restrictions for this policy?',
+            textAlign: TextAlign.start,
             style: TextStyle(
                 fontWeight: FontWeight.bold, fontSize: 26, color: Colors.black),
           ),
         ),
-        CustomCard(
-          child: TextButton.icon(
-            onPressed: this.customAppButton,
-            icon: Icon(
-              Icons.add,
-              color: Colors.black,
-            ),
-            label: Text(
-              'Custom App',
-              style: TextStyle(color: Colors.black),
-            ),
-          ),
-        ),
-        SizedBox(width: 8),
-        CustomCard(
-          child: TextButton(
-            onPressed: this.selectAllButton,
-            child: Text(
-              isCheckAll ? 'Unselect All Apps' : 'Select All Apps',
-              style: TextStyle(color: Colors.black),
-            ),
-          ),
-        ),
-        SizedBox(width: 8),
-        CustomCard(
-          color: primaryColor,
-          child: TextButton(
-            onPressed: this.nextButton,
-            child: Text(
-              'Next Step',
-              style: TextStyle(color: Colors.white),
-            ),
+        ResponsiveRowColumnItem(
+          child: Row(
+            children: [
+              CustomCard(
+                child: TextButton.icon(
+                  onPressed: this.customAppButton,
+                  icon: Icon(
+                    Icons.add,
+                    color: Colors.black,
+                  ),
+                  label: Text(
+                    'Custom App',
+                    style: TextStyle(color: Colors.black),
+                  ),
+                ),
+              ),
+              SizedBox(width: 8),
+              CustomCard(
+                child: TextButton(
+                  onPressed: this.selectAllButton,
+                  child: Text(
+                    isCheckAll ? 'Unselect All Apps' : 'Select All Apps',
+                    style: TextStyle(color: Colors.black),
+                  ),
+                ),
+              ),
+              SizedBox(width: 8),
+              CustomCard(
+                color: primaryColor,
+                child: TextButton(
+                  onPressed: this.nextButton,
+                  child: Text(
+                    'Next Step',
+                    style: TextStyle(color: Colors.white),
+                  ),
+                ),
+              ),
+            ],
           ),
         ),
       ],
@@ -305,25 +268,25 @@ class CheckBoxItem extends StatefulWidget {
 class _CheckBoxItemState extends State<CheckBoxItem> {
   @override
   Widget build(BuildContext context) {
-    widget.isCheck;
     final app = widget.app;
     final isPreDefined = widget.isPreDefined;
-    return Padding(
-      padding: const EdgeInsets.only(right: 16.0),
+    return Container(
+      width: 138,
+      height: 138,
       child: GestureDetector(
-        onTap:isCheckAll?null: () {
-          widget.onCheck();
-          setState(() {
-            widget.isCheck = !widget.isCheck;
-          });
-        },
+        onTap: isCheckAll
+            ? null
+            : () {
+                widget.onCheck();
+                setState(() {
+                  widget.isCheck = !widget.isCheck;
+                });
+              },
         child: Opacity(
-          opacity: 1,
+          opacity: isCheckAll ? 0.5 : 1,
           child: CustomCard(
-            child: Container(
-              width: MediaQuery.of(context).size.width * cardSize,
-              height: MediaQuery.of(context).size.width * cardSize,
-              padding: const EdgeInsets.all(8.0),
+            child: Padding(
+              padding: const EdgeInsets.all(6.0),
               child: Column(
                 children: [
                   Row(
@@ -337,7 +300,7 @@ class _CheckBoxItemState extends State<CheckBoxItem> {
                             size: 16,
                           ),
                         ),
-                      Spacer(),
+                     // Spacer(),
                       GestureDetector(
                         onTap: () {},
                         child: Container(
@@ -357,34 +320,32 @@ class _CheckBoxItemState extends State<CheckBoxItem> {
                       )
                     ],
                   ),
-                  Expanded(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        CircleAvatar(
-                          minRadius: 20,
-                          maxRadius: 20,
-                          backgroundColor: Colors.white,
-                          child: Image.asset(
-                            app.image!,
-                            fit: BoxFit.fill,
-                          ),
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      CircleAvatar(
+                        minRadius: 20,
+                        maxRadius: 20,
+                        backgroundColor: Colors.white,
+                        child: Image.asset(
+                          app.image!,
+                          fit: BoxFit.fill,
                         ),
+                      ),
+                      Text(
+                        '${app.name}',
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold, color: Colors.black),
+                      ),
+                      if (isPreDefined ?? false)
                         Text(
-                          '${app.name}',
+                          '${app.link}',
                           style: TextStyle(
-                              fontWeight: FontWeight.bold, color: Colors.black),
-                        ),
-                        if (isPreDefined ?? false)
-                          Text(
-                            '${app.link}',
-                            style: TextStyle(
-                              fontSize: 10,
-                              color: Colors.black,
-                            ),
+                            fontSize: 10,
+                            color: Colors.black,
                           ),
-                      ],
-                    ),
+                        ),
+                    ],
                   ),
                 ],
               ),
@@ -403,13 +364,13 @@ class CustomCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      //margin: EdgeInsets.all(8.0),
+    return Container(
+      width: 138,
+      height: 138,
+      decoration: BoxDecoration(
       color: color ?? Colors.white,
-      elevation: 0,
-      shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(4),
-        side: BorderSide(color: color ?? Colors.grey.shade400),
+        border:Border.all(color: color ?? Colors.grey.shade400),
       ),
       child: Padding(
         padding: EdgeInsets.all(4),
