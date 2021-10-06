@@ -69,6 +69,13 @@ class MembersAndDevicesStepperWidget extends StatelessWidget {
                       Navigator.pop(context);
                       // Showing add device dialog
                       DeviceModel result = await AddDeviceDialog(context: context);
+                      if(result.id == null) {
+                        // Device already exist
+                        requestExistingDevice(result);
+                      } else {
+                        // Device does not exist
+                        requestNewDevice(result);
+                      }
                       print('Dialog data');
                       print(jsonEncode(result));
                     },
