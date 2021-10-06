@@ -29,14 +29,23 @@ class BandwidthStepperWidget extends StatelessWidget {
                       fontWeight: FontWeight.bold),
                 ),
                 Spacer(),
+                // FilledButton(
+                //   title: "Next Step",
+                //   onPress: () {
+                //     provider.setStageState = 1;
+                //     provider.incrementIndex()
+                //   },
+                // )
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
                       primary: primaryColor,
-                      padding: EdgeInsets.symmetric(horizontal: 35,vertical: 18)),
+                      padding: EdgeInsets.symmetric(horizontal: 35,vertical: 18),
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)), 
+                    ),
                   onPressed: () {
-                    print(provider.stageIndex.toString());
-                    provider.setStageState = 2;
-                    provider.setStageIndex = provider.stageIndex + 1;
+                    // print(provider.stageIndex.toString());
+                    provider.setStageState = 1;
+                    provider.incrementIndex();
                   },
                   child: Text(
                     'Next Step',
@@ -46,53 +55,56 @@ class BandwidthStepperWidget extends StatelessWidget {
               ],
             ),
           ),
-          SizedBox(height: 40,),
+          SizedBox(
+            height: 30,
+          ),
           Container(
             padding: EdgeInsets.only(top: 20),
             child: Column(
               children: [
                 BandwidthRowWidget(
+                  day: "All Days",
                   title: 'All Days',
                   allDays: true,
                 ),
-                SizedBox(height: 30),
                 BandwidthRowWidget(
+                  day: "Sunday",
                   title: "Sunday",
                   allDays: false,
                 ),
-                SizedBox(height: 30),
                 BandwidthRowWidget(
-                  title: "Sunday",
+                  day: "Monday",
+                  title: "Monday",
                   allDays: false,
                 ),
-                SizedBox(height: 30),
                 BandwidthRowWidget(
-                  title: "Sunday",
+                  day: "Thursday",
+                  title: "Thursday",
                   allDays: false,
                 ),
-                SizedBox(height: 30),
                 BandwidthRowWidget(
-                  title: "Sunday",
+                  day: "Wednsday",
+                  title: "Wednsday",
                   allDays: false,
                 ),
-                SizedBox(height: 30),
                 BandwidthRowWidget(
-                  title: "Sunday",
+                  day: "Thursday",
+                  title: "Thursday",
                   allDays: false,
                 ),
-                SizedBox(height: 30),
                 BandwidthRowWidget(
-                  title: "Sunday",
+                  day: "Friday",
+                  title: "Friday",
                   allDays: false,
                 ),
-                SizedBox(height: 30),
                 BandwidthRowWidget(
-                  title: "Sunday",
+                  day: "Saturday",
+                  title: "Saturday",
                   allDays: false,
-                )
+                ),
               ],
             ),
-          )
+          ),
         ],
       ),
     );
