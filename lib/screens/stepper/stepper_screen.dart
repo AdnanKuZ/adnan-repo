@@ -89,7 +89,7 @@ class _StepperScreenState extends State<StepperScreen> {
                         },
                         onStepTapped: (int index) {
                           if (instance.stageStates[index]) {
-                            _stageProvider.incrementIndex();
+                            _stageProvider.setIndex = index;
                           }
                           print(_stageProvider.stageIndex);
                         },
@@ -174,8 +174,7 @@ class _StepperScreenState extends State<StepperScreen> {
                                   child: FilledButton(
                                     title: "Next",
                                     onPress: () {
-                                      _stageProvider.setStageState = 5;
-                                      _stageProvider.incrementIndex();
+                                      _stageProvider.setStageState = 4;
                                     },
                                   )))
                         ],
@@ -192,51 +191,3 @@ class _StepperScreenState extends State<StepperScreen> {
   }
 }
 
-// class StepperUpperWidget extends StatelessWidget {
-//   final int index;
-//   const StepperUpperWidget({Key? key, required this.index}) : super(key: key);
-
-//   @override
-//   Widget build(BuildContext context) {
-//     final provider = Provider.of<StageProvider>(context, listen: false);
-//     return Container(
-//       height: 42,
-//       child: Row(
-//         mainAxisAlignment: MainAxisAlignment.start,
-//         crossAxisAlignment: CrossAxisAlignment.center,
-//         children: [
-//           AutoSizeText(
-//             'Let\'s select members and devices for this policy' +
-//                 index.toString(),
-//             maxLines: 1,
-//             maxFontSize: 22,
-//             minFontSize: 13,
-//             style: TextStyle(color: Colors.black, fontSize: 22),
-//           ),
-//           Spacer(),
-//           Column(
-//             children: [
-//               Expanded(
-//                 child: ElevatedButton(
-//                   style: ElevatedButton.styleFrom(
-//                       primary: primaryColor,
-//                       padding: EdgeInsets.symmetric(horizontal: 30)),
-//                   onPressed: () {
-//                     // print(provider.stageIndex.toString());
-//                     provider.setStageState = index;
-//                     provider.setStageIndex = provider.stageIndex + 1;
-//                   },
-//                   child: Text(
-//                     'Next Step',
-//                     style: TextStyle(color: Colors.white, fontSize: 16),
-//                   ),
-//                 ),
-//               ),
-//             ],
-//           )
-//         ],
-//       ),
-//     );
-//     ;
-//   }
-// }

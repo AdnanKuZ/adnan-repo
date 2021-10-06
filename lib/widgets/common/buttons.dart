@@ -5,10 +5,11 @@ import 'package:flutter/material.dart';
 import '../../responsive.dart';
 
 class FilledButton extends StatelessWidget {
-  String title;
-  Function onPress;
+  final String title;
+  final Function onPress;
 
-  FilledButton({required this.title, required this.onPress, Key? key})
+  FilledButton(
+      {required this.title, required this.onPress, Key? key})
       : super(key: key);
 
   @override
@@ -30,10 +31,11 @@ class FilledButton extends StatelessWidget {
 }
 
 class BorderButton extends StatelessWidget {
-  String title;
-  Function onPress;
+  final String title;
+  final Function onPress;
+  final IconData? icon;
 
-  BorderButton({required this.title, required this.onPress, Key? key})
+  BorderButton({required this.title, required this.onPress,this.icon, Key? key})
       : super(key: key);
 
   @override
@@ -51,7 +53,7 @@ class BorderButton extends StatelessWidget {
       ),
       onPressed: () => onPress(),
       icon: Icon(
-        Icons.add,
+        icon,
         color: Colors.black,
       ),
       label: Text(
@@ -63,14 +65,15 @@ class BorderButton extends StatelessWidget {
 }
 
 class RoundedAddButton extends StatelessWidget {
-  Function onClick;
-  Color borderColor;
-  Color iconColor;
-  RoundedAddButton({
-    required this.onClick,
-    required this.borderColor,
-    required this.iconColor,
-    Key? key}) : super(key: key);
+  final Function onClick;
+  final Color borderColor;
+  final Color iconColor;
+  RoundedAddButton(
+      {required this.onClick,
+      required this.borderColor,
+      required this.iconColor,
+      Key? key})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -82,10 +85,7 @@ class RoundedAddButton extends StatelessWidget {
         height: 35,
         width: 35,
         decoration: BoxDecoration(
-            border: Border.all(
-              color: borderColor,
-              width: 1.5
-            ),
+            border: Border.all(color: borderColor, width: 1.5),
             borderRadius: BorderRadius.all(Radius.circular(6))),
         child: Icon(
           Icons.add,

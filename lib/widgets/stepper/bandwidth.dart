@@ -29,12 +29,21 @@ class BandwidthStepperWidget extends StatelessWidget {
                       fontWeight: FontWeight.bold),
                 ),
                 Spacer(),
+                // FilledButton(
+                //   title: "Next Step",
+                //   onPress: () {
+                //     provider.setStageState = 1;
+                //     provider.incrementIndex()
+                //   },
+                // )
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
                       primary: primaryColor,
-                      padding: EdgeInsets.symmetric(horizontal: 35,vertical: 18)),
+                      padding: EdgeInsets.symmetric(horizontal: 35,vertical: 18),
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)), 
+                    ),
                   onPressed: () {
-                    print(provider.stageIndex.toString());
+                    // print(provider.stageIndex.toString());
                     provider.setStageState = 1;
                     provider.incrementIndex();
                   },
@@ -46,7 +55,9 @@ class BandwidthStepperWidget extends StatelessWidget {
               ],
             ),
           ),
-          SizedBox(height: 30,),
+          SizedBox(
+            height: 30,
+          ),
           Container(
             padding: EdgeInsets.only(top: 20),
             child: Column(
@@ -94,7 +105,6 @@ class BandwidthStepperWidget extends StatelessWidget {
               ],
             ),
           ),
-          
         ],
       ),
     );

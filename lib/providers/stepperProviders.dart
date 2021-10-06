@@ -14,9 +14,13 @@ class StageProvider extends ChangeNotifier {
   }
 
   void incrementIndex() {
-    if (_currentStep < 4) {
-      _currentStep = _currentStep ++;
+    // if (_currentStep < 4) {
+      _currentStep = _currentStep + 1;
       notifyListeners();
-    }
+  }
+
+  set setIndex(int index) {
+    _currentStep = index;
+    notifyListeners();
   }
 }

@@ -50,10 +50,10 @@ class MembersAndDevicesStepperWidget extends StatelessWidget {
                   FilledButton(
                     title: "Next Step",
                     onPress: () {
-                      print("${provider.stageIndex}");
+                      // print("${provider.stageIndex}");
                       provider.setStageState = 0;
                       provider.incrementIndex();
-                      print("${provider.stageIndex}");
+                      // print("${provider.stageIndex}");
                     },
                   )
                 ],
