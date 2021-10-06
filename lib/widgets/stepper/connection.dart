@@ -1,14 +1,13 @@
 import 'package:admin/constants.dart';
-import 'package:admin/widgets/common/elevated_button_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:auto_size_text_pk/auto_size_text_pk.dart';
 import 'package:provider/provider.dart';
 import 'package:admin/providers/stepperProviders.dart';
 import 'package:admin/widgets/common/buttons.dart';
-import 'package:admin/widgets/stepper/bandwidth_row_widget.dart';
+import 'package:admin/widgets/stepper/connection_row_widget.dart';
 
-class BandwidthStepperWidget extends StatelessWidget {
-  const BandwidthStepperWidget({Key? key}) : super(key: key);
+class ConnectionStepperWidget extends StatelessWidget {
+  const ConnectionStepperWidget({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +20,7 @@ class BandwidthStepperWidget extends StatelessWidget {
             child: Row(
               children: [
                 Text(
-                  'Would you like to add any bandwidth limitaions for this policy ?',
+                  'What connection type you want to use for this policy ?',
                   maxLines: 1,
                   style: TextStyle(
                       color: Colors.black,
@@ -29,13 +28,6 @@ class BandwidthStepperWidget extends StatelessWidget {
                       fontWeight: FontWeight.bold),
                 ),
                 Spacer(),
-                // FilledButton(
-                //   title: "Next Step",
-                //   onPress: () {
-                //     provider.setStageState = 1;
-                //     provider.incrementIndex()
-                //   },
-                // )
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
                       primary: primaryColor,
@@ -43,8 +35,7 @@ class BandwidthStepperWidget extends StatelessWidget {
                       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)), 
                     ),
                   onPressed: () {
-                    // print(provider.stageIndex.toString());
-                    provider.setStageState = 1;
+                    provider.setStageState = 2;
                     provider.incrementIndex();
                   },
                   child: Text(
@@ -62,42 +53,42 @@ class BandwidthStepperWidget extends StatelessWidget {
             padding: EdgeInsets.only(top: 20),
             child: Column(
               children: [
-                BandwidthRowWidget(
+                ConnectionRowWidget(
                   day: "All Days",
                   title: 'All Days',
                   allDays: true,
                 ),
-                BandwidthRowWidget(
+                ConnectionRowWidget(
                   day: "Sunday",
                   title: "Sunday",
                   allDays: false,
                 ),
-                BandwidthRowWidget(
+                ConnectionRowWidget(
                   day: "Monday",
                   title: "Monday",
                   allDays: false,
                 ),
-                BandwidthRowWidget(
+                ConnectionRowWidget(
                   day: "Thursday",
                   title: "Thursday",
                   allDays: false,
                 ),
-                BandwidthRowWidget(
+                ConnectionRowWidget(
                   day: "Wednsday",
                   title: "Wednsday",
                   allDays: false,
                 ),
-                BandwidthRowWidget(
+                ConnectionRowWidget(
                   day: "Thursday",
                   title: "Thursday",
                   allDays: false,
                 ),
-                BandwidthRowWidget(
+                ConnectionRowWidget(
                   day: "Friday",
                   title: "Friday",
                   allDays: false,
                 ),
-                BandwidthRowWidget(
+                ConnectionRowWidget(
                   day: "Saturday",
                   title: "Saturday",
                   allDays: false,
