@@ -9,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:flutter/rendering.dart';
 import 'package:provider/provider.dart';
+import 'package:admin/widgets/dashboard/dashboard_header.dart';
 
 class ConctactUsScreen extends StatefulWidget {
   const ConctactUsScreen({Key? key}) : super(key: key);
@@ -52,41 +53,45 @@ class _ConctactUsScreenState extends State<ConctactUsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SingleChildScrollView(
-        child: Column(
-          children: [
-            Column(
-              children: [
-                _PageInfoHeader(iconSize: _iconSize),
-                TopEdgesContainer(
-                  color: primaryColor,
-                  child: SingleChildScrollView(
-                    child: Padding(
-                      padding: const EdgeInsets.all(24.0),
-                      child: Column(
-                        children: [
-                          ContactInfo(),
-                          const SizedBox(height: 20),
-                          Form(
-                            key: _formKey,
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.stretch,
-                              children: [
-                                FormFirstRow(),
-                                SizedBox(height: _heightPadding),
-                                FormSecondRow(),
-                                SizedBox(height: _heightPadding),
-                                FormMessageField(submit),
-                              ],
+        child: Container(
+          margin: EdgeInsets.symmetric(vertical: 16,horizontal: 48),
+          child: Column(
+            children: [
+              Column(
+                children: [
+                  DashboardHeader(),
+                  _PageInfoHeader(iconSize: _iconSize),
+                  TopEdgesContainer(
+                    color: primaryColor,
+                    child: SingleChildScrollView(
+                      child: Padding(
+                        padding: const EdgeInsets.all(24.0),
+                        child: Column(
+                          children: [
+                            ContactInfo(),
+                            const SizedBox(height: 20),
+                            Form(
+                              key: _formKey,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.stretch,
+                                children: [
+                                  FormFirstRow(),
+                                  SizedBox(height: _heightPadding),
+                                  FormSecondRow(),
+                                  SizedBox(height: _heightPadding),
+                                  FormMessageField(submit),
+                                ],
+                              ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                     ),
                   ),
-                ),
-              ],
-            ),
-          ],
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );

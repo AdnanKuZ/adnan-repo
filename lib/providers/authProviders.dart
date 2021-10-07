@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 
 class PassHiddenProvider extends ChangeNotifier {
-  bool passHidden = false;
+  bool passHidden = true;
   bool get state => passHidden;
   void setPassState(bool state) {
     passHidden = state;

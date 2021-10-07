@@ -27,17 +27,19 @@ class ReadMoreWidget extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Icon(
-            FontAwesomeIcons.box,
-            color: Colors.white,
-            size: 45,
+          Container(
+            width: 60,
+            height: 60,
+            child: Image.asset(
+              'assets/images/logo.png',
+              color: Colors.white,
+            ),
           ),
           SizedBox(
             height: 15,
           ),
           //////////////////////////////////
           Container(
-            // color: Colors.lightBlue.shade300,
             height: 170,
             width: 285,
             child: Column(
@@ -48,36 +50,36 @@ class ReadMoreWidget extends StatelessWidget {
                       child: RichText(
                         text: TextSpan(
                             text: 'Welcome to ',
-                            style: TextStyle(color: Colors.white, fontSize: 16),
+                            style: TextStyle(color: Colors.white, fontSize: 18),
                             children: const <TextSpan>[
                               TextSpan(
                                   text: 'OneFi',
                                   style: TextStyle(
                                       color: Colors.white,
-                                      fontSize: 19,
+                                      fontSize: 21,
                                       fontWeight: FontWeight.w600))
                             ]),
                       ),
                     ),
                     SizedBox(
-                      height: 15,
+                      height: 25,
                     ),
                     Container(
                         // color: Colors.red,
                         height: 120,
                         width: 285,
                         child: Text(
-                          'Lorem ipsum Lorem ipsum Lorem ipsum Lorem Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum',
-                          style: TextStyle(color: Colors.white, fontSize: 11),
+                          'Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum',
+                          style: TextStyle(color: Colors.white, fontSize: 14),
                         )),
                   ],
                 ),
             // PageView(a
           ),
           /////////////////////////////////
-          SizedBox(
-            height: 8,
-          ),
+          // SizedBox(
+          //   height: 8,
+          // ),
           ElevatedButton(
             onPressed: () {
               controller.nextPage(
@@ -89,26 +91,26 @@ class ReadMoreWidget extends StatelessWidget {
             ),
             style: ElevatedButton.styleFrom(primary: Color(0xFFADD16F)),
           ),
-          SizedBox(
-            height: 28,
-          ),
-          Center(
-            child: SmoothPageIndicator(
-              controller: controller,
-              count: 3,
-              effect: ExpandingDotsEffect(
-                dotHeight: 4,
-                spacing: 8,
-                activeDotColor: Colors.white,
-                dotColor: Color(0xFFAAD464),
-                dotWidth: 6,
-              ),
-              axisDirection: Axis.horizontal,
-              onDotClicked: (index) {
-                controller.jumpToPage(index);
-              },
-            ),
-          )
+          // SizedBox(
+          //   height: 28,
+          // ),
+          // Center(
+          //   child: SmoothPageIndicator(
+          //     controller: controller,
+          //     count: 3,
+          //     effect: ExpandingDotsEffect(
+          //       dotHeight: 4,
+          //       spacing: 8,
+          //       activeDotColor: Colors.white,
+          //       dotColor: Color(0xFFAAD464),
+          //       dotWidth: 6,
+          //     ),
+          //     axisDirection: Axis.horizontal,
+          //     onDotClicked: (index) {
+          //       controller.jumpToPage(index);
+          //     },
+          //   ),
+          // )
         ],
       ),
     );

@@ -5,6 +5,9 @@ import 'package:admin/widgets/dashboard/members_and_devices/members_and_devices_
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:admin/models/device.dart';
+import 'package:admin/models/member.dart';
+import 'package:admin/server/requests.dart';
 
 class MembersAndDevicesScreen extends StatefulWidget {
   @override
@@ -13,6 +16,11 @@ class MembersAndDevicesScreen extends StatefulWidget {
 }
 
 class _MembersAndDevicesScreenState extends State<MembersAndDevicesScreen> {
+  @override
+  void initState() {
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -50,8 +58,11 @@ class _MembersAndDevicesScreenState extends State<MembersAndDevicesScreen> {
                         ? 1
                         : 3,
                 itemCount: 8,
-                itemBuilder: (BuildContext context, int index) =>
-                    new Container(child: MemberWidget(member: "Device name", devices: ['iPhone', 'Tab'],)),
+                itemBuilder: (BuildContext context, int index) => new Container(
+                    child: MemberWidget(
+                  member: "Device name",
+                  devices: ['iPhone', 'Tab'],
+                )),
                 staggeredTileBuilder: (int index) => new StaggeredTile.fit(1),
                 mainAxisSpacing: 8.0,
                 crossAxisSpacing: 8.0,

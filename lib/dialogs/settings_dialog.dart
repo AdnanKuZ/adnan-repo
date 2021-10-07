@@ -1,6 +1,7 @@
 import 'package:admin/constants.dart';
 import 'package:admin/enums/RouteEnum.dart';
 import 'package:admin/providers/MenuProvider.dart';
+import 'package:admin/screens/dashboard/members_and_devices/members_and_devices.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/src/provider.dart';
 
@@ -60,20 +61,20 @@ SettingsDialog({required BuildContext context}) {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 DialogItem(Icons.policy, "Members & Devices", () {
-                  Navigator.pop(context);
                   context
                       .read<MenuProvider>()
                       .setDashboardRoute(DashboardRoute.MembersAndDevices);
-                }),
-                DialogItem(
-                    Icons.policy,
-                    "Terms & Conditions",
-                    () {
                       Navigator.pop(context);
-                      context
-                        .read<MenuProvider>()
-                        .setDashboardRoute(DashboardRoute.TermsAndConditions);
-                    }),
+                }),
+                DialogItem(Icons.policy, "Terms & Conditions", () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => MembersAndDevicesScreen()));
+                  context
+                      .read<MenuProvider>()
+                      .setDashboardRoute(DashboardRoute.TermsAndConditions);
+                }),
                 DialogItem(Icons.policy, "Legal Statement", () {
                   Navigator.pop(context);
                   context

@@ -10,7 +10,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-AddDeviceDialog({required BuildContext context}) async {
+AddDeviceDialog({required BuildContext context,Color? color}) async {
   final addDeviceProvider =
       Provider.of<AddDeviceProvider>(context, listen: false);
 
@@ -22,7 +22,7 @@ AddDeviceDialog({required BuildContext context}) async {
   return showDialog<DeviceModel>(
       context: context,
       builder: (context) {
-        var primaryColor;
+        var primaryColor = color;
         return new AlertDialog(
           backgroundColor: Colors.white,
           shape: RoundedRectangleBorder(
