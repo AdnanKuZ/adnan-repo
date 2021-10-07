@@ -82,36 +82,39 @@ class FormContainerWeb extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 40.0, vertical: 40),
           child: Column(
             children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Wrap(
-                    spacing: 12,
-                    direction: Axis.vertical,
-                    children: [
-                      OurLoationWidget(),
-                      CustomerServiceW(),
-                      TechnicalSupportW(),
-                      EmailW(),
-                    ],
-                  ),
-                  
-                  Form(
-                    key: _formKey,
-                    child: Column(
+              Padding(
+                padding: const EdgeInsets.only(right:16.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Wrap(
+                      spacing: 12,
+                      direction: Axis.vertical,
                       children: [
-                        FormFirstRowColumn(),
-                        const SizedBox(height: 20),
-                        FormSecondRowColumn(),
-                        const SizedBox(height: 20),
-                        FormMessageField(onSubmit),
+                        OurLoationWidget(),
+                        CustomerServiceW(),
+                        TechnicalSupportW(),
+                        EmailW(),
                       ],
                     ),
-                  ),
-                ],
+                    
+                    Form(
+                      key: _formKey,
+                      child: Column(
+                        children: [
+                          FormFirstRowColumn(),
+                          const SizedBox(height: 20),
+                          FormSecondRowColumn(),
+                          const SizedBox(height: 20),
+                          FormMessageField(onSubmit),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
               ),
-              const SizedBox(height: 416),
+              const SizedBox(height: 216),
             ],
           ),
         ),
