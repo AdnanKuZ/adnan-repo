@@ -56,7 +56,7 @@ AddDeviceDialog({required BuildContext context,Color? color}) async {
                             return DropdownMenuItem<DeviceModel>(
                               value: value,
                               child: Text(
-                                value.name!,
+                                value.name == null ? 'undefined' : value.name!,
                                 style: TextStyle(color: Colors.black),
                               ),
                             );
@@ -134,7 +134,7 @@ AddDeviceDialog({required BuildContext context,Color? color}) async {
                           return DropdownMenuItem<MemberModel>(
                             value: value,
                             child: Text(
-                              value.name!,
+                              value.name != null ? value.name! : "undefuned",
                               style: TextStyle(color: Colors.black),
                             ),
                           );
