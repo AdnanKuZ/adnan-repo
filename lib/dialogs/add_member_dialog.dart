@@ -5,13 +5,13 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-AddMemberDialog({required BuildContext context}) async {
+AddMemberDialog({required BuildContext context,Color? color}) async {
   String _value = '';
 
   return showDialog<String>(
       context: context,
       builder: (context) {
-        var primaryColor;
+        var primaryColor = color;
         return new AlertDialog(
           backgroundColor: Colors.white,
           shape: RoundedRectangleBorder(

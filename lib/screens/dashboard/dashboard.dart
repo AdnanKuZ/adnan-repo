@@ -26,9 +26,9 @@ class DashboardScreen extends StatelessWidget {
       case DashboardRoute.FAQs:
         return 4;
       case DashboardRoute.MembersAndDevices:
-        return 5;
-      case DashboardRoute.TermsAndConditions:
         return 6;
+      case DashboardRoute.TermsAndConditions:
+        return 5;
       case DashboardRoute.LegalStatement:
         return 7;
     }
@@ -91,9 +91,9 @@ class DashboardScreen extends StatelessWidget {
                 HomeScreen(),
                 PoliciesScreen(),
                 Statistics(),
-                SizedBox(),
                 ConctactUsScreen(),
                 FAQsScreen(),
+                SizedBox(),
                 MembersAndDevicesScreen(),
                 // Terms And Conditions
                 SizedBox(),
