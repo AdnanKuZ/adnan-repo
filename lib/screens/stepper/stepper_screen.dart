@@ -133,10 +133,6 @@ class _StepperScreenState extends State<StepperScreen> {
                           ],
                         ),
                       ),
-                    ),
-                  )
-                ],
-              ),
                       Expanded(
                         child: Container(
                           child: Theme(

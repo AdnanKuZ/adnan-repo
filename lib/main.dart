@@ -76,7 +76,7 @@ class MyApp extends StatelessWidget {
                 .apply(bodyColor: Colors.white),
             canvasColor: backgroundColor,
           ),
-          home: DashboardScreen(),
+          home: LoginScreen(),
         ));
   }
 }
