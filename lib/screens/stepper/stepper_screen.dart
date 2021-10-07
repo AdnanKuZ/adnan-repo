@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:admin/constants.dart';
 import 'package:admin/dialogs/loading_dialog.dart';
 import 'package:admin/models/device.dart';
@@ -20,7 +19,7 @@ import 'package:admin/widgets/common/enhance_stepper.dart';
 import 'package:provider/provider.dart';
 import 'package:admin/providers/stepperProviders.dart';
 import 'package:admin/widgets/stepper/connection.dart';
-
+import 'package:admin/widgets/stepper/last_step.dart';
 class StepperScreen extends StatefulWidget {
   StepperScreen({Key? key}) : super(key: key);
 
@@ -90,6 +89,11 @@ class _StepperScreenState extends State<StepperScreen> {
                       InkWell(
                         onTap: () {
                           Navigator.pop(context);
+                          for (int i = 0;
+                              i <= _stageProvider.stageStates.length;
+                              i++) {
+                            _stageProvider.setStageStateFalse(i);
+                          }
                           _stageProvider.setIndex = 0;
                         },
                         child: Icon(
@@ -109,13 +113,14 @@ class _StepperScreenState extends State<StepperScreen> {
                       Spacer(),
                       InkWell(
                         onTap: () {
+                          Navigator.pop(context);
                           for (int i = 0;
                               i <= _stageProvider.stageStates.length;
                               i++) {
                             _stageProvider.setStageStateFalse(i);
                           }
                           _stageProvider.setIndex = 0;
-                          Navigator.pop(context);
+                          
                         },
                         child: Icon(
                           Icons.disabled_by_default_rounded,
@@ -227,7 +232,8 @@ class _StepperScreenState extends State<StepperScreen> {
                                 content: Container(
                                   child: AppsStepScreen(),
                                 )),
-                            EnhanceStep(
+                            !instance.islaststep
+                            ? EnhanceStep(
                                 isActive:
                                     instance.stageStates[4] ? true : false,
                                 state: StepState.complete,
@@ -241,6 +247,20 @@ class _StepperScreenState extends State<StepperScreen> {
                                           : Colors.grey),
                                 ),
                                 content: PolicyNameStepWidget())
+                            : EnhanceStep(
+                                isActive:
+                                    instance.stageStates[4] ? true : false,
+                                state: StepState.complete,
+                                title: Text(
+                                  constraints.maxWidth > 1008
+                                      ? ' Policy Name   '
+                                      : '',
+                                  style: TextStyle(
+                                      color: instance.stageStates[4]
+                                          ? primaryColor
+                                          : Colors.grey),
+                                ),
+                                content: LastStepWidget())
                           ],
                         ),
                       ),

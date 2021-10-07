@@ -47,9 +47,11 @@ class PolicyNameStepWidget extends StatelessWidget {
                   Wrap(
                     children: [
                       FilledButton(
-                        title: "Next Step",
+                        title: "Proceed to Summary",
                         onPress: () {
+                          stageProvider.setIsLastStep = true;
                           stageProvider.setStageState = 4;
+                          stageProvider.setIsLastStep = true;
                         },
                       )
                     ],
