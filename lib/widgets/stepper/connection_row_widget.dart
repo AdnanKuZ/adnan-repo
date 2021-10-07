@@ -1,5 +1,4 @@
 import 'package:admin/constants.dart';
-import 'package:admin/providers/dropDownProvider.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
@@ -16,8 +15,6 @@ class ConnectionRowWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final _dropdownprovider =
-        Provider.of<DropDownProvider>(context, listen: false);
     final _provider =
         Provider.of<ConnectionProvider>(context,
         );
@@ -87,7 +84,7 @@ class ConnectionRowWidget extends StatelessWidget {
               EdgeInsets.only(right: MediaQuery.of(context).size.width * 0.08),
           child: Container(
             width: 160,
-            child: Consumer<DropDownProvider>(
+            child: Consumer<ConnectionProvider>(
               builder: (context, instance, child) =>
                   DropdownButtonHideUnderline(
                 child: DropdownButton<String>(
@@ -97,7 +94,7 @@ class ConnectionRowWidget extends StatelessWidget {
                   ),
                   isExpanded: false,
                   focusColor: Colors.white,
-                  value: instance.connectionDropDownValue[day],
+                  value: instance.connectionDropDownValue[day] == null ? 'Cable':instance.connectionDropDownValue[day],
                   elevation: 10,
                   style: TextStyle(color: Colors.white),
                   iconEnabledColor: Colors.black,
@@ -124,14 +121,14 @@ class ConnectionRowWidget extends StatelessWidget {
                   onChanged: allDays
                         ? _provider.connectionischecked
                             ? (String? value) {
-                                _dropdownprovider.setConnectionDropDownValue(
+                                _provider.setConnectionDropDownValue(
                                     value!, day);
                               }
                             : null
                         : _provider.connectionischecked
                             ? null
                             : (String? value) {
-                                _dropdownprovider.setConnectionDropDownValue(
+                                _provider.setConnectionDropDownValue(
                                     value!, day);
                               }
                 ),

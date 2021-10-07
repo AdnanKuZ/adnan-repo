@@ -20,6 +20,7 @@ import 'package:provider/provider.dart';
 import 'package:admin/providers/stepperProviders.dart';
 import 'package:admin/widgets/stepper/connection.dart';
 import 'package:admin/widgets/stepper/last_step.dart';
+
 class StepperScreen extends StatefulWidget {
   StepperScreen({Key? key}) : super(key: key);
 
@@ -86,22 +87,23 @@ class _StepperScreenState extends State<StepperScreen> {
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      InkWell(
-                        onTap: () {
-                          Navigator.pop(context);
-                          for (int i = 0;
-                              i <= _stageProvider.stageStates.length;
-                              i++) {
-                            _stageProvider.setStageStateFalse(i);
-                          }
-                          _stageProvider.setIndex = 0;
-                        },
-                        child: Icon(
-                          Icons.arrow_back_sharp,
-                          color: Colors.black87,
-                          size: 22,
-                        ),
-                      ),
+                      Consumer<StageProvider>(
+                          builder: (context, instance, child) => InkWell(
+                                onTap: () {
+                                  for (int i = 0;
+                                      i <= instance.stageStates.length;
+                                      i++) {
+                                    instance.setStageStateFalse(i);
+                                  }
+                                  _stageProvider.setIndex = 0;
+                                  _stageProvider.setIsLastStep = false;
+                                },
+                                child: Icon(
+                                  Icons.arrow_back_sharp,
+                                  color: Colors.black87,
+                                  size: 22,
+                                ),
+                              )),
                       SizedBox(width: 13),
                       Text(
                         'Back to Dashboard',
@@ -111,21 +113,23 @@ class _StepperScreenState extends State<StepperScreen> {
                             fontWeight: FontWeight.bold),
                       ),
                       Spacer(),
-                      InkWell(
-                        onTap: () {
-                          Navigator.pop(context);
-                          for (int i = 0;
-                              i <= _stageProvider.stageStates.length;
-                              i++) {
-                            _stageProvider.setStageStateFalse(i);
-                          }
-                          _stageProvider.setIndex = 0;
-                          
-                        },
-                        child: Icon(
-                          Icons.disabled_by_default_rounded,
-                          color: Color(0xFFEEA3A3),
-                          size: 45,
+                      Consumer<StageProvider>(
+                        builder: (context, instance, child) => InkWell(
+                          onTap: () async {
+                            Navigator.pop(context);
+                            for (int i = 0;
+                                i <= instance.stageStates.length;
+                                i++) {
+                              instance.setStageStateFalse(i);
+                            }
+                            _stageProvider.setIndex = 0;
+                            _stageProvider.setIsLastStep = false;
+                          },
+                          child: Icon(
+                            Icons.disabled_by_default_rounded,
+                            color: Color(0xFFEEA3A3),
+                            size: 45,
+                          ),
                         ),
                       )
                     ],
@@ -151,7 +155,10 @@ class _StepperScreenState extends State<StepperScreen> {
                           },
                           onStepTapped: (int index) {
                             if (instance.stageStates[index]) {
-                              _stageProvider.setIndex = index;
+                              instance.setIndex = index;
+                            }
+                            if (index == 4) {
+                              instance.setIsLastStep = false;
                             }
                             print(_stageProvider.stageIndex);
                           },
@@ -233,34 +240,34 @@ class _StepperScreenState extends State<StepperScreen> {
                                   child: AppsStepScreen(),
                                 )),
                             !instance.islaststep
-                            ? EnhanceStep(
-                                isActive:
-                                    instance.stageStates[4] ? true : false,
-                                state: StepState.complete,
-                                title: Text(
-                                  constraints.maxWidth > 1008
-                                      ? ' Policy Name   '
-                                      : '',
-                                  style: TextStyle(
-                                      color: instance.stageStates[4]
-                                          ? primaryColor
-                                          : Colors.grey),
-                                ),
-                                content: PolicyNameStepWidget())
-                            : EnhanceStep(
-                                isActive:
-                                    instance.stageStates[4] ? true : false,
-                                state: StepState.complete,
-                                title: Text(
-                                  constraints.maxWidth > 1008
-                                      ? ' Policy Name   '
-                                      : '',
-                                  style: TextStyle(
-                                      color: instance.stageStates[4]
-                                          ? primaryColor
-                                          : Colors.grey),
-                                ),
-                                content: LastStepWidget())
+                                ? EnhanceStep(
+                                    isActive:
+                                        instance.stageStates[4] ? true : false,
+                                    state: StepState.complete,
+                                    title: Text(
+                                      constraints.maxWidth > 1008
+                                          ? ' Policy Name   '
+                                          : '',
+                                      style: TextStyle(
+                                          color: instance.stageStates[4]
+                                              ? primaryColor
+                                              : Colors.grey),
+                                    ),
+                                    content: PolicyNameStepWidget())
+                                : EnhanceStep(
+                                    isActive:
+                                        instance.stageStates[4] ? true : false,
+                                    state: StepState.complete,
+                                    title: Text(
+                                      constraints.maxWidth > 1008
+                                          ? ' Policy Name   '
+                                          : '',
+                                      style: TextStyle(
+                                          color: instance.stageStates[4]
+                                              ? primaryColor
+                                              : Colors.grey),
+                                    ),
+                                    content: LastStepWidget())
                           ],
                         ),
                       ),

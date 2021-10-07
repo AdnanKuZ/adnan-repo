@@ -1,5 +1,4 @@
 import 'package:admin/constants.dart';
-import 'package:admin/providers/dropDownProvider.dart';
 import 'package:admin/providers/bandwidthProvider.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -17,8 +16,6 @@ class BandwidthRowWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final _dropdownprovider =
-        Provider.of<DropDownProvider>(context, listen: false);
     final _provider = Provider.of<BandwidthProvider>(context);
     return Container(
         child:constraints!.maxWidth > 685 ? Row(
@@ -90,7 +87,7 @@ class BandwidthRowWidget extends StatelessWidget {
               EdgeInsets.only(right: MediaQuery.of(context).size.width * 0.08),
           child: Container(
             width: 160,
-            child: Consumer<DropDownProvider>(
+            child: Consumer<BandwidthProvider>(
               builder: (context, instance, child) =>
                   DropdownButtonHideUnderline(
                 child: DropdownButton<String>(
@@ -100,7 +97,7 @@ class BandwidthRowWidget extends StatelessWidget {
                     ),
                     isExpanded: false,
                     focusColor: Colors.white,
-                    value: instance.bandwidthDropDownValue[day],
+                    value: instance.bandwidthDropDownValue[day] == null ? "Full Bandwidth" : instance.bandwidthDropDownValue[day],
                     elevation: 10,
                     style: TextStyle(color: Colors.white),
                     iconEnabledColor: Colors.black,
@@ -129,14 +126,14 @@ class BandwidthRowWidget extends StatelessWidget {
                     onChanged: allDays
                         ? _provider.bandwidthischecked
                             ? (String? value) {
-                                _dropdownprovider.setBandwidthDropDownValue(
+                                _provider.setBandwidthDropDownValue(
                                     value!, day);
                               }
                             : null
                         : _provider.bandwidthischecked
                             ? null
                             : (String? value) {
-                                _dropdownprovider.setBandwidthDropDownValue(
+                                _provider.setBandwidthDropDownValue(
                                     value!, day);
                               }),
               ),
@@ -305,7 +302,7 @@ class BandwidthRowWidget extends StatelessWidget {
               EdgeInsets.only(right: MediaQuery.of(context).size.width * 0.08),
           child: Container(
             width: 160,
-            child: Consumer<DropDownProvider>(
+            child: Consumer<BandwidthProvider>(
               builder: (context, instance, child) =>
                   DropdownButtonHideUnderline(
                 child: DropdownButton<String>(
@@ -315,7 +312,7 @@ class BandwidthRowWidget extends StatelessWidget {
                     ),
                     isExpanded: false,
                     focusColor: Colors.white,
-                    value: instance.bandwidthDropDownValue[day],
+                    value: instance.bandwidthDropDownValue[day] == null ? "Full Bandwidth" : instance.bandwidthDropDownValue[day],
                     elevation: 10,
                     style: TextStyle(color: Colors.white),
                     iconEnabledColor: Colors.black,
@@ -344,14 +341,14 @@ class BandwidthRowWidget extends StatelessWidget {
                     onChanged: allDays
                         ? _provider.bandwidthischecked
                             ? (String? value) {
-                                _dropdownprovider.setBandwidthDropDownValue(
+                                _provider.setBandwidthDropDownValue(
                                     value!, day);
                               }
                             : null
                         : _provider.bandwidthischecked
                             ? null
                             : (String? value) {
-                                _dropdownprovider.setBandwidthDropDownValue(
+                                _provider.setBandwidthDropDownValue(
                                     value!, day);
                               }),
               ),
