@@ -146,7 +146,7 @@ class LoginWidget extends StatelessWidget {
                           },
                           icon: Icon(
                             FontAwesomeIcons.eye,
-                            color: passHiddenProvider.state
+                            color: !passHiddenProvider.state
                                 ? primaryColor
                                 : Colors.grey,
                             size: 16,

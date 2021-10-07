@@ -53,6 +53,9 @@ class MyApp extends StatelessWidget {
             create: (context) => MembersAndDevicesStepProvider()
           ),
           ChangeNotifierProvider(
+            create: (context) => PassValidProvider()
+          ),
+          ChangeNotifierProvider(
             create: (context) => BandwidthProvider()
           ),
           ChangeNotifierProvider(

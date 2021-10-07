@@ -1,10 +1,20 @@
 import 'package:flutter/cupertino.dart';
+import 'package:provider/provider.dart';
 
 class PassHiddenProvider extends ChangeNotifier {
   bool passHidden = true;
   bool get state => passHidden;
   void setPassState(bool state) {
     passHidden = state;
+    notifyListeners();
+  }
+}
+
+class PassValidProvider extends ChangeNotifier {
+  bool passValid = true;
+  bool get passValidState => passValid;
+  void setPassValidState(bool state) {
+    passValid = state;
     notifyListeners();
   }
 }

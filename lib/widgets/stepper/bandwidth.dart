@@ -11,15 +11,18 @@ import 'package:admin/widgets/stepper/bandwidth_row_widget.dart';
 
 class BandwidthStepperWidget extends StatelessWidget {
   final BoxConstraints? constraints;
-  const BandwidthStepperWidget({Key? key,this.constraints}) : super(key: key);
+   BandwidthStepperWidget({Key? key, this.constraints}) : super(key: key);
 
+  final lteController = TextEditingController();
+  final cableController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     final provider = Provider.of<StageProvider>(context, listen: false);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        constraints!.maxWidth > 860 ? Row(
+        // constraints!.maxWidth > 860 ?
+        Row(
           children: [
             Text(
               'Would you like to add any bandwidth limitaions for this policy ?',
@@ -48,74 +51,86 @@ class BandwidthStepperWidget extends StatelessWidget {
               ),
             ),
           ],
-        ):
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Text(
-              'Would you like to add any ',
-              maxLines: 1,
-              style: TextStyle(
-                  color: Colors.black,
-                  fontSize: 22,
-                  fontWeight: FontWeight.bold),
-            ),
-            Text(
-              'bandwidth limitaions for this policy ?',
-              maxLines: 1,
-              style: TextStyle(
-                  color: Colors.black,
-                  fontSize: 22,
-                  fontWeight: FontWeight.bold),
-            ),
-            ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                primary: primaryColor,
-                padding: EdgeInsets.symmetric(horizontal: 35, vertical: 18),
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8)),
-              ),
-              onPressed: () {
-                // print(provider.stageIndex.toString());
-                provider.setStageState = 1;
-                provider.incrementIndex();
-              },
-              child: Text(
-                'Next Step',
-                style: TextStyle(color: Colors.white, fontSize: 16),
-              ),
-            ),
-          ],
         ),
-        SizedBox(
-          height: 30,
+        SizedBox(height: 10),
+        Container(
+          height: 70,
+          child: Row(
+            children: [
+              Text(
+                'Your internet provider speed ',
+                // maxLines: 1,
+                style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 22,
+                    fontWeight: FontWeight.bold),
+              ),
+              SizedBox(
+                width: 30,
+              ),
+              Container(
+                width: 200,
+                child: CustomTextField(
+                  controller: lteController,
+                  keyboardType: TextInputType.number,
+                  hintText: 'LTE (0 > 1000mb)',
+                ),
+              ),
+              SizedBox(
+                width: 20,
+              ),
+              Container(
+                width: 200,
+                child: CustomTextField(
+                  controller: cableController,
+                  keyboardType: TextInputType.number,
+                  hintText: 'Cable (0 > 1000mb)',
+                ),
+              )
+            ],
+          ),
         ),
-        // Row(
+        // Column(
+        //   crossAxisAlignment: CrossAxisAlignment.center,
         //   children: [
         //     Text(
-        //       'Your internet provider speed ',
+        //       'Would you like to add any ',
         //       maxLines: 1,
         //       style: TextStyle(
         //           color: Colors.black,
         //           fontSize: 22,
         //           fontWeight: FontWeight.bold),
         //     ),
-        //     Container(
-        //       color: Color(0xFFF8F8F8),
-        //       child: CustomTextField(
-        //         keyboardType: TextInputType.number,
-        //         hintText: 'LTE (0 > 1000mb)',
+        //     Text(
+        //       'bandwidth limitaions for this policy ?',
+        //       maxLines: 1,
+        //       style: TextStyle(
+        //           color: Colors.black,
+        //           fontSize: 22,
+        //           fontWeight: FontWeight.bold),
+        //     ),
+        //     ElevatedButton(
+        //       style: ElevatedButton.styleFrom(
+        //         primary: primaryColor,
+        //         padding: EdgeInsets.symmetric(horizontal: 35, vertical: 18),
+        //         shape: RoundedRectangleBorder(
+        //             borderRadius: BorderRadius.circular(8)),
+        //       ),
+        //       onPressed: () {
+        //         // print(provider.stageIndex.toString());
+        //         provider.setStageState = 1;
+        //         provider.incrementIndex();
+        //       },
+        //       child: Text(
+        //         'Next Step',
+        //         style: TextStyle(color: Colors.white, fontSize: 16),
         //       ),
         //     ),
-        //     Container(
-        //       color: Color(0xFFF8F8F8),
-        //       child: CustomTextField(
-        //         keyboardType: TextInputType.number,
-        //         hintText: 'Cable (0 > 1000mb)',
-        //       ),
-        //     )
         //   ],
         // ),
+        SizedBox(
+          height: 10,
+        ),
         Container(
           padding: EdgeInsets.only(top: 20),
           child: Column(
