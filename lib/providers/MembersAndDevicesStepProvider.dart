@@ -6,7 +6,12 @@ import 'package:flutter/material.dart';
 
 class MembersAndDevicesStepProvider extends ChangeNotifier {
   String policyName = '';
+  String lte = '';
+  String cable = '';
+
   String get getPolicyName => policyName;
+  String get getLte => lte;
+  String get getCable => cable;
 
   List<DeviceModel> devices = [];
   List<MemberModel> members = [];
@@ -137,5 +142,13 @@ class MembersAndDevicesStepProvider extends ChangeNotifier {
 
   void setPolicyName(String name) {
     this.policyName = name;
+  }
+
+  void setLte(String name) {
+    this.lte = name;
+  }
+  
+  void setCable(String name) {
+    this.cable = name;
   }
 }
