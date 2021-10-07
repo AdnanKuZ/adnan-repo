@@ -4,7 +4,8 @@ class TopEdgesContainer extends StatelessWidget {
   final Widget? child;
   final double? topPadding;
   final Color? color;
-  const TopEdgesContainer({this.child, this.topPadding, this.color});
+  final bool isBottomEdges;
+  const TopEdgesContainer({this.child, this.topPadding, this.color,this.isBottomEdges=false});
 
   @override
   Widget build(BuildContext context) {
@@ -17,6 +18,8 @@ class TopEdgesContainer extends StatelessWidget {
           borderRadius: BorderRadius.only(
             topLeft: Radius.circular(20),
             topRight: Radius.circular(20),
+            bottomRight:isBottomEdges? Radius.circular(20):Radius.zero,
+            bottomLeft: isBottomEdges? Radius.circular(20):Radius.zero,
           ),
         ),
         child: child,

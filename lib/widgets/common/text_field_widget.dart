@@ -39,6 +39,7 @@ class CustomTextField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      //width: 350,
       decoration: BoxDecoration(boxShadow: [
         BoxShadow(
           color: Colors.blue.shade50.withOpacity(0.6),
