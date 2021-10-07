@@ -261,16 +261,11 @@ class StepperMemberList extends StatelessWidget {
                     Consumer<MembersAndDevicesStepProvider>(
                       builder: (context, instance, child) {
                         return StepperCheckbox(
-                          isChecked: false,
+                          isChecked: instance.areAllMemberDevicesChecked(gridIndex),
                           onChecked: (isChecked) {
-                            // provider.setAllMemberDevicesChecked(
-                            //     gridIndex, isChecked);
+                            provider.setAllMemberDevicesChecked(
+                                gridIndex, isChecked);
                           },
-                          // isChecked: instance.areAllMemberDevicesChecked(gridIndex),
-                          // onChecked: (isChecked) {
-                          //   provider.setAllMemberDevicesChecked(
-                          //       gridIndex, isChecked);
-                          // },
                         );
                       },
                     ),

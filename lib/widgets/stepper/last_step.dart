@@ -1,9 +1,14 @@
+import 'package:admin/dialogs/loading_dialog.dart';
 import 'package:admin/models/app.dart';
 import 'package:admin/models/bandwidth.dart';
 import 'package:admin/models/connection_type.dart';
 import 'package:admin/models/device.dart';
 import 'package:admin/models/member.dart';
 import 'package:admin/models/policy.dart';
+import 'package:admin/providers/MembersAndDevicesStepProvider.dart';
+import 'package:admin/providers/bandwidthProvider.dart';
+import 'package:admin/providers/conncetionProvider.dart';
+import 'package:admin/server/requests.dart';
 import 'package:admin/widgets/dashboard/policies/policy/policy.dart';
 import 'package:flutter/material.dart';
 import 'package:admin/widgets/common/buttons.dart';
@@ -16,6 +21,12 @@ class LastStepWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final stageProvider = Provider.of<StageProvider>(context);
+    final memberAndDevicesProvider =
+        Provider.of<MembersAndDevicesStepProvider>(context, listen: false);
+    final bandwidthProvider =
+        Provider.of<BandwidthProvider>(context, listen: false);
+    final connectionProvider =
+        Provider.of<ConnectionProvider>(context, listen: false);
 
     return Container(
       child: Column(
@@ -35,40 +46,75 @@ class LastStepWidget extends StatelessWidget {
                   ),
                   Wrap(
                     children: [
-                      FilledButton(
-                        title: "Confirm & Add Policy",
-                        onPress: () {
-                          Navigator.pop(context);
-                          stageProvider.setIsLastStep = false;
-                        },
-                      )
+                      Consumer3<MembersAndDevicesStepProvider,
+                              BandwidthProvider, ConnectionProvider>(
+                          builder: (context, membersState, bandwidthState,
+                              connectionState, child) {
+                        return FilledButton(
+                          title: "Confirm & Add Policy",
+                          onPress: () async {
+                            // Send policy to server
+                            var policy = PolicyModel(
+                              name: membersState.policyName,
+                              bandwidths: [
+                                ...bandwidthState.getBandwidthList()
+                              ],
+                              connectionTypes: [
+                                ...connectionState.getConnectionTypesList()
+                              ],
+                              apps: [
+                                AppModel(
+                                  name: "Chrome",
+                                  image: "assets/images/chrome.png",
+                                  link: '',
+                                )
+                              ],
+                              members: [...membersState.getSelectedMemeber()],
+                            );
+
+                            LoadingDialog(context: context);
+                            await requestAddPolicy(policy);
+                            Navigator.pop(context);
+                            Navigator.pop(context);
+                            stageProvider.setIsLastStep = false;
+                          },
+                        );
+                      })
                     ],
                   )
                 ],
               ),
             ],
           ),
-          PolicyWidget(
-              policy: PolicyModel(name: 'Boys & Girls', bandwidths: [
-            BandwidthModel(
-                bandwidth: 'Full Bandwidth',
-                day: 'All Days',
-                date: '12:00 to 02:00 AM')
-          ], connectionTypes: [
-            ConnectionTypeModel(
-                type: "Cable", day: 'All Days', date: '12:00 to 02:00 AM')
-          ], apps: [
-            AppModel(
-              name: "Chrome",
-              image: "assets/images/chrome.png",
-              link: '',
-            )
-          ], members: [
-            MemberModel(
-                name: "Khalid Saled",
-                devices: [DeviceModel(name: 'IPhone 12 ProMax', mac: 'MA: 5:E5:49:AC:07:44',)],),
-          ],
-          ))
+          Row(
+            children: [
+              Container(
+                width: 400,
+                child: Consumer3<MembersAndDevicesStepProvider,
+                    BandwidthProvider, ConnectionProvider>(
+                  builder: (context, membersState, bandwidthState,
+                      connectionState, child) {
+                    return PolicyWidget(
+                        policy: PolicyModel(
+                      name: membersState.policyName,
+                      bandwidths: [...bandwidthState.getBandwidthList()],
+                      connectionTypes: [
+                        ...connectionState.getConnectionTypesList()
+                      ],
+                      apps: [
+                        AppModel(
+                          name: "Chrome",
+                          image: "assets/images/chrome.png",
+                          link: '',
+                        )
+                      ],
+                      members: [...membersState.getSelectedMemeber()],
+                    ));
+                  },
+                ),
+              ),
+            ],
+          )
         ],
       ),
     );

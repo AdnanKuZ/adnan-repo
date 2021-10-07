@@ -1,8 +1,13 @@
+import 'dart:convert';
+
 import 'package:admin/models/device.dart';
 import 'package:admin/models/member.dart';
 import 'package:flutter/material.dart';
 
 class MembersAndDevicesStepProvider extends ChangeNotifier {
+  String policyName = '';
+  String get getPolicyName => policyName;
+
   List<DeviceModel> devices = [];
   List<MemberModel> members = [];
   // List<DeviceModel> devices = [
@@ -37,6 +42,24 @@ class MembersAndDevicesStepProvider extends ChangeNotifier {
 
   bool areDevicesChecked = false;
   bool get getAreDevicesChecked => areAllDevicesChecked();
+
+  List<MemberModel> getSelectedMemeber() {
+    List<MemberModel> result = [];
+    for (MemberModel member in members) {
+      if (member.devices?.any((element) => element.isSelected) ?? false) {
+        var selectedDevices =
+            member.devices?.where((element) => element.isSelected).toList();
+            selectedDevices?.forEach((element) {element.mac = "5:E5:49:AC:07:44";});
+        result.add(MemberModel(
+            id: member.id, name: member.name, devices: selectedDevices));
+      }
+    }
+    result.forEach((element) {
+      print(jsonEncode(element).toString());
+      print(element.devices?.length);
+    });
+    return result;
+  }
 
   void addDevice(DeviceModel device) {
     devices.add(device);
@@ -99,12 +122,20 @@ class MembersAndDevicesStepProvider extends ChangeNotifier {
   }
 
   bool areAllMemberDevicesChecked(int memeberIndex) {
+    if (members[memeberIndex].devices == null) {
+      return false;
+    }
+
     for (DeviceModel device in members[memeberIndex].devices!) {
       if (!device.isSelected) {
         return false;
       }
     }
-    
+
     return members[memeberIndex].devices!.length > 0;
+  }
+
+  void setPolicyName(String name) {
+    this.policyName = name;
   }
 }

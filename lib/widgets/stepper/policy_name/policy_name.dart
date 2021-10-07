@@ -16,6 +16,7 @@ import 'package:admin/providers/stepperProviders.dart';
 import '../../../responsive.dart';
 
 class PolicyNameStepWidget extends StatelessWidget {
+  String value = '';
   PolicyNameStepWidget({Key? key}) : super(key: key);
 
   @override
@@ -52,6 +53,7 @@ class PolicyNameStepWidget extends StatelessWidget {
                           stageProvider.setIsLastStep = true;
                           stageProvider.setStageState = 4;
                           stageProvider.setIsLastStep = true;
+                          provider.setPolicyName(value);
                         },
                       )
                     ],
@@ -81,8 +83,12 @@ class PolicyNameStepWidget extends StatelessWidget {
                 }
                 return null;
               },
-              onFieldSubmitted: (value) {},
-              onChanged: (value) {},
+              onFieldSubmitted: (value) {
+                this.value = value;
+              },
+              onChanged: (value) {
+                this.value = value;
+              },
             ),
           ),
         ],

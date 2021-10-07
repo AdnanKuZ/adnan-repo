@@ -1,17 +1,21 @@
 import 'dart:convert';
 import 'package:admin/models/device.dart';
 import 'package:admin/models/member.dart';
+import 'package:admin/models/policy.dart';
 import 'package:admin/server/urls.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 // Getting devices
 Future<List<DeviceModel>> requestDevices() async {
+  SharedPreferences _prefs = await SharedPreferences.getInstance();
+  String token = _prefs.getString('token').toString();
+
   http.Response response = await http.get(
     Uri.parse(DEVICES_URL),
     headers: {
       'Content-Type': 'application/json',
-      'Authorization':
-          'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiZDFmMjMxMmYtNzNjZS00MmM3LTliMGEtZDQ0NWNmNDQxYWYxIiwic3ViIjoiZDFmMjMxMmYtNzNjZS00MmM3LTliMGEtZDQ0NWNmNDQxYWYxIiwianRpIjoiNTI3OGRmMzMtZjJhNy00ODAxLWEzOWUtNWJlNTBlMjJmNmUzIiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvbmFtZWlkZW50aWZpZXIiOiJkMWYyMzEyZi03M2NlLTQyYzctOWIwYS1kNDQ1Y2Y0NDFhZjEiLCJlbWFpbCI6ImU3N2JjZTBlMGJAZW1haWxuYXguY29tIiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvZW1haWxhZGRyZXNzIjoiZTc3YmNlMGUwYkBlbWFpbG5heC5jb20iLCJodHRwOi8vc29ib2IudGVjaC9jbGFpbXMvY3BlIjoic3RyaW5nIiwiZXhwIjoxNzkxMTg3OTYxLCJpc3MiOiJodHRwczovL3NvaG9iLnRlY2giLCJhdWQiOiJodHRwczovL3NvaG9iLnRlY2gifQ.cXUAg1GHIjNT6HpVz1G_Wp1-pUTf4jmoPKLA61_2FLQ',
+      'Authorization': 'Bearer ${token}',
     },
   );
 
@@ -26,11 +30,13 @@ Future<List<DeviceModel>> requestDevices() async {
 }
 
 Future<bool> requestAddMember(String name) async {
+  SharedPreferences _prefs = await SharedPreferences.getInstance();
+  String token = _prefs.getString('token').toString();
+
   http.Response response = await http.post(Uri.parse(MEMBERS_URL),
       headers: {
         'Content-Type': 'application/json',
-        'Authorization':
-            'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiZDFmMjMxMmYtNzNjZS00MmM3LTliMGEtZDQ0NWNmNDQxYWYxIiwic3ViIjoiZDFmMjMxMmYtNzNjZS00MmM3LTliMGEtZDQ0NWNmNDQxYWYxIiwianRpIjoiNTI3OGRmMzMtZjJhNy00ODAxLWEzOWUtNWJlNTBlMjJmNmUzIiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvbmFtZWlkZW50aWZpZXIiOiJkMWYyMzEyZi03M2NlLTQyYzctOWIwYS1kNDQ1Y2Y0NDFhZjEiLCJlbWFpbCI6ImU3N2JjZTBlMGJAZW1haWxuYXguY29tIiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvZW1haWxhZGRyZXNzIjoiZTc3YmNlMGUwYkBlbWFpbG5heC5jb20iLCJodHRwOi8vc29ib2IudGVjaC9jbGFpbXMvY3BlIjoic3RyaW5nIiwiZXhwIjoxNzkxMTg3OTYxLCJpc3MiOiJodHRwczovL3NvaG9iLnRlY2giLCJhdWQiOiJodHRwczovL3NvaG9iLnRlY2gifQ.cXUAg1GHIjNT6HpVz1G_Wp1-pUTf4jmoPKLA61_2FLQ',
+        'Authorization': 'Bearer ${token}',
       },
       body: jsonEncode({'name': name}));
 
@@ -44,14 +50,90 @@ Future<bool> requestAddMember(String name) async {
   return false;
 }
 
+Future<bool> requestAddPolicy(PolicyModel policy) async {
+  SharedPreferences _prefs = await SharedPreferences.getInstance();
+  String token = _prefs.getString('token').toString();
+
+  List<String?> devicesIds = [];
+  for (MemberModel member in policy.members!) {
+    var ids = member.devices?.map((value) => value.id).toList();
+    devicesIds.addAll(ids!);
+  }
+
+  http.Response response = await http.post(Uri.parse(ADD_POLICY_URL),
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ${token}',
+      },
+      body: jsonEncode({
+        "userIds": [],
+        "deviceIds": [...devicesIds],
+        "lteBandwidth": "50",
+        "cableBandwidth": "50",
+        // "bandwidths": [
+        //   {
+        //     "value": "<double>",
+        //     "schedule": {
+        //       "day": "<integer>",
+        //       "allDays": "<boolean>",
+        //       "startTime": {},
+        //       "endTime": {}
+        //     }
+        //   },
+        //   {
+        //     "value": "<double>",
+        //     "schedule": {
+        //       "day": "<integer>",
+        //       "allDays": "<boolean>",
+        //       "startTime": {},
+        //       "endTime": {}
+        //     }
+        //   }
+        // ],
+        // "interfaces": [
+        //   {
+        //     "portName": "<string>",
+        //     "schedule": {
+        //       "day": "<integer>",
+        //       "allDays": "<boolean>",
+        //       "startTime": {},
+        //       "endTime": {}
+        //     }
+        //   },
+        //   {
+        //     "portName": "<string>",
+        //     "schedule": {
+        //       "day": "<integer>",
+        //       "allDays": "<boolean>",
+        //       "startTime": {},
+        //       "endTime": {}
+        //     }
+        //   }
+        // ],
+        // "apps": ["<string>", "<string>"],
+        // "customApps": ["<string>", "<string>"]
+      }));
+
+  print('status code' + response.statusCode.toString());
+  print('status body' + response.body.toString());
+
+  if (response.statusCode == 201) {
+    return true;
+  }
+
+  return false;
+}
+
 // Getting members
 Future<List<MemberModel>> requestMembers() async {
+  SharedPreferences _prefs = await SharedPreferences.getInstance();
+  String token = _prefs.getString('token').toString();
+
   http.Response response = await http.get(
     Uri.parse(MEMBERS_URL),
     headers: {
       'Content-Type': 'application/json',
-      'Authorization':
-          'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiZDFmMjMxMmYtNzNjZS00MmM3LTliMGEtZDQ0NWNmNDQxYWYxIiwic3ViIjoiZDFmMjMxMmYtNzNjZS00MmM3LTliMGEtZDQ0NWNmNDQxYWYxIiwianRpIjoiNTI3OGRmMzMtZjJhNy00ODAxLWEzOWUtNWJlNTBlMjJmNmUzIiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvbmFtZWlkZW50aWZpZXIiOiJkMWYyMzEyZi03M2NlLTQyYzctOWIwYS1kNDQ1Y2Y0NDFhZjEiLCJlbWFpbCI6ImU3N2JjZTBlMGJAZW1haWxuYXguY29tIiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvZW1haWxhZGRyZXNzIjoiZTc3YmNlMGUwYkBlbWFpbG5heC5jb20iLCJodHRwOi8vc29ib2IudGVjaC9jbGFpbXMvY3BlIjoic3RyaW5nIiwiZXhwIjoxNzkxMTg3OTYxLCJpc3MiOiJodHRwczovL3NvaG9iLnRlY2giLCJhdWQiOiJodHRwczovL3NvaG9iLnRlY2gifQ.cXUAg1GHIjNT6HpVz1G_Wp1-pUTf4jmoPKLA61_2FLQ',
+      'Authorization': 'Bearer ${token}',
     },
   );
 
@@ -66,6 +148,9 @@ Future<List<MemberModel>> requestMembers() async {
 }
 
 Future<bool> requestNewDevice(DeviceModel device) async {
+  SharedPreferences _prefs = await SharedPreferences.getInstance();
+  String token = _prefs.getString('token').toString();
+
   var body = device.member != null
       ? {
           "name": device.name,
@@ -76,8 +161,7 @@ Future<bool> requestNewDevice(DeviceModel device) async {
   http.Response response = await http.post(Uri.parse(DEVICES_URL),
       headers: {
         'Content-Type': 'application/json',
-        'Authorization':
-            'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiZDFmMjMxMmYtNzNjZS00MmM3LTliMGEtZDQ0NWNmNDQxYWYxIiwic3ViIjoiZDFmMjMxMmYtNzNjZS00MmM3LTliMGEtZDQ0NWNmNDQxYWYxIiwianRpIjoiNTI3OGRmMzMtZjJhNy00ODAxLWEzOWUtNWJlNTBlMjJmNmUzIiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvbmFtZWlkZW50aWZpZXIiOiJkMWYyMzEyZi03M2NlLTQyYzctOWIwYS1kNDQ1Y2Y0NDFhZjEiLCJlbWFpbCI6ImU3N2JjZTBlMGJAZW1haWxuYXguY29tIiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvZW1haWxhZGRyZXNzIjoiZTc3YmNlMGUwYkBlbWFpbG5heC5jb20iLCJodHRwOi8vc29ib2IudGVjaC9jbGFpbXMvY3BlIjoic3RyaW5nIiwiZXhwIjoxNzkxMTg3OTYxLCJpc3MiOiJodHRwczovL3NvaG9iLnRlY2giLCJhdWQiOiJodHRwczovL3NvaG9iLnRlY2gifQ.cXUAg1GHIjNT6HpVz1G_Wp1-pUTf4jmoPKLA61_2FLQ',
+        'Authorization': 'Bearer ${token}',
       },
       body: jsonEncode(body));
 
@@ -89,6 +173,9 @@ Future<bool> requestNewDevice(DeviceModel device) async {
 }
 
 Future<bool> requestExistingDevice(DeviceModel device) async {
+  SharedPreferences _prefs = await SharedPreferences.getInstance();
+  String token = _prefs.getString('token').toString();
+
   var body = (device.member != null)
       ? {
           "id": device.id,
@@ -103,8 +190,7 @@ Future<bool> requestExistingDevice(DeviceModel device) async {
   http.Response response = await http.put(Uri.parse(DEVICES_URL + device.id!),
       headers: {
         'Content-Type': 'application/json',
-        'Authorization':
-            'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiZDFmMjMxMmYtNzNjZS00MmM3LTliMGEtZDQ0NWNmNDQxYWYxIiwic3ViIjoiZDFmMjMxMmYtNzNjZS00MmM3LTliMGEtZDQ0NWNmNDQxYWYxIiwianRpIjoiNTI3OGRmMzMtZjJhNy00ODAxLWEzOWUtNWJlNTBlMjJmNmUzIiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvbmFtZWlkZW50aWZpZXIiOiJkMWYyMzEyZi03M2NlLTQyYzctOWIwYS1kNDQ1Y2Y0NDFhZjEiLCJlbWFpbCI6ImU3N2JjZTBlMGJAZW1haWxuYXguY29tIiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvZW1haWxhZGRyZXNzIjoiZTc3YmNlMGUwYkBlbWFpbG5heC5jb20iLCJodHRwOi8vc29ib2IudGVjaC9jbGFpbXMvY3BlIjoic3RyaW5nIiwiZXhwIjoxNzkxMTg3OTYxLCJpc3MiOiJodHRwczovL3NvaG9iLnRlY2giLCJhdWQiOiJodHRwczovL3NvaG9iLnRlY2gifQ.cXUAg1GHIjNT6HpVz1G_Wp1-pUTf4jmoPKLA61_2FLQ',
+        'Authorization': 'Bearer ${token}',
       },
       body: jsonEncode(body));
 
@@ -116,11 +202,13 @@ Future<bool> requestExistingDevice(DeviceModel device) async {
 }
 
 Future<bool> requestDeleteDevice(DeviceModel device) async {
+  SharedPreferences _prefs = await SharedPreferences.getInstance();
+  String token = _prefs.getString('token').toString();
+
   http.Response response =
       await http.delete(Uri.parse(DEVICES_URL + device.id!), headers: {
     'Content-Type': 'application/json',
-    'Authorization':
-        'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiZDFmMjMxMmYtNzNjZS00MmM3LTliMGEtZDQ0NWNmNDQxYWYxIiwic3ViIjoiZDFmMjMxMmYtNzNjZS00MmM3LTliMGEtZDQ0NWNmNDQxYWYxIiwianRpIjoiNTI3OGRmMzMtZjJhNy00ODAxLWEzOWUtNWJlNTBlMjJmNmUzIiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvbmFtZWlkZW50aWZpZXIiOiJkMWYyMzEyZi03M2NlLTQyYzctOWIwYS1kNDQ1Y2Y0NDFhZjEiLCJlbWFpbCI6ImU3N2JjZTBlMGJAZW1haWxuYXguY29tIiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvZW1haWxhZGRyZXNzIjoiZTc3YmNlMGUwYkBlbWFpbG5heC5jb20iLCJodHRwOi8vc29ib2IudGVjaC9jbGFpbXMvY3BlIjoic3RyaW5nIiwiZXhwIjoxNzkxMTg3OTYxLCJpc3MiOiJodHRwczovL3NvaG9iLnRlY2giLCJhdWQiOiJodHRwczovL3NvaG9iLnRlY2gifQ.cXUAg1GHIjNT6HpVz1G_Wp1-pUTf4jmoPKLA61_2FLQ',
+    'Authorization': 'Bearer ${token}',
   });
 
   if (response.statusCode == 201) {
@@ -131,12 +219,14 @@ Future<bool> requestDeleteDevice(DeviceModel device) async {
 }
 
 Future<bool> requestDeleteMember(MemberModel member) async {
+  SharedPreferences _prefs = await SharedPreferences.getInstance();
+  String token = _prefs.getString('token').toString();
+
   print('url: ' + MEMBERS_URL + member.id!);
   http.Response response =
       await http.delete(Uri.parse(MEMBERS_URL + member.id!), headers: {
     'Content-Type': 'application/json',
-    'Authorization':
-        'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiZDFmMjMxMmYtNzNjZS00MmM3LTliMGEtZDQ0NWNmNDQxYWYxIiwic3ViIjoiZDFmMjMxMmYtNzNjZS00MmM3LTliMGEtZDQ0NWNmNDQxYWYxIiwianRpIjoiNTI3OGRmMzMtZjJhNy00ODAxLWEzOWUtNWJlNTBlMjJmNmUzIiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvbmFtZWlkZW50aWZpZXIiOiJkMWYyMzEyZi03M2NlLTQyYzctOWIwYS1kNDQ1Y2Y0NDFhZjEiLCJlbWFpbCI6ImU3N2JjZTBlMGJAZW1haWxuYXguY29tIiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvZW1haWxhZGRyZXNzIjoiZTc3YmNlMGUwYkBlbWFpbG5heC5jb20iLCJodHRwOi8vc29ib2IudGVjaC9jbGFpbXMvY3BlIjoic3RyaW5nIiwiZXhwIjoxNzkxMTg3OTYxLCJpc3MiOiJodHRwczovL3NvaG9iLnRlY2giLCJhdWQiOiJodHRwczovL3NvaG9iLnRlY2gifQ.cXUAg1GHIjNT6HpVz1G_Wp1-pUTf4jmoPKLA61_2FLQ',
+    'Authorization': 'Bearer ${token}',
   });
 
   print('response status code: ' + response.statusCode.toString());
@@ -148,12 +238,14 @@ Future<bool> requestDeleteMember(MemberModel member) async {
 }
 
 Future<bool> requestEditMember(MemberModel member) async {
+  SharedPreferences _prefs = await SharedPreferences.getInstance();
+  String token = _prefs.getString('token').toString();
+
   print('url: ' + MEMBERS_URL + member.id!);
   http.Response response = await http.put(Uri.parse(MEMBERS_URL + member.id!),
       headers: {
         'Content-Type': 'application/json',
-        'Authorization':
-            'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiZDFmMjMxMmYtNzNjZS00MmM3LTliMGEtZDQ0NWNmNDQxYWYxIiwic3ViIjoiZDFmMjMxMmYtNzNjZS00MmM3LTliMGEtZDQ0NWNmNDQxYWYxIiwianRpIjoiNTI3OGRmMzMtZjJhNy00ODAxLWEzOWUtNWJlNTBlMjJmNmUzIiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvbmFtZWlkZW50aWZpZXIiOiJkMWYyMzEyZi03M2NlLTQyYzctOWIwYS1kNDQ1Y2Y0NDFhZjEiLCJlbWFpbCI6ImU3N2JjZTBlMGJAZW1haWxuYXguY29tIiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvZW1haWxhZGRyZXNzIjoiZTc3YmNlMGUwYkBlbWFpbG5heC5jb20iLCJodHRwOi8vc29ib2IudGVjaC9jbGFpbXMvY3BlIjoic3RyaW5nIiwiZXhwIjoxNzkxMTg3OTYxLCJpc3MiOiJodHRwczovL3NvaG9iLnRlY2giLCJhdWQiOiJodHRwczovL3NvaG9iLnRlY2gifQ.cXUAg1GHIjNT6HpVz1G_Wp1-pUTf4jmoPKLA61_2FLQ',
+        'Authorization': 'Bearer ${token}',
       },
       body: jsonEncode({"id": member.id, "name": member.name}));
 
@@ -166,12 +258,14 @@ Future<bool> requestEditMember(MemberModel member) async {
 }
 
 Future<bool> requestEditDevice(DeviceModel device) async {
+  SharedPreferences _prefs = await SharedPreferences.getInstance();
+  String token = _prefs.getString('token').toString();
+
   print('url: ' + DEVICES_URL + device.id!);
   http.Response response = await http.put(Uri.parse(DEVICES_URL + device.id!),
       headers: {
         'Content-Type': 'application/json',
-        'Authorization':
-            'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiZDFmMjMxMmYtNzNjZS00MmM3LTliMGEtZDQ0NWNmNDQxYWYxIiwic3ViIjoiZDFmMjMxMmYtNzNjZS00MmM3LTliMGEtZDQ0NWNmNDQxYWYxIiwianRpIjoiNTI3OGRmMzMtZjJhNy00ODAxLWEzOWUtNWJlNTBlMjJmNmUzIiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvbmFtZWlkZW50aWZpZXIiOiJkMWYyMzEyZi03M2NlLTQyYzctOWIwYS1kNDQ1Y2Y0NDFhZjEiLCJlbWFpbCI6ImU3N2JjZTBlMGJAZW1haWxuYXguY29tIiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvZW1haWxhZGRyZXNzIjoiZTc3YmNlMGUwYkBlbWFpbG5heC5jb20iLCJodHRwOi8vc29ib2IudGVjaC9jbGFpbXMvY3BlIjoic3RyaW5nIiwiZXhwIjoxNzkxMTg3OTYxLCJpc3MiOiJodHRwczovL3NvaG9iLnRlY2giLCJhdWQiOiJodHRwczovL3NvaG9iLnRlY2gifQ.cXUAg1GHIjNT6HpVz1G_Wp1-pUTf4jmoPKLA61_2FLQ',
+        'Authorization': 'Bearer ${token}',
       },
       body: jsonEncode({"id": device.id, "name": device.name}));
 
@@ -185,12 +279,15 @@ Future<bool> requestEditDevice(DeviceModel device) async {
 
 Future<bool> requestEditMemberDevice(
     MemberModel member, DeviceModel device) async {
+  SharedPreferences _prefs = await SharedPreferences.getInstance();
+  String token = _prefs.getString('token').toString();
+
   print('url: ' + DEVICES_URL + device.id!);
   http.Response response = await http.put(Uri.parse(DEVICES_URL + device.id!),
       headers: {
         'Content-Type': 'application/json',
         'Authorization':
-            'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiZDFmMjMxMmYtNzNjZS00MmM3LTliMGEtZDQ0NWNmNDQxYWYxIiwic3ViIjoiZDFmMjMxMmYtNzNjZS00MmM3LTliMGEtZDQ0NWNmNDQxYWYxIiwianRpIjoiNTI3OGRmMzMtZjJhNy00ODAxLWEzOWUtNWJlNTBlMjJmNmUzIiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvbmFtZWlkZW50aWZpZXIiOiJkMWYyMzEyZi03M2NlLTQyYzctOWIwYS1kNDQ1Y2Y0NDFhZjEiLCJlbWFpbCI6ImU3N2JjZTBlMGJAZW1haWxuYXguY29tIiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvZW1haWxhZGRyZXNzIjoiZTc3YmNlMGUwYkBlbWFpbG5heC5jb20iLCJodHRwOi8vc29ib2IudGVjaC9jbGFpbXMvY3BlIjoic3RyaW5nIiwiZXhwIjoxNzkxMTg3OTYxLCJpc3MiOiJodHRwczovL3NvaG9iLnRlY2giLCJhdWQiOiJodHRwczovL3NvaG9iLnRlY2gifQ.cXUAg1GHIjNT6HpVz1G_Wp1-pUTf4jmoPKLA61_2FLQ',
+            'Bearer ${token}',
       },
       body: jsonEncode({
         "id": device.id,
