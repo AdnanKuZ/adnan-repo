@@ -10,14 +10,14 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-AddDeviceDialog({required BuildContext context, Color? color}) async {
+AddDeviceDialog({required BuildContext context, Color? color, MemberModel? selectedMember}) async {
   final addDeviceProvider =
       Provider.of<AddDeviceProvider>(context, listen: false);
 
   addDeviceProvider.setDeviceMac("");
   addDeviceProvider.setDeviceName("");
   addDeviceProvider.setSelectedDevice(null);
-  addDeviceProvider.setSelectedMember(null);
+  addDeviceProvider.setSelectedMember(selectedMember);
 
   return showDialog<DeviceModel>(
       context: context,

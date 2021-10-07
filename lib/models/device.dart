@@ -37,4 +37,8 @@ class DeviceModel {
   void setMember(MemberModel member) {
     this.member = member;
   }
+
+  void setName(String name) {
+    this.name = name;
+  }
 }
