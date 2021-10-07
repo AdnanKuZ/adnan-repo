@@ -1,7 +1,9 @@
 import 'package:admin/constants.dart';
 import 'package:admin/widgets/common/elevated_button_widget.dart';
+import 'package:admin/widgets/common/text_field_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:auto_size_text_pk/auto_size_text_pk.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:admin/providers/stepperProviders.dart';
 import 'package:admin/widgets/common/buttons.dart';
@@ -88,6 +90,32 @@ class BandwidthStepperWidget extends StatelessWidget {
         SizedBox(
           height: 30,
         ),
+        // Row(
+        //   children: [
+        //     Text(
+        //       'Your internet provider speed ',
+        //       maxLines: 1,
+        //       style: TextStyle(
+        //           color: Colors.black,
+        //           fontSize: 22,
+        //           fontWeight: FontWeight.bold),
+        //     ),
+        //     Container(
+        //       color: Color(0xFFF8F8F8),
+        //       child: CustomTextField(
+        //         keyboardType: TextInputType.number,
+        //         hintText: 'LTE (0 > 1000mb)',
+        //       ),
+        //     ),
+        //     Container(
+        //       color: Color(0xFFF8F8F8),
+        //       child: CustomTextField(
+        //         keyboardType: TextInputType.number,
+        //         hintText: 'Cable (0 > 1000mb)',
+        //       ),
+        //     )
+        //   ],
+        // ),
         Container(
           padding: EdgeInsets.only(top: 20),
           child: Column(
