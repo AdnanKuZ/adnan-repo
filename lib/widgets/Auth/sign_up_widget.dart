@@ -29,9 +29,11 @@ class SignUpWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final passHiddenProvider =
-        Provider.of<PassHiddenProvider>(context, listen: false);
+        Provider.of<PassHiddenProvider>(context,);
     final emailValidProvider = Provider.of<EmailValidProvider>(context);
     final signupMode = Provider.of<SignUpModes>(context, listen: false);
+    final passValidProvider =
+        Provider.of<PassValidProvider>(context, listen: false);
     Map<String, String> authData = {
       "email": "",
       "password": "",
@@ -54,6 +56,13 @@ class SignUpWidget extends StatelessWidget {
           child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
+          Consumer<PassValidProvider>(
+              builder: (context, instance, child) => instance.passValidState
+                  ? SizedBox.shrink()
+                  : Text(
+                      'password must have : capital letters, small letters, characters and numbers',
+                      style: TextStyle(color: Colors.red),
+                    )),
           Text(
             'SIGN UP',
             style: TextStyle(
@@ -140,7 +149,7 @@ class SignUpWidget extends StatelessWidget {
                       icon: Consumer<PassHiddenProvider>(
                           builder: (context, state, child) => Icon(
                                 FontAwesomeIcons.eye,
-                                color: state.state ? primaryColor : Colors.grey,
+                                color: !state.state ? primaryColor : Colors.grey,
                                 size: 16,
                               )),
                     ),
@@ -215,33 +224,37 @@ class SignUpWidget extends StatelessWidget {
             height: 25,
           ),
           Consumer<IsLoading>(
-            builder: (context,state,child) => Row(children: [
+            builder: (context, state, child) => Row(children: [
               Expanded(
-                child: !state.isLoadingState 
-                ? CustomElevatedButton(
-                  onpressed: () async {
-                    if (signUpFormKey.currentState!.validate()) {
-                      authData = {
-                        "email": emailController.text,
-                        "password": passController.text,
-                        "deviceId": deviceIdController.text,
-                      };
-                      var result = await _authRepo.register(authData);
-                      if(result == 'Success') {
-                        signupMode.setMode("Otp");
-                      }else if(result == 'Bad Request') {
-                        print('bad request');
-                      }else
-                        print('server error');
-                    }
-                  },
-                  buttonColor: primaryColor,
-                  icon: FontAwesomeIcons.userPlus,
-                  splashColor: Colors.white,
-                  textColor: Colors.white,
-                  title: 'Sign Up',
-                  iconColor: Colors.white,
-                ): Center(child: CircularProgressIndicator()),
+                child: !state.isLoadingState
+                    ? CustomElevatedButton(
+                        onpressed: () async {
+                          signUpFormKey.currentState!.validate()
+                              ? passValidProvider.setPassValidState(true)
+                              : passValidProvider.setPassValidState(false);
+                          if (signUpFormKey.currentState!.validate()) {
+                            authData = {
+                              "email": emailController.text,
+                              "password": passController.text,
+                              "deviceId": deviceIdController.text,
+                            };
+                            var result = await _authRepo.register(authData);
+                            if (result == 'Success') {
+                              signupMode.setMode("Otp");
+                            } else if (result == 'Bad Request') {
+                              print('bad request');
+                            } else
+                              print('server error');
+                          }
+                        },
+                        buttonColor: primaryColor,
+                        icon: FontAwesomeIcons.userPlus,
+                        splashColor: Colors.white,
+                        textColor: Colors.white,
+                        title: 'Sign Up',
+                        iconColor: Colors.white,
+                      )
+                    : Center(child: CircularProgressIndicator()),
               ),
             ]),
           ),
@@ -252,6 +265,7 @@ class SignUpWidget extends StatelessWidget {
             Expanded(
               child: CustomElevatedButton(
                 onpressed: () {
+                  passValidProvider.setPassValidState(true);
                   Navigator.push(context,
                       MaterialPageRoute(builder: (context) => LoginScreen()));
                 },
