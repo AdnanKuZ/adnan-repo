@@ -57,9 +57,9 @@ class _ConctactUsScreenState extends State<ConctactUsScreen> {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            DashboardHeader(),
-            screenWidth <= 480 ? _PageInfoHeaderMobile() : _PageInfoHeaderWeb(),
-            screenWidth <= 480
+            Padding(padding: EdgeInsets.only(top:16,left:16),child: DashboardHeader()),
+            screenWidth <= 750 ? _PageInfoHeaderMobile() : _PageInfoHeaderWeb(),
+            screenWidth <= 900
                 ? FormContainer(submit)
                 : FormContainerWeb(submit),
           ],
@@ -75,8 +75,8 @@ class FormContainerWeb extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(36.0),
+    return Container(
+      margin: const EdgeInsets.all(36.0),
       child: TopEdgesContainer(
         isBottomEdges: true,
         color: primaryColor,
@@ -85,37 +85,46 @@ class FormContainerWeb extends StatelessWidget {
           child: Column(
             children: [
               Padding(
-                padding: const EdgeInsets.only(right: 16.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                padding: const EdgeInsets.only(right: 26.0),
+                child: ResponsiveRowColumn(
+                  layout: MediaQuery.of(context).size.width > 900
+                      ? ResponsiveRowColumnType.ROW
+                      : ResponsiveRowColumnType.COLUMN,
+                  rowMainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  rowCrossAxisAlignment: CrossAxisAlignment.start,
+                  columnCrossAxisAlignment: CrossAxisAlignment.center,
+                  columnMainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Wrap(
-                      spacing: 12,
-                      direction: Axis.vertical,
-                      children: [
-                        OurLoationWidget(),
-                        CustomerServiceW(),
-                        TechnicalSupportW(),
-                        EmailW(),
-                      ],
-                    ),
-                    Form(
-                      key: _formKey,
-                      child: Column(
+                    ResponsiveRowColumnItem(
+                      child: Wrap(
+                        spacing: 12,
+                        direction: Axis.vertical,
                         children: [
-                          FormFirstRowColumn(),
-                          const SizedBox(height: 20),
-                          FormSecondRowColumn(),
-                          const SizedBox(height: 20),
-                          FormMessageField(onSubmit),
+                          OurLoationWidget(),
+                          CustomerServiceW(),
+                          TechnicalSupportW(),
+                          EmailW(),
                         ],
+                      ),
+                    ),
+                    ResponsiveRowColumnItem(
+                      child: Form(
+                        key: _formKey,
+                        child: Column(
+                          children: [
+                            FormFirstRowColumn(),
+                            const SizedBox(height: 20),
+                            FormSecondRowColumn(),
+                            const SizedBox(height: 20),
+                            FormMessageField(onSubmit),
+                          ],
+                        ),
                       ),
                     ),
                   ],
                 ),
               ),
-              const SizedBox(height: 216),
+              const SizedBox(height: 100),
             ],
           ),
         ),
@@ -213,7 +222,7 @@ class FormSecondRowColumn extends StatelessWidget {
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
     return ResponsiveRowColumn(
-      layout: screenWidth <= 980
+      layout: screenWidth <= 1156
           ? ResponsiveRowColumnType.COLUMN
           : ResponsiveRowColumnType.ROW,
       children: [
@@ -302,7 +311,7 @@ class FormFirstRowColumn extends StatelessWidget {
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
     return ResponsiveRowColumn(
-      layout: screenWidth <= 980
+      layout: screenWidth <= 1156
           ? ResponsiveRowColumnType.COLUMN
           : ResponsiveRowColumnType.ROW,
       children: [
@@ -355,13 +364,15 @@ class FirstNameField extends StatelessWidget {
 
 double? _getFieldSize(context) {
   final width = MediaQuery.of(context).size.width;
-  if (width <= 480) return null;
+  if (width <= 900) return null;
   return width * 0.3;
 }
 
 double? _getMessageFieldSize(context) {
   final width = MediaQuery.of(context).size.width;
-  if (width <= 480) return null;
+
+  if (width <= 900) return null;
+  if (width <= 1200) return width * 0.4;
   return width * 0.612;
 }
 
@@ -489,7 +500,7 @@ class _PageInfoHeaderWeb extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(top: 50),
+      padding: const EdgeInsets.only(top: 35),
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 40.0),
         child: Row(
@@ -650,11 +661,11 @@ class InfoWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
     return Wrap(
-      direction: width <= 480 ? Axis.vertical : Axis.horizontal,
+      direction: width <= 900 ? Axis.vertical : Axis.horizontal,
       crossAxisAlignment:
-          width <= 480 ? WrapCrossAlignment.start : WrapCrossAlignment.center,
-      spacing: width <= 480 ? 8.0 : 14,
-      runSpacing: width <= 480 ? 0.0 : 14,
+          width <= 900 ? WrapCrossAlignment.start : WrapCrossAlignment.center,
+      spacing: width <= 900 ? 8.0 : 14,
+      runSpacing: width <= 900 ? 0.0 : 14,
       children: [
         Icon(
           this.icon,
