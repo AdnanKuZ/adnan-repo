@@ -26,11 +26,12 @@ class PoliciesEmptyScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.fromLTRB(
-          Responsive.isMobile(context) ? defaultPadding : menuPadding,
-          defaultPadding,
-          defaultPadding,
-          0),
+      margin: EdgeInsets.symmetric(vertical: 16,horizontal: 48),
+      // padding: EdgeInsets.fromLTRB(
+      //     Responsive.isMobile(context) ? defaultPadding : menuPadding,
+      //     defaultPadding,
+      //     defaultPadding,
+      //     0),
       child: Column(
         children: [
           PoliciesHeader(

@@ -1,5 +1,6 @@
 // Connection Types
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 
 import 'bandwidth.dart';
 
@@ -14,6 +15,45 @@ class ConnectionTypeWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BandwidthLimitWidget(days: days, type: type, time: time);
+    return Container(
+      padding: const EdgeInsets.fromLTRB(0, 12, 0, 0),
+      child: Wrap(
+        alignment: WrapAlignment.spaceBetween,
+        children: [
+          Text(
+            days,
+            style: Theme.of(context)
+                .textTheme
+                .caption
+                ?.copyWith(color: Colors.black, fontWeight: FontWeight.bold),
+          ),
+          Wrap(
+            children: [
+              Text(
+                type,
+                style: Theme.of(context)
+                    .textTheme
+                    .caption
+                    ?.copyWith(color: Colors.black),
+              ),
+              Text(
+                " | ",
+                style: Theme.of(context)
+                    .textTheme
+                    .caption
+                    ?.copyWith(color: Color(0xFFD6D6D6)),
+              ),
+              Text(
+                time,
+                style: Theme.of(context)
+                    .textTheme
+                    .caption
+                    ?.copyWith(color: Color(0xFFA5A5A5)),
+              ),
+            ],
+          )
+        ],
+      ),
+    );
   }
 }

@@ -10,7 +10,7 @@ class CustomTextField extends StatelessWidget {
   final TextInputType keyboardType;
   final TextEditingController? controller;
   final bool? state;
-  final FormFieldValidator validator;
+  final FormFieldValidator? validator;
   final int? maxLines;
   final void Function(String)? submit;
   final FocusNode? focusNode;
@@ -22,7 +22,7 @@ class CustomTextField extends StatelessWidget {
   CustomTextField(
       {required this.hintText,
       required this.keyboardType,
-      required this.validator,
+      this.validator,
       this.onChanged,
       this.controller,
       this.suffixIcon,

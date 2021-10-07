@@ -1,12 +1,18 @@
 import 'package:admin/constants.dart';
-import 'package:admin/widgets/header.dart';
 import 'package:flutter/cupertino.dart';
-import '../../../responsive.dart';
+import 'package:admin/widgets/dashboard/dashboard_header.dart';
 
 class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return SingleChildScrollView(
+        child: Container(
+          margin: EdgeInsets.symmetric(vertical: 16,horizontal: 48),
+            child: Column(
+      children: [
+        DashboardHeader(),
+      ],
+    )));
   }
 }
 // SafeArea(

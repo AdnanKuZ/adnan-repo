@@ -68,41 +68,67 @@ class _PolicyWidgetState extends State<PolicyWidget> {
                         style: Theme.of(context).textTheme.subtitle2?.copyWith(
                             color: Colors.black, fontWeight: FontWeight.w700),
                       ),
-                      BandwidthLimitWidget(
-                          days: 'Sun, Mon',
-                          type: 'Full Bandwidth',
-                          time: '12:00 am to 01:00 am'),
-                      BandwidthLimitWidget(
-                          days: 'Sun, Mon',
-                          type: 'Full Bandwidth',
-                          time: '12:00 am to 01:00 am'),
-                      BandwidthLimitWidget(
-                          days: 'Sun, Mon',
-                          type: 'Full Bandwidth',
-                          time: '12:00 am to 01:00 am'),
+                      ListView.builder(
+                        shrinkWrap: true,
+                        itemCount: widget.policy.bandwidths!.length,
+                        itemBuilder: (context,index){
+                          return BandwidthLimitWidget(
+                          days: widget.policy.bandwidths![index].day.toString(),
+                          type: widget.policy.bandwidths![index].bandwidth.toString(),
+                          time: widget.policy.bandwidths![index].date.toString());
+                        }
+                      ),
+                      // BandwidthLimitWidget(
+                      //     days: 'Sun, Thu',
+                      //     type: 'Full Bandwidth',
+                      //     time: '12:00 am to 12:00 pm'),
+                      // BandwidthLimitWidget(
+                      //     days: 'Sun, Mon',
+                      //     type: 'Full Bandwidth',
+                      //     time: '12:00 am to 01:00 am'),
+                      // BandwidthLimitWidget(
+                      //     days: 'Sun, Mon',
+                      //     type: 'Full Bandwidth',
+                      //     time: '12:00 am to 01:00 am'),
                       SeperatorWidget(),
                       Text(
                         "Connection Type",
                         style: Theme.of(context).textTheme.subtitle2?.copyWith(
                             color: Colors.black, fontWeight: FontWeight.w700),
                       ),
-                      ConnectionTypeWidget(
-                          days: 'Sun, Mon',
-                          type: 'Full Bandwidth',
-                          time: '12:00 am to 01:00 am'),
-                      ConnectionTypeWidget(
-                          days: 'Sun, Mon',
-                          type: 'Full Bandwidth',
-                          time: '12:00 am to 01:00 am'),
-                      ConnectionTypeWidget(
-                          days: 'Sun, Mon',
-                          type: 'Full Bandwidth',
-                          time: '12:00 am to 01:00 am'),
+                      ListView.builder(
+                        shrinkWrap: true,
+                        itemCount: widget.policy.bandwidths!.length,
+                        itemBuilder: (context,index){
+                          return ConnectionTypeWidget(
+                          days: widget.policy.bandwidths![index].day.toString(),
+                          type: widget.policy.bandwidths![index].bandwidth.toString(),
+                          time: widget.policy.bandwidths![index].date.toString());
+                        }
+                      ),
+                      // ConnectionTypeWidget(
+                      //     days: 'Sun, Mon',
+                      //     type: 'Cable',
+                      //     time: '12:00 am to 01:00 am'),
+                      // ConnectionTypeWidget(
+                      //     days: 'Sun, Mon',
+                      //     type: 'Full Bandwidth',
+                      //     time: '12:00 am to 01:00 am'),
+                      // ConnectionTypeWidget(
+                      //     days: 'Sun, Mon',
+                      //     type: 'Full Bandwidth',
+                      //     time: '12:00 am to 01:00 am'),
                       SeperatorWidget(),
                       MembersAndDevicesWidget(
                         onClick: () {},
                       ),
-                      MembersWidget(onClick: () {}),
+                      ListView.builder(
+                        shrinkWrap: true,
+                        itemCount: widget.policy.members!.length,
+                        itemBuilder: (context,index){
+                          return MembersWidget( member: widget.policy.members![index], onClick: () {});
+                        }
+                      ),
                       AppsWidget(onClick: () {})
                     ],
                   )),

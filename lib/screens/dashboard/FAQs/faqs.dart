@@ -1,5 +1,6 @@
 import 'package:admin/constants.dart';
 import 'package:admin/models/faqs.dart';
+import 'package:admin/widgets/dashboard/dashboard_header.dart';
 import 'package:expandable/expandable.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -35,17 +36,21 @@ class _FAQsScreenState extends State<FAQsScreen> {
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
-      child: Column(
-        children: [
-          SearchHeader(searchCon: searchCon),
-          SizedBox(height: 20),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 48.0, vertical: 20),
-            child: Column(
-              children: list.map((e) => ExpandableItem(e)).toList(),
+      child: Container(
+        margin: EdgeInsets.symmetric(vertical: 16,horizontal: 48),
+        child: Column(
+          children: [
+            DashboardHeader(),
+            SearchHeader(searchCon: searchCon),
+            SizedBox(height: 20),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 48.0, vertical: 20),
+              child: Column(
+                children: list.map((e) => ExpandableItem(e)).toList(),
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

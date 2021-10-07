@@ -10,6 +10,7 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 import 'package:responsive_framework/responsive_framework.dart';
+import 'package:admin/widgets/dashboard/dashboard_header.dart';
 
 class ConctactUsScreen extends StatefulWidget {
   const ConctactUsScreen({Key? key}) : super(key: key);
@@ -56,6 +57,7 @@ class _ConctactUsScreenState extends State<ConctactUsScreen> {
       body: SingleChildScrollView(
         child: Column(
           children: [
+            DashboardHeader(),
             screenWidth <= 480 ? _PageInfoHeaderMobile() : _PageInfoHeaderWeb(),
             screenWidth <= 480
                 ? FormContainer(submit)
@@ -83,7 +85,7 @@ class FormContainerWeb extends StatelessWidget {
           child: Column(
             children: [
               Padding(
-                padding: const EdgeInsets.only(right:16.0),
+                padding: const EdgeInsets.only(right: 16.0),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -98,7 +100,6 @@ class FormContainerWeb extends StatelessWidget {
                         EmailW(),
                       ],
                     ),
-                    
                     Form(
                       key: _formKey,
                       child: Column(

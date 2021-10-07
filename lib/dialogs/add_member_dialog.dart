@@ -1,17 +1,21 @@
+import 'package:admin/constants.dart';
+import 'package:admin/providers/contactUsProvider.dart';
+import 'package:admin/server/requests.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
-AddMemberDialog({required BuildContext context}) async {
+AddMemberDialog({required BuildContext context,Color? color}) async {
   String _value = '';
 
   return showDialog<String>(
       context: context,
       builder: (context) {
-        var primaryColor;
+        var primaryColor = color;
         return new AlertDialog(
           backgroundColor: Colors.white,
           shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.all(Radius.circular(10))),
+              borderRadius: BorderRadius.all(Radius.circular(15))),
           content: Container(
             width: 350,
             child: Padding(
