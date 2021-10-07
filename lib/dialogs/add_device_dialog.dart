@@ -10,7 +10,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-AddDeviceDialog({required BuildContext context,Color? color}) async {
+AddDeviceDialog({required BuildContext context, Color? color}) async {
   final addDeviceProvider =
       Provider.of<AddDeviceProvider>(context, listen: false);
 
@@ -121,30 +121,35 @@ AddDeviceDialog({required BuildContext context,Color? color}) async {
                       ),
                       SizedBox(height: 10),
                       // Members
-                      DropdownButton<MemberModel>(
-                        isExpanded: true,
-                        hint: Text(
-                          addDeviceProvider.selectedMemberModel == null
-                              ? "Member"
-                              : addDeviceProvider.selectedMemberModel!.name!,
-                          style: TextStyle(color: Colors.black),
-                        ),
-                        items: <MemberModel>[...addDeviceProvider.members]
-                            .map((MemberModel value) {
-                          return DropdownMenuItem<MemberModel>(
-                            value: value,
-                            child: Text(
-                              value.name != null ? value.name! : "undefuned",
-                              style: TextStyle(color: Colors.black),
-                            ),
-                          );
-                        }).toList(),
-                        onChanged: (value) {
-                          if (value != null) {
-                            addDeviceProvider.setSelectedMember(value);
-                          }
-                        },
-                      ),
+                      Consumer<AddDeviceProvider>(
+                          builder: (context, state, child) {
+                        return DropdownButton<MemberModel>(
+                          isExpanded: true,
+                          hint: Text(
+                            state.selectedMemberModel == null
+                                ? "Member"
+                                : state.selectedMemberModel!.name!,
+                            style: TextStyle(color: Colors.black),
+                          ),
+                          items: <MemberModel>[...addDeviceProvider.members]
+                              .map((MemberModel value) {
+                            return DropdownMenuItem<MemberModel>(
+                              value: value,
+                              child: Text(
+                                value.name != null ? value.name! : "undefuned",
+                                style: TextStyle(color: Colors.black),
+                              ),
+                            );
+                          }).toList(),
+                          onChanged: (value) {
+                            if (value != null) {
+                              addDeviceProvider.setSelectedMember(value);
+                              print(
+                                  addDeviceProvider.selectedMemberModel?.name);
+                            }
+                          },
+                        );
+                      }),
                       Container(
                         margin: EdgeInsets.fromLTRB(0, 30, 0, 0),
                         child: ElevatedButton(

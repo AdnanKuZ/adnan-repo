@@ -73,6 +73,8 @@ Future<bool> requestNewDevice(DeviceModel device) async {
         }
       : {"name": device.name};
 
+  print('requestNewDevice: $body');
+
   http.Response response = await http.post(Uri.parse(DEVICES_URL),
       headers: {
         'Content-Type': 'application/json',
@@ -102,6 +104,9 @@ Future<bool> requestExistingDevice(DeviceModel device) async {
           "id": device.id,
           "name": device.name,
         };
+
+  print('tttttttttttttttt');
+  print(body);
 
   http.Response response = await http.put(Uri.parse(DEVICES_URL),
       headers: {

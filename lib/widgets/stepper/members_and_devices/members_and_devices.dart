@@ -31,6 +31,35 @@ class MembersAndDevicesStepperWidget extends StatelessWidget {
         Provider.of<AddDeviceProvider>(context, listen: false);
     final stageProvider = Provider.of<StageProvider>(context, listen: false);
 
+    Future<void> loadDevicesAndMembers() async {
+      List<DeviceModel> devicesResponse = await requestDevices();
+      List<MemberModel> membersResponse = await requestMembers();
+
+      List<DeviceModel> _devices = [];
+
+      for (DeviceModel device in devicesResponse) {
+        if (device.member == null) {
+          _devices.add(device);
+          continue;
+        }
+
+        for (int i = 0; i < membersResponse.length; i++) {
+          var member = membersResponse[i];
+          if (device.member?.id == member.id) {
+            if (member.devices == null) {
+              member.devices = [];
+            }
+            member.devices?.add(device);
+          }
+        }
+      }
+
+      provider.setDevices(_devices);
+      provider.setMembers(membersResponse);
+      print(provider.members.length);
+      print(provider.members[0].devices?.length.toString());
+    }
+
     return Container(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -74,13 +103,15 @@ class MembersAndDevicesStepperWidget extends StatelessWidget {
                       // Showing add device dialog
                       DeviceModel result =
                           await AddDeviceDialog(context: context);
-                      if (result.id == null) {
+                          print('payload: ' + jsonEncode(result).toString());
+                      if (result.id != null) {
                         // Device already exist
-                        requestExistingDevice(result);
+                        await requestExistingDevice(result);
                       } else {
                         // Device does not exist
-                        requestNewDevice(result);
+                        await requestNewDevice(result);
                       }
+                      loadDevicesAndMembers();
                       print('Dialog data');
                       print(jsonEncode(result));
                     },
@@ -267,7 +298,9 @@ class StepperMemberList extends StatelessWidget {
           builder: (context, instance, child) {
             return ListView.builder(
                 shrinkWrap: true,
-                itemCount: instance.members[gridIndex].devices != null ? (instance.members[gridIndex].devices?.length) : 0,
+                itemCount: instance.members[gridIndex].devices != null
+                    ? (instance.members[gridIndex].devices?.length)
+                    : 0,
                 itemBuilder: (context, index) {
                   return Padding(
                     padding: const EdgeInsets.fromLTRB(8.0, 4, 8, 4),
