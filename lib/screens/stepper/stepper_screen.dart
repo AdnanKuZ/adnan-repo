@@ -28,11 +28,13 @@ class _StepperScreenState extends State<StepperScreen> {
     return Scaffold(
       body: SingleChildScrollView(
         child: LayoutBuilder(
-          builder: (context,constraints) {
+          builder: (context, constraints) {
             return Container(
               width: MediaQuery.of(context).size.width,
               height: MediaQuery.of(context).size.height,
-              margin:constraints.maxWidth > 1008 ? EdgeInsets.symmetric(horizontal: 70):null,
+              margin: constraints.maxWidth > 1008
+                  ? EdgeInsets.symmetric(horizontal: 70)
+                  : null,
               padding: EdgeInsets.symmetric(vertical: 20),
               child: Column(
                 children: [
@@ -64,6 +66,9 @@ class _StepperScreenState extends State<StepperScreen> {
                         Spacer(),
                         InkWell(
                           onTap: () {
+                            for (int i = 0; i <= _stageProvider.stageStates.length; i++) {
+                              _stageProvider.setStageStateFalse(i);
+                            }
                             Navigator.pop(context);
                           },
                           child: Icon(
@@ -106,8 +111,8 @@ class _StepperScreenState extends State<StepperScreen> {
                                   state: StepState.complete,
                                   title: Text(
                                     constraints.maxWidth > 1008
-                                    ?' Members & Devices   '
-                                    :'',
+                                        ? ' Members & Devices   '
+                                        : '',
                                     style: TextStyle(
                                         color: instance.stageStates[0]
                                             ? primaryColor
@@ -126,8 +131,8 @@ class _StepperScreenState extends State<StepperScreen> {
                                   state: StepState.complete,
                                   title: Text(
                                     constraints.maxWidth > 1008
-                                    ?' Bandwidth   '
-                                    :'',
+                                        ? ' Bandwidth   '
+                                        : '',
                                     style: TextStyle(
                                         color: instance.stageStates[1]
                                             ? primaryColor
@@ -135,7 +140,11 @@ class _StepperScreenState extends State<StepperScreen> {
                                   ),
                                   content: Container(
                                     child: Column(
-                                      children: [BandwidthStepperWidget(constraints: constraints,)],
+                                      children: [
+                                        BandwidthStepperWidget(
+                                          constraints: constraints,
+                                        )
+                                      ],
                                     ),
                                   )),
                               EnhanceStep(
@@ -144,8 +153,8 @@ class _StepperScreenState extends State<StepperScreen> {
                                   state: StepState.complete,
                                   title: Text(
                                     constraints.maxWidth > 1008
-                                    ?' Connection   '
-                                    :'',
+                                        ? ' Connection   '
+                                        : '',
                                     style: TextStyle(
                                         color: instance.stageStates[2]
                                             ? primaryColor
@@ -159,8 +168,8 @@ class _StepperScreenState extends State<StepperScreen> {
                                   state: StepState.complete,
                                   title: Text(
                                     constraints.maxWidth > 1008
-                                    ?' Apps   '
-                                    :'',
+                                        ? ' Apps   '
+                                        : '',
                                     style: TextStyle(
                                         color: instance.stageStates[3]
                                             ? primaryColor
@@ -175,8 +184,8 @@ class _StepperScreenState extends State<StepperScreen> {
                                   state: StepState.complete,
                                   title: Text(
                                     constraints.maxWidth > 1008
-                                    ?' Policy Name   '
-                                    :'',
+                                        ? ' Policy Name   '
+                                        : '',
                                     style: TextStyle(
                                         color: instance.stageStates[4]
                                             ? primaryColor
