@@ -16,4 +16,9 @@ class MemberModel {
         "id": id,
         "name": name,
       };
+
+  @override
+  bool operator == (Object other) {
+    return other is MemberModel && this.id == other.id;
+  }
 }

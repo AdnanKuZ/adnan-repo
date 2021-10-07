@@ -40,14 +40,8 @@ class _AppsWidgetState extends State<AppsWidget> {
           title: 'Apps',
           widgets: [
             Wrap(children: [
-              AppWidget(),
-              AppWidget(),
-              AppWidget(),
-              AppWidget(),
-              AppWidget(),
-              AppWidget(),
-              AppWidget(),
-              AppWidget(),
+              AppWidget(path: "assets/images/chrome.png"),
+              AppWidget(path: "assets/images/netflix.png"),
             ],)
           ],
         ),
@@ -61,10 +55,16 @@ class _AppsWidgetState extends State<AppsWidget> {
 }
 
 class AppWidget extends StatelessWidget {
-  const AppWidget({Key? key}) : super(key: key);
+  String path;
+  AppWidget({
+    required this.path, 
+    Key? key
+    }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Container(child: Icon(Icons.apps, color: Colors.red), color: Colors.transparent,);
+    return Container(
+      padding: EdgeInsets.all(8),
+      child: Image.asset(path));
   }
 }

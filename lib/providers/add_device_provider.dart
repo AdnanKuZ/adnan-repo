@@ -22,7 +22,7 @@ class AddDeviceProvider extends ChangeNotifier {
   DeviceModel? selectedDeviceModel;
   DeviceModel? get getSelectedDeviceModel => selectedDeviceModel;
 
-// Selected memeber model
+  // Selected memeber model
   MemberModel? selectedMemberModel;
   MemberModel? get getSelectedMemberModel => selectedMemberModel;
 
