@@ -1,3 +1,5 @@
+import 'package:admin/models/device.dart';
+import 'package:admin/models/member.dart';
 import 'package:admin/providers/MenuProvider.dart';
 import 'package:admin/responsive.dart';
 import 'package:admin/widgets/dashboard/dashboard_header.dart';
@@ -8,10 +10,19 @@ import 'package:provider/provider.dart';
 import '../../../constants.dart';
 
 class MemberWidget extends StatelessWidget {
-  String member;
-  List<String> devices;
+  MemberModel member;
+  final Function onDeleteMember;
+  final Function onEditMember;
+  final Function onDeleteDevice;
+  final Function onEditDevice;
 
-  MemberWidget({required this.member, required this.devices});
+  MemberWidget({
+    required this.member,
+    required this.onDeleteMember,
+    required this.onEditMember,
+    required this.onDeleteDevice,
+    required this.onEditDevice,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +47,7 @@ class MemberWidget extends StatelessWidget {
                 alignment: WrapAlignment.spaceBetween,
                 children: [
                   Text(
-                    member,
+                    member.name == null ? 'undefined' : member.name!,
                     style: Theme.of(context).textTheme.caption?.copyWith(
                         fontSize: 16,
                         color: Colors.black,
@@ -49,7 +60,7 @@ class MemberWidget extends StatelessWidget {
                           color: lightGrayColor,
                           icon: Icon(Icons.edit),
                           onPressed: () {
-                            //onEdit();
+                            onEditMember(member);
                           },
                           iconSize: 20,
                           constraints: BoxConstraints()),
@@ -59,7 +70,7 @@ class MemberWidget extends StatelessWidget {
                           icon: Icon(Icons.delete),
                           iconSize: 20,
                           onPressed: () {
-                            //onDelete();
+                            onDeleteMember(member);
                           },
                           constraints: BoxConstraints()),
                     ],
@@ -77,7 +88,7 @@ class MemberWidget extends StatelessWidget {
                       alignment: WrapAlignment.spaceBetween,
                       children: [
                         Text(
-                          devices[index],
+                          member.devices![index].name!,
                           style: Theme.of(context).textTheme.caption?.copyWith(
                               color: textGray, fontWeight: FontWeight.w700),
                         ),
@@ -88,7 +99,7 @@ class MemberWidget extends StatelessWidget {
                                 color: lightGrayColor,
                                 icon: Icon(Icons.edit),
                                 onPressed: () {
-                                  //onEdit();
+                                  onEditDevice(member, member.devices![index]);
                                 },
                                 iconSize: 20,
                                 constraints: BoxConstraints()),
@@ -98,7 +109,7 @@ class MemberWidget extends StatelessWidget {
                                 icon: Icon(Icons.delete),
                                 iconSize: 20,
                                 onPressed: () {
-                                  //onDelete();
+                                  onDeleteDevice(member.devices![index]);
                                 },
                                 constraints: BoxConstraints()),
                           ],
@@ -106,39 +117,8 @@ class MemberWidget extends StatelessWidget {
                       ],
                     );
                   },
-                  itemCount: devices.length)
-              // Wrap(
-              //   alignment: WrapAlignment.spaceBetween,
-              //   children: [
-              //     Text(
-              //       member,
-              //       style: Theme.of(context).textTheme.caption?.copyWith(
-              //           color: textGray, fontWeight: FontWeight.w700),
-              //     ),
-              //     Wrap(
-              //       children: [
-              //         IconButton(
-              //             padding: EdgeInsets.fromLTRB(0, 0, 8, 0),
-              //             color: lightGrayColor,
-              //             icon: Icon(Icons.edit),
-              //             onPressed: () {
-              //               //onEdit();
-              //             },
-              //             iconSize: 20,
-              //             constraints: BoxConstraints()),
-              //         IconButton(
-              //             padding: EdgeInsets.fromLTRB(0, 0, 8, 0),
-              //             color: redColor,
-              //             icon: Icon(Icons.delete),
-              //             iconSize: 20,
-              //             onPressed: () {
-              //               //onDelete();
-              //             },
-              //             constraints: BoxConstraints()),
-              //       ],
-              //     )
-              //   ],
-              // )
+                  itemCount:
+                      member.devices == null ? 0 : member.devices!.length)
             ],
           )),
     );
@@ -146,8 +126,11 @@ class MemberWidget extends StatelessWidget {
 }
 
 class DeviceWidget extends StatelessWidget {
-  final String title;
-  const DeviceWidget({required this.title});
+  final DeviceModel device;
+  final Function onDelete;
+  final Function onEdit;
+  const DeviceWidget(
+      {required this.device, required this.onDelete, required this.onEdit});
 
   @override
   Widget build(BuildContext context) {
@@ -172,7 +155,7 @@ class DeviceWidget extends StatelessWidget {
                 alignment: WrapAlignment.spaceBetween,
                 children: [
                   Text(
-                    title,
+                    device.name == null ? 'undefined' : device.name!,
                     style: Theme.of(context).textTheme.caption?.copyWith(
                         color: textGray, fontWeight: FontWeight.w700),
                   ),
@@ -183,7 +166,7 @@ class DeviceWidget extends StatelessWidget {
                           color: lightGrayColor,
                           icon: Icon(Icons.edit),
                           onPressed: () {
-                            //onEdit();
+                            onEdit(device);
                           },
                           iconSize: 20,
                           constraints: BoxConstraints()),
@@ -193,7 +176,7 @@ class DeviceWidget extends StatelessWidget {
                           icon: Icon(Icons.delete),
                           iconSize: 20,
                           onPressed: () {
-                            //onDelete();
+                            onDelete(device);
                           },
                           constraints: BoxConstraints()),
                     ],

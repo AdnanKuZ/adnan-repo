@@ -112,8 +112,6 @@ class MembersAndDevicesStepperWidget extends StatelessWidget {
                         await requestNewDevice(result);
                       }
                       loadDevicesAndMembers();
-                      print('Dialog data');
-                      print(jsonEncode(result));
                     },
                   ),
                   Container(
