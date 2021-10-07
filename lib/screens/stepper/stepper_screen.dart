@@ -66,9 +66,12 @@ class _StepperScreenState extends State<StepperScreen> {
                         Spacer(),
                         InkWell(
                           onTap: () {
-                            for (int i = 0; i <= _stageProvider.stageStates.length; i++) {
+                            for (int i = 0;
+                                i <= _stageProvider.stageStates.length;
+                                i++) {
                               _stageProvider.setStageStateFalse(i);
                             }
+                            _stageProvider.setIndex = 0;
                             Navigator.pop(context);
                           },
                           child: Icon(
