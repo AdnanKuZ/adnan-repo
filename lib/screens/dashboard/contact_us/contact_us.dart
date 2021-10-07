@@ -78,7 +78,6 @@ class FormContainerWeb extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(36.0),
       child: TopEdgesContainer(
-        isBottomEdges: true,
         color: primaryColor,
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 40.0, vertical: 40),
