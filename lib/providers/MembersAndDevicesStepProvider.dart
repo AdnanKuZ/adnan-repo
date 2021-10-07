@@ -48,6 +48,18 @@ class MembersAndDevicesStepProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  void setMembers(List<MemberModel> members) {
+    this.members = [];
+    this.members.addAll(members);
+    notifyListeners();
+  }
+
+  void setDevices(List<DeviceModel> devices) {
+    this.devices = [];
+    this.devices.addAll(devices);
+    notifyListeners();
+  }
+
   void addMemberDevice(int index, DeviceModel device) {
     members[index].devices!.add(device);
     notifyListeners();

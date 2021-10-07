@@ -6,6 +6,10 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 LoadingDialog({required BuildContext context}) async {
+  void dismiss() {
+    Navigator.pop(context);
+  }
+  
   return showDialog<String>(
       context: context,
       builder: (context) {

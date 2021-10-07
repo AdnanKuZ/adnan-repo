@@ -59,7 +59,11 @@ class MembersAndDevicesStepperWidget extends StatelessWidget {
                       // Requesting devices
                       var devicesResponse = await requestDevices();
                       // Setting devices in provider
-                      addDeviceProvider.setDevices(devicesResponse);
+                      List<DeviceModel> filteredDevices = [];
+                      for (DeviceModel device in devicesResponse) {
+                        if (device.member == null) filteredDevices.add(device);
+                      }
+                      addDeviceProvider.setDevices(filteredDevices);
                       // Requesting memebers
                       var membersResponse = await requestMembers();
                       print(membersResponse.toString());
@@ -68,8 +72,9 @@ class MembersAndDevicesStepperWidget extends StatelessWidget {
                       // Hiding loading dialog
                       Navigator.pop(context);
                       // Showing add device dialog
-                      DeviceModel result = await AddDeviceDialog(context: context);
-                      if(result.id == null) {
+                      DeviceModel result =
+                          await AddDeviceDialog(context: context);
+                      if (result.id == null) {
                         // Device already exist
                         requestExistingDevice(result);
                       } else {
@@ -227,12 +232,16 @@ class StepperMemberList extends StatelessWidget {
                     Consumer<MembersAndDevicesStepProvider>(
                       builder: (context, instance, child) {
                         return StepperCheckbox(
-                          isChecked:
-                              instance.areAllMemberDevicesChecked(gridIndex),
+                          isChecked: false,
                           onChecked: (isChecked) {
-                            provider.setAllMemberDevicesChecked(
-                                gridIndex, isChecked);
+                            // provider.setAllMemberDevicesChecked(
+                            //     gridIndex, isChecked);
                           },
+                          // isChecked: instance.areAllMemberDevicesChecked(gridIndex),
+                          // onChecked: (isChecked) {
+                          //   provider.setAllMemberDevicesChecked(
+                          //       gridIndex, isChecked);
+                          // },
                         );
                       },
                     ),
@@ -240,7 +249,7 @@ class StepperMemberList extends StatelessWidget {
                       width: 20,
                     ),
                     Text(
-                      member.name.toString(),
+                      member.name == null ? 'undefined' : member.name!,
                       style: TextStyle(color: Colors.black),
                     )
                   ],
@@ -258,7 +267,7 @@ class StepperMemberList extends StatelessWidget {
           builder: (context, instance, child) {
             return ListView.builder(
                 shrinkWrap: true,
-                itemCount: instance.members[gridIndex].devices?.length,
+                itemCount: instance.members[gridIndex].devices != null ? (instance.members[gridIndex].devices?.length) : 0,
                 itemBuilder: (context, index) {
                   return Padding(
                     padding: const EdgeInsets.fromLTRB(8.0, 4, 8, 4),
@@ -282,7 +291,7 @@ class StepperMemberList extends StatelessWidget {
                             width: 20,
                           ),
                           Text(
-                            instance.devices[index].name.toString(),
+                            instance.members[gridIndex].devices![index].name!,
                             style: TextStyle(color: Colors.black),
                           )
                         ],
