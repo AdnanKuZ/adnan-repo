@@ -33,8 +33,7 @@ class _StepperScreenState extends State<StepperScreen> {
 
   Future<void> loadDevicesAndMembers() async {
     if (initiated) return;
-    final provider =
-        Provider.of<MembersAndDevicesStepProvider>(context, listen: false);
+    final provider = Provider.of<MembersAndDevicesStepProvider>(context);
     List<DeviceModel> devicesResponse = await requestDevices();
     List<MemberModel> membersResponse = await requestMembers();
 
@@ -87,23 +86,18 @@ class _StepperScreenState extends State<StepperScreen> {
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      Consumer<StageProvider>(
-                          builder: (context, instance, child) => InkWell(
-                                onTap: () {
-                                  for (int i = 0;
-                                      i <= instance.stageStates.length;
-                                      i++) {
-                                    instance.setStageStateFalse(i);
-                                  }
-                                  _stageProvider.setIndex = 0;
-                                  _stageProvider.setIsLastStep = false;
-                                },
-                                child: Icon(
-                                  Icons.arrow_back_sharp,
-                                  color: Colors.black87,
-                                  size: 22,
-                                ),
-                              )),
+                      InkWell(
+                        onTap: () {
+                          _stageProvider.setStagesStateFalse();
+                          _stageProvider.setIndex = 0;
+                          _stageProvider.setIsLastStep = false;
+                        },
+                        child: Icon(
+                          Icons.arrow_back_sharp,
+                          color: Colors.black87,
+                          size: 22,
+                        ),
+                      ),
                       SizedBox(width: 13),
                       Text(
                         'Back to Dashboard',
@@ -117,13 +111,9 @@ class _StepperScreenState extends State<StepperScreen> {
                         builder: (context, instance, child) => InkWell(
                           onTap: () async {
                             Navigator.pop(context);
-                            for (int i = 0;
-                                i <= instance.stageStates.length;
-                                i++) {
-                              instance.setStageStateFalse(i);
-                            }
-                            _stageProvider.setIndex = 0;
-                            _stageProvider.setIsLastStep = false;
+                            _stageProvider.setStagesStateFalse();
+                          _stageProvider.setIndex = 0;
+                          _stageProvider.setIsLastStep = false;
                           },
                           child: Icon(
                             Icons.disabled_by_default_rounded,

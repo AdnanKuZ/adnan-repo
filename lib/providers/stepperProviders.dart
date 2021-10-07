@@ -21,6 +21,11 @@ class StageProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  void setStagesStateFalse() {
+    _stageStates = [false, false, false, false, false];
+    notifyListeners();
+  }
+
   set setIsLastStep(bool islststp) {
     _isLastStep = islststp;
     notifyListeners();
