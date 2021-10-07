@@ -101,9 +101,9 @@ class _PolicyWidgetState extends State<PolicyWidget> {
                         itemCount: widget.policy.bandwidths!.length,
                         itemBuilder: (context,index){
                           return ConnectionTypeWidget(
-                          days: widget.policy.bandwidths![index].day.toString(),
-                          type: widget.policy.bandwidths![index].bandwidth.toString(),
-                          time: widget.policy.bandwidths![index].date.toString());
+                          days: widget.policy.connectionTypes![index].day.toString(),
+                          type: widget.policy.connectionTypes![index].type.toString(),
+                          time: widget.policy.connectionTypes![index].date.toString());
                         }
                       ),
                       // ConnectionTypeWidget(
