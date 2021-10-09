@@ -69,7 +69,7 @@ class ReadMoreWidget extends StatelessWidget {
                         height: 120,
                         width: 285,
                         child: Text(
-                          'Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum',
+                          'Providing an unprecedented Internet experience. Some might think it’s just a router when it’s actually much more',
                           style: TextStyle(color: Colors.white, fontSize: 14),
                         )),
                   ],
