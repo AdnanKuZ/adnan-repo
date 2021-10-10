@@ -1,4 +1,7 @@
 import 'dart:convert';
+import 'package:admin/models/app.dart';
+import 'package:admin/models/bandwidth.dart';
+import 'package:admin/models/connection_type.dart';
 import 'package:admin/models/device.dart';
 import 'package:admin/models/member.dart';
 import 'package:admin/models/policy.dart';
@@ -11,6 +14,7 @@ Future<List<DeviceModel>> requestDevices() async {
   SharedPreferences _prefs = await SharedPreferences.getInstance();
   String token = _prefs.getString('token').toString();
 
+  print(DEVICES_URL);
   http.Response response = await http.get(
     Uri.parse(DEVICES_URL),
     headers: {
@@ -19,6 +23,7 @@ Future<List<DeviceModel>> requestDevices() async {
     },
   );
 
+  print(response.body);
   if (response.statusCode == 200) {
     var devicesJson = jsonDecode(response.body) as List<dynamic>;
     List<DeviceModel> devices =
@@ -29,16 +34,125 @@ Future<List<DeviceModel>> requestDevices() async {
   return [];
 }
 
-Future<bool> requestAddMember(String name) async {
+// Request add policy
+Future<bool> requestAddPolicy(
+    PolicyModel policy, String lteBandwidth, String cableBandwidth) async {
   SharedPreferences _prefs = await SharedPreferences.getInstance();
   String token = _prefs.getString('token').toString();
 
-  http.Response response = await http.post(Uri.parse(MEMBERS_URL),
+  print('token ${token}');
+  List<String?> devicesIds = [];
+  List<String?> membersIds = [];
+  List<String?> defaultApps = [];
+  List<String?> customApps = [];
+  print('members');
+
+  // Members and devices
+  for (MemberModel member in policy.members!) {
+    print('member devices ${member.devices?.length}');
+    var ids = member.devices?.map((value) => value.id).toList();
+    print(member.name);
+    print(ids);
+
+    devicesIds.addAll(ids!);
+    membersIds.add(member.id);
+  }
+  
+  // General devices
+  devicesIds.addAll(policy.devices!.where((element) => element.isSelected).map((e) => e.id).toList());
+
+  print('apps');
+  for (AppModel app in policy.apps!) {
+    if (app.isPredefined) {
+      defaultApps.add(app.name);
+    } else {
+      customApps.add(app.name);
+    }
+  }
+
+  var bandwidths = [];
+  print('bandwiths');
+  for (BandwidthModel bandwidth in policy.bandwidths!) {
+    print(bandwidth.date);
+
+    if (bandwidth.day == 'All Days') {
+      bandwidths.add({
+        "value": -75687388.96878098,
+        "schedule": {
+          "day": 0,
+          "allDays": true,
+          "startTime": bandwidth.date!.replaceAll("From ", "").replaceAll(" To ", "-").split('-')[0].trim(),
+          "endTime": bandwidth.date!.replaceAll("From ", "").replaceAll(" To ", "-")[1].trim(),
+        }
+      });
+      break;
+    }
+
+    bandwidths.add({
+      "value": -75687388.96878098,
+      "schedule": {
+        "day": bandwidth.getDayIndex(),
+        "allDays": false,
+        "startTime": bandwidth.date!.replaceAll("From ", "").replaceAll(" To ", "-").split('-')[0].trim(),
+        "endTime": bandwidth.date!.replaceAll("From ", "").replaceAll(" To ", "-").split('-')[1].trim(),
+      }
+    });
+  }
+  print('connections');
+
+  var connections = [];
+  for (ConnectionTypeModel connectionType in policy.connectionTypes!) {
+    print(connectionType.date);
+    if (connectionType.day == 'All Days') {
+      connections.add({
+        "value": -75687388.96878098,
+        "schedule": {
+          "day": 0,
+          "allDays": true,
+          "startTime": connectionType.date!.replaceAll("From ", "").replaceAll(" To ", "-").split('-')[0].trim(),
+          "endTime": connectionType.date!.replaceAll("From ", "").replaceAll(" To ", "-").split('-')[1].trim(),
+        }
+      });
+      break;
+    }
+
+    connections.add({
+      "value": -75687388.96878098,
+      "schedule": {
+        "day": connectionType.getDayIndex(),
+        "allDays": false,
+        "startTime": connectionType.date!.replaceAll("From ", "").replaceAll(" To ", "-").split('-')[0].trim(),
+        "endTime": connectionType.date!.replaceAll("From ", "").replaceAll(" To ", "-").split('-')[1].trim(),
+      }
+    });
+  }
+
+  var body = {
+    "userIds": [...membersIds],
+    "deviceIds": [...devicesIds],
+    "lteBandwidth": lteBandwidth.length == 0 ? 0 : int.parse(lteBandwidth),
+    "cableBandwidth": cableBandwidth.length == 0 ? 0 : int.parse(cableBandwidth),
+    "bandwidths": [...bandwidths],
+    "interfaces": [...connections],
+    'apps': [...defaultApps],
+    'customApps': [...customApps]
+  };
+
+  print('userId: ${[...membersIds]}');
+  print('deviceIds: ${[...devicesIds]}');
+  print('lteBandwidth: ${lteBandwidth}');
+  print('cableBandwidth: ${cableBandwidth}');
+  print('bandwidths: ${[...bandwidths]}');
+  print('interfaces: ${[...connections]}');
+  print('apps: ${[...defaultApps]}');
+  print('customApps: ${[...customApps]}');
+
+  http.Response response = await http.post(Uri.parse(ADD_POLICY_URL),
       headers: {
         'Content-Type': 'application/json',
         'Authorization': 'Bearer ${token}',
       },
-      body: jsonEncode({'name': name}));
+      body: jsonEncode(body));
 
   print('status code' + response.statusCode.toString());
   print('status body' + response.body.toString());
@@ -46,73 +160,20 @@ Future<bool> requestAddMember(String name) async {
   if (response.statusCode == 201) {
     return true;
   }
-
   return false;
 }
 
-Future<bool> requestAddPolicy(PolicyModel policy) async {
+Future<bool> requestAddMember(String name) async {
   SharedPreferences _prefs = await SharedPreferences.getInstance();
   String token = _prefs.getString('token').toString();
 
-  List<String?> devicesIds = [];
-  for (MemberModel member in policy.members!) {
-    var ids = member.devices?.map((value) => value.id).toList();
-    devicesIds.addAll(ids!);
-  }
-
-  http.Response response = await http.post(Uri.parse(ADD_POLICY_URL),
+  print(MEMBERS_URL);
+  http.Response response = await http.post(Uri.parse(MEMBERS_URL),
       headers: {
         'Content-Type': 'application/json',
         'Authorization': 'Bearer ${token}',
       },
-      body: jsonEncode({
-        "userIds": [],
-        "deviceIds": [...devicesIds],
-        "lteBandwidth": "50",
-        "cableBandwidth": "50",
-        // "bandwidths": [
-        //   {
-        //     "value": "<double>",
-        //     "schedule": {
-        //       "day": "<integer>",
-        //       "allDays": "<boolean>",
-        //       "startTime": {},
-        //       "endTime": {}
-        //     }
-        //   },
-        //   {
-        //     "value": "<double>",
-        //     "schedule": {
-        //       "day": "<integer>",
-        //       "allDays": "<boolean>",
-        //       "startTime": {},
-        //       "endTime": {}
-        //     }
-        //   }
-        // ],
-        // "interfaces": [
-        //   {
-        //     "portName": "<string>",
-        //     "schedule": {
-        //       "day": "<integer>",
-        //       "allDays": "<boolean>",
-        //       "startTime": {},
-        //       "endTime": {}
-        //     }
-        //   },
-        //   {
-        //     "portName": "<string>",
-        //     "schedule": {
-        //       "day": "<integer>",
-        //       "allDays": "<boolean>",
-        //       "startTime": {},
-        //       "endTime": {}
-        //     }
-        //   }
-        // ],
-        // "apps": ["<string>", "<string>"],
-        // "customApps": ["<string>", "<string>"]
-      }));
+      body: jsonEncode({'name': name}));
 
   print('status code' + response.statusCode.toString());
   print('status body' + response.body.toString());
@@ -286,8 +347,7 @@ Future<bool> requestEditMemberDevice(
   http.Response response = await http.put(Uri.parse(DEVICES_URL + device.id!),
       headers: {
         'Content-Type': 'application/json',
-        'Authorization':
-            'Bearer ${token}',
+        'Authorization': 'Bearer ${token}',
       },
       body: jsonEncode({
         "id": device.id,

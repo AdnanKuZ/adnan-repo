@@ -1,8 +1,12 @@
+import 'dart:convert';
+
 import 'package:admin/constants.dart';
+import 'package:admin/dialogs/add_device_dialog.dart';
 import 'package:admin/dialogs/edit_device_dialog.dart';
 import 'package:admin/dialogs/edit_member_dialog.dart';
 import 'package:admin/dialogs/loading_dialog.dart';
 import 'package:admin/providers/MembersAndDevicesStepProvider.dart';
+import 'package:admin/providers/add_device_provider.dart';
 import 'package:admin/responsive.dart';
 import 'package:admin/widgets/dashboard/members_and_devices/members_and_devices_header.dart';
 import 'package:admin/widgets/dashboard/members_and_devices/members_and_devices_list_item.dart';
@@ -37,6 +41,9 @@ class _MembersAndDevicesScreenState extends State<MembersAndDevicesScreen> {
 
   @override
   Widget build(BuildContext context) {
+    var addDeviceProvider =
+        Provider.of<AddDeviceProvider>(context, listen: false);
+        
     return SingleChildScrollView(
       child: Container(
         height: MediaQuery.of(context).size.height,
@@ -52,7 +59,41 @@ class _MembersAndDevicesScreenState extends State<MembersAndDevicesScreen> {
             padding: Responsive.isMobile(context)
                 ? EdgeInsets.fromLTRB(defaultPadding, 0, defaultPadding, 0)
                 : EdgeInsets.all(0),
-            child: MembersAndDevicesHeader(showAddButton: true),
+            child: MembersAndDevicesHeader(
+              showAddButton: true,
+              onAddDeviceClicked: () async {
+                // Showing loading dialog
+                LoadingDialog(context: context);
+                // Requesting devices
+                var devicesResponse = await requestDevices();
+                // Setting devices in provider
+                List<DeviceModel> filteredDevices = [];
+                for (DeviceModel device in devicesResponse) {
+                  if (device.member == null) filteredDevices.add(device);
+                }
+                addDeviceProvider.setDevices(filteredDevices);
+                // Requesting memebers
+                var membersResponse = await requestMembers();
+                print(membersResponse.toString());
+                // Setting members in provider
+                addDeviceProvider.setMembers(membersResponse);
+                // Hiding loading dialog
+                Navigator.pop(context);
+                // Showing add device dialog
+                DeviceModel result = await AddDeviceDialog(
+                    context: context, color: primaryColor);
+                print('payload: ' + jsonEncode(result).toString());
+                if (result.id != null) {
+                  // Device already exist
+                  await requestExistingDevice(result);
+                } else {
+                  // Device does not exist
+                  await requestNewDevice(result);
+                }
+                initiated = false;
+                loadDevicesAndMembers();
+              },
+            ),
           ),
           Expanded(
             child: Container(

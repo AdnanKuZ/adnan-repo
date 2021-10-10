@@ -66,10 +66,11 @@ class LastStepWidget extends StatelessWidget {
                                 ...membersState.getSelectedApps()
                               ],
                               members: [...membersState.getSelectedMemeber()],
+                              devices: [...membersState.getSelectedDevices()]
                             );
 
                             LoadingDialog(context: context);
-                            await requestAddPolicy(policy);
+                            await requestAddPolicy(policy, memberAndDevicesProvider.lte, memberAndDevicesProvider.cable);
                             Navigator.pop(context);
                             Navigator.pop(context);
                             stageProvider.setIsLastStep = false;
@@ -101,6 +102,7 @@ class LastStepWidget extends StatelessWidget {
                         ...membersState.getSelectedApps()
                       ],
                       members: [...membersState.getSelectedMemeber()],
+                      devices: [...membersState.getSelectedDevices()]
                     ));
                   },
                 ),

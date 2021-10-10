@@ -34,9 +34,7 @@ class _AppsWidgetState extends State<AppsWidget> {
     return Padding(
       padding: EdgeInsets.fromLTRB(0, 12, 0, 0),
       child: Expandable(
-        controller: ExpandableController(
-            initialExpanded:
-                _isOpen), // <-- Driven by ExpandableController from ExpandableNotifier
+        controller: ExpandableController(initialExpanded: _isOpen),
         expanded: NestedCardBody(
           isExpanded: _isOpen,
           onLayoutChanged: () => collapse(),
@@ -48,17 +46,6 @@ class _AppsWidgetState extends State<AppsWidget> {
                   AppWidget(path: app.image == null ? '' : app.image!)
               ],
             )
-            // ListView.builder(
-            //   shrinkWrap: true,
-            //   itemCount: widget.apps.length,
-            //   itemBuilder: (context, index) {
-            //     return Wrap(
-            //       alignment: WrapAlignment.spaceBetween,
-            //       children: [
-            //         AppWidget(path: widget.apps[index].image == null ? '' : widget.apps[index].image!)
-            //       ],
-            //     );
-            //   }),
           ],
         ),
         collapsed: NestedCardHeader(
@@ -76,6 +63,7 @@ class AppWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(padding: EdgeInsets.all(8), child: Image.asset(path));
+    return Container(
+        padding: EdgeInsets.fromLTRB(0, 8, 8, 8), child: Image.asset(path));
   }
 }
