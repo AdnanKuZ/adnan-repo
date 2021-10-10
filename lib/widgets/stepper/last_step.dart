@@ -63,11 +63,7 @@ class LastStepWidget extends StatelessWidget {
                                 ...connectionState.getConnectionTypesList()
                               ],
                               apps: [
-                                AppModel(
-                                  name: "Chrome",
-                                  image: "assets/images/chrome.png",
-                                  link: '',
-                                )
+                                ...membersState.getSelectedApps()
                               ],
                               members: [...membersState.getSelectedMemeber()],
                             );
@@ -102,11 +98,7 @@ class LastStepWidget extends StatelessWidget {
                         ...connectionState.getConnectionTypesList()
                       ],
                       apps: [
-                        AppModel(
-                          name: "Chrome",
-                          image: "assets/images/chrome.png",
-                          link: '',
-                        )
+                        ...membersState.getSelectedApps()
                       ],
                       members: [...membersState.getSelectedMemeber()],
                     ));

@@ -1,3 +1,4 @@
+import 'package:admin/models/app.dart';
 import 'package:expandable/expandable.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -6,7 +7,9 @@ import 'members.dart';
 
 class AppsWidget extends StatefulWidget {
   final Function onClick;
-  const AppsWidget({required this.onClick, Key? key}) : super(key: key);
+  final List<AppModel> apps;
+  const AppsWidget({required this.apps, required this.onClick, Key? key})
+      : super(key: key);
   @override
   State<AppsWidget> createState() => _AppsWidgetState();
 }
@@ -39,10 +42,23 @@ class _AppsWidgetState extends State<AppsWidget> {
           onLayoutChanged: () => collapse(),
           title: 'Apps',
           widgets: [
-            Wrap(children: [
-              AppWidget(path: "assets/images/chrome.png"),
-              AppWidget(path: "assets/images/netflix.png"),
-            ],)
+            Wrap(
+              children: [
+                for (var app in widget.apps)
+                  AppWidget(path: app.image == null ? '' : app.image!)
+              ],
+            )
+            // ListView.builder(
+            //   shrinkWrap: true,
+            //   itemCount: widget.apps.length,
+            //   itemBuilder: (context, index) {
+            //     return Wrap(
+            //       alignment: WrapAlignment.spaceBetween,
+            //       children: [
+            //         AppWidget(path: widget.apps[index].image == null ? '' : widget.apps[index].image!)
+            //       ],
+            //     );
+            //   }),
           ],
         ),
         collapsed: NestedCardHeader(
@@ -56,15 +72,10 @@ class _AppsWidgetState extends State<AppsWidget> {
 
 class AppWidget extends StatelessWidget {
   String path;
-  AppWidget({
-    required this.path, 
-    Key? key
-    }) : super(key: key);
+  AppWidget({required this.path, Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.all(8),
-      child: Image.asset(path));
+    return Container(padding: EdgeInsets.all(8), child: Image.asset(path));
   }
 }

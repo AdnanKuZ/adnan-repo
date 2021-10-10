@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:admin/models/app.dart';
 import 'package:admin/models/device.dart';
 import 'package:admin/models/member.dart';
 import 'package:flutter/material.dart';
@@ -8,42 +9,35 @@ class MembersAndDevicesStepProvider extends ChangeNotifier {
   String policyName = '';
   String lte = '';
   String cable = '';
+  List<DeviceModel> devices = [];
+  List<MemberModel> members = [];
+  List<AppModel> definedApps = [
+    AppModel(name: 'Netflix', image: 'assets/images/netflix.png'),
+    AppModel(name: 'Instagram', image: 'assets/images/instagram.png'),
+    AppModel(name: 'Chrome', image: 'assets/images/chrome.png'),
+  ];
+  List<AppModel> customApps = [
+    AppModel(
+        name: 'Dropbox 1',
+        image: 'assets/images/chrome.png',
+        link: 'http//fjdfk.com'),
+    AppModel(
+        name: 'Dropbox 2',
+        image: 'assets/images/chrome.png',
+        link: 'http//fjdfk.com'),
+    AppModel(
+        name: 'Dropbox 3',
+        image: 'assets/images/chrome.png',
+        link: 'http//fjdfk.com'),
+  ];
 
   String get getPolicyName => policyName;
   String get getLte => lte;
   String get getCable => cable;
-
-  List<DeviceModel> devices = [];
-  List<MemberModel> members = [];
-  // List<DeviceModel> devices = [
-  //   DeviceModel(name: "Bedroom TV"),
-  //   DeviceModel(name: "Playstation 3"),
-  //   DeviceModel(name: "Playstation 4"),
-  // ];
-  // List<MemberModel> members = [
-  //   MemberModel(name: 'Ziad', devices: [
-  //     DeviceModel(name: 'Lenovo Thinkpad'),
-  //     DeviceModel(name: 'iphone 13 Pro Max'),
-  //     DeviceModel(name: 'School Device'),
-  //   ]),
-  //   MemberModel(name: 'Jessy', devices: [
-  //     DeviceModel(name: 'Lenovo Thinkpad'),
-  //     DeviceModel(name: 'iphone 13 Pro Max'),
-  //     DeviceModel(name: 'School Device'),
-  //   ]),
-  //   MemberModel(name: 'Khalid', devices: [
-  //     DeviceModel(name: 'Lenovo Thinkpad'),
-  //     DeviceModel(name: 'iphone 13 Pro Max'),
-  //     DeviceModel(name: 'School Device'),
-  //   ]),
-  //   MemberModel(name: 'Majd', devices: [
-  //     DeviceModel(name: 'Lenovo Thinkpad'),
-  //     DeviceModel(name: 'iphone 13 Pro Max'),
-  //     DeviceModel(name: 'School Device'),
-  //   ])
-  // ];
   List<DeviceModel> get getDevices => devices;
   List<MemberModel> get getMembers => members;
+  List<AppModel> get getDefinedApps => definedApps;
+  List<AppModel> get getCustomApps => customApps;
 
   bool areDevicesChecked = false;
   bool get getAreDevicesChecked => areAllDevicesChecked();
@@ -54,7 +48,9 @@ class MembersAndDevicesStepProvider extends ChangeNotifier {
       if (member.devices?.any((element) => element.isSelected) ?? false) {
         var selectedDevices =
             member.devices?.where((element) => element.isSelected).toList();
-            selectedDevices?.forEach((element) {element.mac = "5:E5:49:AC:07:44";});
+        selectedDevices?.forEach((element) {
+          element.mac = "5:E5:49:AC:07:44";
+        });
         result.add(MemberModel(
             id: member.id, name: member.name, devices: selectedDevices));
       }
@@ -87,6 +83,28 @@ class MembersAndDevicesStepProvider extends ChangeNotifier {
     this.devices.addAll(devices);
     notifyListeners();
   }
+
+  void setDefaultApps(List<AppModel> apps) {
+    this.definedApps = apps;
+    notifyListeners();
+  }
+
+  void addDefaultApp(AppModel app) {
+    this.definedApps.add(app);
+    notifyListeners();
+  }
+
+  void addCustomApp(AppModel app) {
+    this.customApps.add(app);
+    notifyListeners();
+  }
+
+  void setCustomDevices(List<AppModel> apps) {
+    this.customApps = apps;
+    notifyListeners();
+  }
+
+  
 
   void addMemberDevice(int index, DeviceModel device) {
     members[index].devices!.add(device);
@@ -140,6 +158,14 @@ class MembersAndDevicesStepProvider extends ChangeNotifier {
     return members[memeberIndex].devices!.length > 0;
   }
 
+  bool isDefinedAppSelected(AppModel app) {
+    return definedApps.any((element) => element.name == app.name && element.isSelected);
+  }
+
+  bool isCustomAppSelected(AppModel app) {
+    return customApps.any((element) => element.name == app.name && element.isSelected);
+  }
+
   void setPolicyName(String name) {
     this.policyName = name;
   }
@@ -147,8 +173,34 @@ class MembersAndDevicesStepProvider extends ChangeNotifier {
   void setLte(String name) {
     this.lte = name;
   }
-  
+
   void setCable(String name) {
     this.cable = name;
+  }
+
+  void setCustomAppSelected(AppModel app, bool isChecked) {
+    customApps.forEach((element) {
+      if (app.name == element.name) {
+        element.isSelected = isChecked;
+      }
+    });
+    notifyListeners();
+  }
+
+  void setDefinedAppSelected(AppModel app, bool isChecked) {
+    definedApps.forEach((element) {
+      if (app.name == element.name) {
+        element.isSelected = isChecked;
+      }
+    });
+    notifyListeners();
+  }
+
+
+  List<AppModel> getSelectedApps() {
+    List<AppModel> selectedApps = [];
+    selectedApps.addAll(definedApps.where((element) => element.isSelected));
+    selectedApps.addAll(customApps.where((element) => element.isSelected));
+    return selectedApps;
   }
 }

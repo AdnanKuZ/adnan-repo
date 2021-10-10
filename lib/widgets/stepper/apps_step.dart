@@ -1,6 +1,9 @@
+import 'dart:developer';
+
 import 'package:admin/constants.dart';
 import 'package:admin/dialogs/add_app_dialog.dart';
 import 'package:admin/models/app.dart';
+import 'package:admin/providers/MembersAndDevicesStepProvider.dart';
 import 'package:admin/responsive.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -21,82 +24,70 @@ bool isCheckAll = false;
 
 class _AppsStepScreenState extends State<AppsStepScreen> {
   String searchApp = '';
-  final List<AppModel> list = [
-    AppModel(name: 'Netflix', image: 'assets/images/netflix.png'),
-    AppModel(name: 'Instagram', image: 'assets/images/instagram.png'),
-    AppModel(name: 'Chrome', image: 'assets/images/chrome.png'),
-    AppModel(name: 'Instagram', image: 'assets/images/instagram.png'),
-    AppModel(name: 'Chrome', image: 'assets/images/chrome.png'),
-    AppModel(name: 'Instagram', image: 'assets/images/instagram.png'),
-    AppModel(name: 'Instagram', image: 'assets/images/instagram.png'),
-    AppModel(name: 'Chrome', image: 'assets/images/chrome.png'),
-    AppModel(name: 'Instagram', image: 'assets/images/instagram.png'),
-  ];
-  final List<AppModel> list2 = [
-    AppModel(
-        name: 'Dropbox',
-        image: 'assets/images/chrome.png',
-        link: 'http//fjdfk.com'),
-    AppModel(
-        name: 'Dropbox',
-        image: 'assets/images/chrome.png',
-        link: 'http//fjdfk.com'),
-    AppModel(
-        name: 'Dropbox',
-        image: 'assets/images/chrome.png',
-        link: 'http//fjdfk.com'),
-  ];
   @override
   Widget build(BuildContext context) {
+    print('print');
     final screenWidth = MediaQuery.of(context).size.width;
     final provider = Provider.of<StageProvider>(context, listen: false);
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      mainAxisAlignment: MainAxisAlignment.start,
-      children: [
-        PageHeader(
-          customAppButton: () async {
-            await showAddAppDialog(
-              context,
-              (name, link) {
-                list2.add(AppModel(
-                  name: name,
-                  image: 'assets/images/chrome.png',
-                  link: link,
-                ));
-                Navigator.pop(context);
+    final membersProvider =
+        Provider.of<MembersAndDevicesStepProvider>(context, listen: false);
+
+    return Consumer<MembersAndDevicesStepProvider>(
+      builder: (context, state, child) {
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            // Consumer<MembersAndDevicesStepProvider>(
+            //   builder:(context, state, child) {
+            //   return ;
+            // },
+            // ),
+            PageHeader(
+              customAppButton: () async {
+                await showAddAppDialog(
+                  context,
+                  (name, link) {
+                    membersProvider.addCustomApp(AppModel(
+                      name: name,
+                      image: 'assets/images/chrome.png',
+                      link: link,
+                    ));
+                    Navigator.pop(context);
+                  },
+                );
+                setState(() {});
               },
-            );
-            setState(() {});
-          },
-          selectAllButton: () {
-            setState(() {
-              isCheckAll = !isCheckAll;
-            });
-          },
-          nextButton: () {
-            provider.setStageState = 3;
-            provider.incrementIndex();
-          },
-        ),
-        const SizedBox(height: 24),
-        SecondHeader(),
-        const SizedBox(height: 20),
-        AppsGridView(screenWidth: screenWidth, list: list),
-        const SizedBox(height: 20),
-        Text(
-          'Custom apps',
-          style: TextStyle(color: Colors.grey, fontSize: 18),
-        ),
-        const SizedBox(height: 20),
-        AppsGridView(
-          screenWidth: screenWidth,
-          list: list2,
-          isPreDifened: false,
-        ),
-        const SizedBox(height: 28),
-        BottomInfo(),
-      ],
+              selectAllButton: () {
+                setState(() {
+                  isCheckAll = !isCheckAll;
+                });
+              },
+              nextButton: () {
+                provider.setStageState = 3;
+                provider.incrementIndex();
+              },
+            ),
+            const SizedBox(height: 24),
+            SecondHeader(),
+            const SizedBox(height: 20),
+            AppsGridView(screenWidth: screenWidth, list: state.definedApps),
+            const SizedBox(height: 20),
+            Text(
+              'Custom apps',
+              style: TextStyle(color: Colors.grey, fontSize: 18),
+            ),
+            const SizedBox(height: 20),
+            AppsGridView(
+              screenWidth: screenWidth,
+              list: state.customApps,
+              isPreDifened: false,
+            ),
+            const SizedBox(height: 28),
+            BottomInfo(),
+          ],
+        );
+      },
     );
   }
 }
@@ -126,10 +117,7 @@ class _SecondHeaderState extends State<SecondHeader> {
             style: TextStyle(color: Colors.grey, fontSize: 18),
           ),
         ),
-        ResponsiveRowColumnItem(
-            child: SizedBox(
-          height: 12
-        )),
+        ResponsiveRowColumnItem(child: SizedBox(height: 12)),
         ResponsiveRowColumnItem(
           child: SizedBox(
             width: MediaQuery.of(context).size.width * 0.2,
@@ -173,9 +161,7 @@ class AppsGridView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: screenWidth > 1200
-          ? 130
-          : null,
+      height: screenWidth > 1200 ? 130 : null,
       child: GridView.builder(
         shrinkWrap: true,
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
@@ -375,101 +361,130 @@ class _CheckBoxItemState extends State<CheckBoxItem> {
   Widget build(BuildContext context) {
     final app = widget.app;
     final isPreDefined = widget.isPreDefined;
+    final provider =
+        Provider.of<MembersAndDevicesStepProvider>(context, listen: false);
+
     return GridTile(
       child: Container(
         width: 150,
         height: 150,
-        child: GestureDetector(
-          onTap: isCheckAll
-              ? null
-              : () {
-                  widget.onCheck();
-                  setState(() {
-                    widget.isCheck = !widget.isCheck;
-                  });
-                },
-          child: Opacity(
-            opacity: isCheckAll ? 0.5 : 1,
-            child: CustomCard(
-              child: Padding(
-                padding: const EdgeInsets.all(6.0),
-                child: Column(
-                  children: [
-                    Row(
+        child: Consumer<MembersAndDevicesStepProvider>(
+          builder: (context, state, child) {
+            return GestureDetector(
+              onTap: isCheckAll
+                  ? null
+                  : () {
+                      widget.onCheck();
+                      print('1: ' + widget.isCheck.toString());
+                      setState(() {
+                        widget.isCheck = !widget.isCheck;
+                      });
+                      // if (isPreDefined) {
+                      //   provider.setDefinedAppSelected(
+                      //       widget.app, widget.isCheck);
+                      // } else {
+                      //   provider.setCustomAppSelected(
+                      //       widget.app, widget.isCheck);
+                      // }
+                    },
+              child: Opacity(
+                opacity: isCheckAll ? 0.5 : 1,
+                child: CustomCard(
+                  child: Padding(
+                    padding: const EdgeInsets.all(6.0),
+                    child: Column(
                       children: [
-                        if (!isPreDefined)
-                          GestureDetector(
-                            onTap: () {},
-                            child: Icon(
-                              Icons.edit,
-                              color: Colors.grey.shade400,
-                              size: 16,
-                            ),
-                          ),
-                        Spacer(),
-                        GestureDetector(
-                          onTap: () {},
-                          child: Container(
-                            color: Colors.grey.shade400.withOpacity(0.3),
-                            width: 16,
-                            height: 16,
-                            child: Checkbox(
-                              value: widget.isCheck,
-                              onChanged: (_) {
-                                setState(() {
-                                  widget.isCheck = !widget.isCheck;
-                                });
-                              },
-                              activeColor: primaryColor,
-                            ),
-                          ),
-                        )
-                      ],
-                    ),
-                    Expanded(
-                      child: SingleChildScrollView(
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        Row(
                           children: [
-                            CircleAvatar(
-                              minRadius: 24,
-                              maxRadius: 24,
-                              backgroundColor: Colors.white,
-                              child: Image.asset(
-                                app.image!,
-                                fit: BoxFit.fill,
-                              ),
-                            ),
-                            SizedBox(height: 10),
-                            Column(
-                              children: [
-                                Text(
-                                  '${app.name}',
-                                  overflow: TextOverflow.ellipsis,
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.black),
+                            if (!isPreDefined)
+                              GestureDetector(
+                                onTap: () {},
+                                child: Icon(
+                                  Icons.edit,
+                                  color: Colors.grey.shade400,
+                                  size: 16,
                                 ),
-                                if (!isPreDefined)
-                                  Text(
-                                    '${app.link}',
-                                    overflow: TextOverflow.ellipsis,
-                                    style: TextStyle(
-                                      fontSize: 10,
-                                      color: Colors.black,
-                                    ),
-                                  ),
-                              ],
+                              ),
+                            Spacer(),
+                            GestureDetector(
+                              onTap: () {},
+                              child: Container(
+                                color: Colors.grey.shade400.withOpacity(0.3),
+                                width: 16,
+                                height: 16,
+                                child: Checkbox(
+                                  value: isPreDefined
+                                      ? state.isDefinedAppSelected(app)
+                                      : state.isCustomAppSelected(app),
+                                  onChanged: (_) {
+                                    // print('2: ' + widget.isCheck.toString());
+                                    // setState(() {
+                                    //   widget.isCheck = !widget.isCheck;
+                                    // });
+                                    // print('2: ' + widget.isCheck.toString());
+                                    print('TTTTT' + _.toString());
+                                    print(state.isDefinedAppSelected(app));
+                                    if (isPreDefined) {
+                                      provider.setDefinedAppSelected(
+                                          widget.app, _!);
+                                    } else {
+                                      provider.setCustomAppSelected(
+                                          widget.app, _!);
+                                    }
+                                    print(state.isDefinedAppSelected(app));
+                                  },
+                                  activeColor: primaryColor,
+                                ),
+                              ),
                             )
                           ],
                         ),
-                      ),
+                        Expanded(
+                          child: SingleChildScrollView(
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              children: [
+                                CircleAvatar(
+                                  minRadius: 24,
+                                  maxRadius: 24,
+                                  backgroundColor: Colors.white,
+                                  child: Image.asset(
+                                    app.image!,
+                                    fit: BoxFit.fill,
+                                  ),
+                                ),
+                                SizedBox(height: 10),
+                                Column(
+                                  children: [
+                                    Text(
+                                      '${app.name}',
+                                      overflow: TextOverflow.ellipsis,
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.black),
+                                    ),
+                                    if (!isPreDefined)
+                                      Text(
+                                        '${app.link}',
+                                        overflow: TextOverflow.ellipsis,
+                                        style: TextStyle(
+                                          fontSize: 10,
+                                          color: Colors.black,
+                                        ),
+                                      ),
+                                  ],
+                                )
+                              ],
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
-                  ],
+                  ),
                 ),
               ),
-            ),
-          ),
+            );
+          },
         ),
       ),
     );

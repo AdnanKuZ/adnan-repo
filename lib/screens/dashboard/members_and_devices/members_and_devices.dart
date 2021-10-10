@@ -138,7 +138,8 @@ class _MembersAndDevicesScreenState extends State<MembersAndDevicesScreen> {
                                         context: context, color: primaryColor);
                                     device.setName(result);
                                     LoadingDialog(context: context);
-                                    await requestEditMemberDevice(member, device);
+                                    await requestEditMemberDevice(
+                                        member, device);
                                     initiated = false;
                                     await loadDevicesAndMembers();
                                     Navigator.pop(context);

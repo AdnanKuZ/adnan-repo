@@ -125,11 +125,11 @@ class _PolicyWidgetState extends State<PolicyWidget> {
                       ListView.builder(
                         shrinkWrap: true,
                         itemCount: widget.policy.members!.length,
-                        itemBuilder: (context,index){
+                        itemBuilder: (context,index) {
                           return MembersWidget( member: widget.policy.members![index], onClick: () {});
                         }
                       ),
-                      AppsWidget(onClick: () {})
+                      AppsWidget(apps: widget.policy.apps == null ? [] : widget.policy.apps!, onClick: () {})
                     ],
                   )),
             ),
