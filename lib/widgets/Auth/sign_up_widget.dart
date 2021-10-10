@@ -34,6 +34,7 @@ class SignUpWidget extends StatelessWidget {
     final signupMode = Provider.of<SignUpModes>(context, listen: false);
     final passValidProvider =
         Provider.of<PassValidProvider>(context, listen: false);
+    final isLoading = Provider.of<IsLoading>(context, listen: false);
     Map<String, String> authData = {
       "email": "",
       "password": "",
@@ -232,19 +233,25 @@ class SignUpWidget extends StatelessWidget {
                           signUpFormKey.currentState!.validate()
                               ? passValidProvider.setPassValidState(true)
                               : passValidProvider.setPassValidState(false);
-                          if (signUpFormKey.currentState!.validate()) {
-                            authData = {
+                          authData = {
                               "email": emailController.text,
                               "password": passController.text,
                               "deviceId": deviceIdController.text,
                             };
-                            var result = await _authRepo.register(authData);
+                          if (signUpFormKey.currentState!.validate()) {
+                            isLoading.setLoadingState(true);
+                            String result = await _authRepo.register(authData);
                             if (result == 'Success') {
                               signupMode.setMode("Otp");
+                              isLoading.setLoadingState(false);
                             } else if (result == 'Bad Request') {
                               print('bad request');
+                              isLoading.setLoadingState(false);
+                              showDialog(context: context, builder: (context)=>Container(child: Text('Bad Request')));
                             } else
                               print('server error');
+                              showDialog(context: context, builder: (context)=>Container(child: Text('Server Error')));
+                              isLoading.setLoadingState(false);
                           }
                         },
                         buttonColor: primaryColor,

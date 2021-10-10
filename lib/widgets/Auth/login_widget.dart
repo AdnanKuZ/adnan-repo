@@ -208,6 +208,7 @@ class LoginWidget extends StatelessWidget {
                                   if (result == 'Login Failed') {
                                     print("loginError");
                                     isLoading.setLoadingState(false);
+                                    showDialog(context: context, builder: (context)=>Container(child: Text('Login Error')));
                                   } else {
                                     Navigator.push(
                                         context,

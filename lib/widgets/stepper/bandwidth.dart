@@ -76,7 +76,7 @@ class BandwidthStepperWidget extends StatelessWidget {
                 child: CustomTextField(
                   controller: lteController,
                   keyboardType: TextInputType.number,
-                  hintText: 'LTE (0 > 1000mb)',
+                  hintText: 'LTE (0 > 1000kbps)',
                   onChanged: (value) {
                     membersAdnDevicesProvider.setLte(value);
                   },
@@ -90,7 +90,7 @@ class BandwidthStepperWidget extends StatelessWidget {
                 child: CustomTextField(
                   controller: cableController,
                   keyboardType: TextInputType.number,
-                  hintText: 'Cable (0 > 1000mb)',
+                  hintText: 'Cable (0 > 1000kbps)',
                   onChanged: (value) {
                     membersAdnDevicesProvider.setCable(value);
                   },

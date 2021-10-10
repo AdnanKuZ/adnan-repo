@@ -67,8 +67,6 @@ class _StepperScreenState extends State<StepperScreen> {
 
   @override
   Widget build(BuildContext context) {
-    requestPolicies();
-    print('rebuilding');
     final _stageProvider = Provider.of<StageProvider>(context, listen: false);
     return Scaffold(
       body: SingleChildScrollView(child: LayoutBuilder(
@@ -157,9 +155,10 @@ class _StepperScreenState extends State<StepperScreen> {
                           },
                           steps: [
                             EnhanceStep(
+                                icon: instance.stageIndex == 0 ? Icon(Icons.edit_outlined,color: primaryColor,): null,
                                 isActive:
                                     instance.stageStates[0] ? true : false,
-                                state: instance.stageIndex == 0 ? StepState.editing : StepState.complete,
+                                state: StepState.complete,
                                 title: Text(
                                   constraints.maxWidth > 1008
                                       ? ' Members & Devices   '
@@ -182,9 +181,10 @@ class _StepperScreenState extends State<StepperScreen> {
                                   ),
                                 )),
                             EnhanceStep(
+                                icon: instance.stageIndex == 1 ? Icon(Icons.edit_outlined,color: primaryColor,): null,
                                 isActive:
                                     instance.stageStates[1] ? true : false,
-                                state: instance.stageIndex == 1 ? StepState.editing : StepState.complete,
+                                state: StepState.complete,
                                 title: Text(
                                   constraints.maxWidth > 1008
                                       ? ' Bandwidth   '
@@ -204,9 +204,10 @@ class _StepperScreenState extends State<StepperScreen> {
                                   ),
                                 )),
                             EnhanceStep(
+                                icon: instance.stageIndex == 2 ? Icon(Icons.edit_outlined,color: primaryColor,): null,
                                 isActive:
                                     instance.stageStates[2] ? true : false,
-                                state: instance.stageIndex == 2 ? StepState.editing : StepState.complete,
+                                state: StepState.complete,
                                 title: Text(
                                   constraints.maxWidth > 1008
                                       ? ' Connection   '
@@ -219,9 +220,10 @@ class _StepperScreenState extends State<StepperScreen> {
                                 content: Container(
                                     child: ConnectionStepperWidget())),
                             EnhanceStep(
+                                icon: instance.stageIndex == 3 ? Icon(Icons.edit_outlined,color: primaryColor,): null,
                                 isActive:
                                     instance.stageStates[3] ? true : false,
-                                state: instance.stageIndex == 3 ? StepState.editing : StepState.complete,
+                                state: StepState.complete,
                                 title: Text(
                                   constraints.maxWidth > 1008 ? ' Apps   ' : '',
                                   style: TextStyle(
@@ -234,9 +236,10 @@ class _StepperScreenState extends State<StepperScreen> {
                                 )),
                             !instance.islaststep
                                 ? EnhanceStep(
+                                    icon: instance.stageIndex == 4 ? Icon(Icons.edit_outlined,color: primaryColor,): null,
                                     isActive:
                                         instance.stageStates[4] ? true : false,
-                                    state: instance.stageIndex == 4 ? StepState.editing : StepState.complete,
+                                    state: StepState.complete,
                                     title: Text(
                                       constraints.maxWidth > 1008
                                           ? ' Policy Name   '

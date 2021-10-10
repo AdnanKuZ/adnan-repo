@@ -9,6 +9,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:admin/server/requests.dart';
+import 'package:admin/models/policy_list.dart';
 
 class PoliciesScreen extends StatefulWidget {
   @override
@@ -25,17 +26,18 @@ class _PoliciesScreenState extends State<PoliciesScreen> {
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             var _data = snapshot.data as List<PolicyModel>;
-            // print('data is ; ${snapshot.data}');
+            print('data is ; ${snapshot.data}');
             if (_data.isEmpty) {
               print('1');
               return SafeArea(child: PoliciesEmptyScreen());
             } else {
               print('2');
-              return SafeArea(
-                  child: PoliciesFilledScreen(
-                      policies: _data
-                      //  [...policiesTest]
-                      ));
+              return SafeArea(child: Container()
+                   PoliciesFilledScreen(
+                  policies: _data
+                   [...policiesTest]
+                  )
+                  );
             }
           } else {
             print('3');

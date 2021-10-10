@@ -10,8 +10,8 @@ String policyListModelToJson(List<PolicyListModel> data) => json.encode(List<dyn
 
 class PolicyListModel {
     PolicyListModel({
-        this.userIds,
-        this.deviceMacAddresses,
+        this.id,
+        this.cpeIdentifier,
         this.devices,
         this.lteBandwidth,
         this.cableBandwidth,
@@ -21,32 +21,32 @@ class PolicyListModel {
         this.customApps,
     });
 
-    List<String>? userIds;
-    List<String>? deviceMacAddresses;
-    List<Device>? devices;
+    String? id;
+    String? cpeIdentifier;
+    List<dynamic>? devices;
     int? lteBandwidth;
     int? cableBandwidth;
     List<Bandwidth>? bandwidths;
     List<Interface>? interfaces;
-    List<String>? apps;
+    List<dynamic>? apps;
     List<String>? customApps;
 
     factory PolicyListModel.fromJson(Map<String, dynamic> json) => PolicyListModel(
-        userIds: List<String>.from(json["userIds"].map((x) => x)),
-        deviceMacAddresses: List<String>.from(json["deviceMacAddresses"].map((x) => x)),
-        devices: List<Device>.from(json["devices"].map((x) => Device.fromJson(x))),
+        id: json["id"],
+        cpeIdentifier: json["cpeIdentifier"],
+        devices: List<dynamic>.from(json["devices"].map((x) => x)),
         lteBandwidth: json["lteBandwidth"],
         cableBandwidth: json["cableBandwidth"],
         bandwidths: List<Bandwidth>.from(json["bandwidths"].map((x) => Bandwidth.fromJson(x))),
         interfaces: List<Interface>.from(json["interfaces"].map((x) => Interface.fromJson(x))),
-        apps: List<String>.from(json["apps"].map((x) => x)),
+        apps: List<dynamic>.from(json["apps"].map((x) => x)),
         customApps: List<String>.from(json["customApps"].map((x) => x)),
     );
 
     Map<String, dynamic> toJson() => {
-        "userIds": List<dynamic>.from(userIds!.map((x) => x)),
-        "deviceMacAddresses": List<dynamic>.from(deviceMacAddresses!.map((x) => x)),
-        "devices": List<dynamic>.from(devices!.map((x) => x.toJson())),
+        "id": id,
+        "cpeIdentifier": cpeIdentifier,
+        "devices": List<dynamic>.from(devices!.map((x) => x)),
         "lteBandwidth": lteBandwidth,
         "cableBandwidth": cableBandwidth,
         "bandwidths": List<dynamic>.from(bandwidths!.map((x) => x.toJson())),
@@ -62,11 +62,11 @@ class Bandwidth {
         this.schedule,
     });
 
-    int? value;
+    double? value;
     Schedule? schedule;
 
     factory Bandwidth.fromJson(Map<String, dynamic> json) => Bandwidth(
-        value: json["value"],
+        value: json["value"].toDouble(),
         schedule: Schedule.fromJson(json["schedule"]),
     );
 
@@ -86,84 +86,36 @@ class Schedule {
 
     int? day;
     bool? allDays;
-    Map<String, int>? startTime;
-    Map<String, int>? endTime;
+    String? startTime;
+    String? endTime;
 
     factory Schedule.fromJson(Map<String, dynamic> json) => Schedule(
         day: json["day"],
         allDays: json["allDays"],
-        startTime: Map.from(json["startTime"]).map((k, v) => MapEntry<String, int>(k, v)),
-        endTime: Map.from(json["endTime"]).map((k, v) => MapEntry<String, int>(k, v)),
+        startTime: json["startTime"],
+        endTime: json["endTime"],
     );
 
     Map<String, dynamic> toJson() => {
         "day": day,
         "allDays": allDays,
-        "startTime": Map.from(startTime!).map((k, v) => MapEntry<String, dynamic>(k, v)),
-        "endTime": Map.from(endTime!).map((k, v) => MapEntry<String, dynamic>(k, v)),
-    };
-}
-
-class Device {
-    Device({
-        this.name,
-        this.macAddress,
-        this.member,
-    });
-
-    String? name;
-    String? macAddress;
-    Member? member;
-
-    factory Device.fromJson(Map<String, dynamic> json) => Device(
-        name: json["name"],
-        macAddress: json["macAddress"],
-        member: Member.fromJson(json["member"]),
-    );
-
-    Map<String, dynamic> toJson() => {
-        "name": name,
-        "macAddress": macAddress,
-        "member": member!.toJson(),
-    };
-}
-
-class Member {
-    Member({
-        this.id,
-        this.name,
-    });
-
-    String? id;
-    String? name;
-
-    factory Member.fromJson(Map<String, dynamic> json) => Member(
-        id: json["id"],
-        name: json["name"],
-    );
-
-    Map<String, dynamic> toJson() => {
-        "id": id,
-        "name": name,
+        "startTime": startTime,
+        "endTime": endTime,
     };
 }
 
 class Interface {
     Interface({
-        this.portName,
         this.schedule,
     });
 
-    String? portName;
     Schedule? schedule;
 
     factory Interface.fromJson(Map<String, dynamic> json) => Interface(
-        portName: json["portName"],
         schedule: Schedule.fromJson(json["schedule"]),
     );
 
     Map<String, dynamic> toJson() => {
-        "portName": portName,
         "schedule": schedule!.toJson(),
     };
 }

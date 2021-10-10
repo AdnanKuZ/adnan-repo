@@ -342,7 +342,7 @@ Future<List<MemberModel>> requestMappedMembers() async {
   return membersResponse;
 }
 
-// Future<List<PolicyListModel>>
+
 Future<List<PolicyModel>> requestPolicies() async {
   SharedPreferences _prefs = await SharedPreferences.getInstance();
   String token = _prefs.getString('token').toString();
@@ -356,7 +356,6 @@ Future<List<PolicyModel>> requestPolicies() async {
   );
 
   List<PolicyListModel> polices = policyListModelFromJson(response.body);
-  
 
   List<PolicyModel> oldPolicies = [];
   polices.forEach((element) {
@@ -427,7 +426,7 @@ Future<List<PolicyModel>> requestPolicies() async {
         connectionTypes: oldConnection,
         members: oldMembers));
   });
-  // print(response.body);
+  print(' response body${response.body}');
   print(response.statusCode);
   return oldPolicies;
 }
