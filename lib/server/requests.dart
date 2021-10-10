@@ -1,8 +1,13 @@
 import 'dart:convert';
+import 'package:admin/models/app.dart';
+import 'package:admin/models/bandwidth.dart';
+import 'package:admin/models/connection_type.dart';
 import 'package:admin/models/device.dart';
 import 'package:admin/models/member.dart';
 import 'package:admin/models/policy.dart';
+import 'package:admin/models/policy_list.dart';
 import 'package:admin/server/urls.dart';
+import 'package:admin/widgets/stepper/connection.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -286,8 +291,7 @@ Future<bool> requestEditMemberDevice(
   http.Response response = await http.put(Uri.parse(DEVICES_URL + device.id!),
       headers: {
         'Content-Type': 'application/json',
-        'Authorization':
-            'Bearer ${token}',
+        'Authorization': 'Bearer ${token}',
       },
       body: jsonEncode({
         "id": device.id,
@@ -336,4 +340,94 @@ Future<List<MemberModel>> requestMappedMembers() async {
     }
   }
   return membersResponse;
+}
+
+// Future<List<PolicyListModel>>
+Future<List<PolicyModel>> requestPolicies() async {
+  SharedPreferences _prefs = await SharedPreferences.getInstance();
+  String token = _prefs.getString('token').toString();
+
+  http.Response response = await http.get(
+    Uri.parse(GET_POLICY_URL),
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ${token}',
+    },
+  );
+
+  List<PolicyListModel> polices = policyListModelFromJson(response.body);
+  
+
+  List<PolicyModel> oldPolicies = [];
+  polices.forEach((element) {
+    List<BandwidthModel> oldBandwidth = [];
+    element.bandwidths!.forEach((element) {
+      oldBandwidth.add(BandwidthModel(
+          bandwidth: element.value.toString(),
+          day: element.schedule!.day.toString(),
+          date:
+              'From ${element.schedule!.startTime} To ${element.schedule!.endTime}'));
+    });
+
+    List<AppModel> oldApps = [];
+    element.apps!.forEach((element) {
+      oldApps.add(
+          AppModel(name: element, image: '', isPredefined: true, link: ''));
+    });
+
+    List<ConnectionTypeModel> oldConnection = [];
+    element.interfaces!.forEach((element) {
+      oldConnection.add(ConnectionTypeModel(
+          type: element.portName.toString(),
+          day: element.schedule!.day.toString(),
+          date:
+              'From ${element.schedule!.startTime} To ${element.schedule!.endTime}'));
+    });
+
+    List<MemberModel> oldMembers = [];
+    element.devices!.forEach((element) {
+      bool founded = false;
+
+      oldMembers.forEach((oldMember) {
+        if (oldMember.id == element.member!.id) {
+          oldMember.devices!.add(DeviceModel(
+              id: element.macAddress,
+              mac: element.macAddress,
+              isSelected: false,
+              member: oldMember,
+              name: element.name));
+          founded = true;
+        }
+      });
+
+      if (!founded) {
+        oldMembers.add(MemberModel(
+            id: element.member!.id,
+            name: element.member!.name,
+            devices: [
+              DeviceModel(
+                  id: element.macAddress,
+                  mac: element.macAddress,
+                  isSelected: false,
+                  member: null,
+                  name: element.name)
+            ]));
+      }
+
+      // MemberModel(
+      //   name: element.member!.name,
+      //   id: element.member!.id,
+      //   devices:
+      // );
+    });
+    oldPolicies.add(PolicyModel(
+        apps: oldApps,
+        bandwidths: oldBandwidth,
+        name: element.userIds.toString(),
+        connectionTypes: oldConnection,
+        members: oldMembers));
+  });
+  // print(response.body);
+  print(response.statusCode);
+  return oldPolicies;
 }

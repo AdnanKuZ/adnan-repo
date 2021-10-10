@@ -8,6 +8,7 @@ import 'package:admin/widgets/dashboard/policies/policy/policy.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:admin/server/requests.dart';
 
 class PoliciesScreen extends StatefulWidget {
   @override
@@ -15,10 +16,36 @@ class PoliciesScreen extends StatefulWidget {
 }
 
 class _PoliciesScreenState extends State<PoliciesScreen> {
+  bool isFilled = false;
+
   @override
   Widget build(BuildContext context) {
-    return SafeArea(child: PoliciesFilledScreen(policies: [...policiesTest]));
-    //return SafeArea(child: PoliciesEmptyScreen());
+    return FutureBuilder(
+        future: requestPolicies(),
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            var _data = snapshot.data as List<PolicyModel>;
+            // print('data is ; ${snapshot.data}');
+            if (_data.isEmpty) {
+              print('1');
+              return SafeArea(child: PoliciesEmptyScreen());
+            } else {
+              print('2');
+              return SafeArea(
+                  child: PoliciesFilledScreen(
+                      policies: _data
+                      //  [...policiesTest]
+                      ));
+            }
+          } else {
+            print('3');
+            return Center(
+                child: Container(
+                    width: 150,
+                    height: 150,
+                    child: CircularProgressIndicator()));
+          }
+        });
   }
 }
 
@@ -26,7 +53,7 @@ class PoliciesEmptyScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.symmetric(vertical: 16,horizontal: 48),
+      margin: EdgeInsets.symmetric(vertical: 16, horizontal: 48),
       // padding: EdgeInsets.fromLTRB(
       //     Responsive.isMobile(context) ? defaultPadding : menuPadding,
       //     defaultPadding,
@@ -34,8 +61,7 @@ class PoliciesEmptyScreen extends StatelessWidget {
       //     0),
       child: Column(
         children: [
-          PoliciesHeader(
-              showAddButton: false),
+          PoliciesHeader(showAddButton: false),
           Expanded(child: Container(child: PoliciesEmptyBody()))
         ],
       ),
@@ -60,13 +86,13 @@ class PoliciesFilledScreen extends StatelessWidget {
             defaultPadding,
             Responsive.isMobile(context) ? 0 : defaultPadding,
             0),
-        child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
+        child:
+            Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
           Padding(
             padding: Responsive.isMobile(context)
                 ? EdgeInsets.fromLTRB(defaultPadding, 0, defaultPadding, 0)
                 : EdgeInsets.all(0),
-            child: PoliciesHeader(
-                showAddButton: true),
+            child: PoliciesHeader(showAddButton: true),
           ),
           Expanded(
             child: Container(

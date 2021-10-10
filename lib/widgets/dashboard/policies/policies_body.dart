@@ -1,4 +1,5 @@
 import 'package:admin/responsive.dart';
+import 'package:admin/screens/stepper/stepper_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import '../../../constants.dart';
@@ -65,7 +66,9 @@ class PoliciesEmptyBody extends StatelessWidget {
                             (Responsive.isMobile(context) ? 1 : 1),
                       ),
                     ),
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.push(context, MaterialPageRoute(builder: (_)=>StepperScreen()));
+                    },
                     icon: Icon(Icons.add),
                     label: Text("Add New"),
                   ),

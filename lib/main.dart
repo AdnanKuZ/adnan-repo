@@ -15,6 +15,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 import 'package:admin/test.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
+
 void main() {
   runApp(MyApp());
 }
