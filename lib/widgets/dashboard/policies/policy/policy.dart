@@ -98,7 +98,7 @@ class _PolicyWidgetState extends State<PolicyWidget> {
                       ),
                       ListView.builder(
                         shrinkWrap: true,
-                        itemCount: widget.policy.bandwidths!.length,
+                        itemCount: widget.policy.connectionTypes!.length,
                         itemBuilder: (context,index){
                           return ConnectionTypeWidget(
                           days: widget.policy.connectionTypes![index].day.toString(),

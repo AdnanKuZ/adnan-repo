@@ -62,6 +62,10 @@ class MembersAndDevicesStepProvider extends ChangeNotifier {
     return result;
   }
 
+  List<DeviceModel> getSelectedDevices() {
+    return devices.where((element) => element.isSelected).toList();
+  }
+
   void addDevice(DeviceModel device) {
     devices.add(device);
     notifyListeners();
@@ -103,8 +107,6 @@ class MembersAndDevicesStepProvider extends ChangeNotifier {
     this.customApps = apps;
     notifyListeners();
   }
-
-  
 
   void addMemberDevice(int index, DeviceModel device) {
     members[index].devices!.add(device);
@@ -159,11 +161,13 @@ class MembersAndDevicesStepProvider extends ChangeNotifier {
   }
 
   bool isDefinedAppSelected(AppModel app) {
-    return definedApps.any((element) => element.name == app.name && element.isSelected);
+    return definedApps
+        .any((element) => element.name == app.name && element.isSelected);
   }
 
   bool isCustomAppSelected(AppModel app) {
-    return customApps.any((element) => element.name == app.name && element.isSelected);
+    return customApps
+        .any((element) => element.name == app.name && element.isSelected);
   }
 
   void setPolicyName(String name) {
@@ -196,10 +200,19 @@ class MembersAndDevicesStepProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-
   List<AppModel> getSelectedApps() {
     List<AppModel> selectedApps = [];
     selectedApps.addAll(definedApps.where((element) => element.isSelected));
+    selectedApps.addAll(customApps.where((element) => element.isSelected));
+    return selectedApps;
+  }
+
+  List<AppModel> getSelectedDefinedApps() {
+    List<AppModel> selectedApps = [];
+    selectedApps.addAll(definedApps.where((element) => element.isSelected));
+    selectedApps.forEach((element) { 
+      element.isPredefined = true; 
+    });
     selectedApps.addAll(customApps.where((element) => element.isSelected));
     return selectedApps;
   }

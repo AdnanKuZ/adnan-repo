@@ -17,8 +17,9 @@ class DeviceModel {
       this.member});
 
   factory DeviceModel.fromJson(Map<String, dynamic> json) => DeviceModel(
-        id: json["id"],
+        id: json["macAddress"],
         name: json["name"],
+        mac: json["macAddress"],
         member: json["member"] == null
             ? null
             : MemberModel.fromJson(json["member"]),

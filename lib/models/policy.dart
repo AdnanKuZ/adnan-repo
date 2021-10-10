@@ -9,6 +9,7 @@ class PolicyModel {
   final List<BandwidthModel>? bandwidths;
   final List<ConnectionTypeModel>? connectionTypes;
   final List<MemberModel>? members;
+  final List<DeviceModel>? devices;
   final List<AppModel>? apps;
 
   PolicyModel(
@@ -16,6 +17,7 @@ class PolicyModel {
       this.bandwidths,
       this.connectionTypes,
       this.members,
+      this.devices,
       this.apps});
 }
 
