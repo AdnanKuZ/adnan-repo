@@ -4,7 +4,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthRepositories {
   final String baseUrl =
-      'https://sohobuiserver.azurewebsites.net//api/Account/';
+      'https://sohobserver.azurewebsites.net//api/Account/';
 
   Future<String> register(Map<String, String> signUpData) async {
     SharedPreferences _prefs = await SharedPreferences.getInstance();
