@@ -6,7 +6,7 @@ import 'dart:convert';
 
 List<PolicyListModel> policyListModelFromJson(String str) => List<PolicyListModel>.from(json.decode(str).map((x) => PolicyListModel.fromJson(x)));
 
-String policyListModelToJson(List<PolicyListModel> data) => json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
+// String policyListModelToJson(List<PolicyListModel> data) => json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
 
 class PolicyListModel {
     PolicyListModel({
@@ -19,6 +19,7 @@ class PolicyListModel {
         this.interfaces,
         this.apps,
         this.customApps,
+        this.userIds,
     });
 
     String? id;
@@ -30,6 +31,7 @@ class PolicyListModel {
     List<Interface>? interfaces;
     List<dynamic>? apps;
     List<String>? customApps;
+    List<String>? userIds;
 
     factory PolicyListModel.fromJson(Map<String, dynamic> json) => PolicyListModel(
         id: json["id"],
@@ -37,23 +39,25 @@ class PolicyListModel {
         devices: List<dynamic>.from(json["devices"].map((x) => x)),
         lteBandwidth: json["lteBandwidth"],
         cableBandwidth: json["cableBandwidth"],
-        bandwidths: List<Bandwidth>.from(json["bandwidths"].map((x) => Bandwidth.fromJson(x))),
-        interfaces: List<Interface>.from(json["interfaces"].map((x) => Interface.fromJson(x))),
-        apps: List<dynamic>.from(json["apps"].map((x) => x)),
-        customApps: List<String>.from(json["customApps"].map((x) => x)),
+        bandwidths: json["bandwidths"] == null ? null : List<Bandwidth>.from(json["bandwidths"].map((x) => Bandwidth.fromJson(x))),
+        interfaces: json["interfaces"] == null ? null : List<Interface>.from(json["interfaces"].map((x) => Interface.fromJson(x))),
+        apps: json["apps"] == null ? null : List<dynamic>.from(json["apps"].map((x) => x)),
+        customApps: json["customApps"] == null ? null : List<String>.from(json["customApps"].map((x) => x)),
+        userIds: json["userIds"] == null ? null : List<String>.from(json["userIds"].map((x) => x)),
     );
 
-    Map<String, dynamic> toJson() => {
-        "id": id,
-        "cpeIdentifier": cpeIdentifier,
-        "devices": List<dynamic>.from(devices!.map((x) => x)),
-        "lteBandwidth": lteBandwidth,
-        "cableBandwidth": cableBandwidth,
-        "bandwidths": List<dynamic>.from(bandwidths!.map((x) => x.toJson())),
-        "interfaces": List<dynamic>.from(interfaces!.map((x) => x.toJson())),
-        "apps": List<dynamic>.from(apps!.map((x) => x)),
-        "customApps": List<dynamic>.from(customApps!.map((x) => x)),
-    };
+    // Map<String, dynamic> toJson() => {
+    //     "id": id,
+    //     "cpeIdentifier": cpeIdentifier,
+    //     "devices": List<dynamic>.from(devices.map((x) => x)),
+    //     "lteBandwidth": lteBandwidth,
+    //     "cableBandwidth": cableBandwidth,
+    //     "bandwidths": bandwidths == null ? null : List<dynamic>.from(bandwidths.map((x) => x.toJson())),
+    //     "interfaces": interfaces == null ? null : List<dynamic>.from(interfaces.map((x) => x.toJson())),
+    //     "apps": apps == null ? null : List<dynamic>.from(apps.map((x) => x)),
+    //     "customApps": customApps == null ? null : List<dynamic>.from(customApps.map((x) => x)),
+    //     "userIds": userIds == null ? null : List<dynamic>.from(userIds.map((x) => x)),
+    // };
 }
 
 class Bandwidth {
@@ -70,10 +74,10 @@ class Bandwidth {
         schedule: Schedule.fromJson(json["schedule"]),
     );
 
-    Map<String, dynamic> toJson() => {
-        "value": value,
-        "schedule": schedule!.toJson(),
-    };
+    // Map<String, dynamic> toJson() => {
+    //     "value": value,
+    //     "schedule": schedule.toJson(),
+    // };
 }
 
 class Schedule {
@@ -96,12 +100,12 @@ class Schedule {
         endTime: json["endTime"],
     );
 
-    Map<String, dynamic> toJson() => {
-        "day": day,
-        "allDays": allDays,
-        "startTime": startTime,
-        "endTime": endTime,
-    };
+    // Map<String, dynamic> toJson() => {
+    //     "day": day,
+    //     "allDays": allDays,
+    //     "startTime": startTime,
+    //     "endTime": endTime,
+    // };
 }
 
 class Interface {
@@ -115,7 +119,7 @@ class Interface {
         schedule: Schedule.fromJson(json["schedule"]),
     );
 
-    Map<String, dynamic> toJson() => {
-        "schedule": schedule!.toJson(),
-    };
+    // Map<String, dynamic> toJson() => {
+    //     "schedule": schedule.toJson(),
+    // };
 }

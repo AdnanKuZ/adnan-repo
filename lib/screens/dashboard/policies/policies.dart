@@ -18,6 +18,11 @@ class PoliciesScreen extends StatefulWidget {
 
 class _PoliciesScreenState extends State<PoliciesScreen> {
   bool isFilled = false;
+  @override
+  void initState() {
+    requestPolicies();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -32,12 +37,11 @@ class _PoliciesScreenState extends State<PoliciesScreen> {
               return SafeArea(child: PoliciesEmptyScreen());
             } else {
               print('2');
-              return SafeArea(child: Container()
-                   PoliciesFilledScreen(
-                  policies: _data
-                   [...policiesTest]
-                  )
-                  );
+              return SafeArea(child: Container(),
+                  // child: PoliciesFilledScreen(policies: _data
+                      //  [...policiesTest]
+              // )
+                      );
             }
           } else {
             print('3');

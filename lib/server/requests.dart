@@ -342,7 +342,6 @@ Future<List<MemberModel>> requestMappedMembers() async {
   return membersResponse;
 }
 
-
 Future<List<PolicyModel>> requestPolicies() async {
   SharedPreferences _prefs = await SharedPreferences.getInstance();
   String token = _prefs.getString('token').toString();
@@ -377,7 +376,8 @@ Future<List<PolicyModel>> requestPolicies() async {
     List<ConnectionTypeModel> oldConnection = [];
     element.interfaces!.forEach((element) {
       oldConnection.add(ConnectionTypeModel(
-          type: element.portName.toString(),
+          // type: element.portName.toString(),
+          type: 'Cable',
           day: element.schedule!.day.toString(),
           date:
               'From ${element.schedule!.startTime} To ${element.schedule!.endTime}'));
@@ -412,21 +412,16 @@ Future<List<PolicyModel>> requestPolicies() async {
                   name: element.name)
             ]));
       }
-
-      // MemberModel(
-      //   name: element.member!.name,
-      //   id: element.member!.id,
-      //   devices:
-      // );
     });
     oldPolicies.add(PolicyModel(
         apps: oldApps,
         bandwidths: oldBandwidth,
-        name: element.userIds.toString(),
+        name: element.id.toString(),
         connectionTypes: oldConnection,
         members: oldMembers));
   });
   print(' response body${response.body}');
-  print(response.statusCode);
+  print(' status Code ${response.statusCode}');
+  // print('policies are : $oldPolicies');
   return oldPolicies;
 }
