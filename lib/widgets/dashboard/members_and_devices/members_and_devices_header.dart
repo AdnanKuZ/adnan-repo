@@ -6,7 +6,7 @@ import 'package:admin/dialogs/add_member_dialog.dart';
 import 'package:admin/dialogs/loading_dialog.dart';
 import 'package:admin/models/device.dart';
 import 'package:admin/models/member.dart';
-import 'package:admin/providers/MembersAndDevicesStepProvider.dart';
+import 'package:admin/providers/add_policy_provider.dart';
 import 'package:admin/providers/add_device_provider.dart';
 import 'package:admin/server/requests.dart';
 import 'package:admin/widgets/dashboard/dashboard_header.dart';
@@ -25,7 +25,7 @@ class MembersAndDevicesHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var provider =
-        Provider.of<MembersAndDevicesStepProvider>(context, listen: false);
+        Provider.of<AddPolicyProvider>(context, listen: false);
     var addDeviceProvider =
         Provider.of<AddDeviceProvider>(context, listen: false);
 

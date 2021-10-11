@@ -2,7 +2,7 @@ import 'package:admin/constants.dart';
 import 'package:admin/dialogs/add_member_dialog.dart';
 import 'package:admin/models/device.dart';
 import 'package:admin/models/member.dart';
-import 'package:admin/providers/MembersAndDevicesStepProvider.dart';
+import 'package:admin/providers/add_policy_provider.dart';
 import 'package:admin/providers/MenuProvider.dart';
 import 'package:admin/widgets/common/buttons.dart';
 import 'package:admin/widgets/common/checkboxs.dart';
@@ -22,7 +22,7 @@ class PolicyNameStepWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final provider =
-        Provider.of<MembersAndDevicesStepProvider>(context, listen: false);
+        Provider.of<AddPolicyProvider>(context, listen: false);
     final stageProvider = Provider.of<StageProvider>(context, listen: false);
 
     return Container(

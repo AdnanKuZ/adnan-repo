@@ -5,16 +5,16 @@ import 'package:admin/models/device.dart';
 import 'package:admin/models/member.dart';
 import 'package:flutter/material.dart';
 
-class MembersAndDevicesStepProvider extends ChangeNotifier {
+class AddPolicyProvider extends ChangeNotifier {
   String policyName = '';
   String lte = '';
   String cable = '';
   List<DeviceModel> devices = [];
   List<MemberModel> members = [];
   List<AppModel> definedApps = [
-    AppModel(name: 'Netflix', image: 'assets/images/netflix.png'),
+    AppModel(name: 'Netflix',   image: 'assets/images/netflix.png'),
     AppModel(name: 'Instagram', image: 'assets/images/instagram.png'),
-    AppModel(name: 'Chrome', image: 'assets/images/chrome.png'),
+    AppModel(name: 'Chrome',    image: 'assets/images/chrome.png'),
   ];
   List<AppModel> customApps = [
     AppModel(

@@ -3,7 +3,7 @@ import 'package:admin/constants.dart';
 import 'package:admin/dialogs/loading_dialog.dart';
 import 'package:admin/models/device.dart';
 import 'package:admin/models/member.dart';
-import 'package:admin/providers/MembersAndDevicesStepProvider.dart';
+import 'package:admin/providers/add_policy_provider.dart';
 import 'package:admin/server/requests.dart';
 import 'package:admin/widgets/stepper/apps_step.dart';
 import 'package:admin/widgets/common/buttons.dart';
@@ -33,7 +33,7 @@ class _StepperScreenState extends State<StepperScreen> {
 
   Future<void> loadDevicesAndMembers() async {
     if (initiated) return;
-    final provider = Provider.of<MembersAndDevicesStepProvider>(context, listen: false);
+    final provider = Provider.of<AddPolicyProvider>(context, listen: false);
     List<DeviceModel> devicesResponse = await requestDevices();
     List<MemberModel> membersResponse = await requestMembers();
 

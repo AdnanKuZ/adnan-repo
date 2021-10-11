@@ -6,7 +6,7 @@ import 'package:admin/dialogs/add_member_dialog.dart';
 import 'package:admin/dialogs/loading_dialog.dart';
 import 'package:admin/models/device.dart';
 import 'package:admin/models/member.dart';
-import 'package:admin/providers/MembersAndDevicesStepProvider.dart';
+import 'package:admin/providers/add_policy_provider.dart';
 import 'package:admin/providers/MenuProvider.dart';
 import 'package:admin/providers/add_device_provider.dart';
 import 'package:admin/server/requests.dart';
@@ -26,7 +26,7 @@ class MembersAndDevicesStepperWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final provider =
-        Provider.of<MembersAndDevicesStepProvider>(context, listen: false);
+        Provider.of<AddPolicyProvider>(context, listen: false);
     final addDeviceProvider =
         Provider.of<AddDeviceProvider>(context, listen: false);
     final stageProvider = Provider.of<StageProvider>(context, listen: false);
@@ -162,7 +162,7 @@ class StepperDevicesList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final provider = Provider.of<MembersAndDevicesStepProvider>(context);
+    final provider = Provider.of<AddPolicyProvider>(context);
 
     return Column(
       children: [
@@ -172,7 +172,7 @@ class StepperDevicesList extends StatelessWidget {
             margin: EdgeInsets.fromLTRB(8, 0, 0, 0),
             child: Row(
               children: [
-                Consumer<MembersAndDevicesStepProvider>(
+                Consumer<AddPolicyProvider>(
                   builder: (context, instance, child) {
                     return StepperCheckbox(
                       isChecked: instance.getAllDevicesChecked,
@@ -194,7 +194,7 @@ class StepperDevicesList extends StatelessWidget {
             ),
           ),
         ),
-        Consumer<MembersAndDevicesStepProvider>(
+        Consumer<AddPolicyProvider>(
           builder: (context, instance, child) {
             return ListView.builder(
                 shrinkWrap: true,
@@ -223,7 +223,10 @@ class StepperDevicesList extends StatelessWidget {
                           ),
                           Text(
                             instance.devices[index].name.toString(),
-                            style: TextStyle(color: instance.getAllDevicesChecked ? textGray : Colors.black),
+                            style: TextStyle(
+                                color: instance.getAllDevicesChecked
+                                    ? textGray
+                                    : Colors.black),
                           )
                         ],
                       ),
@@ -245,7 +248,7 @@ class StepperMemberList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final provider = Provider.of<MembersAndDevicesStepProvider>(context);
+    final provider = Provider.of<AddPolicyProvider>(context);
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -257,7 +260,7 @@ class StepperMemberList extends StatelessWidget {
             child: Wrap(
               alignment: WrapAlignment.spaceBetween,
               children: [
-                Consumer<MembersAndDevicesStepProvider>(
+                Consumer<AddPolicyProvider>(
                     builder: (context, instance, child) {
                   return Wrap(
                     children: [
@@ -292,7 +295,7 @@ class StepperMemberList extends StatelessWidget {
             ),
           ),
         ),
-        Consumer<MembersAndDevicesStepProvider>(
+        Consumer<AddPolicyProvider>(
           builder: (context, instance, child) {
             return ListView.builder(
                 shrinkWrap: true,
@@ -343,9 +346,9 @@ class StepperMembersGrid extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final provider = Provider.of<MembersAndDevicesStepProvider>(context);
+    final provider = Provider.of<AddPolicyProvider>(context);
 
-    return Consumer<MembersAndDevicesStepProvider>(
+    return Consumer<AddPolicyProvider>(
         builder: (context, instance, child) {
       return new StaggeredGridView.countBuilder(
         shrinkWrap: true,
