@@ -66,6 +66,7 @@ Future<bool> requestAddPolicy(PolicyModel policy, String cableBandwidth) async {
       customApps.add(app.name);
     }
   }
+  print('apps done');
 
   var bandwidths = [];
   for (BandwidthModel bandwidth in policy.bandwidths!) {
@@ -107,13 +108,14 @@ Future<bool> requestAddPolicy(PolicyModel policy, String cableBandwidth) async {
       }
     });
   }
+  print('bandwidth done');
 
   var connections = [];
   for (ConnectionTypeModel connectionType in policy.connectionTypes!) {
     print(connectionType.date);
     if (connectionType.day == 'All Days') {
       connections.add({
-        "value": connectionType.type,
+        "portName": connectionType.port?.name,
         "schedule": {
           "day": 0,
           "allDays": true,
@@ -133,7 +135,7 @@ Future<bool> requestAddPolicy(PolicyModel policy, String cableBandwidth) async {
     }
 
     connections.add({
-      "value": connectionType.getBandwidthIndex(),
+      "portName": connectionType.port?.name,
       "schedule": {
         "day": connectionType.getDayIndex(),
         "allDays": false,
@@ -150,6 +152,7 @@ Future<bool> requestAddPolicy(PolicyModel policy, String cableBandwidth) async {
       }
     });
   }
+  print('connections done');
 
   var body = {
     "userIds": [...membersIds],
