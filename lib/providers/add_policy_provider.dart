@@ -5,16 +5,16 @@ import 'package:admin/models/device.dart';
 import 'package:admin/models/member.dart';
 import 'package:flutter/material.dart';
 
-class MembersAndDevicesStepProvider extends ChangeNotifier {
+class AddPolicyProvider extends ChangeNotifier {
   String policyName = '';
   String lte = '';
   String cable = '';
   List<DeviceModel> devices = [];
   List<MemberModel> members = [];
   List<AppModel> definedApps = [
-    AppModel(name: 'Netflix', image: 'assets/images/netflix.png'),
+    AppModel(name: 'Netflix',   image: 'assets/images/netflix.png'),
     AppModel(name: 'Instagram', image: 'assets/images/instagram.png'),
-    AppModel(name: 'Chrome', image: 'assets/images/chrome.png'),
+    AppModel(name: 'Chrome',    image: 'assets/images/chrome.png'),
   ];
   List<AppModel> customApps = [
     AppModel(
@@ -39,8 +39,8 @@ class MembersAndDevicesStepProvider extends ChangeNotifier {
   List<AppModel> get getDefinedApps => definedApps;
   List<AppModel> get getCustomApps => customApps;
 
-  bool areDevicesChecked = false;
-  bool get getAreDevicesChecked => areAllDevicesChecked();
+  bool allDevicesChecked = false;
+  bool get getAllDevicesChecked => allDevicesChecked;
 
   List<MemberModel> getSelectedMemeber() {
     List<MemberModel> result = [];
@@ -113,24 +113,21 @@ class MembersAndDevicesStepProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  bool areAllDevicesChecked() {
-    for (DeviceModel device in devices) {
-      if (!device.isSelected) return false;
-    }
-    return true;
-  }
-
   void setAllDevicesChecked(bool check) {
-    for (DeviceModel device in devices) {
-      device.isSelected = check;
-    }
-    areDevicesChecked = areAllDevicesChecked();
+    allDevicesChecked = check;
+    devices.forEach((element) {
+      element.isSelected = check;
+    });
+    members.forEach((element) {
+      element.devices?.forEach((element) {
+        element.isSelected = check;
+      });
+    });
     notifyListeners();
   }
 
   void setDeviceChecked(int index, bool check) {
     devices[index].isSelected = check;
-    areDevicesChecked = areAllDevicesChecked();
     notifyListeners();
   }
 

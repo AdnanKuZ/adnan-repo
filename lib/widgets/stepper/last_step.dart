@@ -5,7 +5,7 @@ import 'package:admin/models/connection_type.dart';
 import 'package:admin/models/device.dart';
 import 'package:admin/models/member.dart';
 import 'package:admin/models/policy.dart';
-import 'package:admin/providers/MembersAndDevicesStepProvider.dart';
+import 'package:admin/providers/add_policy_provider.dart';
 import 'package:admin/providers/bandwidthProvider.dart';
 import 'package:admin/providers/conncetionProvider.dart';
 import 'package:admin/providers/policies_list_provider.dart';
@@ -23,7 +23,7 @@ class LastStepWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final stageProvider = Provider.of<StageProvider>(context);
     final memberAndDevicesProvider =
-        Provider.of<MembersAndDevicesStepProvider>(context, listen: false);
+        Provider.of<AddPolicyProvider>(context, listen: false);
     final bandwidthProvider =
         Provider.of<BandwidthProvider>(context, listen: false);
     final connectionProvider =
@@ -48,7 +48,7 @@ class LastStepWidget extends StatelessWidget {
                   ),
                   Wrap(
                     children: [
-                      Consumer3<MembersAndDevicesStepProvider,
+                      Consumer3<AddPolicyProvider,
                               BandwidthProvider, ConnectionProvider>(
                           builder: (context, membersState, bandwidthState,
                               connectionState, child) {
@@ -96,7 +96,7 @@ class LastStepWidget extends StatelessWidget {
             children: [
               Container(
                 width: 400,
-                child: Consumer3<MembersAndDevicesStepProvider,
+                child: Consumer3<AddPolicyProvider,
                     BandwidthProvider, ConnectionProvider>(
                   builder: (context, membersState, bandwidthState,
                       connectionState, child) {

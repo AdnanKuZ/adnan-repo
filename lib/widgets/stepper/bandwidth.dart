@@ -1,5 +1,5 @@
 import 'package:admin/constants.dart';
-import 'package:admin/providers/MembersAndDevicesStepProvider.dart';
+import 'package:admin/providers/add_policy_provider.dart';
 import 'package:admin/widgets/common/elevated_button_widget.dart';
 import 'package:admin/widgets/common/text_field_widget.dart';
 import 'package:flutter/material.dart';
@@ -20,7 +20,7 @@ class BandwidthStepperWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final provider = Provider.of<StageProvider>(context, listen: false);
     final membersAdnDevicesProvider =
-        Provider.of<MembersAndDevicesStepProvider>(context, listen: false);
+        Provider.of<AddPolicyProvider>(context, listen: false);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [

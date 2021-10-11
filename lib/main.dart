@@ -8,7 +8,7 @@ import 'package:admin/providers/contactUsProvider.dart';
 import 'package:admin/providers/metaDataProvider.dart';
 import 'package:admin/providers/policies_list_provider.dart';
 import 'package:admin/providers/stepperProviders.dart';
-import 'package:admin/providers/MembersAndDevicesStepProvider.dart';
+import 'package:admin/providers/add_policy_provider.dart';
 import 'package:admin/screens/auth/login_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -49,7 +49,7 @@ class MyApp extends StatelessWidget {
             create: (context) => StageProvider(),
           ),
           ChangeNotifierProvider(
-            create: (context) => MembersAndDevicesStepProvider()
+            create: (context) => AddPolicyProvider()
           ),
           ChangeNotifierProvider(
             create: (context) => PassValidProvider()
