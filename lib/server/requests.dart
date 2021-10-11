@@ -79,7 +79,7 @@ Future<bool> requestAddPolicy(
 
     if (bandwidth.day == 'All Days') {
       bandwidths.add({
-        "value": -75687388.96878098,
+        "value": bandwidth.getBandwidthIndex(),
         "schedule": {
           "day": 0,
           "allDays": true,
