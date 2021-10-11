@@ -18,16 +18,17 @@ class PoliciesScreen extends StatefulWidget {
 
 class _PoliciesScreenState extends State<PoliciesScreen> {
   bool isFilled = false;
+  var requestPolicy;
   @override
   void initState() {
-    requestPolicies();
+    requestPolicy= requestPolicies();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-        future: requestPolicies(),
+        future: requestPolicy,
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             var _data = snapshot.data as List<PolicyModel>;
