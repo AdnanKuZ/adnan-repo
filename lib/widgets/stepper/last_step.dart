@@ -8,6 +8,7 @@ import 'package:admin/models/policy.dart';
 import 'package:admin/providers/MembersAndDevicesStepProvider.dart';
 import 'package:admin/providers/bandwidthProvider.dart';
 import 'package:admin/providers/conncetionProvider.dart';
+import 'package:admin/providers/policies_list_provider.dart';
 import 'package:admin/server/requests.dart';
 import 'package:admin/widgets/dashboard/policies/policy/policy.dart';
 import 'package:flutter/material.dart';
@@ -27,6 +28,7 @@ class LastStepWidget extends StatelessWidget {
         Provider.of<BandwidthProvider>(context, listen: false);
     final connectionProvider =
         Provider.of<ConnectionProvider>(context, listen: false);
+    final policiesProvider = Provider.of<PoliciesListProvider>(context, listen: false);
 
     return Container(
       child: Column(
@@ -55,23 +57,30 @@ class LastStepWidget extends StatelessWidget {
                           onPress: () async {
                             // Send policy to server
                             var policy = PolicyModel(
-                              name: membersState.policyName,
-                              bandwidths: [
-                                ...bandwidthState.getBandwidthList()
-                              ],
-                              connectionTypes: [
-                                ...connectionState.getConnectionTypesList()
-                              ],
-                              apps: [
-                                ...membersState.getSelectedApps()
-                              ],
-                              members: [...membersState.getSelectedMemeber()],
-                              devices: [...membersState.getSelectedDevices()]
-                            );
+                                name: membersState.policyName,
+                                bandwidths: [
+                                  ...bandwidthState.getBandwidthList()
+                                ],
+                                connectionTypes: [
+                                  ...connectionState.getConnectionTypesList()
+                                ],
+                                apps: [
+                                  ...membersState.getSelectedApps()
+                                ],
+                                members: [
+                                  ...membersState.getSelectedMemeber()
+                                ],
+                                devices: [
+                                  ...membersState.getSelectedDevices()
+                                ]);
 
                             LoadingDialog(context: context);
-                            await requestAddPolicy(policy, memberAndDevicesProvider.lte, memberAndDevicesProvider.cable);
-                            requestPolicies();
+                            await requestAddPolicy(
+                                policy,
+                                memberAndDevicesProvider.lte,
+                                memberAndDevicesProvider.cable);
+                            var policies = await requestPolicies();
+                            policiesProvider.setPolicies(policies);
                             Navigator.pop(context);
                             Navigator.pop(context);
                             stageProvider.setIsLastStep = false;
@@ -94,17 +103,22 @@ class LastStepWidget extends StatelessWidget {
                       connectionState, child) {
                     return PolicyWidget(
                         policy: PolicyModel(
-                      name: membersState.policyName,
-                      bandwidths: [...bandwidthState.getBandwidthList()],
-                      connectionTypes: [
-                        ...connectionState.getConnectionTypesList()
-                      ],
-                      apps: [
-                        ...membersState.getSelectedApps()
-                      ],
-                      members: [...membersState.getSelectedMemeber()],
-                      devices: [...membersState.getSelectedDevices()]
-                    ));
+                            name: membersState.policyName,
+                            bandwidths: [
+                          ...bandwidthState.getBandwidthList()
+                        ],
+                            connectionTypes: [
+                          ...connectionState.getConnectionTypesList()
+                        ],
+                            apps: [
+                          ...membersState.getSelectedApps()
+                        ],
+                            members: [
+                          ...membersState.getSelectedMemeber()
+                        ],
+                            devices: [
+                          ...membersState.getSelectedDevices()
+                        ]));
                   },
                 ),
               ),

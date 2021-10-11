@@ -1,15 +1,15 @@
 import 'package:admin/constants.dart';
-import 'package:admin/dialogs/settings_dialog.dart';
 import 'package:admin/models/policy.dart';
+import 'package:admin/providers/policies_list_provider.dart';
 import 'package:admin/responsive.dart';
 import 'package:admin/widgets/dashboard/policies/policies_body.dart';
 import 'package:admin/widgets/dashboard/policies/policies_header.dart';
 import 'package:admin/widgets/dashboard/policies/policy/policy.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:admin/server/requests.dart';
-import 'package:admin/models/policy_list.dart';
+import 'package:provider/provider.dart';
 
 class PoliciesScreen extends StatefulWidget {
   @override
@@ -18,36 +18,45 @@ class PoliciesScreen extends StatefulWidget {
 
 class _PoliciesScreenState extends State<PoliciesScreen> {
   bool isFilled = false;
+  bool isInitiated = false;
+  bool isLoading = false;
+
   @override
   void initState() {
-    requestPolicies();
     super.initState();
   }
 
   @override
+  void didChangeDependencies() {
+    loadPolicies();
+    super.didChangeDependencies();
+  }
+
+  Future<void> loadPolicies() async {
+    if (isInitiated) return;
+    isLoading = true;
+    final provider = Provider.of<PoliciesListProvider>(context, listen: false);
+    var policies = await requestPolicies();
+    provider.setPolicies(policies);
+    isInitiated = true;
+    isLoading = false;
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return FutureBuilder(
-        future: requestPolicies(),
-        builder: (context, snapshot) {
-          if (snapshot.hasData) {
-            var _data = snapshot.data as List<PolicyModel>;
-            print('data is ; ${snapshot.data}');
-            if (_data.isEmpty) {
-              print('1');
-              return SafeArea(child: PoliciesEmptyScreen());
-            } else {
-              print('2');
-              return PoliciesFilledScreen(policies: _data);
-            }
-          } else {
-            print('3');
-            return Center(
-                child: Container(
-                    width: 150,
-                    height: 150,
-                    child: CircularProgressIndicator()));
-          }
-        });
+    return Consumer<PoliciesListProvider>(builder: (context, state, child) {
+      if (!isLoading) {
+        if (state.policies.isEmpty) {
+          return SafeArea(child: PoliciesEmptyScreen());
+        } else {
+          return PoliciesFilledScreen(policies: state.policies);
+        }
+      } else {
+        return Center(
+            child: Container(
+                width: 50, height: 50, child: CircularProgressIndicator()));
+      }
+    });
   }
 }
 

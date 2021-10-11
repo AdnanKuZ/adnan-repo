@@ -156,7 +156,6 @@ class MembersAndDevicesStepProvider extends ChangeNotifier {
         return false;
       }
     }
-
     return members[memeberIndex].devices!.length > 0;
   }
 
