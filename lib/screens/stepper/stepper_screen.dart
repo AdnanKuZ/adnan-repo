@@ -20,6 +20,8 @@ import 'package:provider/provider.dart';
 import 'package:admin/providers/stepperProviders.dart';
 import 'package:admin/widgets/stepper/connection.dart';
 import 'package:admin/widgets/stepper/last_step.dart';
+import 'package:admin/providers/metaDataProvider.dart';
+import 'package:admin/models/metadata.dart';
 
 class StepperScreen extends StatefulWidget {
   StepperScreen({Key? key}) : super(key: key);
@@ -31,9 +33,17 @@ class StepperScreen extends StatefulWidget {
 class _StepperScreenState extends State<StepperScreen> {
   bool initiated = false;
 
+  Future<MetadataModel> loadMetaData() async {
+    final provider = Provider.of<MetadataProvider>(context);
+    final meta = await requestMetadata();
+    provider.setMetaData(meta);
+    return meta;
+  }
+
   Future<void> loadDevicesAndMembers() async {
     if (initiated) return;
-    final provider = Provider.of<MembersAndDevicesStepProvider>(context, listen: false);
+    final provider =
+        Provider.of<MembersAndDevicesStepProvider>(context, listen: false);
     List<DeviceModel> devicesResponse = await requestDevices();
     List<MemberModel> membersResponse = await requestMembers();
 
@@ -55,7 +65,6 @@ class _StepperScreenState extends State<StepperScreen> {
         }
       }
     }
-
     provider.setDevices(_devices);
     provider.setMembers(membersResponse);
     print(provider.members.length);
@@ -154,7 +163,12 @@ class _StepperScreenState extends State<StepperScreen> {
                           },
                           steps: [
                             EnhanceStep(
-                                icon: instance.stageIndex == 0 ? Icon(Icons.edit_outlined,color: primaryColor,): null,
+                                icon: instance.stageIndex == 0
+                                    ? Icon(
+                                        Icons.edit_outlined,
+                                        color: primaryColor,
+                                      )
+                                    : null,
                                 isActive:
                                     instance.stageStates[0] ? true : false,
                                 state: StepState.complete,
@@ -180,7 +194,12 @@ class _StepperScreenState extends State<StepperScreen> {
                                   ),
                                 )),
                             EnhanceStep(
-                                icon: instance.stageIndex == 1 ? Icon(Icons.edit_outlined,color: primaryColor,): null,
+                                icon: instance.stageIndex == 1
+                                    ? Icon(
+                                        Icons.edit_outlined,
+                                        color: primaryColor,
+                                      )
+                                    : null,
                                 isActive:
                                     instance.stageStates[1] ? true : false,
                                 state: StepState.complete,
@@ -196,14 +215,21 @@ class _StepperScreenState extends State<StepperScreen> {
                                 content: Container(
                                   child: Column(
                                     children: [
-                                      BandwidthStepperWidget(
-                                        constraints: constraints,
-                                      )
+                                      Builder(builder: (context) {
+                                        return BandwidthStepperWidget(
+                                          constraints: constraints,
+                                        );
+                                      })
                                     ],
                                   ),
                                 )),
                             EnhanceStep(
-                                icon: instance.stageIndex == 2 ? Icon(Icons.edit_outlined,color: primaryColor,): null,
+                                icon: instance.stageIndex == 2
+                                    ? Icon(
+                                        Icons.edit_outlined,
+                                        color: primaryColor,
+                                      )
+                                    : null,
                                 isActive:
                                     instance.stageStates[2] ? true : false,
                                 state: StepState.complete,
@@ -216,10 +242,19 @@ class _StepperScreenState extends State<StepperScreen> {
                                           ? primaryColor
                                           : Colors.grey),
                                 ),
-                                content: Container(
-                                    child: ConnectionStepperWidget())),
+                                content:
+                                    Container(child: FutureBuilder(
+                                      future: loadMetaData(),
+                                      builder: (context,snapshot) {
+                                   return ConnectionStepperWidget();
+                                }))),
                             EnhanceStep(
-                                icon: instance.stageIndex == 3 ? Icon(Icons.edit_outlined,color: primaryColor,): null,
+                                icon: instance.stageIndex == 3
+                                    ? Icon(
+                                        Icons.edit_outlined,
+                                        color: primaryColor,
+                                      )
+                                    : null,
                                 isActive:
                                     instance.stageStates[3] ? true : false,
                                 state: StepState.complete,
@@ -235,7 +270,12 @@ class _StepperScreenState extends State<StepperScreen> {
                                 )),
                             !instance.islaststep
                                 ? EnhanceStep(
-                                    icon: instance.stageIndex == 4 ? Icon(Icons.edit_outlined,color: primaryColor,): null,
+                                    icon: instance.stageIndex == 4
+                                        ? Icon(
+                                            Icons.edit_outlined,
+                                            color: primaryColor,
+                                          )
+                                        : null,
                                     isActive:
                                         instance.stageStates[4] ? true : false,
                                     state: StepState.complete,

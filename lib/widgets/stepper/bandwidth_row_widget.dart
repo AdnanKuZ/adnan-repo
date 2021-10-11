@@ -91,17 +91,20 @@ class BandwidthRowWidget extends StatelessWidget {
               builder: (context, instance, child) =>
                   DropdownButtonHideUnderline(
                 child: DropdownButton<String>(
+                    dropdownColor: Color(0xFFF8F8F8),
+                    
                     icon: Icon(
                       Icons.keyboard_arrow_down,
                       color: Colors.black,
                     ),
                     isExpanded: false,
                     focusColor: Colors.white,
-                    value: instance.bandwidthDropDownValue[day] == null ? "Full Bandwidth" : instance.bandwidthDropDownValue[day],
+                    value: instance.bandwidthDropDownValue[day] == null ? "None" : instance.bandwidthDropDownValue[day],
                     elevation: 10,
                     style: TextStyle(color: Colors.white),
                     iconEnabledColor: Colors.black,
                     items: <String>[
+                      'None',
                       'Full Bandwidth',
                       'Medium Bandwidth',
                       'Small Bandwidth',

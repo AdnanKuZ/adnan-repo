@@ -173,9 +173,9 @@ class MembersAndDevicesStepProvider extends ChangeNotifier {
     this.policyName = name;
   }
 
-  void setLte(String name) {
-    this.lte = name;
-  }
+  // void setLte(String name) {
+  //   this.lte = name;
+  // }
 
   void setCable(String name) {
     this.cable = name;
@@ -202,8 +202,8 @@ class MembersAndDevicesStepProvider extends ChangeNotifier {
   List<AppModel> getSelectedApps() {
     List<AppModel> selectedApps = [];
     selectedApps.addAll(definedApps.where((element) => element.isSelected));
-    selectedApps.forEach((element) { 
-      element.isPredefined = true; 
+    selectedApps.forEach((element) {
+      element.isPredefined = true;
     });
     selectedApps.addAll(customApps.where((element) => element.isSelected));
     return selectedApps;

@@ -77,8 +77,7 @@ class LastStepWidget extends StatelessWidget {
                             LoadingDialog(context: context);
                             await requestAddPolicy(
                                 policy,
-                                memberAndDevicesProvider.lte,
-                                memberAndDevicesProvider.cable);
+                                memberAndDevicesProvider.lte,);
                             var policies = await requestPolicies();
                             policiesProvider.setPolicies(policies);
                             Navigator.pop(context);

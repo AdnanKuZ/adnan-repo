@@ -1,4 +1,6 @@
 import 'package:admin/constants.dart';
+import 'package:admin/models/metadata.dart';
+import 'package:admin/providers/metaDataProvider.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
@@ -15,9 +17,9 @@ class ConnectionRowWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final _provider =
-        Provider.of<ConnectionProvider>(context,
-        );
+    final _provider = Provider.of<ConnectionProvider>(
+      context,
+    );
     return Container(
         child: Row(
       mainAxisAlignment: MainAxisAlignment.start,
@@ -36,26 +38,27 @@ class ConnectionRowWidget extends StatelessWidget {
                               !_provider.connectionischecked;
                         },
                         child: Consumer<ConnectionProvider>(
-                          builder: (context,instance,child) => Container(
+                          builder: (context, instance, child) => Container(
                             width: 30,
                             height: 30,
                             decoration: BoxDecoration(
                                 border: Border.all(
-                                  color: instance.connectionischecked ? primaryColor : 
-                                  Colors.grey,
+                                  color: instance.connectionischecked
+                                      ? primaryColor
+                                      : Colors.grey,
                                 ),
                                 borderRadius:
                                     BorderRadius.all(Radius.circular(5))),
                             child: Container(
                               margin: EdgeInsets.all(5),
                               decoration: BoxDecoration(
-                                  color:
-                                   instance.connectionischecked ? primaryColor : 
-                                  Colors.grey,
+                                  color: instance.connectionischecked
+                                      ? primaryColor
+                                      : Colors.grey,
                                   border: Border.all(
-                                    color:
-                                     instance.connectionischecked ? primaryColor : 
-                                     Colors.grey,
+                                    color: instance.connectionischecked
+                                        ? primaryColor
+                                        : Colors.grey,
                                   ),
                                   borderRadius:
                                       BorderRadius.all(Radius.circular(3))),
@@ -66,14 +69,15 @@ class ConnectionRowWidget extends StatelessWidget {
                     : SizedBox.shrink(),
                 Text(
                   '   $title',
-                  style: TextStyle(color: allDays
+                  style: TextStyle(
+                      color: allDays
                           ? _provider.connectionischecked
                               ? Colors.black
                               : Colors.grey
                           : _provider.connectionischecked
                               ? Colors.grey
                               : Colors.black,
-                  fontSize: 16),
+                      fontSize: 16),
                 )
               ],
             ),
@@ -84,54 +88,76 @@ class ConnectionRowWidget extends StatelessWidget {
               EdgeInsets.only(right: MediaQuery.of(context).size.width * 0.08),
           child: Container(
             width: 160,
-            child: Consumer<ConnectionProvider>(
-              builder: (context, instance, child) =>
+            child: Consumer2<ConnectionProvider, MetadataProvider>(
+              builder: (context, instance, metaInstance, child) =>
                   DropdownButtonHideUnderline(
-                child: DropdownButton<String>(
-                  icon: Icon(
-                    Icons.keyboard_arrow_down,
-                    color: Colors.black,
-                  ),
-                  isExpanded: false,
-                  focusColor: Colors.white,
-                  value: instance.connectionDropDownValue[day] == null ? 'Cable':instance.connectionDropDownValue[day],
-                  elevation: 10,
-                  style: TextStyle(color: Colors.white),
-                  iconEnabledColor: Colors.black,
-                  items: <String>[
-                    'Cable',
-                    'LTE',
-                  ].map<DropdownMenuItem<String>>((String value) {
-                    return DropdownMenuItem<String>(
-                      value: value,
-                      child: Text(
-                        value,
-                        style: TextStyle(
-                          color: allDays
+                child: DropdownButton<Port>(
+                    dropdownColor: Color(0xFFF8F8F8),
+                    icon: Icon(
+                      Icons.keyboard_arrow_down,
+                      color: Colors.black,
+                    ),
+                    isExpanded: false,
+                    focusColor: Colors.white,
+                    hint: instance.connectionDropDownValue[day] == null
+                        ? Text(
+                            'None',
+                            style: TextStyle(
+                              color: allDays
+                                  ? _provider.connectionIsChecked
+                                      ? Colors.black
+                                      : Colors.grey
+                                  : _provider.connectionIsChecked
+                                      ? Colors.grey
+                                      : Colors.black,
+                            ),
+                          )
+                        : Text(instance.connectionDropDownValue[day].toString(),
+                            style: TextStyle(
+                              color: allDays
+                                  ? _provider.connectionIsChecked
+                                      ? Colors.black
+                                      : Colors.grey
+                                  : _provider.connectionIsChecked
+                                      ? Colors.grey
+                                      : Colors.black,
+                            )),
+                    elevation: 10,
+                    style: TextStyle(color: Colors.white),
+                    iconEnabledColor: Colors.black,
+                    items: <Port>[
+                      Port(name: "#None", isLte: false, title: 'None'),
+                      ...metaInstance.getmetadata["ports"]
+                    ].map<DropdownMenuItem<Port>>((Port value) {
+                      return DropdownMenuItem<Port>(
+                        value: value,
+                        child: Text(
+                          value.title.toString(),
+                          style: TextStyle(
+                            color: allDays
                                 ? _provider.connectionischecked
                                     ? Colors.black
                                     : Colors.grey
                                 : _provider.connectionischecked
                                     ? Colors.grey
                                     : Colors.black,
+                          ),
                         ),
-                      ),
-                    );
-                  }).toList(),
-                  onChanged: allDays
+                      );
+                    }).toList(),
+                    onChanged: allDays
                         ? _provider.connectionischecked
-                            ? (String? value) {
+                            ? (Port? value) {
                                 _provider.setConnectionDropDownValue(
-                                    value!, day);
+                                    value!.title.toString(), day);
                               }
                             : null
                         : _provider.connectionischecked
                             ? null
-                            : (String? value) {
+                            : (Port? value) {
                                 _provider.setConnectionDropDownValue(
-                                    value!, day);
-                              }
-                ),
+                                    value!.title.toString(), day);
+                              }),
               ),
             ),
           ),
@@ -143,25 +169,25 @@ class ConnectionRowWidget extends StatelessWidget {
             width: 100,
             child: InkWell(
               child: Row(
-                  children: [
-                    Consumer<ConnectionProvider>(
-                      builder: (context,instance,child)=>Text(
-                        instance.getconnectiontimefrom[day] == null
+                children: [
+                  Consumer<ConnectionProvider>(
+                    builder: (context, instance, child) => Text(
+                      instance.getconnectiontimefrom[day] == null
                           ? "Time From"
                           : instance.getconnectiontimefrom[day]!
                               .format(context)
                               .toString(),
-                        style: TextStyle(color: Colors.grey),
-                      ),
+                      style: TextStyle(color: Colors.grey),
                     ),
-                    Icon(
-                      FontAwesomeIcons.sort,
-                      color: Colors.black87,
-                      size: 14,
-                    )
-                  ],
-                ),
-              onTap: () async{
+                  ),
+                  Icon(
+                    FontAwesomeIcons.sort,
+                    color: Colors.black87,
+                    size: 14,
+                  )
+                ],
+              ),
+              onTap: () async {
                 allDays
                     ? _provider.connectionischecked
                         ? _provider.connectionSetTimeFrom(
@@ -189,12 +215,12 @@ class ConnectionRowWidget extends StatelessWidget {
             child: Row(
               children: [
                 Consumer<ConnectionProvider>(
-                  builder: (context,instance,child)=>Text(
+                  builder: (context, instance, child) => Text(
                     instance.getconnectiontimeto[day] == null
-                              ? "Time To"
-                              : instance.getconnectiontimeto[day]!
-                                  .format(context)
-                                  .toString(),
+                        ? "Time To"
+                        : instance.getconnectiontimeto[day]!
+                            .format(context)
+                            .toString(),
                     style: TextStyle(color: Colors.grey),
                   ),
                 ),
@@ -205,7 +231,7 @@ class ConnectionRowWidget extends StatelessWidget {
                 )
               ],
             ),
-            onTap: () async{
+            onTap: () async {
               allDays
                   ? _provider.connectionischecked
                       ? _provider.connectionSetTimeTo(

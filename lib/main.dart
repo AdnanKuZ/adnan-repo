@@ -5,6 +5,7 @@ import 'package:admin/providers/authProviders.dart';
 import 'package:admin/providers/bandwidthProvider.dart';
 import 'package:admin/providers/conncetionProvider.dart';
 import 'package:admin/providers/contactUsProvider.dart';
+import 'package:admin/providers/metaDataProvider.dart';
 import 'package:admin/providers/policies_list_provider.dart';
 import 'package:admin/providers/stepperProviders.dart';
 import 'package:admin/providers/MembersAndDevicesStepProvider.dart';
@@ -64,6 +65,9 @@ class MyApp extends StatelessWidget {
           ),
           ChangeNotifierProvider(
             create: (context) => PoliciesListProvider()
+          ),
+          ChangeNotifierProvider(
+            create: (context) => MetadataProvider()
           )
         ],
         child: MaterialApp(

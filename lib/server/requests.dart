@@ -4,6 +4,7 @@ import 'package:admin/models/bandwidth.dart';
 import 'package:admin/models/connection_type.dart';
 import 'package:admin/models/device.dart';
 import 'package:admin/models/member.dart';
+import 'package:admin/models/metadata.dart';
 import 'package:admin/models/policy.dart';
 import 'package:admin/models/policy_list.dart';
 import 'package:admin/server/urls.dart';
@@ -37,8 +38,7 @@ Future<List<DeviceModel>> requestDevices() async {
 }
 
 // Request add policy
-Future<bool> requestAddPolicy(
-    PolicyModel policy, String lteBandwidth, String cableBandwidth) async {
+Future<bool> requestAddPolicy(PolicyModel policy, String cableBandwidth) async {
   SharedPreferences _prefs = await SharedPreferences.getInstance();
   String token = _prefs.getString('token').toString();
 
@@ -53,9 +53,12 @@ Future<bool> requestAddPolicy(
     devicesIds.addAll(ids!);
     membersIds.add(member.id);
   }
-  
+
   // General devices
-  devicesIds.addAll(policy.devices!.where((element) => element.isSelected).map((e) => e.id).toList());
+  devicesIds.addAll(policy.devices!
+      .where((element) => element.isSelected)
+      .map((e) => e.id)
+      .toList());
   for (AppModel app in policy.apps!) {
     if (app.isPredefined) {
       defaultApps.add(app.name);
@@ -66,15 +69,21 @@ Future<bool> requestAddPolicy(
 
   var bandwidths = [];
   for (BandwidthModel bandwidth in policy.bandwidths!) {
-
     if (bandwidth.day == 'All Days') {
       bandwidths.add({
         "value": bandwidth.getBandwidthIndex(),
         "schedule": {
           "day": 0,
           "allDays": true,
-          "startTime": bandwidth.date!.replaceAll("From ", "").replaceAll(" To ", "-").split('-')[0].trim(),
-          "endTime": bandwidth.date!.replaceAll("From ", "").replaceAll(" To ", "-")[1].trim(),
+          "startTime": bandwidth.date!
+              .replaceAll("From ", "")
+              .replaceAll(" To ", "-")
+              .split('-')[0]
+              .trim(),
+          "endTime": bandwidth.date!
+              .replaceAll("From ", "")
+              .replaceAll(" To ", "-")[1]
+              .trim(),
         }
       });
       break;
@@ -85,8 +94,16 @@ Future<bool> requestAddPolicy(
       "schedule": {
         "day": bandwidth.getDayIndex(),
         "allDays": false,
-        "startTime": bandwidth.date!.replaceAll("From ", "").replaceAll(" To ", "-").split('-')[0].trim(),
-        "endTime": bandwidth.date!.replaceAll("From ", "").replaceAll(" To ", "-").split('-')[1].trim(),
+        "startTime": bandwidth.date!
+            .replaceAll("From ", "")
+            .replaceAll(" To ", "-")
+            .split('-')[0]
+            .trim(),
+        "endTime": bandwidth.date!
+            .replaceAll("From ", "")
+            .replaceAll(" To ", "-")
+            .split('-')[1]
+            .trim(),
       }
     });
   }
@@ -100,8 +117,16 @@ Future<bool> requestAddPolicy(
         "schedule": {
           "day": 0,
           "allDays": true,
-          "startTime": connectionType.date!.replaceAll("From ", "").replaceAll(" To ", "-").split('-')[0].trim(),
-          "endTime": connectionType.date!.replaceAll("From ", "").replaceAll(" To ", "-").split('-')[1].trim(),
+          "startTime": connectionType.date!
+              .replaceAll("From ", "")
+              .replaceAll(" To ", "-")
+              .split('-')[0]
+              .trim(),
+          "endTime": connectionType.date!
+              .replaceAll("From ", "")
+              .replaceAll(" To ", "-")
+              .split('-')[1]
+              .trim(),
         }
       });
       break;
@@ -112,8 +137,16 @@ Future<bool> requestAddPolicy(
       "schedule": {
         "day": connectionType.getDayIndex(),
         "allDays": false,
-        "startTime": connectionType.date!.replaceAll("From ", "").replaceAll(" To ", "-").split('-')[0].trim(),
-        "endTime": connectionType.date!.replaceAll("From ", "").replaceAll(" To ", "-").split('-')[1].trim(),
+        "startTime": connectionType.date!
+            .replaceAll("From ", "")
+            .replaceAll(" To ", "-")
+            .split('-')[0]
+            .trim(),
+        "endTime": connectionType.date!
+            .replaceAll("From ", "")
+            .replaceAll(" To ", "-")
+            .split('-')[1]
+            .trim(),
       }
     });
   }
@@ -121,8 +154,9 @@ Future<bool> requestAddPolicy(
   var body = {
     "userIds": [...membersIds],
     "deviceIds": [...devicesIds],
-    "lteBandwidth": lteBandwidth.length == 0 ? 0 : int.parse(lteBandwidth),
-    "cableBandwidth": cableBandwidth.length == 0 ? 0 : int.parse(cableBandwidth),
+    "lteBandwidth": null,
+    "cableBandwidth":
+        cableBandwidth.length == 0 ? 0 : int.parse(cableBandwidth),
     "bandwidths": [...bandwidths],
     "interfaces": [...connections],
     'apps': [...defaultApps],
@@ -131,7 +165,7 @@ Future<bool> requestAddPolicy(
 
   print('userId: ${[...membersIds]}');
   print('deviceIds: ${[...devicesIds]}');
-  print('lteBandwidth: ${lteBandwidth}');
+  // print('lteBandwidth: ${lteBandwidth}');
   print('cableBandwidth: ${cableBandwidth}');
   print('bandwidths: ${[...bandwidths]}');
   print('interfaces: ${[...connections]}');
@@ -413,20 +447,27 @@ Future<List<PolicyModel>> requestPolicies() async {
       oldBandwidth.add(BandwidthModel(
           bandwidth: element.getBandwidthName(),
           day: element.schedule!.getDayName(),
-          date: 'From ${element.schedule!.startTime} To ${element.schedule!.endTime}'));
+          date:
+              'From ${element.schedule!.startTime} To ${element.schedule!.endTime}'));
     });
     print('converted bandwidth: ' + oldBandwidth.length.toString());
 
     List<AppModel> oldApps = [];
     element.apps?.forEach((element) {
-      oldApps.add(
-          AppModel(name: element, image: 'assets/images/chrome.png', isPredefined: true, link: ''));
+      oldApps.add(AppModel(
+          name: element,
+          image: 'assets/images/chrome.png',
+          isPredefined: true,
+          link: ''));
     });
     element.customApps?.forEach((element) {
-      oldApps.add(
-          AppModel(name: element, image: 'assets/images/chrome.png', isPredefined: false, link: ''));
+      oldApps.add(AppModel(
+          name: element,
+          image: 'assets/images/chrome.png',
+          isPredefined: false,
+          link: ''));
     });
-    
+
     print('converted apps: ' + oldApps.length.toString());
 
     List<ConnectionTypeModel> oldConnection = [];
@@ -435,7 +476,8 @@ Future<List<PolicyModel>> requestPolicies() async {
           // type: element.portName.toString(),
           type: element.portName.toString(),
           day: element.schedule!.getDayName(),
-          date: 'From ${element.schedule!.startTime} To ${element.schedule!.endTime}'));
+          date:
+              'From ${element.schedule!.startTime} To ${element.schedule!.endTime}'));
     });
     print('converted connections: ' + oldConnection.length.toString());
 
@@ -470,7 +512,7 @@ Future<List<PolicyModel>> requestPolicies() async {
       }
     });
     print('converted members: ' + oldMembers.length.toString());
-    
+
     oldPolicies.add(PolicyModel(
         apps: oldApps,
         bandwidths: oldBandwidth,
@@ -482,4 +524,19 @@ Future<List<PolicyModel>> requestPolicies() async {
   print(' status Code ${response.statusCode}');
   // print('policies are : $oldPolicies');
   return oldPolicies;
+}
+
+Future<MetadataModel> requestMetadata() async {
+  SharedPreferences _prefs = await SharedPreferences.getInstance();
+  String token = _prefs.getString('token').toString();
+
+  http.Response response = await http.get(
+    Uri.parse(GET_METADATA_URL),
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ${token}',
+    },
+  );
+  var metaData = metadataModelFromJson(response.body);
+  return metaData;
 }

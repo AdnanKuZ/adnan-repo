@@ -6,7 +6,8 @@ class CustomTextField extends StatelessWidget {
   final Widget? suffixIcon;
   final Widget? prefixIcon;
   final Widget? prefix;
-  final String hintText;
+  final String? hintText;
+  final Widget? suffix;
   final TextInputType keyboardType;
   final TextEditingController? controller;
   final bool? state;
@@ -18,12 +19,15 @@ class CustomTextField extends StatelessWidget {
   final OnChanged? onChanged;
   final double? leftPadding;
   final double? topPadding;
+  final String? labelText;
 
   CustomTextField(
-      {required this.hintText,
+      {this.hintText,
+      this.suffix,
       required this.keyboardType,
       this.validator,
       this.onChanged,
+      this.labelText,
       this.controller,
       this.suffixIcon,
       this.state,
@@ -54,6 +58,7 @@ class CustomTextField extends StatelessWidget {
         controller: controller,
         obscureText: state ?? false,
         decoration: InputDecoration(
+          floatingLabelBehavior: FloatingLabelBehavior.always,
           contentPadding: EdgeInsets.only(
             right: 14.5,
             left: leftPadding ?? 14.5,
@@ -66,6 +71,8 @@ class CustomTextField extends StatelessWidget {
           ),
           hintText: hintText,
           hintStyle: TextStyle(color: Colors.grey),
+          labelText: labelText,
+          suffix: suffix,
           suffixIcon: suffixIcon,
           errorStyle: TextStyle(fontSize: 12, height: 0.2),
           prefixIcon: prefixIcon,
