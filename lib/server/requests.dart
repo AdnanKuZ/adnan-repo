@@ -155,9 +155,9 @@ Future<bool> requestAddPolicy(PolicyModel policy, String cableBandwidth) async {
   print('connections done');
 
   var body = {
+    "title": policy.name,
     "userIds": [...membersIds],
-    "deviceIds": [...devicesIds],
-    "lteBandwidth": null,
+    "deviceMacAddresses": [...devicesIds],
     "cableBandwidth":
         cableBandwidth.length == 0 ? 0 : int.parse(cableBandwidth),
     "bandwidths": [...bandwidths],
@@ -166,8 +166,9 @@ Future<bool> requestAddPolicy(PolicyModel policy, String cableBandwidth) async {
     'customApps': [...customApps]
   };
 
+  print('title: ${policy.name}');
   print('userId: ${[...membersIds]}');
-  print('deviceIds: ${[...devicesIds]}');
+  print('deviceMacAddresses: ${[...devicesIds]}');
   // print('lteBandwidth: ${lteBandwidth}');
   print('cableBandwidth: ${cableBandwidth}');
   print('bandwidths: ${[...bandwidths]}');
