@@ -415,31 +415,40 @@ Future<List<PolicyModel>> requestPolicies() async {
   List<PolicyListModel> polices = policyListModelFromJson(response.body);
 
   List<PolicyModel> oldPolicies = [];
+  var i = 0;
   polices.forEach((element) {
+    print('policy index: ' + i.toString());
+    i++;
     List<BandwidthModel> oldBandwidth = [];
-    element.bandwidths!.forEach((element) {
+    element.bandwidths?.forEach((element) {
       oldBandwidth.add(BandwidthModel(
-          bandwidth: element.value.toString(),
-          day: element.schedule!.day.toString(),
-          date:
-              'From ${element.schedule!.startTime} To ${element.schedule!.endTime}'));
+          bandwidth: element.getBandwidthName(),
+          day: element.schedule!.getDayName(),
+          date: 'From ${element.schedule!.startTime} To ${element.schedule!.endTime}'));
     });
+    print('converted bandwidth: ' + oldBandwidth.length.toString());
 
     List<AppModel> oldApps = [];
-    element.apps!.forEach((element) {
+    element.apps?.forEach((element) {
       oldApps.add(
-          AppModel(name: element, image: '', isPredefined: true, link: ''));
+          AppModel(name: element, image: 'assets/images/chrome.png', isPredefined: true, link: ''));
     });
+    element.customApps?.forEach((element) {
+      oldApps.add(
+          AppModel(name: element, image: 'assets/images/chrome.png', isPredefined: false, link: ''));
+    });
+    
+    print('converted apps: ' + oldApps.length.toString());
 
     List<ConnectionTypeModel> oldConnection = [];
-    element.interfaces!.forEach((element) {
+    element.interfaces?.forEach((element) {
       oldConnection.add(ConnectionTypeModel(
           // type: element.portName.toString(),
-          type: 'Cable',
-          day: element.schedule!.day.toString(),
-          date:
-              'From ${element.schedule!.startTime} To ${element.schedule!.endTime}'));
+          type: element.portName.toString(),
+          day: element.schedule!.getDayName(),
+          date: 'From ${element.schedule!.startTime} To ${element.schedule!.endTime}'));
     });
+    print('converted connections: ' + oldConnection.length.toString());
 
     List<MemberModel> oldMembers = [];
     element.devices!.forEach((element) {
@@ -471,6 +480,8 @@ Future<List<PolicyModel>> requestPolicies() async {
             ]));
       }
     });
+    print('converted members: ' + oldMembers.length.toString());
+    
     oldPolicies.add(PolicyModel(
         apps: oldApps,
         bandwidths: oldBandwidth,

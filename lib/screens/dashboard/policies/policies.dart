@@ -37,11 +37,7 @@ class _PoliciesScreenState extends State<PoliciesScreen> {
               return SafeArea(child: PoliciesEmptyScreen());
             } else {
               print('2');
-              return SafeArea(child: Container(),
-                  // child: PoliciesFilledScreen(policies: _data
-                      //  [...policiesTest]
-              // )
-                      );
+              return PoliciesFilledScreen(policies: _data);
             }
           } else {
             print('3');
