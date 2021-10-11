@@ -42,28 +42,20 @@ Future<bool> requestAddPolicy(
   SharedPreferences _prefs = await SharedPreferences.getInstance();
   String token = _prefs.getString('token').toString();
 
-  print('token ${token}');
   List<String?> devicesIds = [];
   List<String?> membersIds = [];
   List<String?> defaultApps = [];
   List<String?> customApps = [];
-  print('members');
 
   // Members and devices
   for (MemberModel member in policy.members!) {
-    print('member devices ${member.devices?.length}');
     var ids = member.devices?.map((value) => value.id).toList();
-    print(member.name);
-    print(ids);
-
     devicesIds.addAll(ids!);
     membersIds.add(member.id);
   }
   
   // General devices
   devicesIds.addAll(policy.devices!.where((element) => element.isSelected).map((e) => e.id).toList());
-
-  print('apps');
   for (AppModel app in policy.apps!) {
     if (app.isPredefined) {
       defaultApps.add(app.name);
@@ -73,9 +65,7 @@ Future<bool> requestAddPolicy(
   }
 
   var bandwidths = [];
-  print('bandwiths');
   for (BandwidthModel bandwidth in policy.bandwidths!) {
-    print(bandwidth.date);
 
     if (bandwidth.day == 'All Days') {
       bandwidths.add({
@@ -100,14 +90,13 @@ Future<bool> requestAddPolicy(
       }
     });
   }
-  print('connections');
 
   var connections = [];
   for (ConnectionTypeModel connectionType in policy.connectionTypes!) {
     print(connectionType.date);
     if (connectionType.day == 'All Days') {
       connections.add({
-        "value": connectionType.getBandwidthIndex(),
+        "value": connectionType.type,
         "schedule": {
           "day": 0,
           "allDays": true,

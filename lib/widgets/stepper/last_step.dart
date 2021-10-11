@@ -71,6 +71,7 @@ class LastStepWidget extends StatelessWidget {
 
                             LoadingDialog(context: context);
                             await requestAddPolicy(policy, memberAndDevicesProvider.lte, memberAndDevicesProvider.cable);
+                            requestPolicies();
                             Navigator.pop(context);
                             Navigator.pop(context);
                             stageProvider.setIsLastStep = false;
