@@ -1,7 +1,14 @@
+import 'dart:convert';
+import 'dart:js';
+
 import 'package:admin/dialogs/add_device_dialog.dart';
 import 'package:admin/dialogs/add_member_dialog.dart';
-import 'package:admin/providers/MenuProvider.dart';
-import 'package:admin/responsive.dart';
+import 'package:admin/dialogs/loading_dialog.dart';
+import 'package:admin/models/device.dart';
+import 'package:admin/models/member.dart';
+import 'package:admin/providers/MembersAndDevicesStepProvider.dart';
+import 'package:admin/providers/add_device_provider.dart';
+import 'package:admin/server/requests.dart';
 import 'package:admin/widgets/dashboard/dashboard_header.dart';
 import 'package:admin/widgets/dashboard/dashboard_title.dart';
 import 'package:flutter/material.dart';
@@ -10,10 +17,18 @@ import '../../../constants.dart';
 
 class MembersAndDevicesHeader extends StatelessWidget {
   final bool showAddButton;
-  const MembersAndDevicesHeader({required this.showAddButton});
+  final Function? onAddDeviceClicked;
+  final Function? onAddMemberClicked;
+  const MembersAndDevicesHeader({
+    required this.showAddButton, this.onAddDeviceClicked = null, this.onAddMemberClicked = null});
 
   @override
   Widget build(BuildContext context) {
+    var provider =
+        Provider.of<MembersAndDevicesStepProvider>(context, listen: false);
+    var addDeviceProvider =
+        Provider.of<AddDeviceProvider>(context, listen: false);
+
     return Column(
       children: [
         DashboardHeader(),
@@ -35,14 +50,27 @@ class MembersAndDevicesHeader extends StatelessWidget {
                         mainAxisSize: MainAxisSize.min,
                         crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: [
-                          popUpDialogItem(Icons.people, 'New Member', () {
+                          popUpDialogItem(Icons.people, 'New Member', () async {
                             Navigator.pop(context);
-                            AddMemberDialog(context: context,color: primaryColor);
+                            String result =
+                                await AddMemberDialog(context: context, color: primaryColor);
+                            LoadingDialog(context: context);
+                            bool response = await requestAddMember(result);
+                            if (response) {
+                              provider.addMember(
+                                  MemberModel(name: result, devices: []));
+                            }
+                            Navigator.pop(context);
+                            if(onAddMemberClicked != null) {
+                              onAddMemberClicked!();
+                            }
                           }),
                           popUpDialogItem(Icons.monitor_sharp, 'New Device',
-                              () {
+                              () async {
                             Navigator.pop(context);
-                            AddDeviceDialog(context: context,color: primaryColor);
+                            if(onAddDeviceClicked != null) {
+                              onAddDeviceClicked!();
+                            }
                           })
                         ],
                       ),

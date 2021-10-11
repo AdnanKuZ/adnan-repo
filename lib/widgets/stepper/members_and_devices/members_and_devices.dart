@@ -79,41 +79,41 @@ class MembersAndDevicesStepperWidget extends StatelessWidget {
               ),
               Wrap(
                 children: [
-                  BorderButton(
-                    title: "Add New Device",
-                    icon: Icons.add,
-                    onPress: () async {
-                      // Showing loading dialog
-                      LoadingDialog(context: context);
-                      // Requesting devices
-                      var devicesResponse = await requestDevices();
-                      // Setting devices in provider
-                      List<DeviceModel> filteredDevices = [];
-                      for (DeviceModel device in devicesResponse) {
-                        if (device.member == null) filteredDevices.add(device);
-                      }
-                      addDeviceProvider.setDevices(filteredDevices);
-                      // Requesting memebers
-                      var membersResponse = await requestMembers();
-                      print(membersResponse.toString());
-                      // Setting members in provider
-                      addDeviceProvider.setMembers(membersResponse);
-                      // Hiding loading dialog
-                      Navigator.pop(context);
-                      // Showing add device dialog
-                      DeviceModel result =
-                          await AddDeviceDialog(context: context);
-                          print('payload: ' + jsonEncode(result).toString());
-                      if (result.id != null) {
-                        // Device already exist
-                        await requestExistingDevice(result);
-                      } else {
-                        // Device does not exist
-                        await requestNewDevice(result);
-                      }
-                      loadDevicesAndMembers();
-                    },
-                  ),
+                  // BorderButton(
+                  //   title: "Add New Device",
+                  //   icon: Icons.add,
+                  //   onPress: () async {
+                  //     // Showing loading dialog
+                  //     LoadingDialog(context: context);
+                  //     // Requesting devices
+                  //     var devicesResponse = await requestDevices();
+                  //     // Setting devices in provider
+                  //     List<DeviceModel> filteredDevices = [];
+                  //     for (DeviceModel device in devicesResponse) {
+                  //       if (device.member == null) filteredDevices.add(device);
+                  //     }
+                  //     addDeviceProvider.setDevices(filteredDevices);
+                  //     // Requesting memebers
+                  //     var membersResponse = await requestMembers();
+                  //     print(membersResponse.toString());
+                  //     // Setting members in provider
+                  //     addDeviceProvider.setMembers(membersResponse);
+                  //     // Hiding loading dialog
+                  //     Navigator.pop(context);
+                  //     // Showing add device dialog
+                  //     DeviceModel result =
+                  //         await AddDeviceDialog(context: context);
+                  //         print('payload: ' + jsonEncode(result).toString());
+                  //     if (result.id != null) {
+                  //       // Device already exist
+                  //       await requestExistingDevice(result);
+                  //     } else {
+                  //       // Device does not exist
+                  //       await requestNewDevice(result);
+                  //     }
+                  //     loadDevicesAndMembers();
+                  //   },
+                  // ),
                   Container(
                     width: 8,
                   ),

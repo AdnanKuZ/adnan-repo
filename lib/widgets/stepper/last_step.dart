@@ -63,17 +63,14 @@ class LastStepWidget extends StatelessWidget {
                                 ...connectionState.getConnectionTypesList()
                               ],
                               apps: [
-                                AppModel(
-                                  name: "Chrome",
-                                  image: "assets/images/chrome.png",
-                                  link: '',
-                                )
+                                ...membersState.getSelectedApps()
                               ],
                               members: [...membersState.getSelectedMemeber()],
+                              devices: [...membersState.getSelectedDevices()]
                             );
 
                             LoadingDialog(context: context);
-                            await requestAddPolicy(policy);
+                            await requestAddPolicy(policy, memberAndDevicesProvider.lte, memberAndDevicesProvider.cable);
                             Navigator.pop(context);
                             Navigator.pop(context);
                             stageProvider.setIsLastStep = false;
@@ -102,13 +99,10 @@ class LastStepWidget extends StatelessWidget {
                         ...connectionState.getConnectionTypesList()
                       ],
                       apps: [
-                        AppModel(
-                          name: "Chrome",
-                          image: "assets/images/chrome.png",
-                          link: '',
-                        )
+                        ...membersState.getSelectedApps()
                       ],
                       members: [...membersState.getSelectedMemeber()],
+                      devices: [...membersState.getSelectedDevices()]
                     ));
                   },
                 ),

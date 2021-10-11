@@ -51,7 +51,8 @@ List<ConnectionTypeModel> getConnectionTypesList() {
     }
 
     _connectionChosenValue.forEach((key, value) {
-      if (key != 'All Days' && value != null && connectiontimeFrom[key] != null && connectiontimeFrom[key] != null) {
+      print('day: ${key} - value: ${value} - from: ${connectiontimeFrom[key]?.hour}:${connectiontimeFrom[key]?.minute} - to: ${connectiontimeTo[key]?.hour}:${connectiontimeTo[key]?.minute}');
+      if (key != 'All Days' && value != null && connectiontimeFrom[key] != null && connectiontimeTo[key] != null) {
         result.add(ConnectionTypeModel(
             day: key,
             type: value,

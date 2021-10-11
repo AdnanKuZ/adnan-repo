@@ -22,7 +22,7 @@ class DrawerListTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final _providerInstance = Provider.of<MenuProvider>(context);
+    final _providerInstance = Provider.of<MenuProvider>(context, listen: false);
     return ListTile(
       onTap: () {
         // context.read<MenuProvider>().setDashboardRoute(navigation);

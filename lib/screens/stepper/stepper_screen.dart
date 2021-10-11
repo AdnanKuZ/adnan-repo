@@ -33,8 +33,7 @@ class _StepperScreenState extends State<StepperScreen> {
 
   Future<void> loadDevicesAndMembers() async {
     if (initiated) return;
-    final provider =
-        Provider.of<MembersAndDevicesStepProvider>(context, listen: false);
+    final provider = Provider.of<MembersAndDevicesStepProvider>(context, listen: false);
     List<DeviceModel> devicesResponse = await requestDevices();
     List<MemberModel> membersResponse = await requestMembers();
 
