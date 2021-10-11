@@ -175,7 +175,7 @@ class StepperDevicesList extends StatelessWidget {
                 Consumer<MembersAndDevicesStepProvider>(
                   builder: (context, instance, child) {
                     return StepperCheckbox(
-                      isChecked: instance.getAreDevicesChecked,
+                      isChecked: instance.getAllDevicesChecked,
                       onChecked: (isChecked) {
                         provider.setAllDevicesChecked(isChecked);
                       },
@@ -212,6 +212,7 @@ class StepperDevicesList extends StatelessWidget {
                       child: Row(
                         children: [
                           StepperCheckbox(
+                            disabled: instance.getAllDevicesChecked,
                             isChecked: instance.devices[index].isSelected,
                             onChecked: (isChecked) {
                               provider.setDeviceChecked(index, isChecked);
@@ -222,7 +223,7 @@ class StepperDevicesList extends StatelessWidget {
                           ),
                           Text(
                             instance.devices[index].name.toString(),
-                            style: TextStyle(color: Colors.black),
+                            style: TextStyle(color: instance.getAllDevicesChecked ? textGray : Colors.black),
                           )
                         ],
                       ),
@@ -256,28 +257,32 @@ class StepperMemberList extends StatelessWidget {
             child: Wrap(
               alignment: WrapAlignment.spaceBetween,
               children: [
-                Wrap(
-                  children: [
-                    Consumer<MembersAndDevicesStepProvider>(
-                      builder: (context, instance, child) {
-                        return StepperCheckbox(
-                          isChecked: instance.areAllMemberDevicesChecked(gridIndex),
-                          onChecked: (isChecked) {
-                            provider.setAllMemberDevicesChecked(
-                                gridIndex, isChecked);
-                          },
-                        );
-                      },
-                    ),
-                    Container(
-                      width: 20,
-                    ),
-                    Text(
-                      member.name == null ? 'undefined' : member.name!,
-                      style: TextStyle(color: Colors.black),
-                    )
-                  ],
-                ),
+                Consumer<MembersAndDevicesStepProvider>(
+                    builder: (context, instance, child) {
+                  return Wrap(
+                    children: [
+                      StepperCheckbox(
+                        disabled: instance.getAllDevicesChecked,
+                        isChecked:
+                            instance.areAllMemberDevicesChecked(gridIndex),
+                        onChecked: (isChecked) {
+                          provider.setAllMemberDevicesChecked(
+                              gridIndex, isChecked);
+                        },
+                      ),
+                      Container(
+                        width: 20,
+                      ),
+                      Text(
+                        member.name == null ? 'undefined' : member.name!,
+                        style: TextStyle(
+                            color: instance.getAllDevicesChecked
+                                ? textGray
+                                : Colors.black),
+                      )
+                    ],
+                  );
+                }),
                 RoundedAddButton(
                   onClick: () {},
                   borderColor: primaryColor,
@@ -307,6 +312,7 @@ class StepperMemberList extends StatelessWidget {
                       child: Row(
                         children: [
                           StepperCheckbox(
+                            disabled: instance.getAllDevicesChecked,
                             isChecked: member.devices![index].isSelected,
                             onChecked: (isChecked) {
                               provider.setMemberDeviceChecked(
