@@ -1,9 +1,12 @@
+import 'metadata.dart';
+
 class ConnectionTypeModel {
   String? day;
   String? type;
+  Port? port = null;
   String? date;
 
-  ConnectionTypeModel({this.day, this.type, this.date});
+  ConnectionTypeModel({this.day, this.type, this.port, this.date});
 
   int getBandwidthIndex() {
     switch (day) {

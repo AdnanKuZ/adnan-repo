@@ -1,4 +1,5 @@
 import 'package:admin/models/connection_type.dart';
+import 'package:admin/models/metadata.dart';
 import 'package:flutter/material.dart';
 
 class ConnectionProvider extends ChangeNotifier {
@@ -24,7 +25,7 @@ class ConnectionProvider extends ChangeNotifier {
     "Friday": null, //7
     "Saturday": null, //8
   };
-  Map<String,String?> _connectionChosenValue = {
+  Map<String,Port?> _connectionChosenValue = {
     "All Days"  : null, //1  
     "Sunday"  : null, //2
     "Monday"  : null, //3
@@ -38,14 +39,15 @@ class ConnectionProvider extends ChangeNotifier {
 
   Map<String, TimeOfDay?> get getconnectiontimefrom => connectiontimeFrom;
   Map<String, TimeOfDay?> get getconnectiontimeto => connectiontimeTo;
-  Map<String,String?> get connectionDropDownValue => _connectionChosenValue;
+  Map<String,Port?> get connectionDropDownValue => _connectionChosenValue;
 
 List<ConnectionTypeModel> getConnectionTypesList() {
     List<ConnectionTypeModel> result = [];
     if (connectionIsChecked) {
       result.add(ConnectionTypeModel(
           day: "All Days",
-          type: _connectionChosenValue["All Days"],
+          type: _connectionChosenValue["All Days"]?.name,
+          port: _connectionChosenValue["All Days"],
           date: 'From ${connectiontimeFrom['All Days']?.hour}:${connectiontimeFrom['All Days']?.minute} To ${connectiontimeTo['All Days']?.hour}:${connectiontimeTo['All Days']?.minute}'));
       return result;
     }
@@ -55,14 +57,15 @@ List<ConnectionTypeModel> getConnectionTypesList() {
       if (key != 'All Days' && value != null && connectiontimeFrom[key] != null && connectiontimeTo[key] != null) {
         result.add(ConnectionTypeModel(
             day: key,
-            type: value,
+            type: value.name,
+            port: value,
             date: 'From ${connectiontimeFrom[key]?.hour}:${connectiontimeFrom[key]?.minute} To ${connectiontimeTo[key]?.hour}:${connectiontimeTo[key]?.minute}'));
       }
     });
     return result;
   }
 
-  void setConnectionDropDownValue(String value, String day) {
+  void setConnectionDropDownValue(Port value, String day) {
     _connectionChosenValue[day] = value;
     notifyListeners();
   }

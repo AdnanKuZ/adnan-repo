@@ -112,7 +112,7 @@ class ConnectionRowWidget extends StatelessWidget {
                                       : Colors.black,
                             ),
                           )
-                        : Text(instance.connectionDropDownValue[day].toString(),
+                        : Text(instance.connectionDropDownValue[day]!.title.toString(),
                             style: TextStyle(
                               color: allDays
                                   ? _provider.connectionIsChecked
@@ -149,14 +149,14 @@ class ConnectionRowWidget extends StatelessWidget {
                         ? _provider.connectionischecked
                             ? (Port? value) {
                                 _provider.setConnectionDropDownValue(
-                                    value!.title.toString(), day);
+                                    value!, day);
                               }
                             : null
                         : _provider.connectionischecked
                             ? null
                             : (Port? value) {
                                 _provider.setConnectionDropDownValue(
-                                    value!.title.toString(), day);
+                                    value!, day);
                               }),
               ),
             ),
