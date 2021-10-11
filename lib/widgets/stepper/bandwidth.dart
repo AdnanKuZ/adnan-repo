@@ -1,5 +1,5 @@
 import 'package:admin/constants.dart';
-import 'package:admin/providers/MembersAndDevicesStepProvider.dart';
+import 'package:admin/providers/add_policy_provider.dart';
 import 'package:admin/widgets/common/elevated_button_widget.dart';
 import 'package:admin/widgets/common/text_field_widget.dart';
 import 'package:flutter/material.dart';
@@ -20,7 +20,7 @@ class BandwidthStepperWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final provider = Provider.of<StageProvider>(context, listen: false);
     final membersAdnDevicesProvider =
-        Provider.of<MembersAndDevicesStepProvider>(context, listen: false);
+        Provider.of<AddPolicyProvider>(context, listen: false);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -72,71 +72,20 @@ class BandwidthStepperWidget extends StatelessWidget {
                 width: 30,
               ),
               Container(
-                width: 200,
+                width: 220,
                 child: CustomTextField(
+                  suffix: Text('Kbps'),
                   controller: lteController,
                   keyboardType: TextInputType.number,
-                  hintText: 'LTE (0 > 1000kbps)',
-                  onChanged: (value) {
-                    membersAdnDevicesProvider.setLte(value);
-                  },
-                ),
-              ),
-              SizedBox(
-                width: 20,
-              ),
-              Container(
-                width: 200,
-                child: CustomTextField(
-                  controller: cableController,
-                  keyboardType: TextInputType.number,
-                  hintText: 'Cable (0 > 1000kbps)',
+                  hintText: 'Bandwidth 0-1000',
                   onChanged: (value) {
                     membersAdnDevicesProvider.setCable(value);
                   },
                 ),
-              )
+              ),
             ],
           ),
         ),
-        // Column(
-        //   crossAxisAlignment: CrossAxisAlignment.center,
-        //   children: [
-        //     Text(
-        //       'Would you like to add any ',
-        //       maxLines: 1,
-        //       style: TextStyle(
-        //           color: Colors.black,
-        //           fontSize: 22,
-        //           fontWeight: FontWeight.bold),
-        //     ),
-        //     Text(
-        //       'bandwidth limitaions for this policy ?',
-        //       maxLines: 1,
-        //       style: TextStyle(
-        //           color: Colors.black,
-        //           fontSize: 22,
-        //           fontWeight: FontWeight.bold),
-        //     ),
-        //     ElevatedButton(
-        //       style: ElevatedButton.styleFrom(
-        //         primary: primaryColor,
-        //         padding: EdgeInsets.symmetric(horizontal: 35, vertical: 18),
-        //         shape: RoundedRectangleBorder(
-        //             borderRadius: BorderRadius.circular(8)),
-        //       ),
-        //       onPressed: () {
-        //         // print(provider.stageIndex.toString());
-        //         provider.setStageState = 1;
-        //         provider.incrementIndex();
-        //       },
-        //       child: Text(
-        //         'Next Step',
-        //         style: TextStyle(color: Colors.white, fontSize: 16),
-        //       ),
-        //     ),
-        //   ],
-        // ),
         SizedBox(
           height: 10,
         ),

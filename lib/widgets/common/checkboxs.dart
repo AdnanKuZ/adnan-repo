@@ -3,18 +3,23 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class StepperCheckbox extends StatelessWidget {
+  final bool disabled;
   final bool isChecked;
   Color? color;
   final Function onChecked;
 
-  StepperCheckbox({required this.isChecked, required this.onChecked ,Key? key}) {
+  StepperCheckbox(
+      {this.disabled = false, required this.isChecked, required this.onChecked, Key? key}) {
     this.color = isChecked ? primaryColor : lightGrayColor;
+    if (disabled) {
+      this.color = textGray;
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () {
+      onTap: disabled ? null : () {
         onChecked(!isChecked);
       },
       child: Container(

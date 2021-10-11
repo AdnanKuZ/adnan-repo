@@ -5,17 +5,14 @@ import 'package:admin/providers/authProviders.dart';
 import 'package:admin/providers/bandwidthProvider.dart';
 import 'package:admin/providers/conncetionProvider.dart';
 import 'package:admin/providers/contactUsProvider.dart';
+import 'package:admin/providers/metaDataProvider.dart';
+import 'package:admin/providers/policies_list_provider.dart';
 import 'package:admin/providers/stepperProviders.dart';
-import 'package:admin/providers/MembersAndDevicesStepProvider.dart';
+import 'package:admin/providers/add_policy_provider.dart';
 import 'package:admin/screens/auth/login_screen.dart';
-import 'package:admin/screens/stepper/stepper_screen.dart';
-import 'package:admin/screens/dashboard/dashboard.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
-import 'package:responsive_framework/responsive_framework.dart';
-import 'package:admin/test.dart';
-import 'package:flutter_native_splash/flutter_native_splash.dart';
 
 void main() {
   runApp(MyApp());
@@ -52,7 +49,7 @@ class MyApp extends StatelessWidget {
             create: (context) => StageProvider(),
           ),
           ChangeNotifierProvider(
-            create: (context) => MembersAndDevicesStepProvider()
+            create: (context) => AddPolicyProvider()
           ),
           ChangeNotifierProvider(
             create: (context) => PassValidProvider()
@@ -65,6 +62,12 @@ class MyApp extends StatelessWidget {
           ),
           ChangeNotifierProvider(
             create: (context) => AddDeviceProvider()
+          ),
+          ChangeNotifierProvider(
+            create: (context) => PoliciesListProvider()
+          ),
+          ChangeNotifierProvider(
+            create: (context) => MetadataProvider()
           )
         ],
         child: MaterialApp(

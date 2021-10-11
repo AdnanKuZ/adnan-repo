@@ -5,7 +5,7 @@ import 'package:admin/dialogs/add_device_dialog.dart';
 import 'package:admin/dialogs/edit_device_dialog.dart';
 import 'package:admin/dialogs/edit_member_dialog.dart';
 import 'package:admin/dialogs/loading_dialog.dart';
-import 'package:admin/providers/MembersAndDevicesStepProvider.dart';
+import 'package:admin/providers/add_policy_provider.dart';
 import 'package:admin/providers/add_device_provider.dart';
 import 'package:admin/responsive.dart';
 import 'package:admin/widgets/dashboard/members_and_devices/members_and_devices_header.dart';
@@ -30,7 +30,7 @@ class _MembersAndDevicesScreenState extends State<MembersAndDevicesScreen> {
   Future<void> loadDevicesAndMembers() async {
     if (initiated) return;
     final provider =
-        Provider.of<MembersAndDevicesStepProvider>(context, listen: false);
+        Provider.of<AddPolicyProvider>(context, listen: false);
     List<DeviceModel> devices = await requestMappedDevices();
     List<MemberModel> members = await requestMappedMembers();
 
@@ -106,7 +106,7 @@ class _MembersAndDevicesScreenState extends State<MembersAndDevicesScreen> {
               child: FutureBuilder(
                 future: loadDevicesAndMembers(),
                 builder: (context, snapshot) {
-                  return Consumer<MembersAndDevicesStepProvider>(
+                  return Consumer<AddPolicyProvider>(
                       builder: (context, state, child) {
                     return new StaggeredGridView.countBuilder(
                       shrinkWrap: true,

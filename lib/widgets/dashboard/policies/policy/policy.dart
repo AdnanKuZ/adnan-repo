@@ -69,15 +69,17 @@ class _PolicyWidgetState extends State<PolicyWidget> {
                             color: Colors.black, fontWeight: FontWeight.w700),
                       ),
                       ListView.builder(
-                        shrinkWrap: true,
-                        itemCount: widget.policy.bandwidths!.length,
-                        itemBuilder: (context,index){
-                          return BandwidthLimitWidget(
-                          days: widget.policy.bandwidths![index].day.toString(),
-                          type: widget.policy.bandwidths![index].bandwidth.toString(),
-                          time: widget.policy.bandwidths![index].date.toString());
-                        }
-                      ),
+                          shrinkWrap: true,
+                          itemCount: widget.policy.bandwidths!.length,
+                          itemBuilder: (context, index) {
+                            return BandwidthLimitWidget(
+                                days: widget.policy.bandwidths![index].day
+                                    .toString(),
+                                type: widget.policy.bandwidths![index].bandwidth
+                                    .toString(),
+                                time: widget.policy.bandwidths![index].date
+                                    .toString());
+                          }),
                       // BandwidthLimitWidget(
                       //     days: 'Sun, Thu',
                       //     type: 'Full Bandwidth',
@@ -97,15 +99,23 @@ class _PolicyWidgetState extends State<PolicyWidget> {
                             color: Colors.black, fontWeight: FontWeight.w700),
                       ),
                       ListView.builder(
-                        shrinkWrap: true,
-                        itemCount: widget.policy.connectionTypes!.length,
-                        itemBuilder: (context,index){
-                          return ConnectionTypeWidget(
-                          days: widget.policy.connectionTypes![index].day.toString(),
-                          type: widget.policy.connectionTypes![index].type.toString(),
-                          time: widget.policy.connectionTypes![index].date.toString());
-                        }
-                      ),
+                          shrinkWrap: true,
+                          itemCount: widget.policy.connectionTypes!.length,
+                          itemBuilder: (context, index) {
+                            return ConnectionTypeWidget(
+                                days: widget.policy.connectionTypes![index].day
+                                    .toString(),
+                                type: widget.policy.connectionTypes![index]
+                                            .port ==
+                                        null
+                                    ? widget.policy.connectionTypes![index].type
+                                        .toString()
+                                    : widget.policy.connectionTypes![index]
+                                        .port!.title
+                                        .toString(),
+                                time: widget.policy.connectionTypes![index].date
+                                    .toString());
+                          }),
                       // ConnectionTypeWidget(
                       //     days: 'Sun, Mon',
                       //     type: 'Cable',
@@ -123,13 +133,18 @@ class _PolicyWidgetState extends State<PolicyWidget> {
                         onClick: () {},
                       ),
                       ListView.builder(
-                        shrinkWrap: true,
-                        itemCount: widget.policy.members!.length,
-                        itemBuilder: (context,index) {
-                          return MembersWidget( member: widget.policy.members![index], onClick: () {});
-                        }
-                      ),
-                      AppsWidget(apps: widget.policy.apps == null ? [] : widget.policy.apps!, onClick: () {})
+                          shrinkWrap: true,
+                          itemCount: widget.policy.members!.length,
+                          itemBuilder: (context, index) {
+                            return MembersWidget(
+                                member: widget.policy.members![index],
+                                onClick: () {});
+                          }),
+                      AppsWidget(
+                          apps: widget.policy.apps == null
+                              ? []
+                              : widget.policy.apps!,
+                          onClick: () {})
                     ],
                   )),
             ),
@@ -192,24 +207,24 @@ class PolicyHeader extends StatelessWidget {
                 ?.copyWith(color: Colors.black, fontWeight: FontWeight.w700),
           ),
         ),
-        IconButton(
-            padding: EdgeInsets.fromLTRB(0, 0, 8, 0),
-            color: Colors.grey,
-            icon: Icon(Icons.edit),
-            onPressed: () {
-              onEdit();
-            },
-            iconSize: 20,
-            constraints: BoxConstraints()),
-        IconButton(
-            padding: EdgeInsets.fromLTRB(0, 0, 8, 0),
-            color: Colors.red,
-            icon: Icon(Icons.delete),
-            iconSize: 20,
-            onPressed: () {
-              onDelete();
-            },
-            constraints: BoxConstraints()),
+        // IconButton(
+        //     padding: EdgeInsets.fromLTRB(0, 0, 8, 0),
+        //     color: Colors.grey,
+        //     icon: Icon(Icons.edit),
+        //     onPressed: () {
+        //       onEdit();
+        //     },
+        //     iconSize: 20,
+        //     constraints: BoxConstraints()),
+        // IconButton(
+        //     padding: EdgeInsets.fromLTRB(0, 0, 8, 0),
+        //     color: Colors.red,
+        //     icon: Icon(Icons.delete),
+        //     iconSize: 20,
+        //     onPressed: () {
+        //       onDelete();
+        //     },
+        //     constraints: BoxConstraints()),
         Container(
           height: 20,
           width: 20,

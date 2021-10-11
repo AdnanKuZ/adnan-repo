@@ -5,9 +5,10 @@ import 'package:admin/models/connection_type.dart';
 import 'package:admin/models/device.dart';
 import 'package:admin/models/member.dart';
 import 'package:admin/models/policy.dart';
-import 'package:admin/providers/MembersAndDevicesStepProvider.dart';
+import 'package:admin/providers/add_policy_provider.dart';
 import 'package:admin/providers/bandwidthProvider.dart';
 import 'package:admin/providers/conncetionProvider.dart';
+import 'package:admin/providers/policies_list_provider.dart';
 import 'package:admin/server/requests.dart';
 import 'package:admin/widgets/dashboard/policies/policy/policy.dart';
 import 'package:flutter/material.dart';
@@ -22,11 +23,12 @@ class LastStepWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final stageProvider = Provider.of<StageProvider>(context);
     final memberAndDevicesProvider =
-        Provider.of<MembersAndDevicesStepProvider>(context, listen: false);
+        Provider.of<AddPolicyProvider>(context, listen: false);
     final bandwidthProvider =
         Provider.of<BandwidthProvider>(context, listen: false);
     final connectionProvider =
         Provider.of<ConnectionProvider>(context, listen: false);
+    final policiesProvider = Provider.of<PoliciesListProvider>(context, listen: false);
 
     return Container(
       child: Column(
@@ -46,7 +48,7 @@ class LastStepWidget extends StatelessWidget {
                   ),
                   Wrap(
                     children: [
-                      Consumer3<MembersAndDevicesStepProvider,
+                      Consumer3<AddPolicyProvider,
                               BandwidthProvider, ConnectionProvider>(
                           builder: (context, membersState, bandwidthState,
                               connectionState, child) {
@@ -55,22 +57,29 @@ class LastStepWidget extends StatelessWidget {
                           onPress: () async {
                             // Send policy to server
                             var policy = PolicyModel(
-                              name: membersState.policyName,
-                              bandwidths: [
-                                ...bandwidthState.getBandwidthList()
-                              ],
-                              connectionTypes: [
-                                ...connectionState.getConnectionTypesList()
-                              ],
-                              apps: [
-                                ...membersState.getSelectedApps()
-                              ],
-                              members: [...membersState.getSelectedMemeber()],
-                              devices: [...membersState.getSelectedDevices()]
-                            );
+                                name: membersState.policyName,
+                                bandwidths: [
+                                  ...bandwidthState.getBandwidthList()
+                                ],
+                                connectionTypes: [
+                                  ...connectionState.getConnectionTypesList()
+                                ],
+                                apps: [
+                                  ...membersState.getSelectedApps()
+                                ],
+                                members: [
+                                  ...membersState.getSelectedMemeber()
+                                ],
+                                devices: [
+                                  ...membersState.getSelectedDevices()
+                                ]);
 
                             LoadingDialog(context: context);
-                            await requestAddPolicy(policy, memberAndDevicesProvider.lte, memberAndDevicesProvider.cable);
+                            await requestAddPolicy(
+                                policy,
+                                memberAndDevicesProvider.cable,);
+                            var policies = await requestPolicies();
+                            policiesProvider.setPolicies(policies);
                             Navigator.pop(context);
                             Navigator.pop(context);
                             stageProvider.setIsLastStep = false;
@@ -87,23 +96,28 @@ class LastStepWidget extends StatelessWidget {
             children: [
               Container(
                 width: 400,
-                child: Consumer3<MembersAndDevicesStepProvider,
+                child: Consumer3<AddPolicyProvider,
                     BandwidthProvider, ConnectionProvider>(
                   builder: (context, membersState, bandwidthState,
                       connectionState, child) {
                     return PolicyWidget(
                         policy: PolicyModel(
-                      name: membersState.policyName,
-                      bandwidths: [...bandwidthState.getBandwidthList()],
-                      connectionTypes: [
-                        ...connectionState.getConnectionTypesList()
-                      ],
-                      apps: [
-                        ...membersState.getSelectedApps()
-                      ],
-                      members: [...membersState.getSelectedMemeber()],
-                      devices: [...membersState.getSelectedDevices()]
-                    ));
+                            name: membersState.policyName,
+                            bandwidths: [
+                          ...bandwidthState.getBandwidthList()
+                        ],
+                            connectionTypes: [
+                          ...connectionState.getConnectionTypesList()
+                        ],
+                            apps: [
+                          ...membersState.getSelectedApps()
+                        ],
+                            members: [
+                          ...membersState.getSelectedMemeber()
+                        ],
+                            devices: [
+                          ...membersState.getSelectedDevices()
+                        ]));
                   },
                 ),
               ),

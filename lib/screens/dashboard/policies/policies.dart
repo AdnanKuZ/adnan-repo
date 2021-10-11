@@ -1,15 +1,15 @@
 import 'package:admin/constants.dart';
-import 'package:admin/dialogs/settings_dialog.dart';
 import 'package:admin/models/policy.dart';
+import 'package:admin/providers/policies_list_provider.dart';
 import 'package:admin/responsive.dart';
 import 'package:admin/widgets/dashboard/policies/policies_body.dart';
 import 'package:admin/widgets/dashboard/policies/policies_header.dart';
 import 'package:admin/widgets/dashboard/policies/policy/policy.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:admin/server/requests.dart';
-import 'package:admin/models/policy_list.dart';
+import 'package:provider/provider.dart';
 
 class PoliciesScreen extends StatefulWidget {
   @override
@@ -22,7 +22,28 @@ class _PoliciesScreenState extends State<PoliciesScreen> {
   @override
   void initState() {
     requestPolicy= requestPolicies();
+  bool isInitiated = false;
+  bool isLoading = false;
+
+  @override
+  void initState() {
     super.initState();
+  }
+
+  @override
+  void didChangeDependencies() {
+    loadPolicies();
+    super.didChangeDependencies();
+  }
+
+  Future<void> loadPolicies() async {
+    if (isInitiated) return;
+    isLoading = true;
+    final provider = Provider.of<PoliciesListProvider>(context, listen: false);
+    var policies = await requestPolicies();
+    provider.setPolicies(policies);
+    isInitiated = true;
+    isLoading = false;
   }
 
   @override

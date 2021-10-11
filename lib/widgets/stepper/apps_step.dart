@@ -1,10 +1,7 @@
-import 'dart:developer';
-
 import 'package:admin/constants.dart';
 import 'package:admin/dialogs/add_app_dialog.dart';
 import 'package:admin/models/app.dart';
-import 'package:admin/providers/MembersAndDevicesStepProvider.dart';
-import 'package:admin/responsive.dart';
+import 'package:admin/providers/add_policy_provider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
@@ -30,9 +27,9 @@ class _AppsStepScreenState extends State<AppsStepScreen> {
     final screenWidth = MediaQuery.of(context).size.width;
     final provider = Provider.of<StageProvider>(context, listen: false);
     final membersProvider =
-        Provider.of<MembersAndDevicesStepProvider>(context, listen: false);
+        Provider.of<AddPolicyProvider>(context, listen: false);
 
-    return Consumer<MembersAndDevicesStepProvider>(
+    return Consumer<AddPolicyProvider>(
       builder: (context, state, child) {
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -362,13 +359,13 @@ class _CheckBoxItemState extends State<CheckBoxItem> {
     final app = widget.app;
     final isPreDefined = widget.isPreDefined;
     final provider =
-        Provider.of<MembersAndDevicesStepProvider>(context, listen: false);
+        Provider.of<AddPolicyProvider>(context, listen: false);
 
     return GridTile(
       child: Container(
         width: 150,
         height: 150,
-        child: Consumer<MembersAndDevicesStepProvider>(
+        child: Consumer<AddPolicyProvider>(
           builder: (context, state, child) {
             return GestureDetector(
               onTap: isCheckAll
