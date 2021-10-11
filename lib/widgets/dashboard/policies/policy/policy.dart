@@ -192,24 +192,24 @@ class PolicyHeader extends StatelessWidget {
                 ?.copyWith(color: Colors.black, fontWeight: FontWeight.w700),
           ),
         ),
-        IconButton(
-            padding: EdgeInsets.fromLTRB(0, 0, 8, 0),
-            color: Colors.grey,
-            icon: Icon(Icons.edit),
-            onPressed: () {
-              onEdit();
-            },
-            iconSize: 20,
-            constraints: BoxConstraints()),
-        IconButton(
-            padding: EdgeInsets.fromLTRB(0, 0, 8, 0),
-            color: Colors.red,
-            icon: Icon(Icons.delete),
-            iconSize: 20,
-            onPressed: () {
-              onDelete();
-            },
-            constraints: BoxConstraints()),
+        // IconButton(
+        //     padding: EdgeInsets.fromLTRB(0, 0, 8, 0),
+        //     color: Colors.grey,
+        //     icon: Icon(Icons.edit),
+        //     onPressed: () {
+        //       onEdit();
+        //     },
+        //     iconSize: 20,
+        //     constraints: BoxConstraints()),
+        // IconButton(
+        //     padding: EdgeInsets.fromLTRB(0, 0, 8, 0),
+        //     color: Colors.red,
+        //     icon: Icon(Icons.delete),
+        //     iconSize: 20,
+        //     onPressed: () {
+        //       onDelete();
+        //     },
+        //     constraints: BoxConstraints()),
         Container(
           height: 20,
           width: 20,
