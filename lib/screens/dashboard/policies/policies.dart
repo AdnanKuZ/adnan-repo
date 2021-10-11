@@ -19,15 +19,13 @@ class PoliciesScreen extends StatefulWidget {
 class _PoliciesScreenState extends State<PoliciesScreen> {
   bool isFilled = false;
   var requestPolicy;
-  @override
-  void initState() {
-    requestPolicy= requestPolicies();
   bool isInitiated = false;
   bool isLoading = false;
-
   @override
   void initState() {
-    super.initState();
+  requestPolicy= requestPolicies();
+  super.initState();
+    
   }
 
   @override
