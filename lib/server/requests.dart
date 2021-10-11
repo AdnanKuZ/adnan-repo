@@ -91,7 +91,7 @@ Future<bool> requestAddPolicy(
     }
 
     bandwidths.add({
-      "value": -75687388.96878098,
+      "value": bandwidth.getBandwidthIndex(),
       "schedule": {
         "day": bandwidth.getDayIndex(),
         "allDays": false,
@@ -107,7 +107,7 @@ Future<bool> requestAddPolicy(
     print(connectionType.date);
     if (connectionType.day == 'All Days') {
       connections.add({
-        "value": -75687388.96878098,
+        "value": connectionType.getBandwidthIndex(),
         "schedule": {
           "day": 0,
           "allDays": true,
@@ -119,7 +119,7 @@ Future<bool> requestAddPolicy(
     }
 
     connections.add({
-      "value": -75687388.96878098,
+      "value": connectionType.getBandwidthIndex(),
       "schedule": {
         "day": connectionType.getDayIndex(),
         "allDays": false,
