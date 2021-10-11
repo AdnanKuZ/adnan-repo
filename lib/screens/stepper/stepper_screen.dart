@@ -1,6 +1,8 @@
 import 'dart:convert';
 import 'package:admin/constants.dart';
 import 'package:admin/dialogs/loading_dialog.dart';
+import 'package:admin/models/app.dart';
+import 'package:admin/models/application.dart';
 import 'package:admin/models/device.dart';
 import 'package:admin/models/member.dart';
 import 'package:admin/providers/add_policy_provider.dart';
@@ -70,6 +72,17 @@ class _StepperScreenState extends State<StepperScreen> {
     print(provider.members[0].devices?.length.toString());
     //Navigator.pop(context);
     initiated = true;
+  }
+
+  Future<List<AppModel>> loadApplications() async {
+    final provider = Provider.of<AddPolicyProvider>(context);
+    final applications = await requestApplications();
+    final appModels = applications
+        .map<AppModel>((e) => AppModel(
+            name: e.name, title: e.title, image: "assets/images/chrome.png"))
+        .toList();
+    provider.setDefaultApps(appModels);
+    return appModels;
   }
 
   @override
@@ -241,12 +254,12 @@ class _StepperScreenState extends State<StepperScreen> {
                                           ? primaryColor
                                           : Colors.grey),
                                 ),
-                                content:
-                                    Container(child: FutureBuilder(
-                                      future: loadMetaData(),
-                                      builder: (context,snapshot) {
-                                   return ConnectionStepperWidget();
-                                }))),
+                                content: Container(
+                                    child: FutureBuilder(
+                                        future: loadMetaData(),
+                                        builder: (context, snapshot) {
+                                          return ConnectionStepperWidget();
+                                        }))),
                             EnhanceStep(
                                 icon: instance.stageIndex == 3
                                     ? Icon(
@@ -265,7 +278,11 @@ class _StepperScreenState extends State<StepperScreen> {
                                           : Colors.grey),
                                 ),
                                 content: Container(
-                                  child: AppsStepScreen(),
+                                  child: FutureBuilder(
+                                      future: loadApplications(),
+                                      builder: (context, snapshot) {
+                                        return AppsStepScreen();
+                                      }),
                                 )),
                             !instance.islaststep
                                 ? EnhanceStep(

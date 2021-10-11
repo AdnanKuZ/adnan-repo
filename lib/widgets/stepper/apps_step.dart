@@ -75,6 +75,7 @@ class _AppsStepScreenState extends State<AppsStepScreen> {
               style: TextStyle(color: Colors.grey, fontSize: 18),
             ),
             const SizedBox(height: 20),
+
             AppsGridView(
               screenWidth: screenWidth,
               list: state.customApps,
@@ -358,8 +359,7 @@ class _CheckBoxItemState extends State<CheckBoxItem> {
   Widget build(BuildContext context) {
     final app = widget.app;
     final isPreDefined = widget.isPreDefined;
-    final provider =
-        Provider.of<AddPolicyProvider>(context, listen: false);
+    final provider = Provider.of<AddPolicyProvider>(context, listen: false);
 
     return GridTile(
       child: Container(
@@ -454,7 +454,7 @@ class _CheckBoxItemState extends State<CheckBoxItem> {
                                 Column(
                                   children: [
                                     Text(
-                                      '${app.name}',
+                                      '${app.title}',
                                       overflow: TextOverflow.ellipsis,
                                       style: TextStyle(
                                           fontWeight: FontWeight.bold,

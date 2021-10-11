@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:admin/models/app.dart';
+import 'package:admin/models/application.dart';
 import 'package:admin/models/bandwidth.dart';
 import 'package:admin/models/connection_type.dart';
 import 'package:admin/models/device.dart';
@@ -543,4 +544,26 @@ Future<MetadataModel> requestMetadata() async {
   );
   var metaData = metadataModelFromJson(response.body);
   return metaData;
+}
+
+Future<List<Application>> requestApplications() async {
+  SharedPreferences _prefs = await SharedPreferences.getInstance();
+  String token = _prefs.getString('token').toString();
+
+  http.Response response = await http.get(
+    Uri.parse(GET_APPLICATIONS_URL),
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ${token}',
+    },
+  );
+
+  if (response.statusCode == 200) {
+    var applicationsJson = jsonDecode(response.body) as List<dynamic>;
+    List<Application> applications =
+        applicationsJson.map((item) => Application.fromJson(item)).toList();
+    return applications;
+  }
+
+  return [];
 }
