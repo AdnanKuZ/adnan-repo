@@ -12,9 +12,9 @@ class AddPolicyProvider extends ChangeNotifier {
   List<DeviceModel> devices = [];
   List<MemberModel> members = [];
   List<AppModel> definedApps = [
-    AppModel(name: 'Netflix',   image: 'assets/images/netflix.png'),
+    AppModel(name: 'Netflix', image: 'assets/images/netflix.png'),
     AppModel(name: 'Instagram', image: 'assets/images/instagram.png'),
-    AppModel(name: 'Chrome',    image: 'assets/images/chrome.png'),
+    AppModel(name: 'Chrome', image: 'assets/images/chrome.png'),
   ];
   List<AppModel> customApps = [
     AppModel(
@@ -210,5 +210,32 @@ class AddPolicyProvider extends ChangeNotifier {
     List<AppModel> selectedApps = [];
     selectedApps.addAll(definedApps.where((element) => element.isSelected));
     return selectedApps;
+  }
+
+  bool isNameStepValid() {
+    return getPolicyName.trim().length > 0;
+  }
+
+  bool isAppsStepValid() {
+    return getSelectedApps().length > 0;
+  }
+
+  bool isMembersAndDevicesStepValid() {
+    for (DeviceModel device in getDevices) {
+      if (device.isSelected) {
+        return true;
+      }
+    }
+
+    for (MemberModel member in getMembers) {
+      if (member.devices != null) {
+        for (DeviceModel device in member.devices!) {
+          if (device.isSelected) {
+            return true;
+          }
+        }
+      }
+    }
+    return false;
   }
 }

@@ -60,27 +60,27 @@ SettingsDialog({required BuildContext context}) {
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                DialogItem(Icons.policy, "Members & Devices", () {
-                  context
-                      .read<MenuProvider>()
-                      .setDashboardRoute(DashboardRoute.MembersAndDevices);
-                      Navigator.pop(context);
-                }),
-                DialogItem(Icons.policy, "Terms & Conditions", () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => MembersAndDevicesScreen()));
-                  context
-                      .read<MenuProvider>()
-                      .setDashboardRoute(DashboardRoute.TermsAndConditions);
-                }),
-                DialogItem(Icons.policy, "Legal Statement", () {
-                  Navigator.pop(context);
-                  context
-                      .read<MenuProvider>()
-                      .setDashboardRoute(DashboardRoute.LegalStatement);
-                }),
+                // DialogItem(Icons.policy, "Members & Devices", () {
+                //   context
+                //       .read<MenuProvider>()
+                //       .setDashboardRoute(DashboardRoute.MembersAndDevices);
+                //       Navigator.pop(context);
+                // }),
+                // DialogItem(Icons.policy, "Terms & Conditions", () {
+                //   Navigator.push(
+                //       context,
+                //       MaterialPageRoute(
+                //           builder: (context) => MembersAndDevicesScreen()));
+                //   context
+                //       .read<MenuProvider>()
+                //       .setDashboardRoute(DashboardRoute.TermsAndConditions);
+                // }),
+                // DialogItem(Icons.policy, "Legal Statement", () {
+                //   Navigator.pop(context);
+                //   context
+                //       .read<MenuProvider>()
+                //       .setDashboardRoute(DashboardRoute.LegalStatement);
+                // }),
                 DialogItem(Icons.policy, "Logout", () {
                   Navigator.pop(context);
                 }),

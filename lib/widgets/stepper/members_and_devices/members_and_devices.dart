@@ -137,6 +137,11 @@ class MembersAndDevicesStepperWidget extends StatelessWidget {
                   FilledButton(
                     title: "Next Step",
                     onPress: () {
+                      if(!provider.isMembersAndDevicesStepValid()) {
+                        print('step invalid');
+                        return;
+                      }
+
                       print("${stageProvider.stageIndex}");
                       stageProvider.setStageState = 0;
                       stageProvider.incrementIndex();

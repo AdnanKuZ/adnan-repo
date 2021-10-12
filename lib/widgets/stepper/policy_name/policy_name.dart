@@ -50,6 +50,11 @@ class PolicyNameStepWidget extends StatelessWidget {
                       FilledButton(
                         title: "Proceed to Summary",
                         onPress: () {
+                          if(!provider.isNameStepValid()) {
+                            print('invalid');
+                            return;
+                          }
+                          
                           stageProvider.setIsLastStep = true;
                           stageProvider.setStageState = 4;
                           stageProvider.setIsLastStep = true;
@@ -65,6 +70,7 @@ class PolicyNameStepWidget extends StatelessWidget {
           SizedBox(
             width: 300,
             child: TextFormField(
+              initialValue: provider.getPolicyName,
               style: TextStyle(color: Colors.black),
               decoration: const InputDecoration(
                 hintText: 'New Member Name',

@@ -61,6 +61,11 @@ class _AppsStepScreenState extends State<AppsStepScreen> {
                 });
               },
               nextButton: () {
+                if(!membersProvider.isAppsStepValid()) {
+                  print('invalid');
+                  return;
+                }
+
                 provider.setStageState = 3;
                 provider.incrementIndex();
               },
