@@ -32,6 +32,7 @@ class LoginWidget extends StatelessWidget {
         Provider.of<EmailValidProvider>(context, listen: false);
     final loginmode = Provider.of<LoginModes>(context, listen: false);
     final isLoading = Provider.of<IsLoading>(context, listen: false);
+    final signupMode = Provider.of<SignUpModes>(context, listen: false);
     Map<String, String> authData = {
       "email": "",
       "password": "",
@@ -129,13 +130,13 @@ class LoginWidget extends StatelessWidget {
                   Consumer<PassHiddenProvider>(
                     builder: (context, state, child) => Container(
                       decoration: BoxDecoration(boxShadow: [
-                      BoxShadow(
-                        color: Colors.blue.shade50.withOpacity(0.6),
-                        spreadRadius: 1,
-                        blurRadius: 8,
-                        offset: Offset(3, 3),
-                      )
-                    ]),
+                        BoxShadow(
+                          color: Colors.blue.shade50.withOpacity(0.6),
+                          spreadRadius: 1,
+                          blurRadius: 8,
+                          offset: Offset(3, 3),
+                        )
+                      ]),
                       child: CustomTextField(
                         maxLines: 1,
                         controller: passController,
@@ -208,14 +209,33 @@ class LoginWidget extends StatelessWidget {
                                   if (result == 'Login Failed') {
                                     print("loginError");
                                     isLoading.setLoadingState(false);
-                                    showDialog(context: context, builder: (context)=>Container(child: Text('Login Error')));
-                                  } else {
+                                    showDialog(
+                                        context: context,
+                                        builder: (context) => Container(
+                                            child: Text('Login Error')));
+                                  } else if (result == 'Success') {
                                     Navigator.push(
                                         context,
                                         MaterialPageRoute(
                                             builder: (context) =>
                                                 DashboardScreen()));
                                     isLoading.setLoadingState(false);
+                                  } else if (result == 'emailNotConfirmed') {
+                                    
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                SignUpScreen()));
+                                    signupMode.setMode("Otp");
+                                    isLoading.setLoadingState(false);
+                                  } else {
+                                    print("Server Error");
+                                    isLoading.setLoadingState(false);
+                                    showDialog(
+                                        context: context,
+                                        builder: (context) => Container(
+                                            child: Text('Server Error')));
                                   }
                                 }
                               },

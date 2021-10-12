@@ -71,10 +71,15 @@ class AuthRepositories {
     print(response.statusCode);
     print(response.body);
     if (response.statusCode == 200) {
-      _prefs.setString('token', jsonData['token']);
-      print(
-          'SharedPreferences token : ' + _prefs.getString('token').toString());
-      return jsonData['token'];
+      if (jsonData["emailConfirmed"] == false) {
+        print('email not confirmed');
+        return 'emailNotConfirmed';
+      } else {
+        _prefs.setString('token', jsonData['token']);
+        print('SharedPreferences token : ' +
+            _prefs.getString('token').toString());
+        return 'Success';
+      }
     } else {
       return "Login Failed";
     }
