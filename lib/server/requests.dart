@@ -455,7 +455,6 @@ Future<List<PolicyModel>> requestPolicies() async {
           date:
               'From ${element.schedule!.startTime} To ${element.schedule!.endTime}'));
     });
-    print('converted bandwidth: ' + oldBandwidth.length.toString());
 
     List<AppModel> oldApps = [];
     element.apps?.forEach((element) {
@@ -473,23 +472,16 @@ Future<List<PolicyModel>> requestPolicies() async {
           link: ''));
     });
 
-    print('converted apps: ' + oldApps.length.toString());
-
     List<ConnectionTypeModel> oldConnection = [];
     element.interfaces?.forEach((element) {
       oldConnection.add(ConnectionTypeModel(
-          // type: element.portName.toString(),
           type: element.portName.toString(),
           day: element.schedule!.getDayName(),
-          date:
-              'From ${element.schedule!.startTime} To ${element.schedule!.endTime}'));
+          date: 'From ${element.schedule!.startTime} To ${element.schedule!.endTime}'));
     });
-    print('converted connections: ' + oldConnection.length.toString());
 
     List<MemberModel> oldMembers = [];
-    print("devices" + jsonEncode(element.devices));
     element.devices?.forEach((element) {
-      print("devices element" + jsonEncode(element));
       bool founded = false;
 
       if (element.member != null) {
@@ -520,7 +512,6 @@ Future<List<PolicyModel>> requestPolicies() async {
         }
       }
     });
-    print('converted members: ' + oldMembers.length.toString());
 
     oldPolicies.add(PolicyModel(
         apps: oldApps,
@@ -529,8 +520,9 @@ Future<List<PolicyModel>> requestPolicies() async {
         connectionTypes: oldConnection,
         members: oldMembers));
   });
-  print(' response body${response.body}');
-  print(' status Code ${response.statusCode}');
+
+  print('response body${response.body}');
+  print('status Code ${response.statusCode}');
   // print('policies are : $oldPolicies');
   return oldPolicies;
 }

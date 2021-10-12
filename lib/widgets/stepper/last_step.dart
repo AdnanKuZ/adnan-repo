@@ -28,7 +28,8 @@ class LastStepWidget extends StatelessWidget {
         Provider.of<BandwidthProvider>(context, listen: false);
     final connectionProvider =
         Provider.of<ConnectionProvider>(context, listen: false);
-    final policiesProvider = Provider.of<PoliciesListProvider>(context, listen: false);
+    final policiesProvider =
+        Provider.of<PoliciesListProvider>(context, listen: false);
 
     return Container(
       child: Column(
@@ -48,8 +49,8 @@ class LastStepWidget extends StatelessWidget {
                   ),
                   Wrap(
                     children: [
-                      Consumer3<AddPolicyProvider,
-                              BandwidthProvider, ConnectionProvider>(
+                      Consumer3<AddPolicyProvider, BandwidthProvider,
+                              ConnectionProvider>(
                           builder: (context, membersState, bandwidthState,
                               connectionState, child) {
                         return FilledButton(
@@ -64,20 +65,19 @@ class LastStepWidget extends StatelessWidget {
                                 connectionTypes: [
                                   ...connectionState.getConnectionTypesList()
                                 ],
-                                apps: [
-                                  ...membersState.getSelectedApps()
-                                ],
-                                members: [
-                                  ...membersState.getSelectedMemeber()
-                                ],
-                                devices: [
-                                  ...membersState.getSelectedDevices()
-                                ]);
+                                apps: [...membersState.getSelectedApps()],
+                                members: !membersState.getAllDevicesChecked
+                                    ? membersState.getSelectedMemeber()
+                                    : [],
+                                devices: !membersState.getAllDevicesChecked
+                                    ? membersState.getSelectedDevices()
+                                    : []);
 
                             LoadingDialog(context: context);
                             await requestAddPolicy(
-                                policy,
-                                memberAndDevicesProvider.cable,);
+                              policy,
+                              memberAndDevicesProvider.cable,
+                            );
                             var policies = await requestPolicies();
                             policiesProvider.setPolicies(policies);
                             Navigator.pop(context);
@@ -96,8 +96,8 @@ class LastStepWidget extends StatelessWidget {
             children: [
               Container(
                 width: 400,
-                child: Consumer3<AddPolicyProvider,
-                    BandwidthProvider, ConnectionProvider>(
+                child: Consumer3<AddPolicyProvider, BandwidthProvider,
+                    ConnectionProvider>(
                   builder: (context, membersState, bandwidthState,
                       connectionState, child) {
                     return PolicyWidget(

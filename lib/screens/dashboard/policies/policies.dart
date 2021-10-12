@@ -23,9 +23,8 @@ class _PoliciesScreenState extends State<PoliciesScreen> {
   bool isLoading = false;
   @override
   void initState() {
-  requestPolicy= requestPolicies();
-  super.initState();
-    
+    requestPolicy = requestPolicies();
+    super.initState();
   }
 
   @override
@@ -46,28 +45,19 @@ class _PoliciesScreenState extends State<PoliciesScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder(
-        future: requestPolicy,
-        builder: (context, snapshot) {
-          if (snapshot.hasData) {
-            var _data = snapshot.data as List<PolicyModel>;
-            print('data is ; ${snapshot.data}');
-            if (_data.isEmpty) {
-              print('1');
-              return SafeArea(child: PoliciesEmptyScreen());
-            } else {
-              print('2');
-              return PoliciesFilledScreen(policies: _data);
-            }
-          } else {
-            print('3');
-            return Center(
-                child: Container(
-                    width: 150,
-                    height: 150,
-                    child: CircularProgressIndicator()));
-          }
-        });
+    return Consumer<PoliciesListProvider>(builder: (context, state, child) {
+      if (!isLoading) {
+        if (state.policies.isEmpty) {
+          return SafeArea(child: PoliciesEmptyScreen());
+        } else {
+          return PoliciesFilledScreen(policies: state.policies);
+        }
+      } else {
+        return Center(
+            child: Container(
+                width: 50, height: 50, child: CircularProgressIndicator()));
+      }
+    });
   }
 }
 
