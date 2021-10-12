@@ -1,5 +1,6 @@
 import 'package:admin/constants.dart';
 import 'package:admin/dialogs/add_member_dialog.dart';
+import 'package:admin/dialogs/auth_error_dialog.dart';
 import 'package:admin/models/device.dart';
 import 'package:admin/models/member.dart';
 import 'package:admin/providers/add_policy_provider.dart';
@@ -51,7 +52,7 @@ class PolicyNameStepWidget extends StatelessWidget {
                         title: "Proceed to Summary",
                         onPress: () {
                           if(!provider.isNameStepValid()) {
-                            print('invalid');
+                            AuthDialog(title: 'Please enter device name.',);
                             return;
                           }
                           

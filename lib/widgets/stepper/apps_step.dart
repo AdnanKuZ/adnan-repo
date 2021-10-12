@@ -1,5 +1,6 @@
 import 'package:admin/constants.dart';
 import 'package:admin/dialogs/add_app_dialog.dart';
+import 'package:admin/dialogs/auth_error_dialog.dart';
 import 'package:admin/models/app.dart';
 import 'package:admin/providers/add_policy_provider.dart';
 import 'package:flutter/cupertino.dart';
@@ -61,8 +62,12 @@ class _AppsStepScreenState extends State<AppsStepScreen> {
                 });
               },
               nextButton: () {
-                if(!membersProvider.isAppsStepValid()) {
-                  print('invalid');
+                if (!membersProvider.isAppsStepValid()) {
+                  showDialog(
+                      context: context,
+                      builder: (context) => AuthDialog(
+                            title: "Select one app at least",
+                          ));
                   return;
                 }
 

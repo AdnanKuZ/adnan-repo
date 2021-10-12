@@ -37,22 +37,22 @@ class MembersAndDevicesWidget extends StatelessWidget {
                     )
                   ],
                 ),
-                // Wrap(
-                //   crossAxisAlignment: WrapCrossAlignment.center,
-                //   children: [
-                //     Text(
-                //       "Show All",
-                //       style: TextStyle(color: Colors.white, fontSize: 12),
-                //     ),
-                //     Padding(
-                //       padding: const EdgeInsets.fromLTRB(8.0, 0, 8.0, 0),
-                //       child: Icon(
-                //         Icons.arrow_forward_ios_rounded,
-                //         size: 10,
-                //       ),
-                //     ),
-                //   ],
-                // )
+                Wrap(
+                  crossAxisAlignment: WrapCrossAlignment.center,
+                  children: [
+                    Text(
+                      "Show All",
+                      style: TextStyle(color: Colors.white, fontSize: 12),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(8.0, 0, 8.0, 0),
+                      child: Icon(
+                        Icons.arrow_forward_ios_rounded,
+                        size: 10,
+                      ),
+                    ),
+                  ],
+                )
               ],
             ),
           ),

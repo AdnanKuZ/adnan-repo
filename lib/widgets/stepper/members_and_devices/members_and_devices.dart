@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:admin/constants.dart';
 import 'package:admin/dialogs/add_device_dialog.dart';
 import 'package:admin/dialogs/add_member_dialog.dart';
+import 'package:admin/dialogs/auth_error_dialog.dart';
 import 'package:admin/dialogs/loading_dialog.dart';
 import 'package:admin/models/device.dart';
 import 'package:admin/models/member.dart';
@@ -25,8 +26,7 @@ class MembersAndDevicesStepperWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final provider =
-        Provider.of<AddPolicyProvider>(context, listen: false);
+    final provider = Provider.of<AddPolicyProvider>(context, listen: false);
     final addDeviceProvider =
         Provider.of<AddDeviceProvider>(context, listen: false);
     final stageProvider = Provider.of<StageProvider>(context, listen: false);
@@ -137,7 +137,12 @@ class MembersAndDevicesStepperWidget extends StatelessWidget {
                   FilledButton(
                     title: "Next Step",
                     onPress: () {
-                      if(!provider.isMembersAndDevicesStepValid()) {
+                      if (!provider.isMembersAndDevicesStepValid()) {
+                        showDialog(
+                            context: context,
+                            builder: (context) => AuthDialog(
+                                  title: "Please Select at least one device.",
+                                ));
                         print('step invalid');
                         return;
                       }
@@ -353,8 +358,7 @@ class StepperMembersGrid extends StatelessWidget {
   Widget build(BuildContext context) {
     final provider = Provider.of<AddPolicyProvider>(context);
 
-    return Consumer<AddPolicyProvider>(
-        builder: (context, instance, child) {
+    return Consumer<AddPolicyProvider>(builder: (context, instance, child) {
       return new StaggeredGridView.countBuilder(
         shrinkWrap: true,
         padding: EdgeInsets.fromLTRB(0, defaultPadding, 0, 0),
