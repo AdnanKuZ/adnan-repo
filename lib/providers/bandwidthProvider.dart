@@ -25,14 +25,14 @@ class BandwidthProvider extends ChangeNotifier {
     "Saturday": null, //8
   };
   Map<String, String?> _bandwidthChosenValue = {
-    "All Days": null, //1
-    "Sunday": null, //2
-    "Monday": null, //3
-    "Tuesday": null, //4
-    "Wednsday": null, //5
-    "Thursday": null, //6
-    "Friday": null, //7
-    "Saturday": null, //8
+    "All Days": 'Full Bandwidth', //1
+    "Sunday": 'Full Bandwidth', //2
+    "Monday": 'Full Bandwidth', //3
+    "Tuesday": 'Full Bandwidth', //4
+    "Wednsday": 'Full Bandwidth', //5
+    "Thursday": 'Full Bandwidth', //6
+    "Friday": 'Full Bandwidth', //7
+    "Saturday": 'Full Bandwidth', //8
   };
   bool get bandwidthischecked => bandwidthIsChecked;
 

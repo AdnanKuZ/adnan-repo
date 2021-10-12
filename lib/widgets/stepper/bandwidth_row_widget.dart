@@ -99,12 +99,11 @@ class BandwidthRowWidget extends StatelessWidget {
                     ),
                     isExpanded: false,
                     focusColor: Colors.white,
-                    value: instance.bandwidthDropDownValue[day] == null ? "None" : instance.bandwidthDropDownValue[day],
+                    value: instance.bandwidthDropDownValue[day] == null ? instance.bandwidthDropDownValue["All Days"] : instance.bandwidthDropDownValue[day],
                     elevation: 10,
                     style: TextStyle(color: Colors.white),
                     iconEnabledColor: Colors.black,
                     items: <String>[
-                      'None',
                       'Full Bandwidth',
                       'Medium Bandwidth',
                       'Small Bandwidth',
