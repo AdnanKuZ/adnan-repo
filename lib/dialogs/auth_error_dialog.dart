@@ -11,8 +11,8 @@ class AuthDialog extends StatelessWidget {
             borderRadius: BorderRadius.all(Radius.circular(10))),
         content: Container(
           padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 10),
-          height: 350,
-          width: 350,
+          height: 150,
+          width: 250,
           child: Container(),
         ),
       );

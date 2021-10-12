@@ -71,7 +71,7 @@ class MyApp extends StatelessWidget {
                 .apply(bodyColor: Colors.white),
             canvasColor: backgroundColor,
           ),
-          home: token == null ? LoginScreen() : DashboardScreen(),
+          home: token == null || token == '' ? LoginScreen() : DashboardScreen(),
         ));
   }
 }

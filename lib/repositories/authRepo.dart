@@ -4,7 +4,6 @@ import 'package:admin/server/urls.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'dart:html';
 
 Future<String> register(Map<String, String> signUpData) async {
   SharedPreferences _prefs = await SharedPreferences.getInstance();
