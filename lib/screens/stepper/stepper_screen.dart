@@ -6,6 +6,7 @@ import 'package:admin/models/application.dart';
 import 'package:admin/models/device.dart';
 import 'package:admin/models/member.dart';
 import 'package:admin/providers/add_policy_provider.dart';
+import 'package:admin/providers/conncetionProvider.dart';
 import 'package:admin/server/requests.dart';
 import 'package:admin/widgets/stepper/apps_step.dart';
 import 'package:admin/widgets/common/buttons.dart';
@@ -37,11 +38,14 @@ class _StepperScreenState extends State<StepperScreen> {
 
   late Future<void> loadDevicesAndMembersFuture = loadDevicesAndMembers();
   late Future<void> loadMetaDataFuture = loadMetaData();
+  late Future<void> loadApplicationsFuture = loadApplications();
 
   Future<MetadataModel> loadMetaData() async {
     final provider = Provider.of<MetadataProvider>(context);
+    final connectionProvider = Provider.of<ConnectionProvider>(context);
     final meta = await requestMetadata();
     provider.setMetaData(meta);
+    if ((meta.ports?.length ?? 0) > 0) connectionProvider.setConnectionDropDownValueForAllDays(meta.ports![0]);
     return meta;
   }
 
@@ -283,7 +287,7 @@ class _StepperScreenState extends State<StepperScreen> {
                                 ),
                                 content: Container(
                                   child: FutureBuilder(
-                                      future: loadApplications(),
+                                      future: loadApplicationsFuture,
                                       builder: (context, snapshot) {
                                         return AppsStepScreen();
                                       }),

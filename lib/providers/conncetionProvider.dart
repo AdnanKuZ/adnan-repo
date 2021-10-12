@@ -69,6 +69,15 @@ List<ConnectionTypeModel> getConnectionTypesList() {
     _connectionChosenValue[day] = value;
     notifyListeners();
   }
+
+  void setConnectionDropDownValueForAllDays(Port value) {
+     _connectionChosenValue.forEach((key, v) { 
+      _connectionChosenValue[key] = value;
+     });
+ 
+    notifyListeners();
+  }
+
   set connectionSetIsChecked(bool ischk) {
     connectionIsChecked = ischk;
     notifyListeners();

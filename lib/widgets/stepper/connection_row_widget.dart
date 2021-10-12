@@ -125,10 +125,7 @@ class ConnectionRowWidget extends StatelessWidget {
                     elevation: 10,
                     style: TextStyle(color: Colors.white),
                     iconEnabledColor: Colors.black,
-                    items: <Port>[
-                      Port(name: "#None", isLte: false, title: 'None'),
-                      ...metaInstance.getmetadata["ports"]
-                    ].map<DropdownMenuItem<Port>>((Port value) {
+                    items: metaInstance.getmetadata["ports"].map<DropdownMenuItem<Port>>((Port value) {
                       return DropdownMenuItem<Port>(
                         value: value,
                         child: Text(
