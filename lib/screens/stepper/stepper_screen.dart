@@ -33,6 +33,9 @@ class StepperScreen extends StatefulWidget {
 class _StepperScreenState extends State<StepperScreen> {
   bool initiated = false;
 
+  late Future<void> loadDevicesAndMembersFuture = loadDevicesAndMembers();
+  late Future<void> loadMetaDataFuture = loadMetaData();
+
   Future<MetadataModel> loadMetaData() async {
     final provider = Provider.of<MetadataProvider>(context);
     final meta = await requestMetadata();
@@ -41,6 +44,7 @@ class _StepperScreenState extends State<StepperScreen> {
   }
 
   Future<void> loadDevicesAndMembers() async {
+    print("loadDevicesAndMembers");
     if (initiated) return;
     final provider = Provider.of<AddPolicyProvider>(context, listen: false);
     List<DeviceModel> devicesResponse = await requestDevices();
@@ -184,7 +188,7 @@ class _StepperScreenState extends State<StepperScreen> {
                                   child: Column(
                                     children: [
                                       FutureBuilder(
-                                        future: loadDevicesAndMembers(),
+                                        future: loadDevicesAndMembersFuture,
                                         builder: (context, snapshot) {
                                           return MembersAndDevicesStepperWidget();
                                         },
@@ -243,7 +247,7 @@ class _StepperScreenState extends State<StepperScreen> {
                                 ),
                                 content:
                                     Container(child: FutureBuilder(
-                                      future: loadMetaData(),
+                                      future: loadMetaDataFuture,
                                       builder: (context,snapshot) {
                                    return ConnectionStepperWidget();
                                 }))),
