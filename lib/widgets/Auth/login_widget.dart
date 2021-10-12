@@ -1,4 +1,5 @@
 import 'package:admin/constants.dart';
+import 'package:admin/dialogs/auth_error_dialog.dart';
 import 'package:admin/providers/authProviders.dart';
 import 'package:admin/screens/auth/sign_up_screen.dart';
 import 'package:admin/screens/dashboard/dashboard.dart';
@@ -12,7 +13,6 @@ import 'package:admin/repositories/authRepo.dart';
 class LoginWidget extends StatelessWidget {
   final emailController = TextEditingController();
   final passController = TextEditingController();
-  final _authRepo = AuthRepositories();
   final bool isPc;
   final bool isMobile;
   final bool? isTablet;
@@ -205,14 +205,13 @@ class LoginWidget extends StatelessWidget {
                                 if (loginFormKey.currentState!.validate()) {
                                   isLoading.setLoadingState(true);
                                   String result =
-                                      await _authRepo.login(authData);
+                                      await login(authData);
                                   if (result == 'Login Failed') {
                                     print("loginError");
                                     isLoading.setLoadingState(false);
                                     showDialog(
                                         context: context,
-                                        builder: (context) => Container(
-                                            child: Text('Login Error')));
+                                        builder: (context) => AuthDialog());
                                   } else if (result == 'Success') {
                                     Navigator.push(
                                         context,
@@ -234,8 +233,7 @@ class LoginWidget extends StatelessWidget {
                                     isLoading.setLoadingState(false);
                                     showDialog(
                                         context: context,
-                                        builder: (context) => Container(
-                                            child: Text('Server Error')));
+                                        builder: (context) => AuthDialog());
                                   }
                                 }
                               },

@@ -9,7 +9,6 @@ import 'package:admin/repositories/authRepo.dart';
 
 class ForgotPassWidget extends StatelessWidget {
   final emailController = TextEditingController();
-  final _authRepo = AuthRepositories();
 
   final bool isPc;
   final bool isMobile;
@@ -123,7 +122,7 @@ class ForgotPassWidget extends StatelessWidget {
                   iconColor: Colors.white,
                   onpressed: () async {
                     var result =
-                        await _authRepo.requestResetPass(emailController.text);
+                        await requestResetPass(emailController.text);
                     if (result)
                       loginmode.setMode('Reset Pass');
                     else

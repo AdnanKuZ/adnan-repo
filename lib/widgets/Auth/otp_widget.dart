@@ -8,7 +8,6 @@ import 'package:flutter_verification_code/flutter_verification_code.dart';
 import 'package:admin/repositories/authRepo.dart';
 
 class OtpWidget extends StatelessWidget {
-  final _authRepo = AuthRepositories();
   final bool isPc;
   final bool isMobile;
   final bool? isTablet;
@@ -125,7 +124,7 @@ class OtpWidget extends StatelessWidget {
                   iconColor: Colors.white,
                   onpressed: () async {
                     print(otpCode);
-                    bool result = await _authRepo.verifyEmail(otpCode);
+                    bool result = await verifyEmail(otpCode);
                     if (result == true){
                       print('Email confirmed');
                       signupMode.setMode('Account Created');
