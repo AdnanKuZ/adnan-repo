@@ -92,7 +92,6 @@ class BandwidthRowWidget extends StatelessWidget {
                   DropdownButtonHideUnderline(
                 child: DropdownButton<String>(
                     dropdownColor: Color(0xFFF8F8F8),
-                    
                     icon: Icon(
                       Icons.keyboard_arrow_down,
                       color: Colors.black,

@@ -9,7 +9,6 @@ import 'package:admin/repositories/authRepo.dart';
 
 class ResetPassWidget extends StatelessWidget {
   final passController = TextEditingController();
-  final _authRepo = AuthRepositories();
   final bool isPc;
   final bool isMobile;
   final bool? isTablet;
@@ -147,7 +146,7 @@ class ResetPassWidget extends StatelessWidget {
                       "newPassword" : passController.text,
                       "oldPassword" : ""
                     };
-                    _authRepo.changePassword(passwords);
+                    changePassword(passwords);
                     loginmode.setMode('Changed Pass');
                   },
                 ),

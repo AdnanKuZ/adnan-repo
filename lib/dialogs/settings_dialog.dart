@@ -1,9 +1,11 @@
 import 'package:admin/constants.dart';
 import 'package:admin/enums/RouteEnum.dart';
 import 'package:admin/providers/MenuProvider.dart';
+import 'package:admin/screens/auth/login_screen.dart';
 import 'package:admin/screens/dashboard/members_and_devices/members_and_devices.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/src/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 SettingsDialog({required BuildContext context}) {
   Widget DialogItem(IconData icon, String title, Function onClick) {
@@ -60,29 +62,31 @@ SettingsDialog({required BuildContext context}) {
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                // DialogItem(Icons.policy, "Members & Devices", () {
-                //   context
-                //       .read<MenuProvider>()
-                //       .setDashboardRoute(DashboardRoute.MembersAndDevices);
-                //       Navigator.pop(context);
-                // }),
-                // DialogItem(Icons.policy, "Terms & Conditions", () {
-                //   Navigator.push(
-                //       context,
-                //       MaterialPageRoute(
-                //           builder: (context) => MembersAndDevicesScreen()));
-                //   context
-                //       .read<MenuProvider>()
-                //       .setDashboardRoute(DashboardRoute.TermsAndConditions);
-                // }),
-                // DialogItem(Icons.policy, "Legal Statement", () {
-                //   Navigator.pop(context);
-                //   context
-                //       .read<MenuProvider>()
-                //       .setDashboardRoute(DashboardRoute.LegalStatement);
-                // }),
-                DialogItem(Icons.policy, "Logout", () {
+                DialogItem(Icons.policy, "Members & Devices", () {
+                  context
+                      .read<MenuProvider>()
+                      .setDashboardRoute(DashboardRoute.MembersAndDevices);
+                      Navigator.pop(context);
+                }),
+                DialogItem(Icons.policy, "Terms & Conditions", () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => MembersAndDevicesScreen()));
+                  context
+                      .read<MenuProvider>()
+                      .setDashboardRoute(DashboardRoute.TermsAndConditions);
+                }),
+                DialogItem(Icons.policy, "Legal Statement", () {
                   Navigator.pop(context);
+                  context
+                      .read<MenuProvider>()
+                      .setDashboardRoute(DashboardRoute.LegalStatement);
+                }),
+                DialogItem(Icons.policy, "Logout", () async{
+                    SharedPreferences _prefs = await SharedPreferences.getInstance();
+                  _prefs.setString('token', '');
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => LoginScreen()));
                 }),
               ],
             ),

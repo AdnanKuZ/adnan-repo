@@ -249,6 +249,9 @@ Future<bool> requestNewDevice(DeviceModel device) async {
         }
       : {"name": device.name};
 
+  print(DEVICES_URL);
+  print(body);
+
   http.Response response = await http.post(Uri.parse(DEVICES_URL),
       headers: {
         'Content-Type': 'application/json',
@@ -256,6 +259,8 @@ Future<bool> requestNewDevice(DeviceModel device) async {
       },
       body: jsonEncode(body));
 
+  print('response: ' + response.body);
+  print('status: ' + response.statusCode.toString());
   if (response.statusCode == 201) {
     return true;
   }
@@ -278,12 +283,18 @@ Future<bool> requestExistingDevice(DeviceModel device) async {
           "name": device.name,
         };
 
+  print(DEVICES_URL + device.id!);
+  print(body);
+
   http.Response response = await http.put(Uri.parse(DEVICES_URL + device.id!),
       headers: {
         'Content-Type': 'application/json',
         'Authorization': 'Bearer ${token}',
       },
       body: jsonEncode(body));
+
+  print('response: ' + response.body);
+  print('status: ' + response.statusCode.toString());
 
   if (response.statusCode == 201) {
     return true;

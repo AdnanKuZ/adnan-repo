@@ -82,6 +82,9 @@ class LastStepWidget extends StatelessWidget {
                             policiesProvider.setPolicies(policies);
                             Navigator.pop(context);
                             Navigator.pop(context);
+                            
+                            stageProvider.setStagesStateFalse();
+                            stageProvider.setIndex = 0;
                             stageProvider.setIsLastStep = false;
                           },
                         );

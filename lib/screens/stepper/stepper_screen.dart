@@ -6,6 +6,7 @@ import 'package:admin/models/application.dart';
 import 'package:admin/models/device.dart';
 import 'package:admin/models/member.dart';
 import 'package:admin/providers/add_policy_provider.dart';
+import 'package:admin/providers/bandwidthProvider.dart';
 import 'package:admin/providers/conncetionProvider.dart';
 import 'package:admin/server/requests.dart';
 import 'package:admin/widgets/stepper/apps_step.dart';
@@ -96,6 +97,7 @@ class _StepperScreenState extends State<StepperScreen> {
   @override
   Widget build(BuildContext context) {
     final _stageProvider = Provider.of<StageProvider>(context, listen: false);
+    final _bandwidthProvider = Provider.of<BandwidthProvider>(context);
     return Scaffold(
       body: SingleChildScrollView(child: LayoutBuilder(
         builder: (context, BoxConstraints constraints) {
@@ -117,6 +119,7 @@ class _StepperScreenState extends State<StepperScreen> {
                     children: [
                       InkWell(
                         onTap: () {
+                          Navigator.pop(context);
                           _stageProvider.setStagesStateFalse();
                           _stageProvider.setIndex = 0;
                           _stageProvider.setIsLastStep = false;

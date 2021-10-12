@@ -1,4 +1,5 @@
 import 'package:admin/constants.dart';
+import 'package:admin/repositories/authRepo.dart';
 import 'package:flutter/material.dart';
 import 'package:admin/widgets/Auth/login_widget.dart';
 import 'package:admin/widgets/Auth/readMore.dart';
@@ -8,6 +9,7 @@ import 'package:admin/widgets/Auth/forgotpass_widget.dart';
 import 'package:admin/widgets/Auth/resetpass_widget.dart';
 import 'package:provider/provider.dart';
 import 'package:admin/providers/authProviders.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginScreen extends StatefulWidget {
   LoginScreen({Key? key}) : super(key: key);
@@ -21,9 +23,15 @@ class _LoginScreenState extends State<LoginScreen> {
   final pageController = PageController();
   final loginScreenFormKey = GlobalKey<FormState>();
   @override
+  void initState() {
+    // TODO: implement initState
+    
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final _loginMode = Provider.of<LoginModes>(context, listen: false);
-
     return Scaffold(
       body: Container(
         width: MediaQuery.of(context).size.width,
@@ -40,8 +48,8 @@ class _LoginScreenState extends State<LoginScreen> {
                 )),
             Container(
               width: MediaQuery.of(context).size.width,
-                height: MediaQuery.of(context).size.height,
-                color: Colors.black87.withOpacity(0.5),
+              height: MediaQuery.of(context).size.height,
+              color: Colors.black87.withOpacity(0.5),
             ),
             SingleChildScrollView(
               child: LayoutBuilder(
@@ -73,7 +81,8 @@ class _LoginScreenState extends State<LoginScreen> {
                                         : _loginMode.mode ==
                                                 'Reset Pass' //////////////
                                             ? ResetPassWidget(
-                                                loginFormKey: loginScreenFormKey,
+                                                loginFormKey:
+                                                    loginScreenFormKey,
                                                 isMobile: false,
                                                 isPc: true,
                                               )
@@ -102,12 +111,11 @@ class _LoginScreenState extends State<LoginScreen> {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           Container(
-                            width: 60,
-                            height: 60,
-                            child: Image.asset(
-                              "assets/images/logo.png",
-                            )
-                          ),
+                              width: 60,
+                              height: 60,
+                              child: Image.asset(
+                                "assets/images/logo.png",
+                              )),
                           SizedBox(
                             height: 50,
                           ),
@@ -153,12 +161,11 @@ class _LoginScreenState extends State<LoginScreen> {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             Container(
-                              width: 60,
-                              height: 60,
-                              child: Image.asset(
-                              "assets/images/logo.png",
-                            )
-                            ),
+                                width: 60,
+                                height: 60,
+                                child: Image.asset(
+                                  "assets/images/logo.png",
+                                )),
                             SizedBox(
                               height: 50,
                             ),
@@ -171,14 +178,14 @@ class _LoginScreenState extends State<LoginScreen> {
                                 : _loginMode.mode ==
                                         'Forgot Pass' /////////////2
                                     ? ForgotPassWidget(
-                                      loginFormKey: loginScreenFormKey,
+                                        loginFormKey: loginScreenFormKey,
                                         isMobile: true,
                                         isPc: false,
                                       )
                                     : _loginMode.mode ==
                                             'Reset Pass' //////////////3
                                         ? ResetPassWidget(
-                                          loginFormKey: loginScreenFormKey,
+                                            loginFormKey: loginScreenFormKey,
                                             isMobile: true,
                                             isPc: false,
                                           )

@@ -1,4 +1,5 @@
 import 'package:admin/constants.dart';
+import 'package:admin/dialogs/auth_error_dialog.dart';
 import 'package:admin/repositories/authRepo.dart';
 import 'package:admin/widgets/common/elevated_button_widget.dart';
 import 'package:flutter/material.dart';
@@ -13,7 +14,6 @@ class SignUpWidget extends StatelessWidget {
   final passController = TextEditingController();
   final deviceIdController = TextEditingController();
   final textFieldController = TextEditingController();
-  final _authRepo = AuthRepositories();
 
   final bool isPc;
   final bool isMobile;
@@ -58,13 +58,7 @@ class SignUpWidget extends StatelessWidget {
           child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Consumer<PassValidProvider>(
-              builder: (context, instance, child) => instance.passValidState
-                  ? SizedBox.shrink()
-                  : Text(
-                      'password must have : capital letters, small letters, characters and numbers',
-                      style: TextStyle(color: Colors.red),
-                    )),
+          
           Text(
             'SIGN UP',
             style: TextStyle(
@@ -220,6 +214,16 @@ class SignUpWidget extends StatelessWidget {
                     },
                   ),
                 ),
+                Consumer<PassValidProvider>(
+              builder: (context, instance, child) => instance.passValidState
+                  ? SizedBox.shrink()
+                  : Container(
+                    margin: EdgeInsets.only(top: 8),
+                    child: Text(
+                        'password must have : capital letters, small letters, characters and numbers',
+                        style: TextStyle(color: Colors.red),
+                      ),
+                  )),
               ],
             ),
           ),
@@ -242,7 +246,7 @@ class SignUpWidget extends StatelessWidget {
                           };
                           if (signUpFormKey.currentState!.validate()) {
                             isLoading.setLoadingState(true);
-                            String result = await _authRepo.register(authData);
+                            String result = await register(authData);
                             if (result == 'Success') {
                               signupMode.setMode("Otp");
                               isLoading.setLoadingState(false);
@@ -251,14 +255,16 @@ class SignUpWidget extends StatelessWidget {
                               isLoading.setLoadingState(false);
                               showDialog(
                                   context: context,
-                                  builder: (context) =>
-                                      Container(child: Text('Bad Request')));
+                                  builder: (context) => AuthDialog(
+                                    title: "Sign up credentials not correct",
+                                  ));
                             } else {
                               print('server error');
                               showDialog(
                                   context: context,
-                                  builder: (context) =>
-                                      Container(child: Text('Server Error')));
+                                  builder: (context) => AuthDialog(
+                                    title: "Server Error",
+                                  ));
                               isLoading.setLoadingState(false);
                             }
                           }

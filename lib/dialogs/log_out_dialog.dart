@@ -1,7 +1,10 @@
 import 'package:admin/constants.dart';
+import 'package:admin/screens/auth/login_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 Future<bool?> showLogoutDialog(context) async {
+  SharedPreferences _prefs = await SharedPreferences.getInstance();
   return showDialog(
     context: context,
     builder: (_) {
@@ -29,7 +32,7 @@ Future<bool?> showLogoutDialog(context) async {
                   fontSize: 12,
                 ),
               ),
-              SizedBox(height:6),
+              SizedBox(height: 6),
               Row(
                 children: [
                   Expanded(
@@ -57,7 +60,8 @@ Future<bool?> showLogoutDialog(context) async {
                   Expanded(
                     child: ElevatedButton(
                       onPressed: () {
-                        Navigator.pop(context, true);
+                        _prefs.setString('token', '');
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => LoginScreen()));
                       },
                       child: Padding(
                         padding: const EdgeInsets.symmetric(vertical: 12.0),
