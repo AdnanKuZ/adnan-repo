@@ -211,7 +211,9 @@ class LoginWidget extends StatelessWidget {
                                     isLoading.setLoadingState(false);
                                     showDialog(
                                         context: context,
-                                        builder: (context) => AuthDialog());
+                                        builder: (context) => AuthDialog(
+                                          title: 'Login credentials not correct',
+                                        ));
                                   } else if (result == 'Success') {
                                     Navigator.push(
                                         context,
@@ -233,7 +235,9 @@ class LoginWidget extends StatelessWidget {
                                     isLoading.setLoadingState(false);
                                     showDialog(
                                         context: context,
-                                        builder: (context) => AuthDialog());
+                                        builder: (context) => AuthDialog(
+                                          title: "Server Error",
+                                        ));
                                   }
                                 }
                               },

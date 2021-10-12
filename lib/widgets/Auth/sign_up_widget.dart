@@ -251,12 +251,16 @@ class SignUpWidget extends StatelessWidget {
                               isLoading.setLoadingState(false);
                               showDialog(
                                   context: context,
-                                  builder: (context) => AuthDialog());
+                                  builder: (context) => AuthDialog(
+                                    title: "Sign up credentials not correct",
+                                  ));
                             } else {
                               print('server error');
                               showDialog(
                                   context: context,
-                                  builder: (context) => AuthDialog());
+                                  builder: (context) => AuthDialog(
+                                    title: "Server Error",
+                                  ));
                               isLoading.setLoadingState(false);
                             }
                           }
