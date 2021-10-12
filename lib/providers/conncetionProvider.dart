@@ -92,7 +92,7 @@ List<ConnectionTypeModel> getConnectionTypesList() {
     connectiontimeTo[day] = time;
     notifyListeners();
   }
-  bool checkBandwidthIsValid() {
+  bool checkConnectionIsValid() {
     int counter = 0;
     List<String> days = [
       "All Days",

@@ -1,4 +1,6 @@
 import 'package:admin/constants.dart';
+import 'package:admin/dialogs/auth_error_dialog.dart';
+import 'package:admin/providers/conncetionProvider.dart';
 import 'package:flutter/material.dart';
 import 'package:auto_size_text_pk/auto_size_text_pk.dart';
 import 'package:provider/provider.dart';
@@ -12,6 +14,7 @@ class ConnectionStepperWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final provider = Provider.of<StageProvider>(context, listen: false);
+    final connectionProvider = Provider.of<ConnectionProvider>(context);
     return Container(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -29,13 +32,22 @@ class ConnectionStepperWidget extends StatelessWidget {
               Spacer(),
               ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                    primary: primaryColor,
-                    padding: EdgeInsets.symmetric(horizontal: 35,vertical: 18),
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)), 
-                  ),
+                  primary: primaryColor,
+                  padding: EdgeInsets.symmetric(horizontal: 35, vertical: 18),
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8)),
+                ),
                 onPressed: () {
-                  provider.setStageState = 2;
-                  provider.incrementIndex();
+                  if (connectionProvider.checkConnectionIsValid()) {
+                    provider.setStageState = 2;
+                    provider.incrementIndex();
+                  } else {
+                    showDialog(
+                        context: context,
+                        builder: (context) => AuthDialog(
+                              title: "Please Fill Atleast one day",
+                            ));
+                  }
                 },
                 child: Text(
                   'Next Step',
