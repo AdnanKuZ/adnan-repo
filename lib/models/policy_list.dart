@@ -13,6 +13,7 @@ List<PolicyListModel> policyListModelFromJson(String str) =>
 class PolicyListModel {
   PolicyListModel({
     this.id,
+    this.title,
     this.cpeIdentifier,
     this.devices,
     this.lteBandwidth,
@@ -25,6 +26,7 @@ class PolicyListModel {
   });
 
   String? id;
+  String? title;
   String? cpeIdentifier;
   List<dynamic>? devices;
   int? lteBandwidth;
@@ -38,6 +40,7 @@ class PolicyListModel {
   factory PolicyListModel.fromJson(Map<String, dynamic> json) =>
       PolicyListModel(
         id: json["id"],
+        title: json["title"],
         cpeIdentifier: json["cpeIdentifier"],
         devices: List<dynamic>.from(json["devices"].map((x) => x)),
         lteBandwidth: json["lteBandwidth"],
