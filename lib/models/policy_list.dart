@@ -4,6 +4,8 @@
 
 import 'dart:convert';
 
+import 'package:admin/models/device.dart';
+
 List<PolicyListModel> policyListModelFromJson(String str) =>
     List<PolicyListModel>.from(
         json.decode(str).map((x) => PolicyListModel.fromJson(x)));
@@ -28,7 +30,7 @@ class PolicyListModel {
   String? id;
   String? title;
   String? cpeIdentifier;
-  List<dynamic>? devices;
+  List<DeviceModel>? devices;
   int? lteBandwidth;
   int? cableBandwidth;
   List<Bandwidth>? bandwidths;
@@ -42,7 +44,7 @@ class PolicyListModel {
         id: json["id"],
         title: json["title"] == null ? null : json["title"],
         cpeIdentifier: json["cpeIdentifier"],
-        devices: List<dynamic>.from(json["devices"].map((x) => x)),
+        devices: json["devices"].map<DeviceModel>((device) => DeviceModel.fromJson(device)).toList(),
         lteBandwidth: json["lteBandwidth"],
         cableBandwidth: json["cableBandwidth"],
         bandwidths: json["bandwidths"] == null

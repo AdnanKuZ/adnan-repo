@@ -486,45 +486,48 @@ Future<List<PolicyModel>> requestPolicies() async {
     });
     print('converted connections: ' + oldConnection.length.toString());
 
-    // List<MemberModel> oldMembers = [];
-    // element.devices!.forEach((element) {
-    //   print("devices element" + element);
-    //   bool founded = false;
+    List<MemberModel> oldMembers = [];
+    print("devices" + jsonEncode(element.devices));
+    element.devices?.forEach((element) {
+      print("devices element" + jsonEncode(element));
+      bool founded = false;
 
-    //   oldMembers.forEach((oldMember) {
-    //     if (oldMember.id == element.member!.id) {
-    //       oldMember.devices!.add(DeviceModel(
-    //           id: element.macAddress,
-    //           mac: element.macAddress,
-    //           isSelected: false,
-    //           member: oldMember,
-    //           name: element.name));
-    //       founded = true;
-    //     }
-    //   });
+      if (element.member != null) {
+        oldMembers.forEach((oldMember) {
+          if (oldMember.id == element.member?.id) {
+            oldMember.devices?.add(DeviceModel(
+                id: element.mac,
+                mac: element.mac,
+                isSelected: false,
+                member: oldMember,
+                name: element.name));
+            founded = true;
+          }
+        });
 
-    //   if (!founded) {
-    //     oldMembers.add(MemberModel(
-    //         id: element.member!.id,
-    //         name: element.member!.name,
-    //         devices: [
-    //           DeviceModel(
-    //               id: element.macAddress,
-    //               mac: element.macAddress,
-    //               isSelected: false,
-    //               member: null,
-    //               name: element.name)
-    //         ]));
-    //   }
-    // });
-    // print('converted members: ' + oldMembers.length.toString());
+        if (!founded) {
+          oldMembers.add(MemberModel(
+              id: element.member?.id.toString(),
+              name: element.member?.name.toString(),
+              devices: [
+                DeviceModel(
+                    id: element.mac,
+                    mac: element.mac,
+                    isSelected: false,
+                    member: element.member,
+                    name: element.name)
+              ]));
+        }
+      }
+    });
+    print('converted members: ' + oldMembers.length.toString());
 
     oldPolicies.add(PolicyModel(
         apps: oldApps,
         bandwidths: oldBandwidth,
         name: element.title.toString(),
         connectionTypes: oldConnection,
-        members: []));
+        members: oldMembers));
   });
   print(' response body${response.body}');
   print(' status Code ${response.statusCode}');
