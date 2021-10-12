@@ -3,7 +3,7 @@ import 'package:admin/models/metadata.dart';
 import 'package:flutter/material.dart';
 
 class ConnectionProvider extends ChangeNotifier {
-  bool connectionIsChecked = false;
+  bool connectionIsChecked = true;
 
   Map<String, TimeOfDay?> connectiontimeFrom = {
     "All Days": null, //1
@@ -91,5 +91,27 @@ List<ConnectionTypeModel> getConnectionTypesList() {
   void connectionSetTimeTo(TimeOfDay? time,String day) {
     connectiontimeTo[day] = time;
     notifyListeners();
+  }
+  bool checkBandwidthIsValid() {
+    int counter = 0;
+    List<String> days = [
+      "All Days",
+      "Sunday",
+      "Monday",
+      "Tuesday",
+      "Wednsday",
+      "Thursday",
+      "Friday",
+      "Saturday",
+    ];
+    days.forEach((element) {
+      connectiontimeFrom[element] != null && connectiontimeTo[element] != null
+          ? counter = counter + 1
+          : counter = counter ;
+    });
+    if (counter == 0)
+      return false;
+    else
+      return true;
   }
 }

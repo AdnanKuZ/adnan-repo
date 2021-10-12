@@ -58,13 +58,7 @@ class SignUpWidget extends StatelessWidget {
           child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Consumer<PassValidProvider>(
-              builder: (context, instance, child) => instance.passValidState
-                  ? SizedBox.shrink()
-                  : Text(
-                      'password must have : capital letters, small letters, characters and numbers',
-                      style: TextStyle(color: Colors.red),
-                    )),
+          
           Text(
             'SIGN UP',
             style: TextStyle(
@@ -220,6 +214,16 @@ class SignUpWidget extends StatelessWidget {
                     },
                   ),
                 ),
+                Consumer<PassValidProvider>(
+              builder: (context, instance, child) => instance.passValidState
+                  ? SizedBox.shrink()
+                  : Container(
+                    margin: EdgeInsets.only(top: 8),
+                    child: Text(
+                        'password must have : capital letters, small letters, characters and numbers',
+                        style: TextStyle(color: Colors.red),
+                      ),
+                  )),
               ],
             ),
           ),

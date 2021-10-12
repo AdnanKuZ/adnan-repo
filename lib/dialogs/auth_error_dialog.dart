@@ -1,9 +1,11 @@
+import 'package:admin/constants.dart';
 import 'package:admin/widgets/common/buttons.dart';
+import 'package:admin/widgets/common/elevated_button_widget.dart';
 import 'package:flutter/material.dart';
 
 class AuthDialog extends StatelessWidget {
 
-  String title;
+  final String title;
   AuthDialog({Key? key,required this.title}) : super(key: key);
 
   @override
@@ -33,12 +35,15 @@ class AuthDialog extends StatelessWidget {
               Container(
                 width: 120,
                 height: 40,
-                child: FilledButton(
-                  onPress: () {
+                child: CustomElevatedButton(
+                  buttonColor: primaryColor,
+                  splashColor: Colors.white,
+                  textColor: Colors.white,
+                  onpressed: () {
                     Navigator.pop(context);
                   },
                   title: "OK",
-                ),
+                )
               )
             ],
           ),

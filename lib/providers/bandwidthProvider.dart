@@ -2,7 +2,8 @@ import 'package:admin/models/bandwidth.dart';
 import 'package:flutter/material.dart';
 
 class BandwidthProvider extends ChangeNotifier {
-  bool bandwidthIsChecked = false;
+  bool bandwidthIsChecked = true;
+  
 
   Map<String, TimeOfDay?> bandwidthtimeFrom = {
     "All Days": null, //1
@@ -46,19 +47,24 @@ class BandwidthProvider extends ChangeNotifier {
       result.add(BandwidthModel(
           day: "All Days",
           bandwidth: _bandwidthChosenValue["All Days"],
-          date: 'From ${bandwidthtimeFrom['All Days']?.hour}:${bandwidthtimeFrom['All Days']?.minute} To ${bandwidthtimeTo['All Days']?.hour}:${bandwidthtimeTo['All Days']?.minute}'));
+          date:
+              'From ${bandwidthtimeFrom['All Days']?.hour}:${bandwidthtimeFrom['All Days']?.minute} To ${bandwidthtimeTo['All Days']?.hour}:${bandwidthtimeTo['All Days']?.minute}'));
       return result;
     }
 
     _bandwidthChosenValue.forEach((key, value) {
-      if (key != 'All Days' && value != null && bandwidthtimeFrom[key] != null && bandwidthtimeTo[key] != null) {
+      if (key != 'All Days' &&
+          value != null &&
+          bandwidthtimeFrom[key] != null &&
+          bandwidthtimeTo[key] != null) {
         result.add(BandwidthModel(
             day: key,
             bandwidth: value,
-            date: 'From ${bandwidthtimeFrom[key]?.hour}:${bandwidthtimeFrom[key]?.minute} To ${bandwidthtimeTo[key]?.hour}:${bandwidthtimeFrom[key]?.minute}'));
+            date:
+                'From ${bandwidthtimeFrom[key]?.hour}:${bandwidthtimeFrom[key]?.minute} To ${bandwidthtimeTo[key]?.hour}:${bandwidthtimeFrom[key]?.minute}'));
       }
     });
-    
+
     print(result.toString());
     return result;
   }
@@ -81,5 +87,28 @@ class BandwidthProvider extends ChangeNotifier {
   void bandwidthSetTimeTo(TimeOfDay? time, String day) {
     bandwidthtimeTo[day] = time;
     notifyListeners();
+  }
+
+  bool checkBandwidthIsValid() {
+    int counter = 0;
+    List<String> days = [
+      "All Days",
+      "Sunday",
+      "Monday",
+      "Tuesday",
+      "Wednsday",
+      "Thursday",
+      "Friday",
+      "Saturday",
+    ];
+    days.forEach((element) {
+      bandwidthtimeFrom[element] != null && bandwidthtimeTo[element] != null
+          ? counter = counter + 1
+          : counter = counter ;
+    });
+    if (counter == 0)
+      return false;
+    else
+      return true;
   }
 }
