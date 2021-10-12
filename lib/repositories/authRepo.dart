@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthRepositories {
-  final String baseUrl = 'https://localhost:5001/api/Account/';
+  final String baseUrl = 'http://sohobserver.azurewebsites.net/api/Account/';
 
   Future<String> register(Map<String, String> signUpData) async {
     SharedPreferences _prefs = await SharedPreferences.getInstance();

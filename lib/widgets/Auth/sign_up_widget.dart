@@ -28,8 +28,9 @@ class SignUpWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final passHiddenProvider =
-        Provider.of<PassHiddenProvider>(context,);
+    final passHiddenProvider = Provider.of<PassHiddenProvider>(
+      context,
+    );
     final emailValidProvider = Provider.of<EmailValidProvider>(context);
     final signupMode = Provider.of<SignUpModes>(context, listen: false);
     final passValidProvider =
@@ -150,7 +151,8 @@ class SignUpWidget extends StatelessWidget {
                       icon: Consumer<PassHiddenProvider>(
                           builder: (context, state, child) => Icon(
                                 FontAwesomeIcons.eye,
-                                color: !state.state ? primaryColor : Colors.grey,
+                                color:
+                                    !state.state ? primaryColor : Colors.grey,
                                 size: 16,
                               )),
                     ),
@@ -234,10 +236,10 @@ class SignUpWidget extends StatelessWidget {
                               ? passValidProvider.setPassValidState(true)
                               : passValidProvider.setPassValidState(false);
                           authData = {
-                              "email": emailController.text,
-                              "password": passController.text,
-                              "deviceId": deviceIdController.text,
-                            };
+                            "email": emailController.text,
+                            "password": passController.text,
+                            "deviceId": deviceIdController.text,
+                          };
                           if (signUpFormKey.currentState!.validate()) {
                             isLoading.setLoadingState(true);
                             String result = await _authRepo.register(authData);
@@ -247,11 +249,18 @@ class SignUpWidget extends StatelessWidget {
                             } else if (result == 'Bad Request') {
                               print('bad request');
                               isLoading.setLoadingState(false);
-                              showDialog(context: context, builder: (context)=>Container(child: Text('Bad Request')));
-                            } else
+                              showDialog(
+                                  context: context,
+                                  builder: (context) =>
+                                      Container(child: Text('Bad Request')));
+                            } else {
                               print('server error');
-                              showDialog(context: context, builder: (context)=>Container(child: Text('Server Error')));
+                              showDialog(
+                                  context: context,
+                                  builder: (context) =>
+                                      Container(child: Text('Server Error')));
                               isLoading.setLoadingState(false);
+                            }
                           }
                         },
                         buttonColor: primaryColor,
