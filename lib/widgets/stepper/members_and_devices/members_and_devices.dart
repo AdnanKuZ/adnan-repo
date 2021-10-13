@@ -78,7 +78,7 @@ void reloadMembersAndDevices(
 
   policyProvider.setDevices(devices);
   policyProvider.setMembers(members);
-  
+
   // Hiding loading dialog
   Navigator.pop(context);
 }
@@ -188,7 +188,7 @@ class StepperDevicesList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final provider = Provider.of<AddPolicyProvider>(context);
+    final provider = Provider.of<AddPolicyProvider>(context, listen: false);
 
     return Column(
       children: [
@@ -276,7 +276,7 @@ class StepperMemberList extends StatelessWidget {
   Widget build(BuildContext context) {
     final addDeviceProvider =
         Provider.of<AddDeviceProvider>(context, listen: false);
-    final provider = Provider.of<AddPolicyProvider>(context);
+    final provider = Provider.of<AddPolicyProvider>(context, listen: false);
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -412,7 +412,7 @@ class StepperMembersGrid extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final provider = Provider.of<AddPolicyProvider>(context);
+    final provider = Provider.of<AddPolicyProvider>(context, listen: false);
 
     return Consumer<AddPolicyProvider>(builder: (context, instance, child) {
       return new StaggeredGridView.countBuilder(

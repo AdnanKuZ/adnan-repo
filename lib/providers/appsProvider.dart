@@ -3,7 +3,6 @@ import 'package:flutter/cupertino.dart';
 
 class AppsProvider extends ChangeNotifier {
   String policyName = '';
-  String searchResult = '';
   List<AppModel> definedApps = [
     AppModel(name: 'Netflix', image: 'assets/images/netflix.png'),
     AppModel(name: 'Instagram', image: 'assets/images/instagram.png'),
@@ -23,16 +22,10 @@ class AppsProvider extends ChangeNotifier {
         image: 'assets/images/chrome.png',
         link: 'http//fjdfk.com'),
   ];
-  String get getSearchResult => searchResult;
   List<AppModel> get getDefinedApps => definedApps;
   List<AppModel> get getCustomApps => customApps;
   String get getPolicyName => policyName;
 
-  void setSearchResult(String result) {
-    searchResult = result;
-    setDefaultApps(definedApps);
-    notifyListeners();
-  }
 
   void setDefaultApps(List<AppModel> apps) {
     this.definedApps = apps;

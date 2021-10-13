@@ -4,6 +4,7 @@ import 'package:admin/dialogs/auth_error_dialog.dart';
 import 'package:admin/models/app.dart';
 import 'package:admin/providers/add_policy_provider.dart';
 import 'package:admin/providers/appsProvider.dart';
+import 'package:admin/server/requests.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
@@ -108,6 +109,30 @@ class SecondHeader extends StatefulWidget {
 }
 
 class _SecondHeaderState extends State<SecondHeader> {
+  Future<List<AppModel>> loadApplications() async {
+    print('loadApplications');
+    final provider = Provider.of<AppsProvider>(context, listen: false);
+    final applications = await requestApplications();
+    final appModels = applications
+        .map<AppModel>((e) => AppModel(
+            name: e.name, title: e.title, image: "assets/images/chrome.png"))
+        .toList();
+    provider.setDefaultApps(appModels);
+    return appModels;
+  }
+
+  Future<List<AppModel>> loadSearchedApplications(String search) async {
+    print('loadSearchedApplications');
+    final provider = Provider.of<AppsProvider>(context, listen: false);
+    final applications = await requestSearchApplications(search);
+    final appModels = applications
+        .map<AppModel>((e) => AppModel(
+            name: e.name, title: e.title, image: "assets/images/chrome.png"))
+        .toList();
+    provider.setDefaultApps(appModels);
+    return appModels;
+  }
+
   @override
   Widget build(BuildContext context) {
     final appsProvider = Provider.of<AppsProvider>(context, listen: true);
@@ -142,9 +167,15 @@ class _SecondHeaderState extends State<SecondHeader> {
                 contentPadding: EdgeInsets.all(4),
               ),
               onSubmitted: (value) {
-                value.isEmpty 
-                ? appsProvider.setSearchResult('')
-                : appsProvider.setSearchResult(value);
+                print('value is Empty? ' + value.isEmpty.toString());
+                if (value.isEmpty) {
+                  loadApplications();
+                } else {
+                  loadSearchedApplications(value);
+                }
+                // value.isEmpty
+                //     ? appsProvider.setSearchResult('')
+                //     : appsProvider.setSearchResult(value);
               },
             ),
           ),

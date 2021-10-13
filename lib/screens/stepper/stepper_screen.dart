@@ -42,11 +42,12 @@ class _StepperScreenState extends State<StepperScreen> {
   late Future<void> loadDevicesAndMembersFuture = loadDevicesAndMembers();
   late Future<void> loadMetaDataFuture = loadMetaData();
   late Future<void> loadApplicationsFuture = loadApplications();
-  late Future<void> loadSearchedApplicationsFuture = loadSearchedApplications();
+  // late Future<void> loadSearchedApplicationsFuture = loadSearchedApplications();
 
   Future<MetadataModel> loadMetaData() async {
-    final provider = Provider.of<MetadataProvider>(context);
-    final connectionProvider = Provider.of<ConnectionProvider>(context);
+    final provider = Provider.of<MetadataProvider>(context, listen: false);
+    final connectionProvider =
+        Provider.of<ConnectionProvider>(context, listen: false);
     final meta = await requestMetadata();
     provider.setMetaData(meta);
     if ((meta.ports?.length ?? 0) > 0)
@@ -88,20 +89,9 @@ class _StepperScreenState extends State<StepperScreen> {
   }
 
   Future<List<AppModel>> loadApplications() async {
-    final provider = Provider.of<AppsProvider>(context);
+    print('loadApplications');
+    final provider = Provider.of<AppsProvider>(context, listen: false);
     final applications = await requestApplications();
-    final appModels = applications
-        .map<AppModel>((e) => AppModel(
-            name: e.name, title: e.title, image: "assets/images/chrome.png"))
-        .toList();
-    provider.setDefaultApps(appModels);
-    return appModels;
-  }
-
-  Future<List<AppModel>> loadSearchedApplications() async {
-    final provider = Provider.of<AppsProvider>(context);
-    final applications =
-        await requestSearchApplications(provider.getSearchResult);
     final appModels = applications
         .map<AppModel>((e) => AppModel(
             name: e.name, title: e.title, image: "assets/images/chrome.png"))
@@ -113,7 +103,6 @@ class _StepperScreenState extends State<StepperScreen> {
   @override
   Widget build(BuildContext context) {
     final _stageProvider = Provider.of<StageProvider>(context, listen: false);
-    final _appsProvider = Provider.of<AppsProvider>(context);
     return Scaffold(
       body: SingleChildScrollView(child: LayoutBuilder(
         builder: (context, BoxConstraints constraints) {
@@ -229,7 +218,8 @@ class _StepperScreenState extends State<StepperScreen> {
                                           if (snapshot.connectionState ==
                                               ConnectionState.waiting) {
                                             return Column(
-                                              crossAxisAlignment: CrossAxisAlignment.center,
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.center,
                                               children: [
                                                 Container(
                                                     width: 50,
@@ -317,22 +307,14 @@ class _StepperScreenState extends State<StepperScreen> {
                                 ),
                                 content: Consumer<AppsProvider>(
                                     builder: (context, appinstance, child) {
-                                  if (appinstance.searchResult.isEmpty) {
-                                    loadApplications();
                                     return FutureBuilder(
                                         future: loadApplicationsFuture,
                                         builder: (context, snapshot) {
+                                          print('@');
                                           return AppsStepScreen();
                                         });
-                                  } else {
-                                    loadSearchedApplications();
-                                    return FutureBuilder(
-                                        future: loadSearchedApplicationsFuture,
-                                        builder: (context, snapshot) {
-                                          return AppsStepScreen();
-                                        });
-                                  }
-                                })),
+                                }
+                                )),
                             !instance.islaststep
                                 ? EnhanceStep(
                                     icon: instance.stageIndex == 4
