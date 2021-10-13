@@ -6,6 +6,7 @@ import 'package:admin/models/device.dart';
 import 'package:admin/models/member.dart';
 import 'package:admin/models/policy.dart';
 import 'package:admin/providers/add_policy_provider.dart';
+import 'package:admin/providers/appsProvider.dart';
 import 'package:admin/providers/bandwidthProvider.dart';
 import 'package:admin/providers/conncetionProvider.dart';
 import 'package:admin/providers/policies_list_provider.dart';
@@ -49,9 +50,9 @@ class LastStepWidget extends StatelessWidget {
                   ),
                   Wrap(
                     children: [
-                      Consumer3<AddPolicyProvider, BandwidthProvider,
+                      Consumer4<AppsProvider,AddPolicyProvider, BandwidthProvider,
                               ConnectionProvider>(
-                          builder: (context, membersState, bandwidthState,
+                          builder: (context, appsState,membersState, bandwidthState,
                               connectionState, child) {
                         return FilledButton(
                           title: "Confirm & Add Policy",
@@ -65,7 +66,7 @@ class LastStepWidget extends StatelessWidget {
                                 connectionTypes: [
                                   ...connectionState.getConnectionTypesList()
                                 ],
-                                apps: [...membersState.getSelectedApps()],
+                                apps: [...appsState.getSelectedApps()],
                                 members: !membersState.getAllDevicesChecked
                                     ? membersState.getSelectedMemeber()
                                     : [],
@@ -99,9 +100,9 @@ class LastStepWidget extends StatelessWidget {
             children: [
               Container(
                 width: 400,
-                child: Consumer3<AddPolicyProvider, BandwidthProvider,
+                child: Consumer4<AppsProvider,AddPolicyProvider, BandwidthProvider,
                     ConnectionProvider>(
-                  builder: (context, membersState, bandwidthState,
+                  builder: (context, appsState,membersState, bandwidthState,
                       connectionState, child) {
                     return PolicyWidget(
                         policy: PolicyModel(
@@ -113,7 +114,7 @@ class LastStepWidget extends StatelessWidget {
                           ...connectionState.getConnectionTypesList()
                         ],
                             apps: [
-                          ...membersState.getSelectedApps()
+                          ...appsState.getSelectedApps()
                         ],
                             members: [
                           ...membersState.getSelectedMemeber()

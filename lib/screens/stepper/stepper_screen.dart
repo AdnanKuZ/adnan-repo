@@ -6,6 +6,7 @@ import 'package:admin/models/application.dart';
 import 'package:admin/models/device.dart';
 import 'package:admin/models/member.dart';
 import 'package:admin/providers/add_policy_provider.dart';
+import 'package:admin/providers/appsProvider.dart';
 import 'package:admin/providers/bandwidthProvider.dart';
 import 'package:admin/providers/conncetionProvider.dart';
 import 'package:admin/server/requests.dart';
@@ -84,7 +85,7 @@ class _StepperScreenState extends State<StepperScreen> {
   }
 
   Future<List<AppModel>> loadApplications() async {
-    final provider = Provider.of<AddPolicyProvider>(context);
+    final provider = Provider.of<AppsProvider>(context);
     final applications = await requestApplications();
     final appModels = applications
         .map<AppModel>((e) => AppModel(

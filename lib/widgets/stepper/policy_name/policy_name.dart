@@ -5,6 +5,7 @@ import 'package:admin/models/device.dart';
 import 'package:admin/models/member.dart';
 import 'package:admin/providers/add_policy_provider.dart';
 import 'package:admin/providers/MenuProvider.dart';
+import 'package:admin/providers/appsProvider.dart';
 import 'package:admin/widgets/common/buttons.dart';
 import 'package:admin/widgets/common/checkboxs.dart';
 import 'package:auto_size_text_pk/auto_size_text_pk.dart';
@@ -23,8 +24,9 @@ class PolicyNameStepWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final provider =
-        Provider.of<AddPolicyProvider>(context, listen: false);
+        Provider.of<AppsProvider>(context, listen: false);
     final stageProvider = Provider.of<StageProvider>(context, listen: false);
+    final policyProvider = Provider.of<AddPolicyProvider>(context, listen: false);
 
     return Container(
       child: Column(
@@ -59,7 +61,7 @@ class PolicyNameStepWidget extends StatelessWidget {
                           stageProvider.setIsLastStep = true;
                           stageProvider.setStageState = 4;
                           stageProvider.setIsLastStep = true;
-                          provider.setPolicyName(value);
+                          policyProvider.setPolicyName(value);
                         },
                       )
                     ],

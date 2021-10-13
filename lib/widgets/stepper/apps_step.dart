@@ -3,6 +3,7 @@ import 'package:admin/dialogs/add_app_dialog.dart';
 import 'package:admin/dialogs/auth_error_dialog.dart';
 import 'package:admin/models/app.dart';
 import 'package:admin/providers/add_policy_provider.dart';
+import 'package:admin/providers/appsProvider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
@@ -27,10 +28,10 @@ class _AppsStepScreenState extends State<AppsStepScreen> {
     print('print');
     final screenWidth = MediaQuery.of(context).size.width;
     final provider = Provider.of<StageProvider>(context, listen: false);
-    final membersProvider =
-        Provider.of<AddPolicyProvider>(context, listen: false);
+    final appsProvider =
+        Provider.of<AppsProvider>(context, listen: false);
 
-    return Consumer<AddPolicyProvider>(
+    return Consumer<AppsProvider>(
       builder: (context, state, child) {
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -46,7 +47,7 @@ class _AppsStepScreenState extends State<AppsStepScreen> {
                 await showAddAppDialog(
                   context,
                   (name, link) {
-                    membersProvider.addCustomApp(AppModel(
+                    appsProvider.addCustomApp(AppModel(
                       name: name,
                       image: 'assets/images/chrome.png',
                       link: link,
@@ -54,7 +55,6 @@ class _AppsStepScreenState extends State<AppsStepScreen> {
                     Navigator.pop(context);
                   },
                 );
-                setState(() {});
               },
               selectAllButton: () {
                 setState(() {
@@ -62,7 +62,7 @@ class _AppsStepScreenState extends State<AppsStepScreen> {
                 });
               },
               nextButton: () {
-                if (!membersProvider.isAppsStepValid()) {
+                if (!appsProvider.isAppsStepValid()) {
                   showDialog(
                       context: context,
                       builder: (context) => AuthDialog(
@@ -130,6 +130,7 @@ class _SecondHeaderState extends State<SecondHeader> {
           child: SizedBox(
             width: MediaQuery.of(context).size.width * 0.2,
             child: TextField(
+              style: TextStyle(color: Colors.black),
               decoration: InputDecoration(
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(6),
@@ -369,13 +370,13 @@ class _CheckBoxItemState extends State<CheckBoxItem> {
   Widget build(BuildContext context) {
     final app = widget.app;
     final isPreDefined = widget.isPreDefined;
-    final provider = Provider.of<AddPolicyProvider>(context, listen: false);
+    final provider = Provider.of<AppsProvider>(context, listen: false);
 
     return GridTile(
       child: Container(
         width: 150,
         height: 150,
-        child: Consumer<AddPolicyProvider>(
+        child: Consumer<AppsProvider>(
           builder: (context, state, child) {
             return GestureDetector(
               onTap: isCheckAll

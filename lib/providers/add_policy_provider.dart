@@ -11,33 +11,33 @@ class AddPolicyProvider extends ChangeNotifier {
   String cable = '';
   List<DeviceModel> devices = [];
   List<MemberModel> members = [];
-  List<AppModel> definedApps = [
-    AppModel(name: 'Netflix', image: 'assets/images/netflix.png'),
-    AppModel(name: 'Instagram', image: 'assets/images/instagram.png'),
-    AppModel(name: 'Chrome', image: 'assets/images/chrome.png'),
-  ];
-  List<AppModel> customApps = [
-    AppModel(
-        name: 'Dropbox 1',
-        image: 'assets/images/chrome.png',
-        link: 'http//fjdfk.com'),
-    AppModel(
-        name: 'Dropbox 2',
-        image: 'assets/images/chrome.png',
-        link: 'http//fjdfk.com'),
-    AppModel(
-        name: 'Dropbox 3',
-        image: 'assets/images/chrome.png',
-        link: 'http//fjdfk.com'),
-  ];
+  // List<AppModel> definedApps = [
+  //   AppModel(name: 'Netflix', image: 'assets/images/netflix.png'),
+  //   AppModel(name: 'Instagram', image: 'assets/images/instagram.png'),
+  //   AppModel(name: 'Chrome', image: 'assets/images/chrome.png'),
+  // ];
+  // List<AppModel> customApps = [
+  //   AppModel(
+  //       name: 'Dropbox 1',
+  //       image: 'assets/images/chrome.png',
+  //       link: 'http//fjdfk.com'),
+  //   AppModel(
+  //       name: 'Dropbox 2',
+  //       image: 'assets/images/chrome.png',
+  //       link: 'http//fjdfk.com'),
+  //   AppModel(
+  //       name: 'Dropbox 3',
+  //       image: 'assets/images/chrome.png',
+  //       link: 'http//fjdfk.com'),
+  // ];
 
   String get getPolicyName => policyName;
   String get getLte => lte;
   String get getCable => cable;
   List<DeviceModel> get getDevices => devices;
   List<MemberModel> get getMembers => members;
-  List<AppModel> get getDefinedApps => definedApps;
-  List<AppModel> get getCustomApps => customApps;
+  // List<AppModel> get getDefinedApps => definedApps;
+  // List<AppModel> get getCustomApps => customApps;
 
   bool allDevicesChecked = false;
   bool get getAllDevicesChecked => allDevicesChecked;
@@ -88,25 +88,25 @@ class AddPolicyProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void setDefaultApps(List<AppModel> apps) {
-    this.definedApps = apps;
-    notifyListeners();
-  }
+  // void setDefaultApps(List<AppModel> apps) {
+  //   this.definedApps = apps;
+  //   notifyListeners();
+  // }
 
-  void addDefaultApp(AppModel app) {
-    this.definedApps.add(app);
-    notifyListeners();
-  }
+  // void addDefaultApp(AppModel app) {
+  //   this.definedApps.add(app);
+  //   notifyListeners();
+  // }
 
-  void addCustomApp(AppModel app) {
-    this.customApps.add(app);
-    notifyListeners();
-  }
+  // void addCustomApp(AppModel app) {
+  //   this.customApps.add(app);
+  //   notifyListeners();
+  // }
 
-  void setCustomDevices(List<AppModel> apps) {
-    this.customApps = apps;
-    notifyListeners();
-  }
+  // void setCustomDevices(List<AppModel> apps) {
+  //   this.customApps = apps;
+  //   notifyListeners();
+  // }
 
   void addMemberDevice(int index, DeviceModel device) {
     members[index].devices!.add(device);
@@ -156,15 +156,15 @@ class AddPolicyProvider extends ChangeNotifier {
     return members[memeberIndex].devices!.length > 0;
   }
 
-  bool isDefinedAppSelected(AppModel app) {
-    return definedApps
-        .any((element) => element.name == app.name && element.isSelected);
-  }
+  // bool isDefinedAppSelected(AppModel app) {
+  //   return definedApps
+  //       .any((element) => element.name == app.name && element.isSelected);
+  // }
 
-  bool isCustomAppSelected(AppModel app) {
-    return customApps
-        .any((element) => element.name == app.name && element.isSelected);
-  }
+  // bool isCustomAppSelected(AppModel app) {
+  //   return customApps
+  //       .any((element) => element.name == app.name && element.isSelected);
+  // }
 
   void setPolicyName(String name) {
     this.policyName = name;
@@ -178,47 +178,47 @@ class AddPolicyProvider extends ChangeNotifier {
     this.cable = name;
   }
 
-  void setCustomAppSelected(AppModel app, bool isChecked) {
-    customApps.forEach((element) {
-      if (app.name == element.name) {
-        element.isSelected = isChecked;
-      }
-    });
-    notifyListeners();
-  }
+  // void setCustomAppSelected(AppModel app, bool isChecked) {
+  //   customApps.forEach((element) {
+  //     if (app.name == element.name) {
+  //       element.isSelected = isChecked;
+  //     }
+  //   });
+  //   notifyListeners();
+  // }
 
-  void setDefinedAppSelected(AppModel app, bool isChecked) {
-    definedApps.forEach((element) {
-      if (app.name == element.name) {
-        element.isSelected = isChecked;
-      }
-    });
-    notifyListeners();
-  }
+  // void setDefinedAppSelected(AppModel app, bool isChecked) {
+  //   definedApps.forEach((element) {
+  //     if (app.name == element.name) {
+  //       element.isSelected = isChecked;
+  //     }
+  //   });
+  //   notifyListeners();
+  // }
 
-  List<AppModel> getSelectedApps() {
-    List<AppModel> selectedApps = [];
-    selectedApps.addAll(definedApps.where((element) => element.isSelected));
-    selectedApps.forEach((element) {
-      element.isPredefined = true;
-    });
-    selectedApps.addAll(customApps.where((element) => element.isSelected));
-    return selectedApps;
-  }
+  // List<AppModel> getSelectedApps() {
+  //   List<AppModel> selectedApps = [];
+  //   selectedApps.addAll(definedApps.where((element) => element.isSelected));
+  //   selectedApps.forEach((element) {
+  //     element.isPredefined = true;
+  //   });
+  //   selectedApps.addAll(customApps.where((element) => element.isSelected));
+  //   return selectedApps;
+  // }
 
-  List<AppModel> getSelectedDefinedApps() {
-    List<AppModel> selectedApps = [];
-    selectedApps.addAll(definedApps.where((element) => element.isSelected));
-    return selectedApps;
-  }
+  // List<AppModel> getSelectedDefinedApps() {
+  //   List<AppModel> selectedApps = [];
+  //   selectedApps.addAll(definedApps.where((element) => element.isSelected));
+  //   return selectedApps;
+  // }
 
-  bool isNameStepValid() {
-    return getPolicyName.trim().length > 0;
-  }
+  // bool isNameStepValid() {
+  //   return getPolicyName.trim().length > 0;
+  // }
 
-  bool isAppsStepValid() {
-    return getSelectedApps().length > 0;
-  }
+  // bool isAppsStepValid() {
+  //   return getSelectedApps().length > 0;
+  // }
 
   bool isMembersAndDevicesStepValid() {
     for (DeviceModel device in getDevices) {
