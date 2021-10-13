@@ -31,28 +31,14 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
         providers: [
-          ChangeNotifierProvider(
-            create: (context) => MenuProvider(),
-          ),
-          ChangeNotifierProvider(
-            create: (context) => PassHiddenProvider(),
-          ),
-          ChangeNotifierProvider(
-            create: (context) => EmailValidProvider(),
-          ),
-          ChangeNotifierProvider(
-            create: (context) => LoginModes(),
-          ),
-          ChangeNotifierProvider(
-            create: (context) => SignUpModes(),
-          ),
+          ChangeNotifierProvider(create: (context) => MenuProvider(),),
+          ChangeNotifierProvider(create: (context) => PassHiddenProvider(),),
+          ChangeNotifierProvider(create: (context) => EmailValidProvider(),),
+          ChangeNotifierProvider(create: (context) => LoginModes(),),
+          ChangeNotifierProvider(create: (context) => SignUpModes(),),
           ChangeNotifierProvider(create: (context) => IsLoading()),
-          ChangeNotifierProvider(
-            create: (_) => ContactUsProvider(null),
-          ),
-          ChangeNotifierProvider(
-            create: (context) => StageProvider(),
-          ),
+          ChangeNotifierProvider(create: (context) => ContactUsProvider(null),),
+          ChangeNotifierProvider(create: (context) => StageProvider(),),
           ChangeNotifierProvider(create: (context) => AddPolicyProvider()),
           ChangeNotifierProvider(create: (context) => PassValidProvider()),
           ChangeNotifierProvider(create: (context) => BandwidthProvider()),
