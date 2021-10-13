@@ -60,8 +60,8 @@ class AddAppForm extends StatelessWidget {
                 hintStyle: TextStyle(color: Colors.grey),
               ),
               validator: (value) {
-                if (value == null || value.isEmpty)
-                  return 'The link could not be empty';
+                if (!RegExp( r"((https?:www\.)|(https?:\/\/)|(www\.))[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9]{1,6}(\/[-a-zA-Z0-9()@:%_\+.~#?&\/=]*)?").hasMatch(value!))
+                  return 'Link is not valid';
                 return null;
               },
             ),
