@@ -22,14 +22,12 @@ final cardSize = 0.09;
 bool isCheckAll = false;
 
 class _AppsStepScreenState extends State<AppsStepScreen> {
-  String searchApp = '';
   @override
   Widget build(BuildContext context) {
     print('print');
     final screenWidth = MediaQuery.of(context).size.width;
     final provider = Provider.of<StageProvider>(context, listen: false);
-    final appsProvider =
-        Provider.of<AppsProvider>(context, listen: false);
+    final appsProvider = Provider.of<AppsProvider>(context, listen: false);
 
     return Consumer<AppsProvider>(
       builder: (context, state, child) {
@@ -112,6 +110,7 @@ class SecondHeader extends StatefulWidget {
 class _SecondHeaderState extends State<SecondHeader> {
   @override
   Widget build(BuildContext context) {
+    final appsProvider = Provider.of<AppsProvider>(context, listen: true);
     return ResponsiveRowColumn(
       layout: MediaQuery.of(context).size.width > 700
           ? ResponsiveRowColumnType.ROW
@@ -142,10 +141,10 @@ class _SecondHeaderState extends State<SecondHeader> {
                 hintStyle: TextStyle(color: Colors.grey),
                 contentPadding: EdgeInsets.all(4),
               ),
-              onChanged: (value) {
-                // setState(() {
-                //   searchApp = value;
-                // });
+              onSubmitted: (value) {
+                value.isEmpty 
+                ? appsProvider.setSearchResult('')
+                : appsProvider.setSearchResult(value);
               },
             ),
           ),

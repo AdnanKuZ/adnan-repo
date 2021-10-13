@@ -574,3 +574,24 @@ Future<List<Application>> requestApplications() async {
 
   return [];
 }
+Future<List<Application>> requestSearchApplications(String search) async {
+  SharedPreferences _prefs = await SharedPreferences.getInstance();
+  String token = _prefs.getString('token').toString();
+
+  http.Response response = await http.get(
+    Uri.parse(SEARCH_APPLICATIONS_URL + search),
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ${token}',
+    },
+  );
+
+  if (response.statusCode == 200) {
+    var applicationsJson = jsonDecode(response.body) as List<dynamic>;
+    List<Application> applications =
+        applicationsJson.map((item) => Application.fromJson(item)).toList();
+    return applications;
+  }
+
+  return [];
+}

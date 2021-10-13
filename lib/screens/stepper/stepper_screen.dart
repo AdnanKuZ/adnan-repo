@@ -41,13 +41,15 @@ class _StepperScreenState extends State<StepperScreen> {
   late Future<void> loadDevicesAndMembersFuture = loadDevicesAndMembers();
   late Future<void> loadMetaDataFuture = loadMetaData();
   late Future<void> loadApplicationsFuture = loadApplications();
+  late Future<void> loadSearchedApplicationsFuture = loadSearchedApplications();
 
   Future<MetadataModel> loadMetaData() async {
     final provider = Provider.of<MetadataProvider>(context);
     final connectionProvider = Provider.of<ConnectionProvider>(context);
     final meta = await requestMetadata();
     provider.setMetaData(meta);
-    if ((meta.ports?.length ?? 0) > 0) connectionProvider.setConnectionDropDownValueForAllDays(meta.ports![0]);
+    if ((meta.ports?.length ?? 0) > 0)
+      connectionProvider.setConnectionDropDownValueForAllDays(meta.ports![0]);
     return meta;
   }
 
@@ -95,10 +97,22 @@ class _StepperScreenState extends State<StepperScreen> {
     return appModels;
   }
 
+  Future<List<AppModel>> loadSearchedApplications() async {
+    final provider = Provider.of<AppsProvider>(context);
+    final applications =
+        await requestSearchApplications(provider.getSearchResult);
+    final appModels = applications
+        .map<AppModel>((e) => AppModel(
+            name: e.name, title: e.title, image: "assets/images/chrome.png"))
+        .toList();
+    provider.setDefaultApps(appModels);
+    return appModels;
+  }
+
   @override
   Widget build(BuildContext context) {
     final _stageProvider = Provider.of<StageProvider>(context, listen: false);
-    final _bandwidthProvider = Provider.of<BandwidthProvider>(context);
+    final _appsProvider = Provider.of<AppsProvider>(context);
     return Scaffold(
       body: SingleChildScrollView(child: LayoutBuilder(
         builder: (context, BoxConstraints constraints) {
@@ -239,11 +253,9 @@ class _StepperScreenState extends State<StepperScreen> {
                                 content: Container(
                                   child: Column(
                                     children: [
-                                      Builder(builder: (context) {
-                                        return BandwidthStepperWidget(
-                                          constraints: constraints,
-                                        );
-                                      })
+                                      BandwidthStepperWidget(
+                                        constraints: constraints,
+                                      )
                                     ],
                                   ),
                                 )),
@@ -266,12 +278,12 @@ class _StepperScreenState extends State<StepperScreen> {
                                           ? primaryColor
                                           : Colors.grey),
                                 ),
-                                content:
-                                    Container(child: FutureBuilder(
-                                      future: loadMetaDataFuture,
-                                      builder: (context,snapshot) {
-                                   return ConnectionStepperWidget();
-                                }))),
+                                content: Container(
+                                    child: FutureBuilder(
+                                        future: loadMetaDataFuture,
+                                        builder: (context, snapshot) {
+                                          return ConnectionStepperWidget();
+                                        }))),
                             EnhanceStep(
                                 icon: instance.stageIndex == 3
                                     ? Icon(
@@ -289,13 +301,24 @@ class _StepperScreenState extends State<StepperScreen> {
                                           ? primaryColor
                                           : Colors.grey),
                                 ),
-                                content: Container(
-                                  child: FutureBuilder(
-                                      future: loadApplicationsFuture,
-                                      builder: (context, snapshot) {
-                                        return AppsStepScreen();
-                                      }),
-                                )),
+                                content: Consumer<AppsProvider>(
+                                    builder: (context, appinstance, child) {
+                                  if (appinstance.searchResult.isEmpty) {
+                                    loadApplications();
+                                    return FutureBuilder(
+                                        future: loadApplicationsFuture,
+                                        builder: (context, snapshot) {
+                                          return AppsStepScreen();
+                                        });
+                                  } else {
+                                    loadSearchedApplications();
+                                    return FutureBuilder(
+                                        future: loadSearchedApplicationsFuture,
+                                        builder: (context, snapshot) {
+                                          return AppsStepScreen();
+                                        });
+                                  }
+                                })),
                             !instance.islaststep
                                 ? EnhanceStep(
                                     icon: instance.stageIndex == 4

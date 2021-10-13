@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 
 class AppsProvider extends ChangeNotifier {
   String policyName = '';
+  String searchResult = '';
   List<AppModel> definedApps = [
     AppModel(name: 'Netflix', image: 'assets/images/netflix.png'),
     AppModel(name: 'Instagram', image: 'assets/images/instagram.png'),
@@ -22,9 +23,17 @@ class AppsProvider extends ChangeNotifier {
         image: 'assets/images/chrome.png',
         link: 'http//fjdfk.com'),
   ];
+  String get getSearchResult => searchResult;
   List<AppModel> get getDefinedApps => definedApps;
   List<AppModel> get getCustomApps => customApps;
   String get getPolicyName => policyName;
+
+  void setSearchResult(String result) {
+    searchResult = result;
+    setDefaultApps(definedApps);
+    notifyListeners();
+  }
+
   void setDefaultApps(List<AppModel> apps) {
     this.definedApps = apps;
     notifyListeners();
@@ -44,6 +53,7 @@ class AppsProvider extends ChangeNotifier {
     this.customApps = apps;
     notifyListeners();
   }
+
   bool isDefinedAppSelected(AppModel app) {
     return definedApps
         .any((element) => element.name == app.name && element.isSelected);
@@ -53,6 +63,7 @@ class AppsProvider extends ChangeNotifier {
     return customApps
         .any((element) => element.name == app.name && element.isSelected);
   }
+
   void setCustomAppSelected(AppModel app, bool isChecked) {
     customApps.forEach((element) {
       if (app.name == element.name) {
@@ -70,6 +81,7 @@ class AppsProvider extends ChangeNotifier {
     });
     notifyListeners();
   }
+
   List<AppModel> getSelectedApps() {
     List<AppModel> selectedApps = [];
     selectedApps.addAll(definedApps.where((element) => element.isSelected));
