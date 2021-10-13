@@ -46,18 +46,18 @@ class _SideMenuState extends State<SideMenu> {
                             child: Image.asset("assets/images/logo.png"),
                           ),
                         ),
-                        DrawerListTile(
-                          navigation: DashboardRoute.Home,
-                          svgSrc: "assets/icons/menu_dashbord.svg",
-                        ),
+                        // DrawerListTile(
+                        //   navigation: DashboardRoute.Home,
+                        //   svgSrc: "assets/icons/menu_dashbord.svg",
+                        // ),
                         DrawerListTile(
                           navigation: DashboardRoute.Policies,
                           svgSrc: "assets/icons/menu_task.svg",
                         ),
-                        DrawerListTile(
-                          navigation: DashboardRoute.Statistics,
-                          svgSrc: "assets/icons/menu_tran.svg",
-                        ),
+                        // DrawerListTile(
+                        //   navigation: DashboardRoute.Statistics,
+                        //   svgSrc: "assets/icons/menu_tran.svg",
+                        // ),
                       ],
                     ),
                   ),
@@ -68,14 +68,14 @@ class _SideMenuState extends State<SideMenu> {
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
-                      DrawerListTile(
-                        navigation: DashboardRoute.ContactUs,
-                        svgSrc: "assets/icons/menu_notification.svg",
-                      ),
-                      DrawerListTile(
-                        navigation: DashboardRoute.FAQs,
-                        svgSrc: "assets/icons/menu_setting.svg",
-                      ),
+                      // DrawerListTile(
+                      //   navigation: DashboardRoute.ContactUs,
+                      //   svgSrc: "assets/icons/menu_notification.svg",
+                      // ),
+                      // DrawerListTile(
+                      //   navigation: DashboardRoute.FAQs,
+                      //   svgSrc: "assets/icons/menu_setting.svg",
+                      // ),
                     ],
                   ),
                 )

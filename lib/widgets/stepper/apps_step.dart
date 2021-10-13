@@ -135,7 +135,7 @@ class _SecondHeaderState extends State<SecondHeader> {
 
   @override
   Widget build(BuildContext context) {
-    final appsProvider = Provider.of<AppsProvider>(context, listen: true);
+    // final appsProvider = Provider.of<AppsProvider>(context, listen: true);
     return ResponsiveRowColumn(
       layout: MediaQuery.of(context).size.width > 700
           ? ResponsiveRowColumnType.ROW
@@ -173,9 +173,6 @@ class _SecondHeaderState extends State<SecondHeader> {
                 } else {
                   loadSearchedApplications(value);
                 }
-                // value.isEmpty
-                //     ? appsProvider.setSearchResult('')
-                //     : appsProvider.setSearchResult(value);
               },
             ),
           ),
