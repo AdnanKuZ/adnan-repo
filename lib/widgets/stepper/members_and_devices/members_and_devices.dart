@@ -47,7 +47,7 @@ void showAssociateDialog(context, AddDeviceProvider deviceProvider,
 
   // Showing loading dialog
   LoadingDialog(context: context);
-  
+
   print('payload: ' + jsonEncode(result).toString());
   if (result.id != null) {
     // Device already exist
@@ -63,6 +63,22 @@ void showAssociateDialog(context, AddDeviceProvider deviceProvider,
 
   policyProvider.setDevices(devices);
   policyProvider.setMembers(members);
+  // Hiding loading dialog
+  Navigator.pop(context);
+}
+
+void reloadMembersAndDevices(
+    BuildContext context, AddPolicyProvider policyProvider) async {
+  // Showing loading dialog
+  LoadingDialog(context: context);
+
+  // Requesting devices and members
+  List<DeviceModel> devices = await requestMappedDevices();
+  List<MemberModel> members = await requestMappedMembers();
+
+  policyProvider.setDevices(devices);
+  policyProvider.setMembers(members);
+  
   // Hiding loading dialog
   Navigator.pop(context);
 }
@@ -100,41 +116,6 @@ class MembersAndDevicesStepperWidget extends StatelessWidget {
                     title: "Associate",
                     icon: Icons.add,
                     onPress: () async {
-                      // // Showing loading dialog
-                      // LoadingDialog(context: context);
-                      // // Requesting devices
-                      // var devicesResponse = await requestDevices();
-                      // // Setting devices in provider
-                      // List<DeviceModel> filteredDevices = [];
-                      // for (DeviceModel device in devicesResponse) {
-                      //   if (device.member == null) filteredDevices.add(device);
-                      // }
-                      // addDeviceProvider.setDevices(filteredDevices);
-                      // // Requesting memebers
-                      // var membersResponse = await requestMembers();
-                      // print(membersResponse.toString());
-                      // // Setting members in provider
-                      // addDeviceProvider.setMembers(membersResponse);
-                      // // Showing add device dialog
-                      // DeviceModel result =
-                      //     await AddDeviceDialog(context: context);
-                      // print('payload: ' + jsonEncode(result).toString());
-                      // if (result.id != null) {
-                      //   // Device already exist
-                      //   await requestExistingDevice(result);
-                      // } else {
-                      //   // Device does not exist
-                      //   await requestNewDevice(result);
-                      // }
-
-                      // // Requesting devices and members
-                      // List<DeviceModel> devices = await requestMappedDevices();
-                      // List<MemberModel> members = await requestMappedMembers();
-
-                      // provider.setDevices(devices);
-                      // provider.setMembers(members);
-                      // // Hiding loading dialog
-                      // Navigator.pop(context);
                       showAssociateDialog(
                           context, addDeviceProvider, provider, null);
                     },
@@ -154,6 +135,16 @@ class MembersAndDevicesStepperWidget extends StatelessWidget {
                             .addMember(MemberModel(name: result, devices: []));
                       }
                       Navigator.pop(context);
+                    },
+                  ),
+                  Container(
+                    width: 8,
+                  ),
+                  BorderButton(
+                    title: "Refresh",
+                    icon: Icons.add,
+                    onPress: () {
+                      reloadMembersAndDevices(context, provider);
                     },
                   ),
                   Container(
