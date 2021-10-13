@@ -68,12 +68,30 @@ AddMemberDialog({required BuildContext context, Color? color}) async {
                           if (_value.isEmpty) {
                             return;
                           }
-                          Navigator.pop(context, _value);
+                          Navigator.pop(context);
                         },
                         child: Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: const Text(
                             'Add Member',
+                            style: TextStyle(color: Colors.white),
+                          ),
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: 10,),
+                    Container(
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          primary: primaryColor, // background
+                        ),
+                        onPressed: () {
+                          Navigator.pop(context, _value);
+                        },
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: const Text(
+                            'Cancel',
                             style: TextStyle(color: Colors.white),
                           ),
                         ),

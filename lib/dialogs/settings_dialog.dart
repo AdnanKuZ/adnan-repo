@@ -88,6 +88,25 @@ SettingsDialog({required BuildContext context}) {
                   _prefs.setString('token', '');
                   Navigator.push(context, MaterialPageRoute(builder: (context) => LoginScreen()));
                 }),
+                SizedBox(height: 14,),
+                Container(
+                  padding: EdgeInsets.symmetric(horizontal: 18),
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                              primary: primaryColor, // background
+                            ),
+                            onPressed: () {
+                              Navigator.pop(context);
+                            },
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: const Text(
+                                'Cancel',
+                                style: TextStyle(color: Colors.white),
+                              ),
+                            ),
+                  ),
+                )
               ],
             ),
           ),

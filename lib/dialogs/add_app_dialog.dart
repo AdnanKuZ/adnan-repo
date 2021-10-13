@@ -65,12 +65,27 @@ class AddAppForm extends StatelessWidget {
                 return null;
               },
             ),
-            SizedBox(height: MediaQuery.of(context).size.height * 0.07),
+            SizedBox(height: 60),
             ElevatedButton(
               onPressed: submit,
               child: Padding(
                 padding: const EdgeInsets.symmetric(vertical: 12.0),
                 child: Text('Add Custom App'),
+              ),
+              style: ElevatedButton.styleFrom(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(6),
+                ),
+              ),
+            ),
+            SizedBox(height: 10,),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: Padding(
+                padding: const EdgeInsets.symmetric(vertical: 12.0),
+                child: Text('Cancel'),
               ),
               style: ElevatedButton.styleFrom(
                 shape: RoundedRectangleBorder(

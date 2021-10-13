@@ -184,6 +184,24 @@ AddDeviceDialog({required BuildContext context, Color? color, MemberModel? selec
                           ),
                         ),
                       ),
+                      SizedBox(height: 10),
+                      Container(
+                        child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            primary: primaryColor, // background
+                          ),
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: const Text(
+                              'Cancel',
+                              style: TextStyle(color: Colors.white),
+                            ),
+                          ),
+                        ),
+                      ),
                     ],
                   ),
                 ),
