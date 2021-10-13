@@ -1,4 +1,5 @@
 import 'package:admin/constants.dart';
+import 'package:admin/dialogs/auth_error_dialog.dart';
 import 'package:admin/models/metadata.dart';
 import 'package:admin/providers/metaDataProvider.dart';
 import 'package:flutter/material.dart';
@@ -231,25 +232,50 @@ class ConnectionRowWidget extends StatelessWidget {
             onTap: () async {
               allDays
                   ? _provider.connectionischecked
-                      ? _provider.connectionSetTimeTo(
-                          (await showTimePicker(
-                            context: context,
-                            initialTime: TimeOfDay.now(),
-                          ))!,
-                          day)
+                      ? setTimeTo(_provider, day, context)
                       : null
                   : _provider.connectionischecked
                       ? null
-                      : _provider.connectionSetTimeTo(
-                          (await showTimePicker(
-                            context: context,
-                            initialTime: TimeOfDay.now(),
-                          ))!,
-                          day);
+                      : setTimeTo(_provider, day, context);
             },
           ),
         ),
       ],
     ));
+  }
+  double convertTo24(double time, DayPeriod period) {
+    if (period == DayPeriod.am) {
+      return time;
+    } else {
+      return time + 12;
+    }
+  }
+
+  void setTimeTo(
+    ConnectionProvider provider, String day, BuildContext context) async {
+    TimeOfDay timeTo = TimeOfDay.now();
+
+    if (provider.connectiontimeFrom[day] != null) {
+      
+      TimeOfDay timeFrom = (provider.connectiontimeFrom[day])!;
+      timeTo = (await showTimePicker(
+          context: context, initialTime: TimeOfDay.now()))!;
+
+      var timeFrom24Format =
+          convertTo24((timeFrom.hour + timeFrom.minute / 60), timeFrom.period);
+      print("from $timeFrom24Format");
+
+      var timeTo24Format =
+          convertTo24((timeTo.hour + timeTo.minute / 60), timeTo.period);
+      print("to $timeTo24Format");
+
+      if ((timeTo24Format - timeFrom24Format) > 0) {
+        provider.connectionSetTimeTo(timeTo, day);
+      } else {
+        showDialog(context: context, builder: (context) => AuthDialog(
+          title: 'Please Choose a valid time within the same day',
+        ));
+      }
+    }
   }
 }
