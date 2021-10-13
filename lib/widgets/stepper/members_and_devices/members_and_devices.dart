@@ -142,7 +142,7 @@ class MembersAndDevicesStepperWidget extends StatelessWidget {
                   ),
                   BorderButton(
                     title: "Refresh",
-                    icon: Icons.add,
+                    icon: Icons.refresh,
                     onPress: () {
                       reloadMembersAndDevices(context, provider);
                     },
