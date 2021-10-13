@@ -39,7 +39,7 @@ class AddPolicyProvider extends ChangeNotifier {
   List<AppModel> get getDefinedApps => definedApps;
   List<AppModel> get getCustomApps => customApps;
 
-  bool allDevicesChecked = false;
+  bool allDevicesChecked = true;
   bool get getAllDevicesChecked => allDevicesChecked;
 
   List<MemberModel> getSelectedMemeber() {
