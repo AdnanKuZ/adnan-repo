@@ -80,17 +80,17 @@ class ReadMoreWidget extends StatelessWidget {
           // SizedBox(
           //   height: 8,
           // ),
-          ElevatedButton(
-            onPressed: () {
-              controller.nextPage(
-                  duration: Duration(milliseconds: 500), curve: Curves.easeIn);
-            },
-            child: Text(
-              'Read More',
-              style: TextStyle(fontSize: 12),
-            ),
-            style: ElevatedButton.styleFrom(primary: Color(0xFFADD16F)),
-          ),
+          // ElevatedButton(
+          //   onPressed: () {
+          //     controller.nextPage(
+          //         duration: Duration(milliseconds: 500), curve: Curves.easeIn);
+          //   },
+          //   child: Text(
+          //     'Read More',
+          //     style: TextStyle(fontSize: 12),
+          //   ),
+          //   style: ElevatedButton.styleFrom(primary: Color(0xFFADD16F)),
+          // ),
           // SizedBox(
           //   height: 28,
           // ),
