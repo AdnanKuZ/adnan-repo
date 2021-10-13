@@ -39,7 +39,7 @@ class AddPolicyProvider extends ChangeNotifier {
   // List<AppModel> get getDefinedApps => definedApps;
   // List<AppModel> get getCustomApps => customApps;
 
-  bool allDevicesChecked = false;
+  bool allDevicesChecked = true;
   bool get getAllDevicesChecked => allDevicesChecked;
 
   List<MemberModel> getSelectedMemeber() {
@@ -221,6 +221,8 @@ class AddPolicyProvider extends ChangeNotifier {
   // }
 
   bool isMembersAndDevicesStepValid() {
+    if (allDevicesChecked) return true;
+    
     for (DeviceModel device in getDevices) {
       if (device.isSelected) {
         return true;

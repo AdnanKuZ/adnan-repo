@@ -37,6 +37,7 @@ class StepperScreen extends StatefulWidget {
 
 class _StepperScreenState extends State<StepperScreen> {
   bool initiated = false;
+  bool isLoading = false;
 
   late Future<void> loadDevicesAndMembersFuture = loadDevicesAndMembers();
   late Future<void> loadMetaDataFuture = loadMetaData();
@@ -225,6 +226,19 @@ class _StepperScreenState extends State<StepperScreen> {
                                       FutureBuilder(
                                         future: loadDevicesAndMembersFuture,
                                         builder: (context, snapshot) {
+                                          if (snapshot.connectionState ==
+                                              ConnectionState.waiting) {
+                                            return Column(
+                                              crossAxisAlignment: CrossAxisAlignment.center,
+                                              children: [
+                                                Container(
+                                                    width: 50,
+                                                    height: 50,
+                                                    child:
+                                                        CircularProgressIndicator()),
+                                              ],
+                                            );
+                                          }
                                           return MembersAndDevicesStepperWidget();
                                         },
                                       )

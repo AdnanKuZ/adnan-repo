@@ -22,6 +22,17 @@ class MemberModel {
     return other is MemberModel && this.id == other.id;
   }
 
+  String getName() {
+    return name == null ? 'undefined' : (name!.length > 0 ? name.toString() : "undefined");
+  }
+
+  List<DeviceModel> getDevices() {
+    if(devices == null) {
+      return [];
+    }
+    return devices!;
+  }
+
   void setName(String name) {
     this.name = name;
   }

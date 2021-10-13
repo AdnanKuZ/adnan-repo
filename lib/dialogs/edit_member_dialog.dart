@@ -5,8 +5,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-EditMemberDialog({required BuildContext context,Color? color}) async {
+EditMemberDialog({required BuildContext context, Color? color}) async {
   String _value = '';
+  GlobalKey<FormState> key = GlobalKey<FormState>();
 
   return showDialog<String>(
       context: context,
@@ -20,55 +21,63 @@ EditMemberDialog({required BuildContext context,Color? color}) async {
             width: 350,
             child: Padding(
               padding: const EdgeInsets.all(12.0),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  TextFormField(
-                    style: TextStyle(color: Colors.black),
-                    decoration: const InputDecoration(
-                      hintText: 'Rename Member',
-                      hintStyle: TextStyle(color: Colors.grey),
-                      labelStyle: TextStyle(color: Colors.grey),
-                      enabledBorder: UnderlineInputBorder(
-                        borderSide: BorderSide(color: Colors.grey),
+              child: Form(
+                key: key,
+                autovalidateMode: AutovalidateMode.always,
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    TextFormField(
+                      style: TextStyle(color: Colors.black),
+                      decoration: const InputDecoration(
+                        hintText: 'Rename Member',
+                        hintStyle: TextStyle(color: Colors.grey),
+                        labelStyle: TextStyle(color: Colors.grey),
+                        enabledBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(color: Colors.grey),
+                        ),
+                        focusedBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(color: Colors.black),
+                        ),
                       ),
-                      focusedBorder: UnderlineInputBorder(
-                        borderSide: BorderSide(color: Colors.black),
-                      ),
-                    ),
-                    validator: (String? value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Please enter some text';
-                      }
-                      return null;
-                    },
-                    onFieldSubmitted: (value) {
-                      Navigator.pop(context, value);
-                    },
-                    onChanged: (value) {
-                      _value = value;
-                    },
-                  ),
-                  Container(
-                    margin: EdgeInsets.fromLTRB(0, 30, 0, 0),
-                    child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        primary: primaryColor, // background
-                      ),
-                      onPressed: () {
-                        Navigator.pop(context, _value);
+                      validator: (String? value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please enter some text';
+                        }
+                        return null;
                       },
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: const Text(
-                          'Finish',
-                          style: TextStyle(color: Colors.white),
+                      onFieldSubmitted: (value) {
+                        Navigator.pop(context, value);
+                      },
+                      onChanged: (value) {
+                        _value = value;
+                      },
+                    ),
+                    Container(
+                      margin: EdgeInsets.fromLTRB(0, 30, 0, 0),
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          primary: primaryColor,
+                        ),
+                        onPressed: () {
+                          key.currentState?.validate();
+                          if (_value.isEmpty) {
+                            return;
+                          }
+                          Navigator.pop(context, _value);
+                        },
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: const Text(
+                            'Finish',
+                            style: TextStyle(color: Colors.white),
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
           ),

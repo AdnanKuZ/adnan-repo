@@ -4,6 +4,7 @@ import 'package:admin/constants.dart';
 import 'package:admin/dialogs/add_device_dialog.dart';
 import 'package:admin/dialogs/add_member_dialog.dart';
 import 'package:admin/dialogs/auth_error_dialog.dart';
+import 'package:admin/dialogs/edit_member_dialog.dart';
 import 'package:admin/dialogs/loading_dialog.dart';
 import 'package:admin/models/device.dart';
 import 'package:admin/models/member.dart';
@@ -21,6 +22,67 @@ import 'package:provider/provider.dart';
 import 'package:admin/providers/stepperProviders.dart';
 import '../../../responsive.dart';
 
+void showAssociateDialog(context, AddDeviceProvider deviceProvider,
+    AddPolicyProvider policyProvider, MemberModel? member) async {
+  // Showing loading dialog
+  LoadingDialog(context: context);
+  // Requesting devices
+  var devicesResponse = await requestDevices();
+  // Setting devices in provider
+  List<DeviceModel> filteredDevices = [];
+  for (DeviceModel device in devicesResponse) {
+    if (device.member == null) filteredDevices.add(device);
+  }
+  deviceProvider.setDevices(filteredDevices);
+  // Requesting memebers
+  var membersResponse = await requestMembers();
+  print(membersResponse.toString());
+  // Setting members in provider
+  deviceProvider.setMembers(membersResponse);
+  // Hiding loading dialog
+  Navigator.pop(context);
+  // Showing add device dialog
+  DeviceModel result =
+      await AddDeviceDialog(context: context, selectedMember: member);
+
+  // Showing loading dialog
+  LoadingDialog(context: context);
+
+  print('payload: ' + jsonEncode(result).toString());
+  if (result.id != null) {
+    // Device already exist
+    await requestExistingDevice(result);
+  } else {
+    // Device does not exist
+    await requestNewDevice(result);
+  }
+
+  // Requesting devices and members
+  List<DeviceModel> devices = await requestMappedDevices();
+  List<MemberModel> members = await requestMappedMembers();
+
+  policyProvider.setDevices(devices);
+  policyProvider.setMembers(members);
+  // Hiding loading dialog
+  Navigator.pop(context);
+}
+
+void reloadMembersAndDevices(
+    BuildContext context, AddPolicyProvider policyProvider) async {
+  // Showing loading dialog
+  LoadingDialog(context: context);
+
+  // Requesting devices and members
+  List<DeviceModel> devices = await requestMappedDevices();
+  List<MemberModel> members = await requestMappedMembers();
+
+  policyProvider.setDevices(devices);
+  policyProvider.setMembers(members);
+  
+  // Hiding loading dialog
+  Navigator.pop(context);
+}
+
 class MembersAndDevicesStepperWidget extends StatelessWidget {
   MembersAndDevicesStepperWidget({Key? key}) : super(key: key);
 
@@ -30,35 +92,6 @@ class MembersAndDevicesStepperWidget extends StatelessWidget {
     final addDeviceProvider =
         Provider.of<AddDeviceProvider>(context, listen: false);
     final stageProvider = Provider.of<StageProvider>(context, listen: false);
-
-    Future<void> loadDevicesAndMembers() async {
-      List<DeviceModel> devicesResponse = await requestDevices();
-      List<MemberModel> membersResponse = await requestMembers();
-
-      List<DeviceModel> _devices = [];
-
-      for (DeviceModel device in devicesResponse) {
-        if (device.member == null) {
-          _devices.add(device);
-          continue;
-        }
-
-        for (int i = 0; i < membersResponse.length; i++) {
-          var member = membersResponse[i];
-          if (device.member?.id == member.id) {
-            if (member.devices == null) {
-              member.devices = [];
-            }
-            member.devices?.add(device);
-          }
-        }
-      }
-
-      provider.setDevices(_devices);
-      provider.setMembers(membersResponse);
-      print(provider.members.length);
-      print(provider.members[0].devices?.length.toString());
-    }
 
     return Container(
       child: Column(
@@ -79,41 +112,14 @@ class MembersAndDevicesStepperWidget extends StatelessWidget {
               ),
               Wrap(
                 children: [
-                  // BorderButton(
-                  //   title: "Add New Device",
-                  //   icon: Icons.add,
-                  //   onPress: () async {
-                  //     // Showing loading dialog
-                  //     LoadingDialog(context: context);
-                  //     // Requesting devices
-                  //     var devicesResponse = await requestDevices();
-                  //     // Setting devices in provider
-                  //     List<DeviceModel> filteredDevices = [];
-                  //     for (DeviceModel device in devicesResponse) {
-                  //       if (device.member == null) filteredDevices.add(device);
-                  //     }
-                  //     addDeviceProvider.setDevices(filteredDevices);
-                  //     // Requesting memebers
-                  //     var membersResponse = await requestMembers();
-                  //     print(membersResponse.toString());
-                  //     // Setting members in provider
-                  //     addDeviceProvider.setMembers(membersResponse);
-                  //     // Hiding loading dialog
-                  //     Navigator.pop(context);
-                  //     // Showing add device dialog
-                  //     DeviceModel result =
-                  //         await AddDeviceDialog(context: context);
-                  //         print('payload: ' + jsonEncode(result).toString());
-                  //     if (result.id != null) {
-                  //       // Device already exist
-                  //       await requestExistingDevice(result);
-                  //     } else {
-                  //       // Device does not exist
-                  //       await requestNewDevice(result);
-                  //     }
-                  //     loadDevicesAndMembers();
-                  //   },
-                  // ),
+                  BorderButton(
+                    title: "Associate",
+                    icon: Icons.add,
+                    onPress: () async {
+                      showAssociateDialog(
+                          context, addDeviceProvider, provider, null);
+                    },
+                  ),
                   Container(
                     width: 8,
                   ),
@@ -129,6 +135,16 @@ class MembersAndDevicesStepperWidget extends StatelessWidget {
                             .addMember(MemberModel(name: result, devices: []));
                       }
                       Navigator.pop(context);
+                    },
+                  ),
+                  Container(
+                    width: 8,
+                  ),
+                  BorderButton(
+                    title: "Refresh",
+                    icon: Icons.refresh,
+                    onPress: () {
+                      reloadMembersAndDevices(context, provider);
                     },
                   ),
                   Container(
@@ -258,6 +274,8 @@ class StepperMemberList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final addDeviceProvider =
+        Provider.of<AddDeviceProvider>(context, listen: false);
     final provider = Provider.of<AddPolicyProvider>(context);
 
     return Column(
@@ -286,21 +304,61 @@ class StepperMemberList extends StatelessWidget {
                       Container(
                         width: 20,
                       ),
-                      Text(
-                        member.name == null ? 'undefined' : member.name!,
-                        style: TextStyle(
-                            color: instance.getAllDevicesChecked
-                                ? textGray
-                                : Colors.black),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            member.getName(),
+                            style: TextStyle(
+                                color: instance.getAllDevicesChecked
+                                    ? textGray
+                                    : Colors.black),
+                          ),
+                          if (member.getDevices().length == 0)
+                            Text(
+                              'No devices',
+                              style: TextStyle(color: Colors.grey),
+                            )
+                        ],
                       )
                     ],
                   );
                 }),
-                RoundedAddButton(
-                  onClick: () {},
-                  borderColor: primaryColor,
-                  iconColor: primaryColor,
-                ),
+                Wrap(
+                  crossAxisAlignment: WrapCrossAlignment.center,
+                  children: [
+                    InkWell(
+                      child: Icon(
+                        Icons.edit,
+                        color: lightGrayColor,
+                      ),
+                      onTap: () async {
+                        var result = await EditMemberDialog(
+                            context: context, color: primaryColor);
+                        member.setName(result);
+                        LoadingDialog(context: context);
+                        await requestEditMember(member);
+                        List<DeviceModel> devices =
+                            await requestMappedDevices();
+                        List<MemberModel> members =
+                            await requestMappedMembers();
+
+                        provider.setDevices(devices);
+                        provider.setMembers(members);
+                        Navigator.pop(context);
+                      },
+                    ),
+                    SizedBox(width: 13),
+                    RoundedAddButton(
+                      onClick: () {
+                        showAssociateDialog(
+                            context, addDeviceProvider, provider, member);
+                      },
+                      borderColor: primaryColor,
+                      iconColor: primaryColor,
+                    ),
+                  ],
+                )
               ],
             ),
           ),
@@ -309,9 +367,7 @@ class StepperMemberList extends StatelessWidget {
           builder: (context, instance, child) {
             return ListView.builder(
                 shrinkWrap: true,
-                itemCount: instance.members[gridIndex].devices != null
-                    ? (instance.members[gridIndex].devices?.length)
-                    : 0,
+                itemCount: instance.members[gridIndex].getDevices().length,
                 itemBuilder: (context, index) {
                   return Padding(
                     padding: const EdgeInsets.fromLTRB(8.0, 4, 8, 4),

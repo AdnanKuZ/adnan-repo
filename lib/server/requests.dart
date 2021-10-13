@@ -274,7 +274,7 @@ Future<bool> requestExistingDevice(DeviceModel device) async {
 
   var body = (device.member != null)
       ? {
-          "id": device.id,
+          "macAddress": device.id,
           "name": device.name,
           "member": {"id": device.member?.id, "name": device.member?.name}
         }
@@ -286,7 +286,7 @@ Future<bool> requestExistingDevice(DeviceModel device) async {
   print(DEVICES_URL + device.id!);
   print(body);
 
-  http.Response response = await http.put(Uri.parse(DEVICES_URL + device.id!),
+  http.Response response = await http.put(Uri.parse(DEVICES_URL),
       headers: {
         'Content-Type': 'application/json',
         'Authorization': 'Bearer ${token}',
