@@ -125,10 +125,20 @@ class _SecondHeaderState extends State<SecondHeader> {
     print('loadSearchedApplications');
     final provider = Provider.of<AppsProvider>(context, listen: false);
     final applications = await requestSearchApplications(search);
-    final appModels = applications
-        .map<AppModel>((e) => AppModel(
-            name: e.name, title: e.title, image: "assets/images/chrome.png"))
-        .toList();
+    var checkedApps =
+        provider.definedApps.where((element) => element.isSelected).toList();
+
+    print(checkedApps);
+
+    final appModels = checkedApps +
+        applications
+            .map<AppModel>((e) => AppModel(
+                name: e.name,
+                title: e.title,
+                image: "assets/images/chrome.png"))
+            .where((element) =>
+                !checkedApps.map((e) => e.title).contains(element.title))
+            .toList();
     provider.setDefaultApps(appModels);
     return appModels;
   }

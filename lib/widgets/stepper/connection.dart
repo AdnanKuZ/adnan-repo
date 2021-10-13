@@ -38,16 +38,16 @@ class ConnectionStepperWidget extends StatelessWidget {
                       borderRadius: BorderRadius.circular(8)),
                 ),
                 onPressed: () {
-                  if (connectionProvider.checkConnectionIsValid()) {
+                  // if (connectionProvider.checkConnectionIsValid()) {
                     provider.setStageState = 2;
                     provider.incrementIndex();
-                  } else {
-                    showDialog(
-                        context: context,
-                        builder: (context) => AuthDialog(
-                              title: "Please Fill Atleast one day",
-                            ));
-                  }
+                  // } else {
+                  //   showDialog(
+                  //       context: context,
+                  //       builder: (context) => AuthDialog(
+                  //             title: "Please Fill Atleast one day",
+                  //           ));
+                  // }
                 },
                 child: Text(
                   'Next Step',

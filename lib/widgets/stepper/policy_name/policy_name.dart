@@ -23,8 +23,6 @@ class PolicyNameStepWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final provider =
-        Provider.of<AppsProvider>(context, listen: false);
     final stageProvider = Provider.of<StageProvider>(context, listen: false);
     final policyProvider = Provider.of<AddPolicyProvider>(context, listen: false);
 
@@ -53,7 +51,7 @@ class PolicyNameStepWidget extends StatelessWidget {
                       FilledButton(
                         title: "Proceed to Summary",
                         onPress: () {
-                          if(!provider.isNameStepValid()) {
+                          if(!policyProvider.isNameStepValid()) {
                             AuthDialog(title: 'Please enter device name.',);
                             return;
                           }
@@ -73,7 +71,7 @@ class PolicyNameStepWidget extends StatelessWidget {
           SizedBox(
             width: 300,
             child: TextFormField(
-              initialValue: provider.getPolicyName,
+              initialValue: policyProvider.getPolicyName,
               style: TextStyle(color: Colors.black),
               decoration: const InputDecoration(
                 hintText: 'New Member Name',

@@ -24,8 +24,6 @@ class AppsProvider extends ChangeNotifier {
   ];
   List<AppModel> get getDefinedApps => definedApps;
   List<AppModel> get getCustomApps => customApps;
-  String get getPolicyName => policyName;
-
 
   void setDefaultApps(List<AppModel> apps) {
     this.definedApps = apps;
@@ -89,10 +87,6 @@ class AppsProvider extends ChangeNotifier {
     List<AppModel> selectedApps = [];
     selectedApps.addAll(definedApps.where((element) => element.isSelected));
     return selectedApps;
-  }
-
-  bool isNameStepValid() {
-    return getPolicyName.trim().length > 0;
   }
 
   bool isAppsStepValid() {

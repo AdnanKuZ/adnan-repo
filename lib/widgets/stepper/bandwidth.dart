@@ -48,16 +48,16 @@ class BandwidthStepperWidget extends StatelessWidget {
               ),
               onPressed: () {
                 // print(provider.stageIndex.toString());
-                if (bandwidthProvider.checkBandwidthIsValid()) {
+                // if (bandwidthProvider.checkBandwidthIsValid()) {
                   provider.setStageState = 1;
                   provider.incrementIndex();
-                } else {
-                  showDialog(
-                      context: context,
-                      builder: (context) => AuthDialog(
-                            title: "Please Fill Atleast one day",
-                          ));
-                }
+                // } else {
+                //   showDialog(
+                //       context: context,
+                //       builder: (context) => AuthDialog(
+                //             title: "Please Fill Atleast one day",
+                //           ));
+                // }
               },
               child: Text(
                 'Next Step',

@@ -240,4 +240,7 @@ class AddPolicyProvider extends ChangeNotifier {
     }
     return false;
   }
+  bool isNameStepValid() {
+    return getPolicyName.trim().length > 0;
+  }
 }
