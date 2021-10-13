@@ -29,8 +29,7 @@ class _MembersAndDevicesScreenState extends State<MembersAndDevicesScreen> {
 
   Future<void> loadDevicesAndMembers() async {
     if (initiated) return;
-    final provider =
-        Provider.of<AddPolicyProvider>(context, listen: false);
+    final provider = Provider.of<AddPolicyProvider>(context, listen: false);
     List<DeviceModel> devices = await requestMappedDevices();
     List<MemberModel> members = await requestMappedMembers();
 
@@ -43,7 +42,7 @@ class _MembersAndDevicesScreenState extends State<MembersAndDevicesScreen> {
   Widget build(BuildContext context) {
     var addDeviceProvider =
         Provider.of<AddDeviceProvider>(context, listen: false);
-        
+
     return SingleChildScrollView(
       child: Container(
         height: MediaQuery.of(context).size.height,
@@ -158,8 +157,12 @@ class _MembersAndDevicesScreenState extends State<MembersAndDevicesScreen> {
                                     Navigator.pop(context);
                                   },
                                   onEditMember: (MemberModel member) async {
-                                    var result = await EditMemberDialog(
+                                    String result = await EditMemberDialog(
                                         context: context, color: primaryColor);
+
+                                    if (result.isEmpty) {
+                                      return;
+                                    }
                                     member.setName(result);
                                     LoadingDialog(context: context);
                                     await requestEditMember(member);

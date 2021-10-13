@@ -76,7 +76,9 @@ EditMemberDialog({required BuildContext context, Color? color}) async {
                         ),
                       ),
                     ),
-                    SizedBox(height: 10,),
+                    SizedBox(
+                      height: 10,
+                    ),
                     Container(
                       child: ElevatedButton(
                         style: ElevatedButton.styleFrom(

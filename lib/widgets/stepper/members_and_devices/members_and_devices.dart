@@ -128,6 +128,9 @@ class MembersAndDevicesStepperWidget extends StatelessWidget {
                     icon: Icons.add,
                     onPress: () async {
                       String result = await AddMemberDialog(context: context);
+                      if (result.isEmpty) {
+                        return;
+                      }
                       LoadingDialog(context: context);
                       bool response = await requestAddMember(result);
                       if (response) {
@@ -333,8 +336,11 @@ class StepperMemberList extends StatelessWidget {
                         color: lightGrayColor,
                       ),
                       onTap: () async {
-                        var result = await EditMemberDialog(
+                        String result = await EditMemberDialog(
                             context: context, color: primaryColor);
+                        if (result.isEmpty) {
+                          return;
+                        }
                         member.setName(result);
                         LoadingDialog(context: context);
                         await requestEditMember(member);

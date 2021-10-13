@@ -19,13 +19,14 @@ class MembersAndDevicesHeader extends StatelessWidget {
   final bool showAddButton;
   final Function? onAddDeviceClicked;
   final Function? onAddMemberClicked;
-  const MembersAndDevicesHeader({
-    required this.showAddButton, this.onAddDeviceClicked = null, this.onAddMemberClicked = null});
+  const MembersAndDevicesHeader(
+      {required this.showAddButton,
+      this.onAddDeviceClicked = null,
+      this.onAddMemberClicked = null});
 
   @override
   Widget build(BuildContext context) {
-    var provider =
-        Provider.of<AddPolicyProvider>(context, listen: false);
+    var provider = Provider.of<AddPolicyProvider>(context, listen: false);
     var addDeviceProvider =
         Provider.of<AddDeviceProvider>(context, listen: false);
 
@@ -52,8 +53,13 @@ class MembersAndDevicesHeader extends StatelessWidget {
                         children: [
                           popUpDialogItem(Icons.people, 'New Member', () async {
                             Navigator.pop(context);
-                            String result =
-                                await AddMemberDialog(context: context, color: primaryColor);
+                            String result = await AddMemberDialog(
+                                context: context, color: primaryColor);
+
+                            if (result.isEmpty) {
+                              return;
+                            }
+
                             LoadingDialog(context: context);
                             bool response = await requestAddMember(result);
                             if (response) {
@@ -61,14 +67,14 @@ class MembersAndDevicesHeader extends StatelessWidget {
                                   MemberModel(name: result, devices: []));
                             }
                             Navigator.pop(context);
-                            if(onAddMemberClicked != null) {
+                            if (onAddMemberClicked != null) {
                               onAddMemberClicked!();
                             }
                           }),
                           popUpDialogItem(Icons.monitor_sharp, 'New Device',
                               () async {
                             Navigator.pop(context);
-                            if(onAddDeviceClicked != null) {
+                            if (onAddDeviceClicked != null) {
                               onAddDeviceClicked!();
                             }
                           })
