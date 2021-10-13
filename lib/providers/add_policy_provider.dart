@@ -221,6 +221,8 @@ class AddPolicyProvider extends ChangeNotifier {
   }
 
   bool isMembersAndDevicesStepValid() {
+    if (allDevicesChecked) return true;
+    
     for (DeviceModel device in getDevices) {
       if (device.isSelected) {
         return true;
