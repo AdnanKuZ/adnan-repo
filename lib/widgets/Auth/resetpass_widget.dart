@@ -99,10 +99,13 @@ class ResetPassWidget extends StatelessWidget {
                       hintText: 'Password',
                       keyboardType: TextInputType.text,
                       validator: (value) {
-                        if (value.isEmpty || value.length < 6)
-                          return 'password invalid';
-                        else
-                          return null;
+                        if (value.isEmpty ||
+                          value.length < 8 ||
+                          !RegExp(r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$')
+                              .hasMatch(value))
+                        return 'password invalid';
+                      else
+                        return null;
                       },
                     ),
                     SizedBox(
@@ -110,19 +113,6 @@ class ResetPassWidget extends StatelessWidget {
                     ),
                     CustomTextField(
                       maxLines: 1,
-                      suffixIcon: IconButton(
-                        onPressed: () {
-                          passValidProvider
-                              .setPassState(!passValidProvider.state);
-                        },
-                        icon: Icon(
-                          FontAwesomeIcons.eye,
-                          color: passValidProvider.state
-                              ? primaryColor
-                              : Colors.grey,
-                          size: 16,
-                        ),
-                      ),
                       state: passValidProvider.state,
                       hintText: 'Confirm Password',
                       keyboardType: TextInputType.text,
