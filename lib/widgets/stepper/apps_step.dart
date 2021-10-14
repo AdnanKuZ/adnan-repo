@@ -207,14 +207,19 @@ class AppsGridView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: screenWidth > 1200 ? 130 : null,
+      height: screenWidth > 1200 && list.length < 11 ? 125 : null,
       child: GridView.builder(
         shrinkWrap: true,
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
             mainAxisSpacing: 14,
             crossAxisSpacing: 24,
-            crossAxisCount: screenWidth > 1200 ? 1 : screenWidth ~/ 160),
-        scrollDirection: screenWidth > 1200 ? Axis.horizontal : Axis.vertical,
+            crossAxisCount: screenWidth > 1200 && list.length < 11
+                ? 1
+                : screenWidth ~/ 160),
+        scrollDirection: screenWidth > 1200 && list.length < 11
+            ? Axis.horizontal
+            : Axis.vertical,
+        // screenWidth > 1200 ? Axis.hor izontal :
         itemCount: list.length,
         itemBuilder: (_, i) => CheckBoxItem(
           list[i],
@@ -436,7 +441,7 @@ class _CheckBoxItemState extends State<CheckBoxItem> {
                 opacity: isCheckAll ? 0.5 : 1,
                 child: CustomCard(
                   child: Padding(
-                    padding: const EdgeInsets.all(6.0),
+                    padding: const EdgeInsets.symmetric(horizontal:4.0),
                     child: Column(
                       children: [
                         Row(

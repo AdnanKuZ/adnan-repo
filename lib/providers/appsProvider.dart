@@ -4,23 +4,23 @@ import 'package:flutter/cupertino.dart';
 class AppsProvider extends ChangeNotifier {
   String policyName = '';
   List<AppModel> definedApps = [
-    AppModel(name: 'Netflix', image: 'assets/images/netflix.png'),
-    AppModel(name: 'Instagram', image: 'assets/images/instagram.png'),
-    AppModel(name: 'Chrome', image: 'assets/images/chrome.png'),
+    AppModel(title: 'Netflix', image: 'assets/images/netflix.png'),
+    AppModel(title: 'Instagram', image: 'assets/images/instagram.png'),
+    AppModel(title: 'Chrome', image: 'assets/images/chrome.png'),
   ];
   List<AppModel> customApps = [
     AppModel(
-        name: 'Dropbox 1',
+        title: 'Dropbox 1',
         image: 'assets/images/chrome.png',
-        link: 'http//fjdfk.com'),
+        link: 'http//test.com'),
     AppModel(
-        name: 'Dropbox 2',
+        title: 'Dropbox 2',
         image: 'assets/images/chrome.png',
-        link: 'http//fjdfk.com'),
+        link: 'http//google.com'),
     AppModel(
-        name: 'Dropbox 3',
+        title: 'Dropbox 3',
         image: 'assets/images/chrome.png',
-        link: 'http//fjdfk.com'),
+        link: 'http//dropBox.com'),
   ];
   List<AppModel> get getDefinedApps => definedApps;
   List<AppModel> get getCustomApps => customApps;
