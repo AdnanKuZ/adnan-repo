@@ -94,7 +94,8 @@ class _StepperScreenState extends State<StepperScreen> {
     final applications = await requestApplications();
     final appModels = applications
         .map<AppModel>((e) => AppModel(
-            name: e.name, title: e.title, image: "assets/images/chrome.png"))
+            // name: e.name,
+             title: e.title, image: "assets/images/chrome.png"))
         .toList();
     provider.setDefaultApps(appModels);
     return appModels;

@@ -1,5 +1,5 @@
 class AppModel {
-  String? name;
+  // String? name;
   String? title;
   String? image;
   String? link;
@@ -7,7 +7,8 @@ class AppModel {
   bool isSelected;
 
   AppModel(
-      {this.name,
+      {
+        // this.name,
       this.title,
       this.image,
       this.link,

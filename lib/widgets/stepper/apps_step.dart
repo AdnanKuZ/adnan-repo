@@ -47,7 +47,7 @@ class _AppsStepScreenState extends State<AppsStepScreen> {
                   context,
                   (name, link) {
                     appsProvider.addCustomApp(AppModel(
-                      name: name,
+                      title: name,
                       image: 'assets/images/chrome.png',
                       link: link,
                     ));
@@ -115,7 +115,8 @@ class _SecondHeaderState extends State<SecondHeader> {
     final applications = await requestApplications();
     final appModels = applications
         .map<AppModel>((e) => AppModel(
-            name: e.name, title: e.title, image: "assets/images/chrome.png"))
+            // name: e.name,
+             title: e.title, image: "assets/images/chrome.png"))
         .toList();
     provider.setDefaultApps(appModels);
     return appModels;
@@ -133,7 +134,7 @@ class _SecondHeaderState extends State<SecondHeader> {
     final appModels = checkedApps +
         applications
             .map<AppModel>((e) => AppModel(
-                name: e.name,
+                // name: e.name,
                 title: e.title,
                 image: "assets/images/chrome.png"))
             .where((element) =>

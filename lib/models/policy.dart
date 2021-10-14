@@ -35,9 +35,9 @@ List<PolicyModel> policiesTest = [
     ConnectionTypeModel(type: 'Cabel', date: "12:00 to 02:00 AM", day: 'Mon'),
     ConnectionTypeModel(type: 'LTE', date: "12:00 to 02:00 AM", day: 'Thu'),
   ], apps: [
-    AppModel(name: 'Chrome', image: ''),
-    AppModel(name: 'Edge', image: ''),
-    AppModel(name: 'Firefox', image: '')
+    AppModel(title: 'Chrome', image: ''),
+    AppModel(title: 'Edge', image: ''),
+    AppModel(title: 'Firefox', image: '')
   ], members: [
     MemberModel(name: "Khalid Saied", devices: [
       DeviceModel(
@@ -57,9 +57,9 @@ List<PolicyModel> policiesTest = [
     ConnectionTypeModel(type: 'Cabel', date: "12:00 to 02:00 AM", day: 'Sun'),
     ConnectionTypeModel(type: 'LTE', date: "12:00 to 02:00 AM", day: 'Wed'),
   ], apps: [
-    AppModel(name: 'Chrome', image: ''),
-    AppModel(name: 'Edge', image: ''),
-    AppModel(name: 'Firefox', image: '')
+    AppModel(title: 'Chrome', image: ''),
+    AppModel(title: 'Edge', image: ''),
+    AppModel(title: 'Firefox', image: '')
   ], members: [
     MemberModel(name: "Khalid Saied", devices: [
       DeviceModel(

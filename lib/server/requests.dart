@@ -62,9 +62,9 @@ Future<bool> requestAddPolicy(PolicyModel policy, String cableBandwidth) async {
       .toList());
   for (AppModel app in policy.apps!) {
     if (app.isPredefined) {
-      defaultApps.add(app.name);
+      defaultApps.add(app.title);
     } else {
-      customApps.add(app.name);
+      customApps.add(app.title);
     }
   }
   print('apps done');
@@ -470,14 +470,14 @@ Future<List<PolicyModel>> requestPolicies() async {
     List<AppModel> oldApps = [];
     element.apps?.forEach((element) {
       oldApps.add(AppModel(
-          name: element,
+          title: element,
           image: 'assets/images/chrome.png',
           isPredefined: true,
           link: ''));
     });
     element.customApps?.forEach((element) {
       oldApps.add(AppModel(
-          name: element,
+          title: element,
           image: 'assets/images/chrome.png',
           isPredefined: false,
           link: ''));

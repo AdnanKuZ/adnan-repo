@@ -47,17 +47,17 @@ class AppsProvider extends ChangeNotifier {
 
   bool isDefinedAppSelected(AppModel app) {
     return definedApps
-        .any((element) => element.name == app.name && element.isSelected);
+        .any((element) => element.title == app.title && element.isSelected);
   }
 
   bool isCustomAppSelected(AppModel app) {
     return customApps
-        .any((element) => element.name == app.name && element.isSelected);
+        .any((element) => element.title == app.title && element.isSelected);
   }
 
   void setCustomAppSelected(AppModel app, bool isChecked) {
     customApps.forEach((element) {
-      if (app.name == element.name) {
+      if (app.title == element.title) {
         element.isSelected = isChecked;
       }
     });
@@ -66,7 +66,7 @@ class AppsProvider extends ChangeNotifier {
 
   void setDefinedAppSelected(AppModel app, bool isChecked) {
     definedApps.forEach((element) {
-      if (app.name == element.name) {
+      if (app.title == element.title) {
         element.isSelected = isChecked;
       }
     });
