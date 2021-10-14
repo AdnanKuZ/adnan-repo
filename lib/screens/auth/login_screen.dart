@@ -1,15 +1,11 @@
-import 'package:admin/constants.dart';
-import 'package:admin/repositories/authRepo.dart';
 import 'package:flutter/material.dart';
 import 'package:admin/widgets/Auth/login_widget.dart';
 import 'package:admin/widgets/Auth/readMore.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:admin/widgets/Auth/changedpass_widget.dart';
 import 'package:admin/widgets/Auth/forgotpass_widget.dart';
 import 'package:admin/widgets/Auth/resetpass_widget.dart';
 import 'package:provider/provider.dart';
 import 'package:admin/providers/authProviders.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginScreen extends StatefulWidget {
   LoginScreen({Key? key}) : super(key: key);

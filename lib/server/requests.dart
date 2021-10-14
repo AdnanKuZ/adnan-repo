@@ -9,7 +9,6 @@ import 'package:admin/models/metadata.dart';
 import 'package:admin/models/policy.dart';
 import 'package:admin/models/policy_list.dart';
 import 'package:admin/server/urls.dart';
-import 'package:admin/widgets/stepper/connection.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 

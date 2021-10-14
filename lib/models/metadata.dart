@@ -12,19 +12,23 @@ class MetadataModel {
     MetadataModel({
         this.ports,
         this.maxBandwidth,
+        this.cpeIdentifier
     });
 
     List<Port>? ports;
     int? maxBandwidth;
+    String? cpeIdentifier;
 
     factory MetadataModel.fromJson(Map<String, dynamic> json) => MetadataModel(
         ports: List<Port>.from(json["ports"].map((x) => Port.fromJson(x))),
         maxBandwidth: json["maxBandwidth"],
+        cpeIdentifier: json["cpeIdentifier"],
     );
 
 //     Map<String, dynamic> toJson() => {
 //         "ports": List<dynamic>.from(ports.map((x) => x.toJson())),
 //         "maxBandwidth": maxBandwidth,
+//         "cpeIdentifier": cpeIdentifier,
 //     };
 }
 

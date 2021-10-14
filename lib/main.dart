@@ -10,7 +10,6 @@ import 'package:admin/providers/metaDataProvider.dart';
 import 'package:admin/providers/policies_list_provider.dart';
 import 'package:admin/providers/stepperProviders.dart';
 import 'package:admin/providers/add_policy_provider.dart';
-import 'package:admin/repositories/authRepo.dart';
 import 'package:admin/screens/auth/login_screen.dart';
 import 'package:admin/screens/dashboard/dashboard.dart';
 import 'package:flutter/material.dart';

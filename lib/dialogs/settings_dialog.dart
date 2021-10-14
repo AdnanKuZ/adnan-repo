@@ -1,10 +1,6 @@
 import 'package:admin/constants.dart';
-import 'package:admin/enums/RouteEnum.dart';
-import 'package:admin/providers/MenuProvider.dart';
 import 'package:admin/screens/auth/login_screen.dart';
-import 'package:admin/screens/dashboard/members_and_devices/members_and_devices.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/src/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 SettingsDialog({required BuildContext context}) {

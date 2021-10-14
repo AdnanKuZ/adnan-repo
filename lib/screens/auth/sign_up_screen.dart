@@ -4,7 +4,6 @@ import 'package:admin/widgets/Auth/readMore.dart';
 import 'package:admin/widgets/Auth/sign_up_widget.dart';
 import 'package:admin/widgets/Auth/otp_widget.dart';
 import 'package:admin/widgets/Auth/accountcreated_widget.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:admin/providers/authProviders.dart';
 

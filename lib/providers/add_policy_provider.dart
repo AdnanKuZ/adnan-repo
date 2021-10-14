@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-import 'package:admin/models/app.dart';
 import 'package:admin/models/device.dart';
 import 'package:admin/models/member.dart';
 import 'package:flutter/material.dart';

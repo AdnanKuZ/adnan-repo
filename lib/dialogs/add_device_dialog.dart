@@ -1,11 +1,7 @@
-import 'dart:convert';
-
 import 'package:admin/constants.dart';
 import 'package:admin/models/device.dart';
 import 'package:admin/models/member.dart';
 import 'package:admin/providers/add_device_provider.dart';
-import 'package:admin/providers/contactUsProvider.dart';
-import 'package:admin/server/requests.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -162,7 +158,7 @@ AddDeviceDialog({required BuildContext context, Color? color, MemberModel? selec
                             }
 
                             var deviceName = addDeviceProvider.deviceName;
-                            var deviceMac = addDeviceProvider.deviceMac;
+                            // var deviceMac = addDeviceProvider.deviceMac;
                             var selectedDevice =
                                 addDeviceProvider.selectedDeviceModel;
                             var selectedMember =
