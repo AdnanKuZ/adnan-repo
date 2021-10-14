@@ -78,7 +78,6 @@ class LoginWidget extends StatelessWidget {
               height: 40,
             ),
             Form(
-              // autovalidateMode: AutovalidateMode.onUserInteraction,
               key: loginFormKey,
               child: Column(
                 children: [
@@ -212,7 +211,7 @@ class LoginWidget extends StatelessWidget {
                                     showDialog(
                                         context: context,
                                         builder: (context) => AuthDialog(
-                                          title: 'Login credentials not correct',
+                                          title: 'invalid username/password',
                                         ));
                                   } else if (result == 'Success') {
                                     Navigator.push(

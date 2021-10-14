@@ -74,7 +74,6 @@ class ForgotPassWidget extends StatelessWidget {
               height: 55,
             ),
             Form(
-              autovalidateMode: AutovalidateMode.always,
               key: loginFormKey,
               child: CustomTextField(
                 controller: emailController,
@@ -121,12 +120,14 @@ class ForgotPassWidget extends StatelessWidget {
                   title: 'Reset Pass',
                   iconColor: Colors.white,
                   onpressed: () async {
-                    var result =
+                    if (loginFormKey.currentState!.validate()) {
+                      var result =
                         await requestResetPass(emailController.text);
                     if (result)
                       loginmode.setMode('Reset Pass');
                     else
                       print("request failed");
+                    }
                   },
                 ),
               ),

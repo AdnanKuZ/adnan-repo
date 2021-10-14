@@ -76,7 +76,6 @@ class SignUpWidget extends StatelessWidget {
             height: 33,
           ),
           Form(
-            // autovalidateMode: AutovalidateMode.onUserInteraction,
             key: signUpFormKey,
             child: Column(
               children: [

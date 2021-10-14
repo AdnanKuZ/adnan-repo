@@ -73,45 +73,50 @@ class ResetPassWidget extends StatelessWidget {
               height: 48,
             ),
             Form(
-              autovalidateMode: AutovalidateMode.onUserInteraction,
               key: loginFormKey,
               child: Consumer<PassHiddenProvider>(
-                builder: (context,state,child) => Column(
+                builder: (context, state, child) => Column(
                   children: [
                     CustomTextField(
-                        suffixIcon: IconButton(
-                          onPressed: () {
-                            passValidProvider.setPassState(!passValidProvider.state);
-                          },
-                          icon: Consumer<PassHiddenProvider>(
-                            builder: (context,state,child) => Icon(
-                              FontAwesomeIcons.eye,
-                              color: state.state ? primaryColor : Colors.grey,
-                              size: 16,
-                            ),
+                      maxLines: 1,
+                      suffixIcon: IconButton(
+                        onPressed: () {
+                          passValidProvider
+                              .setPassState(!passValidProvider.state);
+                        },
+                        icon: Consumer<PassHiddenProvider>(
+                          builder: (context, state, child) => Icon(
+                            FontAwesomeIcons.eye,
+                            color: state.state ? primaryColor : Colors.grey,
+                            size: 16,
                           ),
                         ),
-                        state: passValidProvider.state,
-                        hintText: 'Password',
-                        keyboardType: TextInputType.text,
-                        validator: (value) {
-                          if (value.isEmpty || value.length < 6)
-                            return 'password invalid';
-                          else
-                            return null;
-                        },
                       ),
+                      state: passValidProvider.state,
+                      hintText: 'Password',
+                      keyboardType: TextInputType.text,
+                      validator: (value) {
+                        if (value.isEmpty || value.length < 6)
+                          return 'password invalid';
+                        else
+                          return null;
+                      },
+                    ),
                     SizedBox(
                       height: 18,
                     ),
                     CustomTextField(
+                      maxLines: 1,
                       suffixIcon: IconButton(
                         onPressed: () {
-                          passValidProvider.setPassState(!passValidProvider.state);
+                          passValidProvider
+                              .setPassState(!passValidProvider.state);
                         },
                         icon: Icon(
                           FontAwesomeIcons.eye,
-                          color: passValidProvider.state ? primaryColor : Colors.grey,
+                          color: passValidProvider.state
+                              ? primaryColor
+                              : Colors.grey,
                           size: 16,
                         ),
                       ),
@@ -126,7 +131,7 @@ class ResetPassWidget extends StatelessWidget {
                       },
                     ),
                   ],
-                ), 
+                ),
               ),
             ),
             SizedBox(
@@ -139,12 +144,12 @@ class ResetPassWidget extends StatelessWidget {
                   icon: FontAwesomeIcons.shieldAlt,
                   splashColor: Colors.white,
                   textColor: Colors.white,
-                  title: 'Change Password',
+                  title: 'Reset Password',
                   iconColor: Colors.white,
                   onpressed: () {
                     var passwords = {
-                      "newPassword" : passController.text,
-                      "oldPassword" : ""
+                      "newPassword": passController.text,
+                      "oldPassword": ""
                     };
                     changePassword(passwords);
                     loginmode.setMode('Changed Pass');
