@@ -4,6 +4,7 @@ import 'package:admin/widgets/common/elevated_button_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class PassChangedWidget extends StatelessWidget {
   final bool isPc;
@@ -34,15 +35,15 @@ class PassChangedWidget extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            SizedBox(height: 40,),
             Center(
-              child: Icon(
-                FontAwesomeIcons.lock,
-                color: primaryColor,
-                size: 70,
+              child: Image.asset(
+                'assets/images/icon.png',
+                width: 180,
+                height: 170,
+                fit: BoxFit.cover,
               )
             ),
-            SizedBox(height: 100,),
+            SizedBox(height: 50,),
             Text(
               'PASSWORD CHANGED',
               style: TextStyle(
@@ -50,9 +51,6 @@ class PassChangedWidget extends StatelessWidget {
                   color: Colors.black,
                   fontWeight: FontWeight.w800,
                   fontSize: 18),
-            ),
-            SizedBox(
-              height: 12,
             ),
             Text(
               'Your old password has been changed',
@@ -71,7 +69,7 @@ class PassChangedWidget extends StatelessWidget {
                   fontWeight: FontWeight.w400),
             ),
             SizedBox(
-              height: 60,
+              height: 40,
             ),
             Row(children: [
               Expanded(

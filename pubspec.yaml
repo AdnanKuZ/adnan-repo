@@ -29,7 +29,7 @@ dependencies:
   cupertino_icons: ^1.0.3
 
   google_fonts: ^2.1.0
-  flutter_svg: ^0.22.0
+  flutter_svg: ^0.23.0+1
   provider: ^5.0.0
   responsive_framework: ^0.1.4
   font_awesome_flutter: ^9.1.0

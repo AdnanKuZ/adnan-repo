@@ -1,4 +1,5 @@
 import 'package:admin/constants.dart';
+import 'package:admin/dialogs/auth_error_dialog.dart';
 import 'package:admin/providers/authProviders.dart';
 import 'package:admin/widgets/common/elevated_button_widget.dart';
 import 'package:flutter/material.dart';
@@ -23,6 +24,7 @@ class ForgotPassWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isLoading = Provider.of<IsLoading>(context, listen: false);
     final loginmode = Provider.of<LoginModes>(context, listen: false);
     final emailValidProvider = Provider.of<EmailValidProvider>(context);
     return Container(
@@ -112,23 +114,35 @@ class ForgotPassWidget extends StatelessWidget {
             ),
             Row(children: [
               Expanded(
-                child: CustomElevatedButton(
-                  buttonColor: primaryColor,
-                  icon: FontAwesomeIcons.shieldAlt,
-                  splashColor: Colors.white,
-                  textColor: Colors.white,
-                  title: 'Reset Pass',
-                  iconColor: Colors.white,
-                  onpressed: () async {
-                    if (loginFormKey.currentState!.validate()) {
-                      var result =
-                        await requestResetPass(emailController.text);
-                    if (result)
-                      loginmode.setMode('Reset Pass');
-                    else
-                      print("request failed");
-                    }
-                  },
+                child: Consumer<IsLoading>(
+                  builder: (context,state,child)=>
+                  state.isLoadingState 
+                  ? Center(child: CircularProgressIndicator())
+                  : CustomElevatedButton(
+                    buttonColor: primaryColor,
+                    icon: FontAwesomeIcons.shieldAlt,
+                    splashColor: Colors.white,
+                    textColor: Colors.white,
+                    title: 'Reset Password',
+                    iconColor: Colors.white,
+                    onpressed: () async {
+                      if (loginFormKey.currentState!.validate()) {
+                        isLoading.setLoadingState(true);
+                        var result = await requestResetPass(emailController.text);
+                        if (result) {
+                          loginmode.setMode('Reset Pass');
+                          isLoading.setLoadingState(false);
+                        } else {
+                          showDialog(
+                                        context: context,
+                                        builder: (context) => AuthDialog(
+                                          title: 'invalid email',
+                                        ));
+                          isLoading.setLoadingState(false);
+                        }
+                      }
+                    },
+                  )
                 ),
               ),
             ]),
@@ -142,7 +156,7 @@ class ForgotPassWidget extends StatelessWidget {
                   Text(
                     'Already have an account?',
                     style: TextStyle(
-                      fontFamily: fontFamily,
+                        fontFamily: fontFamily,
                         color: Colors.black54,
                         fontSize: 13,
                         fontWeight: FontWeight.w400),
@@ -153,7 +167,7 @@ class ForgotPassWidget extends StatelessWidget {
                     },
                     child: Text('sign in',
                         style: TextStyle(
-                          fontFamily: fontFamily,
+                            fontFamily: fontFamily,
                             color: Colors.black87,
                             fontSize: 13,
                             fontWeight: FontWeight.w600)),
