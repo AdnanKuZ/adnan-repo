@@ -29,6 +29,7 @@ class StepperScreen extends StatefulWidget {
 }
 
 class _StepperScreenState extends State<StepperScreen> {
+  final policyNameStepFormKey = GlobalKey<FormState>();
   bool initiated = false;
   bool isLoading = false;
 
@@ -329,7 +330,7 @@ class _StepperScreenState extends State<StepperScreen> {
                                               ? primaryColor
                                               : Colors.grey),
                                     ),
-                                    content: PolicyNameStepWidget())
+                                    content: PolicyNameStepWidget(formKey: policyNameStepFormKey))
                                 : EnhanceStep(
                                     isActive:
                                         instance.stageStates[4] ? true : false,

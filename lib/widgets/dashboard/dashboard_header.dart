@@ -31,21 +31,6 @@ class DashboardHeader extends StatelessWidget {
                                       fontWeight: FontWeight.bold,
                                       fontSize: 10,
                                     )),
-                                Padding(
-                                  padding:
-                                      const EdgeInsets.fromLTRB(10, 0, 10, 0),
-                                  child: Text("|",
-                                      style: TextStyle(
-                                        color: textGray,
-                                        fontSize: 10,
-                                      )),
-                                ),
-                                Text("Device Code: ${state.getmetadata["cpeIdentifier"]}",
-                                    style: TextStyle(
-                                      color: Colors.black,
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 10,
-                                    )),
                               ],
                             ),
                           ),

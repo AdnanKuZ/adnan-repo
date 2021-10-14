@@ -18,14 +18,16 @@ import 'package:admin/providers/stepperProviders.dart';
 import '../../../responsive.dart';
 
 class PolicyNameStepWidget extends StatelessWidget {
-  String value = '';
-  PolicyNameStepWidget({Key? key}) : super(key: key);
+  final String value = '';
+  final GlobalKey<FormState> formKey;
+  PolicyNameStepWidget({Key? key,required this.formKey}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final stageProvider = Provider.of<StageProvider>(context, listen: false);
-    final policyProvider = Provider.of<AddPolicyProvider>(context, listen: false);
-
+    final policyProvider =
+        Provider.of<AddPolicyProvider>(context, listen: false);
+    final textFieldController = TextEditingController();
     return Container(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -51,15 +53,18 @@ class PolicyNameStepWidget extends StatelessWidget {
                       FilledButton(
                         title: "Proceed to Summary",
                         onPress: () {
-                          if(!policyProvider.isNameStepValid()) {
-                            AuthDialog(title: 'Please enter device name.',);
+                          if (!formKey.currentState!.validate()) {
+                            AuthDialog(
+                              title: 'Please enter device name.',
+                            );
                             return;
                           }
-                          
+
                           stageProvider.setIsLastStep = true;
                           stageProvider.setStageState = 4;
                           stageProvider.setIsLastStep = true;
-                          policyProvider.setPolicyName(value);
+                          policyProvider
+                              .setPolicyName(textFieldController.text);
                         },
                       )
                     ],
@@ -70,32 +75,29 @@ class PolicyNameStepWidget extends StatelessWidget {
           ),
           SizedBox(
             width: 300,
-            child: TextFormField(
-              initialValue: policyProvider.getPolicyName,
-              style: TextStyle(color: Colors.black),
-              decoration: const InputDecoration(
-                hintText: 'New Member Name',
-                hintStyle: TextStyle(color: Colors.grey),
-                labelStyle: TextStyle(color: Colors.grey),
-                enabledBorder: UnderlineInputBorder(
-                  borderSide: BorderSide(color: Colors.grey),
+            child: Form(
+              key: formKey,
+              child: TextFormField(
+                controller: textFieldController,
+                style: TextStyle(color: Colors.black),
+                decoration: const InputDecoration(
+                  hintText: 'New Member Name',
+                  hintStyle: TextStyle(color: Colors.grey),
+                  labelStyle: TextStyle(color: Colors.grey),
+                  enabledBorder: UnderlineInputBorder(
+                    borderSide: BorderSide(color: Colors.grey),
+                  ),
+                  focusedBorder: UnderlineInputBorder(
+                    borderSide: BorderSide(color: Colors.black),
+                  ),
                 ),
-                focusedBorder: UnderlineInputBorder(
-                  borderSide: BorderSide(color: Colors.black),
-                ),
+                validator: (String? value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Please enter some text';
+                  }
+                  return null;
+                },
               ),
-              validator: (String? value) {
-                if (value == null || value.isEmpty) {
-                  return 'Please enter some text';
-                }
-                return null;
-              },
-              onFieldSubmitted: (value) {
-                this.value = value;
-              },
-              onChanged: (value) {
-                this.value = value;
-              },
             ),
           ),
         ],
