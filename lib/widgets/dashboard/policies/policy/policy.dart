@@ -1,4 +1,5 @@
 import 'package:admin/models/policy.dart';
+import 'package:admin/server/requests.dart';
 import 'package:admin/widgets/dashboard/policies/policy/seperator.dart';
 import 'package:expandable/expandable.dart';
 import 'package:flutter/cupertino.dart';
@@ -32,6 +33,10 @@ class _PolicyWidgetState extends State<PolicyWidget> {
     });
   }
 
+  void deletePolicy(String policyId) async {
+    requestDeletePolicy(policyId);
+  }
+
   @override
   Widget build(BuildContext context) {
     return ExpandableNotifier(
@@ -59,7 +64,9 @@ class _PolicyWidgetState extends State<PolicyWidget> {
                           title: widget.policy.name,
                           isExpanded: _isOpen,
                           onEdit: () {},
-                          onDelete: () {},
+                          onDelete: () {
+                            deletePolicy(widget.policy.id!);
+                          },
                           onLayoutChanged: () => collapse()),
                       // Seperator
                       SeperatorWidget(),
@@ -165,7 +172,9 @@ class _PolicyWidgetState extends State<PolicyWidget> {
                     title: widget.policy.name,
                     isExpanded: _isOpen,
                     onEdit: () {},
-                    onDelete: () {},
+                    onDelete: () {
+                            deletePolicy(widget.policy.id!);
+                          },
                     onLayoutChanged: () => expand()),
               ),
             ),
@@ -216,15 +225,14 @@ class PolicyHeader extends StatelessWidget {
         //     },
         //     iconSize: 20,
         //     constraints: BoxConstraints()),
-        // IconButton(
-        //     padding: EdgeInsets.fromLTRB(0, 0, 8, 0),
-        //     color: Colors.red,
-        //     icon: Icon(Icons.delete),
-        //     iconSize: 20,
-        //     onPressed: () {
-        //       onDelete();
-        //     },
-        //     constraints: BoxConstraints()),
+        IconButton(
+            padding: EdgeInsets.fromLTRB(0, 0, 8, 0),
+            color: Colors.red,
+            icon: Icon(Icons.delete),
+            iconSize: 20,
+            onPressed: () {
+              onDelete();
+            }),
         Container(
           height: 20,
           width: 20,

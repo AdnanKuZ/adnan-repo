@@ -5,6 +5,7 @@ import 'package:admin/models/device.dart';
 import 'package:admin/models/member.dart';
 
 class PolicyModel {
+  final String? id;
   final String name;
   final List<BandwidthModel>? bandwidths;
   final List<ConnectionTypeModel>? connectionTypes;
@@ -15,6 +16,7 @@ class PolicyModel {
   PolicyModel(
       {required this.name,
       this.bandwidths,
+      this.id,
       this.connectionTypes,
       this.members,
       this.devices,
@@ -29,8 +31,7 @@ List<PolicyModel> policiesTest = [
         bandwidth: "Full Bandwidth", date: "12:00 to 02:00 AM", day: 'Mon'),
     BandwidthModel(
         bandwidth: "Full Bandwidth", date: "12:00 to 02:00 AM", day: 'Tue'),
-  ], 
-  connectionTypes: [
+  ], connectionTypes: [
     ConnectionTypeModel(type: 'Cabel', date: "12:00 to 02:00 AM", day: 'Sun'),
     ConnectionTypeModel(type: 'Cabel', date: "12:00 to 02:00 AM", day: 'Mon'),
     ConnectionTypeModel(type: 'LTE', date: "12:00 to 02:00 AM", day: 'Thu'),

@@ -465,7 +465,6 @@ Future<List<PolicyModel>> requestPolicies() async {
           date:
               'From ${element.schedule!.startTime} To ${element.schedule!.endTime}'));
     });
-
     List<AppModel> oldApps = [];
     element.apps?.forEach((element) {
       oldApps.add(AppModel(
@@ -487,7 +486,8 @@ Future<List<PolicyModel>> requestPolicies() async {
       oldConnection.add(ConnectionTypeModel(
           type: element.portName.toString(),
           day: element.schedule!.getDayName(),
-          date: 'From ${element.schedule!.startTime} To ${element.schedule!.endTime}'));
+          date:
+              'From ${element.schedule!.startTime} To ${element.schedule!.endTime}'));
     });
 
     List<MemberModel> oldMembers = [];
@@ -524,6 +524,7 @@ Future<List<PolicyModel>> requestPolicies() async {
     });
 
     oldPolicies.add(PolicyModel(
+        id: element.id,
         apps: oldApps,
         bandwidths: oldBandwidth,
         name: element.title.toString(),
@@ -573,6 +574,7 @@ Future<List<Application>> requestApplications() async {
 
   return [];
 }
+
 Future<List<Application>> requestSearchApplications(String search) async {
   SharedPreferences _prefs = await SharedPreferences.getInstance();
   String token = _prefs.getString('token').toString();
@@ -593,4 +595,17 @@ Future<List<Application>> requestSearchApplications(String search) async {
   }
 
   return [];
+}
+
+void requestDeletePolicy(String id) async {
+  print(id);
+  SharedPreferences _prefs = await SharedPreferences.getInstance();
+  String token = _prefs.getString('token').toString();
+  http.Response response = await http.delete(
+    Uri.parse(DELETE_POLICY_URL + id),
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ${token}',
+    },
+  );
 }

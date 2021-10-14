@@ -38,6 +38,7 @@ class _PoliciesScreenState extends State<PoliciesScreen> {
     isLoading = true;
     final provider = Provider.of<PoliciesListProvider>(context, listen: false);
     var policies = await requestPolicies();
+    print('policyId ${policies[0].id}');
     provider.setPolicies(policies);
     isInitiated = true;
     isLoading = false;
