@@ -64,7 +64,7 @@ AddMemberDialog({required BuildContext context, Color? color}) async {
                           if (_value.isEmpty) {
                             return;
                           }
-                          Navigator.pop(context);
+                          Navigator.pop(context, _value);
                         },
                         child: Padding(
                           padding: const EdgeInsets.all(8.0),
@@ -75,13 +75,18 @@ AddMemberDialog({required BuildContext context, Color? color}) async {
                         ),
                       ),
                     ),
-                    SizedBox(height: 10,),
+                    SizedBox(
+                      height: 10,
+                    ),
                     Container(
                       child: ElevatedButton(
                         style: ElevatedButton.styleFrom(
                           primary: primaryColor, // background
                         ),
                         onPressed: () {
+                          if (_value.isEmpty) {
+                            return;
+                          }
                           Navigator.pop(context, _value);
                         },
                         child: Padding(

@@ -1,18 +1,42 @@
 import 'package:admin/dialogs/settings_dialog.dart';
 import 'package:admin/enums/RouteEnum.dart';
+import 'package:admin/models/metadata.dart';
 import 'package:admin/providers/MenuProvider.dart';
+import 'package:admin/providers/conncetionProvider.dart';
+import 'package:admin/providers/metaDataProvider.dart';
 import 'package:admin/responsive.dart';
 import 'package:admin/screens/dashboard/FAQs/faqs.dart';
 import 'package:admin/screens/dashboard/contact_us/contact_us.dart';
 import 'package:admin/screens/dashboard/members_and_devices/members_and_devices.dart';
 import 'package:admin/screens/dashboard/policies/policies.dart';
+import 'package:admin/server/requests.dart';
 import 'package:admin/widgets/side_menu.dart';
 import 'package:flutter/material.dart';
 import 'home/home.dart';
 import 'package:provider/provider.dart';
 import 'package:admin/screens/dashboard/statistics/statistics.dart';
 
-class DashboardScreen extends StatelessWidget {
+class DashboardScreen extends StatefulWidget {
+  @override
+  State<StatefulWidget> createState() {
+    return _DashboardScreenState();
+  }
+}
+
+class _DashboardScreenState extends State {
+  late Future<void> loadMetaDataFuture = loadMetaData();
+
+  Future<MetadataModel> loadMetaData() async {
+    final provider = Provider.of<MetadataProvider>(context, listen: false);
+    final connectionProvider =
+        Provider.of<ConnectionProvider>(context, listen: false);
+    final meta = await requestMetadata();
+    provider.setMetaData(meta);
+    if ((meta.ports?.length ?? 0) > 0)
+      connectionProvider.setConnectionDropDownValueForAllDays(meta.ports![0]);
+    return meta;
+  }
+
   int getStackIndex(DashboardRoute route) {
     switch (route) {
       case DashboardRoute.Home:
@@ -82,25 +106,29 @@ class DashboardScreen extends StatelessWidget {
           children: [
             // Web side menu
             if (!Responsive.isMobile(context)) SideMenu(),
-
             Expanded(
-                child: IndexedStack(
+                child: FutureBuilder(
+                  future: loadMetaDataFuture,
+                  builder: (context,snapshot) {
+                    return IndexedStack(
               index: getStackIndex(
-                  Provider.of<MenuProvider>(context).dashboardRoute),
+                      Provider.of<MenuProvider>(context).dashboardRoute),
               children: [
-                HomeScreen(),
-                PoliciesScreen(),
-                Statistics(),
-                ConctactUsScreen(),
-                FAQsScreen(),
-                SizedBox(),
-                MembersAndDevicesScreen(),
-                // Terms And Conditions
-                SizedBox(),
-                // Legal Statment
-                SizedBox()
+                    HomeScreen(),
+                    PoliciesScreen(),
+                    Statistics(),
+                    ConctactUsScreen(),
+                    FAQsScreen(),
+                    SizedBox(),
+                    MembersAndDevicesScreen(),
+                    // Terms And Conditions
+                    SizedBox(),
+                    // Legal Statment
+                    SizedBox()
               ],
-            )),
+            );
+                  }
+                )),
           ],
         ),
       ),

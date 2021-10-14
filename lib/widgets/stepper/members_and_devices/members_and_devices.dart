@@ -128,6 +128,7 @@ class MembersAndDevicesStepperWidget extends StatelessWidget {
                     icon: Icons.add,
                     onPress: () async {
                       String result = await AddMemberDialog(context: context);
+                      print("result " + result);
                       if (result.isEmpty) {
                         return;
                       }
