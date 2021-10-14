@@ -333,6 +333,15 @@ class StepperMemberList extends StatelessWidget {
                   children: [
                     InkWell(
                       child: Icon(
+                        Icons.delete,
+                        color: Colors.red,
+                      ),
+                      onTap: ()  {
+                        print(member.id);
+                      },
+                    ),
+                    InkWell(
+                      child: Icon(
                         Icons.edit,
                         color: lightGrayColor,
                       ),
