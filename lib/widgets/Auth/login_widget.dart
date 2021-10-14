@@ -61,7 +61,10 @@ class LoginWidget extends StatelessWidget {
               style: TextStyle(
                   color: Colors.black,
                   fontWeight: FontWeight.w800,
-                  fontSize: 18),
+                  fontFamily: fontFamily,
+                  fontStyle: FontStyle.normal,
+                  fontSize: 18
+                ),
             ),
             SizedBox(
               height: 12,
@@ -71,6 +74,7 @@ class LoginWidget extends StatelessWidget {
               textAlign: TextAlign.center,
               style: TextStyle(
                   color: Colors.black54,
+                  fontFamily: fontFamily,
                   fontSize: 13,
                   fontWeight: FontWeight.w400),
             ),
@@ -181,6 +185,7 @@ class LoginWidget extends StatelessWidget {
                   child: Text('Forgot Password?',
                       style: TextStyle(
                           color: Colors.black87,
+                          fontFamily: fontFamily,
                           fontSize: 11,
                           fontWeight: FontWeight.w600)),
                 )

@@ -51,13 +51,28 @@ class MyApp extends StatelessWidget {
         child: MaterialApp(
           debugShowCheckedModeBanner: false,
           title: 'OneFi',
-          theme: ThemeData.dark().copyWith(
-            primaryColor: primaryColor,
-            scaffoldBackgroundColor: backgroundColor,
-            textTheme: GoogleFonts.poppinsTextTheme(Theme.of(context).textTheme)
-                .apply(bodyColor: Colors.white),
-            canvasColor: backgroundColor,
+          theme: ThemeData(
+            fontFamily: "Poppins"
           ),
+          // ThemeData.dark().copyWith(
+          //   primaryColor: primaryColor,
+          //   scaffoldBackgroundColor: backgroundColor,
+          //   textTheme: TextTheme(
+          //     bodyText1: TextStyle(
+          //       fontFamily: "Poppins"
+          //     ),
+          //     overline:  TextStyle(
+          //       fontFamily: "Poppins"
+          //     ),
+          //     caption: TextStyle(
+          //       fontFamily: "Poppins"
+          //     ),
+          //   ),
+          //   // textTheme: TextTheme(),
+          //   // GoogleFonts.poppinsTextTheme(Theme.of(context).textTheme)
+          //   //     .apply(bodyColor: Colors.white),
+          //   canvasColor: backgroundColor,
+          // ),
           home: token == null || token == '' ? LoginScreen() : DashboardScreen(),
         ));
   }

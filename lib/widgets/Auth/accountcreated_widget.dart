@@ -50,6 +50,7 @@ class AccountCreatedWidget extends StatelessWidget {
             Text(
               'ACCOUNT CREATED',
               style: TextStyle(
+                fontFamily: fontFamily,
                   color: Colors.black,
                   fontWeight: FontWeight.w800,
                   fontSize: 18),
@@ -60,6 +61,7 @@ class AccountCreatedWidget extends StatelessWidget {
             Text(
               'Your account has been created successfully',
               style: TextStyle(
+                fontFamily: fontFamily,
                   color: Colors.black54,
                   fontSize: 13,
                   fontWeight: FontWeight.w400),
@@ -67,6 +69,7 @@ class AccountCreatedWidget extends StatelessWidget {
             Text(
               'and you can login now',
               style: TextStyle(
+                fontFamily: fontFamily,
                   color: Colors.black54,
                   fontSize: 13,
                   fontWeight: FontWeight.w400),

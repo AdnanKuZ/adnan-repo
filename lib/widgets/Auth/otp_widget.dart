@@ -40,6 +40,7 @@ class OtpWidget extends StatelessWidget {
             Text(
               'OTP',
               style: TextStyle(
+                fontFamily: fontFamily,
                   color: Colors.black,
                   fontWeight: FontWeight.w800,
                   fontSize: 18),
@@ -50,6 +51,7 @@ class OtpWidget extends StatelessWidget {
             Text(
               'Enter the 4-digits code sent to your email',
               style: TextStyle(
+                fontFamily: fontFamily,
                   color: Colors.black54,
                   fontSize: 13,
                   fontWeight: FontWeight.w400),
@@ -57,6 +59,7 @@ class OtpWidget extends StatelessWidget {
             Text(
               'in order to verify account',
               style: TextStyle(
+                fontFamily: fontFamily,
                   color: Colors.black54,
                   fontSize: 13,
                   fontWeight: FontWeight.w400),
@@ -75,6 +78,7 @@ class OtpWidget extends StatelessWidget {
                 child: Text(
                   'clear all',
                   style: TextStyle(
+                    fontFamily: fontFamily,
                       fontSize: 14.0,
                       decoration: TextDecoration.underline,
                       color: Colors.blue[700]),
@@ -94,6 +98,7 @@ class OtpWidget extends StatelessWidget {
                 Text(
                   'Didn\'t recieve code yet?',
                   style: TextStyle(
+                    fontFamily: fontFamily,
                       color: Colors.black54,
                       fontSize: 13,
                       fontWeight: FontWeight.w400),
@@ -104,6 +109,7 @@ class OtpWidget extends StatelessWidget {
                   },
                   child: Text('Resend',
                       style: TextStyle(
+                        fontFamily: fontFamily,
                           color: Colors.black87,
                           fontSize: 13,
                           fontWeight: FontWeight.w600)),

@@ -5,6 +5,7 @@ import 'package:admin/models/app.dart';
 import 'package:admin/providers/add_policy_provider.dart';
 import 'package:admin/providers/appsProvider.dart';
 import 'package:admin/server/requests.dart';
+import 'package:admin/widgets/common/text_field_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
@@ -164,20 +165,21 @@ class _SecondHeaderState extends State<SecondHeader> {
         ResponsiveRowColumnItem(
           child: SizedBox(
             width: MediaQuery.of(context).size.width * 0.2,
-            child: TextField(
-              style: TextStyle(color: Colors.black),
-              decoration: InputDecoration(
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(6),
-                ),
+            child: CustomTextField(
+              keyboardType: TextInputType.text,
+              // : TextStyle(color: Colors.black),
+              // decoration: InputDecoration(
+              //   border: OutlineInputBorder(
+              //     borderRadius: BorderRadius.circular(6),
+              //   ),
                 prefixIcon: Icon(Icons.search),
-                filled: true,
-                fillColor: Colors.grey.shade300.withOpacity(0.1),
+                // filled: true,
+                // fillColor: Colors.grey.shade300.withOpacity(0.1),
                 hintText: 'Search Apps',
-                hintStyle: TextStyle(color: Colors.grey),
-                contentPadding: EdgeInsets.all(4),
-              ),
-              onSubmitted: (value) {
+                // hintStyle: TextStyle(color: Colors.grey),
+                // contentPadding: EdgeInsets.all(4),
+              // ),
+              onChanged: (value) {
                 print('value is Empty? ' + value.isEmpty.toString());
                 if (value.isEmpty) {
                   loadApplications();

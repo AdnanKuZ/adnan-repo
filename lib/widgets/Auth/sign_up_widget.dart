@@ -62,6 +62,7 @@ class SignUpWidget extends StatelessWidget {
           Text(
             'SIGN UP',
             style: TextStyle(
+              fontFamily: fontFamily,
                 color: Colors.black, fontWeight: FontWeight.w800, fontSize: 18),
           ),
           SizedBox(
@@ -70,6 +71,7 @@ class SignUpWidget extends StatelessWidget {
           Text(
             'Fill the data below to create your account',
             style: TextStyle(
+              fontFamily: fontFamily,
                 color: Colors.grey, fontSize: 13, fontWeight: FontWeight.w400),
           ),
           SizedBox(
@@ -220,7 +222,7 @@ class SignUpWidget extends StatelessWidget {
                     margin: EdgeInsets.only(top: 8),
                     child: Text(
                         'password must have : capital letters, small letters, characters and numbers',
-                        style: TextStyle(color: Colors.red),
+                        style: TextStyle(fontFamily: fontFamily,color: Colors.red),
                       ),
                   )),
               ],

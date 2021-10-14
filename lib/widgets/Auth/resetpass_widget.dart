@@ -46,6 +46,7 @@ class ResetPassWidget extends StatelessWidget {
             Text(
               'PASSWORD RESET',
               style: TextStyle(
+                fontFamily: fontFamily,
                   color: Colors.black,
                   fontWeight: FontWeight.w800,
                   fontSize: 18),
@@ -57,6 +58,7 @@ class ResetPassWidget extends StatelessWidget {
               'Enter the new password twice in order',
               textAlign: TextAlign.center,
               style: TextStyle(
+                fontFamily: fontFamily,
                   color: Colors.black54,
                   fontSize: 13,
                   fontWeight: FontWeight.w400),
@@ -65,6 +67,7 @@ class ResetPassWidget extends StatelessWidget {
               'to change password',
               textAlign: TextAlign.center,
               style: TextStyle(
+                fontFamily: fontFamily,
                   color: Colors.black54,
                   fontSize: 13,
                   fontWeight: FontWeight.w400),
@@ -166,6 +169,7 @@ class ResetPassWidget extends StatelessWidget {
                 Text(
                   'Already have an account?',
                   style: TextStyle(
+                    fontFamily: fontFamily,
                       color: Colors.black54,
                       fontSize: 13,
                       fontWeight: FontWeight.w400),
@@ -176,6 +180,7 @@ class ResetPassWidget extends StatelessWidget {
                   },
                   child: Text('sign in',
                       style: TextStyle(
+                        fontFamily: fontFamily,
                           color: Colors.black87,
                           fontSize: 13,
                           fontWeight: FontWeight.w600)),

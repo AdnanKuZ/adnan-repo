@@ -46,6 +46,7 @@ class PassChangedWidget extends StatelessWidget {
             Text(
               'PASSWORD CHANGED',
               style: TextStyle(
+                fontFamily: fontFamily,
                   color: Colors.black,
                   fontWeight: FontWeight.w800,
                   fontSize: 18),
@@ -56,6 +57,7 @@ class PassChangedWidget extends StatelessWidget {
             Text(
               'Your old password has been changed',
               style: TextStyle(
+                fontFamily: fontFamily,
                   color: Colors.black54,
                   fontSize: 13,
                   fontWeight: FontWeight.w400),
@@ -63,6 +65,7 @@ class PassChangedWidget extends StatelessWidget {
             Text(
               'successfully',
               style: TextStyle(
+                fontFamily: fontFamily,
                   color: Colors.black54,
                   fontSize: 13,
                   fontWeight: FontWeight.w400),
