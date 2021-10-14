@@ -78,7 +78,7 @@ class LoginWidget extends StatelessWidget {
               height: 40,
             ),
             Form(
-              autovalidateMode: AutovalidateMode.onUserInteraction,
+              // autovalidateMode: AutovalidateMode.onUserInteraction,
               key: loginFormKey,
               child: Column(
                 children: [
