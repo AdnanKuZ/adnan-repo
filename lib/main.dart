@@ -52,7 +52,7 @@ class MyApp extends StatelessWidget {
           debugShowCheckedModeBanner: false,
           title: 'OneFi',
           theme: ThemeData(
-            fontFamily: "Poppins"
+            fontFamily: fontFamily
           ),
           // ThemeData.dark().copyWith(
           //   primaryColor: primaryColor,

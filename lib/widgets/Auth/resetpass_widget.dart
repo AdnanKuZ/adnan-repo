@@ -171,7 +171,7 @@ class ResetPassWidget extends StatelessWidget {
                   child: Text('sign in',
                       style: TextStyle(
                         fontFamily: fontFamily,
-                          color: Colors.black87,
+                          color: Colors.black54,
                           fontSize: 13,
                           fontWeight: FontWeight.w600)),
                 )
