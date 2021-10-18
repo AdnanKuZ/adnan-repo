@@ -1,4 +1,5 @@
 import 'package:admin/constants.dart';
+import 'package:admin/dialogs/auth_error_dialog.dart';
 import 'package:admin/providers/authProviders.dart';
 import 'package:admin/widgets/common/elevated_button_widget.dart';
 import 'package:flutter/material.dart';
@@ -40,7 +41,7 @@ class OtpWidget extends StatelessWidget {
             Text(
               'OTP',
               style: TextStyle(
-                fontFamily: fontFamily,
+                  fontFamily: fontFamily,
                   color: Colors.black,
                   fontWeight: FontWeight.w800,
                   fontSize: 18),
@@ -51,7 +52,7 @@ class OtpWidget extends StatelessWidget {
             Text(
               'Enter the 4-digits code sent to your email',
               style: TextStyle(
-                fontFamily: fontFamily,
+                  fontFamily: fontFamily,
                   color: Colors.black54,
                   fontSize: 13,
                   fontWeight: FontWeight.w400),
@@ -59,7 +60,7 @@ class OtpWidget extends StatelessWidget {
             Text(
               'in order to verify account',
               style: TextStyle(
-                fontFamily: fontFamily,
+                  fontFamily: fontFamily,
                   color: Colors.black54,
                   fontSize: 13,
                   fontWeight: FontWeight.w400),
@@ -78,7 +79,7 @@ class OtpWidget extends StatelessWidget {
                 child: Text(
                   'clear all',
                   style: TextStyle(
-                    fontFamily: fontFamily,
+                      fontFamily: fontFamily,
                       fontSize: 14.0,
                       decoration: TextDecoration.underline,
                       color: Colors.blue[700]),
@@ -98,7 +99,7 @@ class OtpWidget extends StatelessWidget {
                 Text(
                   'Didn\'t recieve code yet?',
                   style: TextStyle(
-                    fontFamily: fontFamily,
+                      fontFamily: fontFamily,
                       color: Colors.black54,
                       fontSize: 13,
                       fontWeight: FontWeight.w400),
@@ -109,7 +110,7 @@ class OtpWidget extends StatelessWidget {
                   },
                   child: Text('Resend',
                       style: TextStyle(
-                        fontFamily: fontFamily,
+                          fontFamily: fontFamily,
                           color: Colors.black87,
                           fontSize: 13,
                           fontWeight: FontWeight.w600)),
@@ -130,13 +131,31 @@ class OtpWidget extends StatelessWidget {
                   iconColor: Colors.white,
                   onpressed: () async {
                     print(otpCode);
-                    bool result = await verifyEmail(otpCode);
-                    if (result == true){
+                    String result = await verifyEmail(otpCode);
+                    if (result == 'Success') {
                       print('Email confirmed');
                       signupMode.setMode('Account Created');
-                      }
-                    else{
+                    } else if (result == "'Bad Request'") {
                       print('Email confirmation error');
+                      showDialog(
+                          context: context,
+                          builder: (context) => AuthDialog(
+                                title: "Wrong Email",
+                              ));
+                    } else if (result == 'Not Allowed') {
+                      print('Unauthorized');
+                      showDialog(
+                          context: context,
+                          builder: (context) => AuthDialog(
+                                title: "you are not allowed to do this",
+                              ));
+                    } else {
+                      showDialog(
+                          context: context,
+                          builder: (context) => AuthDialog(
+                                title:
+                                    "Something wrong has happend, Please try again",
+                              ));
                     }
                   },
                 ),

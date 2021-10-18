@@ -63,8 +63,7 @@ class LoginWidget extends StatelessWidget {
                   fontWeight: FontWeight.w800,
                   fontFamily: fontFamily,
                   fontStyle: FontStyle.normal,
-                  fontSize: 18
-                ),
+                  fontSize: 18),
             ),
             SizedBox(
               height: 12,
@@ -208,16 +207,16 @@ class LoginWidget extends StatelessWidget {
 
                                 if (loginFormKey.currentState!.validate()) {
                                   isLoading.setLoadingState(true);
-                                  String result =
-                                      await login(authData);
+                                  String result = await login(authData);
                                   if (result == 'Login Failed') {
                                     print("loginError");
                                     isLoading.setLoadingState(false);
                                     showDialog(
                                         context: context,
                                         builder: (context) => AuthDialog(
-                                          title: 'invalid username/password',
-                                        ));
+                                              title:
+                                                  'invalid username/password',
+                                            ));
                                   } else if (result == 'Success') {
                                     Navigator.push(
                                         context,
@@ -226,7 +225,6 @@ class LoginWidget extends StatelessWidget {
                                                 DashboardScreen()));
                                     isLoading.setLoadingState(false);
                                   } else if (result == 'emailNotConfirmed') {
-                                    
                                     Navigator.push(
                                         context,
                                         MaterialPageRoute(
@@ -234,14 +232,22 @@ class LoginWidget extends StatelessWidget {
                                                 SignUpScreen()));
                                     signupMode.setMode("Otp");
                                     isLoading.setLoadingState(false);
+                                  } else if (result == 'Unauthorized') {
+                                    print('Unauthorized');
+                                    isLoading.setLoadingState(false);
+                                    showDialog(
+                                        context: context,
+                                        builder: (context) => AuthDialog(
+                                              title: "You are not allowed to do this",
+                                            ));
                                   } else {
                                     print("Server Error");
                                     isLoading.setLoadingState(false);
                                     showDialog(
                                         context: context,
                                         builder: (context) => AuthDialog(
-                                          title: "Server Error",
-                                        ));
+                                              title: "Something wrong has happend, Please try again",
+                                            ));
                                   }
                                 }
                               },
@@ -267,7 +273,6 @@ class LoginWidget extends StatelessWidget {
                   splashColor: primaryColor,
                   textColor: primaryColor,
                   title: 'Sign Up',
-                  iconColor: primaryColor,
                   onpressed: () {
                     Navigator.push(
                         context,

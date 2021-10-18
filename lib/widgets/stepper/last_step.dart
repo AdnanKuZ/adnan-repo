@@ -1,3 +1,4 @@
+import 'package:admin/constants.dart';
 import 'package:admin/dialogs/loading_dialog.dart';
 import 'package:admin/models/app.dart';
 import 'package:admin/models/bandwidth.dart';
@@ -11,6 +12,7 @@ import 'package:admin/providers/bandwidthProvider.dart';
 import 'package:admin/providers/conncetionProvider.dart';
 import 'package:admin/providers/policies_list_provider.dart';
 import 'package:admin/server/requests.dart';
+import 'package:admin/widgets/common/elevated_button_widget.dart';
 import 'package:admin/widgets/dashboard/policies/policy/policy.dart';
 import 'package:flutter/material.dart';
 import 'package:admin/widgets/common/buttons.dart';
@@ -25,10 +27,6 @@ class LastStepWidget extends StatelessWidget {
     final stageProvider = Provider.of<StageProvider>(context);
     final memberAndDevicesProvider =
         Provider.of<AddPolicyProvider>(context, listen: false);
-    final bandwidthProvider =
-        Provider.of<BandwidthProvider>(context, listen: false);
-    final connectionProvider =
-        Provider.of<ConnectionProvider>(context, listen: false);
     final policiesProvider =
         Provider.of<PoliciesListProvider>(context, listen: false);
 
@@ -54,9 +52,12 @@ class LastStepWidget extends StatelessWidget {
                               ConnectionProvider>(
                           builder: (context, appsState,membersState, bandwidthState,
                               connectionState, child) {
-                        return FilledButton(
+                        return CustomElevatedButton(
+                          buttonColor: primaryColor,
+                          splashColor: Colors.white,
+                          textColor: Colors.white,
                           title: "Confirm & Add Policy",
-                          onPress: () async {
+                          onpressed: () async {
                             // Send policy to server
                             var policy = PolicyModel(
                                 name: membersState.policyName,

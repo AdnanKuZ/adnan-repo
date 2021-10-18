@@ -8,6 +8,7 @@ import 'package:admin/providers/MenuProvider.dart';
 import 'package:admin/providers/appsProvider.dart';
 import 'package:admin/widgets/common/buttons.dart';
 import 'package:admin/widgets/common/checkboxs.dart';
+import 'package:admin/widgets/common/elevated_button_widget.dart';
 import 'package:auto_size_text_pk/auto_size_text_pk.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -20,7 +21,7 @@ import '../../../responsive.dart';
 class PolicyNameStepWidget extends StatelessWidget {
   final String value = '';
   final GlobalKey<FormState> formKey;
-  PolicyNameStepWidget({Key? key,required this.formKey}) : super(key: key);
+  PolicyNameStepWidget({Key? key, required this.formKey}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -50,9 +51,12 @@ class PolicyNameStepWidget extends StatelessWidget {
                   ),
                   Wrap(
                     children: [
-                      FilledButton(
+                      CustomElevatedButton(
+                        buttonColor: primaryColor,
+                        splashColor: Colors.white,
+                        textColor: Colors.white,
                         title: "Proceed to Summary",
-                        onPress: () {
+                        onpressed: () {
                           if (!formKey.currentState!.validate()) {
                             AuthDialog(
                               title: 'Please enter device name.',

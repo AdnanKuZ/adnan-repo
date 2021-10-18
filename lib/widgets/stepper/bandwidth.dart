@@ -39,14 +39,8 @@ class BandwidthStepperWidget extends StatelessWidget {
                   fontWeight: FontWeight.bold),
             ),
             Spacer(),
-            ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                primary: primaryColor,
-                padding: EdgeInsets.symmetric(horizontal: 35, vertical: 18),
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8)),
-              ),
-              onPressed: () {
+            FilledButton(
+              onPress: () {
                 // print(provider.stageIndex.toString());
                 // if (bandwidthProvider.checkBandwidthIsValid()) {
                   provider.setStageState = 1;
@@ -59,10 +53,7 @@ class BandwidthStepperWidget extends StatelessWidget {
                 //           ));
                 // }
               },
-              child: Text(
-                'Next Step',
-                style: TextStyle(color: Colors.white, fontSize: 16),
-              ),
+              title: 'Next Step'
             ),
           ],
         ),

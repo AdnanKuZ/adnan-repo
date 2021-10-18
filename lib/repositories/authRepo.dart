@@ -24,11 +24,13 @@ Future<String> register(Map<String, String> signUpData) async {
     return 'Success';
   else if (response.statusCode == 400)
     return 'Bad Request';
+  else if (response.statusCode == 403)
+    return 'Not Allowed';
   else
     return 'Server Error';
 }
 
-Future<bool> verifyEmail(String otpCode) async {
+Future<String> verifyEmail(String otpCode) async {
   SharedPreferences _prefs = await SharedPreferences.getInstance();
   var email = _prefs.getString('email');
   print('Email :' + email.toString());
@@ -49,9 +51,13 @@ Future<bool> verifyEmail(String otpCode) async {
   print('body : ' + response.body);
   print('status code : ' + response.statusCode.toString());
   if (response.statusCode == 204)
-    return true;
+    return 'Success';
+  else if (response.statusCode == 400)
+    return 'Bad Request';
+  else if (response.statusCode == 403)
+    return 'Not Allowed';
   else
-    return false;
+    return 'Server Error';
 }
 
 Future<String> login(Map<String, String> loginData) async {
@@ -79,8 +85,12 @@ Future<String> login(Map<String, String> loginData) async {
           'SharedPreferences token : ' + _prefs.getString('token').toString());
       return 'Success';
     }
+  } else if (response.statusCode == 401) {
+    return 'Login Failed';
+  } else if (response.statusCode == 403) {
+    return 'Unauthorized';
   } else {
-    return "Login Failed";
+    return "Server Error Failed";
   }
 }
 

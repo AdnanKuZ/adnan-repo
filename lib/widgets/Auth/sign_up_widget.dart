@@ -203,6 +203,10 @@ class SignUpWidget extends StatelessWidget {
                     )
                   ]),
                   child: CustomTextField(
+                    suffixIcon: Tooltip(
+                      message: 'Check the router for device identifier code',
+                      child: Icon(Icons.info_outline_rounded),
+                    ),
                     controller: deviceIdController,
                     state: false,
                     hintText: 'Device identifier',
@@ -259,12 +263,20 @@ class SignUpWidget extends StatelessWidget {
                                   builder: (context) => AuthDialog(
                                     title: "Sign up credentials not correct",
                                   ));
-                            } else {
+                            } else if(result == 'Not Allowed'){
+                              print('Unauthorized');
+                              showDialog(
+                                  context: context,
+                                  builder: (context) => AuthDialog(
+                                    title: "you are not allowed to do this",
+                                  ));
+                            }
+                            else {
                               print('server error');
                               showDialog(
                                   context: context,
                                   builder: (context) => AuthDialog(
-                                    title: "Server Error",
+                                    title: "Something wrong has happend, Please try again",
                                   ));
                               isLoading.setLoadingState(false);
                             }
