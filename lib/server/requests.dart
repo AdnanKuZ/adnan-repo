@@ -319,25 +319,6 @@ Future<bool> requestDeleteDevice(DeviceModel device) async {
   return false;
 }
 
-Future<bool> requestDeleteMember(MemberModel member) async {
-  SharedPreferences _prefs = await SharedPreferences.getInstance();
-  String token = _prefs.getString('token').toString();
-
-  print('url: ' + MEMBERS_URL + member.id!);
-  http.Response response =
-      await http.delete(Uri.parse(MEMBERS_URL + member.id!), headers: {
-    'Content-Type': 'application/json',
-    'Authorization': 'Bearer ${token}',
-  });
-
-  print('response status code: ' + response.statusCode.toString());
-  if (response.statusCode == 201) {
-    return true;
-  }
-
-  return false;
-}
-
 Future<bool> requestEditMember(MemberModel member) async {
   SharedPreferences _prefs = await SharedPreferences.getInstance();
   String token = _prefs.getString('token').toString();
@@ -597,7 +578,26 @@ Future<List<Application>> requestSearchApplications(String search) async {
   return [];
 }
 
-void requestDeletePolicy(String id) async {
+Future<bool> requestDeleteMember(MemberModel member) async {
+  SharedPreferences _prefs = await SharedPreferences.getInstance();
+  String token = _prefs.getString('token').toString();
+
+  print('url: ' + MEMBERS_URL + member.id!);
+  http.Response response =
+      await http.delete(Uri.parse(MEMBERS_URL + member.id!), headers: {
+    'Content-Type': 'application/json',
+    'Authorization': 'Bearer ${token}',
+  });
+
+  print('response status code: ' + response.statusCode.toString());
+  if (response.statusCode == 201) {
+    return true;
+  }
+
+  return false;
+}
+
+Future<String> requestDeletePolicy(String id) async {
   print(id);
   SharedPreferences _prefs = await SharedPreferences.getInstance();
   String token = _prefs.getString('token').toString();
@@ -608,4 +608,9 @@ void requestDeletePolicy(String id) async {
       'Authorization': 'Bearer ${token}',
     },
   );
+  if (response.statusCode == 204) {
+    return 'Success';
+  } else {
+    return 'Failure';
+  }
 }

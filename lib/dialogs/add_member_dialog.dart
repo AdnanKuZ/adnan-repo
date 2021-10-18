@@ -84,10 +84,10 @@ AddMemberDialog({required BuildContext context, Color? color}) async {
                           primary: primaryColor, // background
                         ),
                         onPressed: () {
-                          if (_value.isEmpty) {
-                            return;
-                          }
-                          Navigator.pop(context, _value);
+                          // if (_value.isEmpty) {
+                          //   return;
+                          // }
+                          Navigator.pop(context,);
                         },
                         child: Padding(
                           padding: const EdgeInsets.all(8.0),

@@ -27,6 +27,13 @@ class _PoliciesScreenState extends State<PoliciesScreen> {
     loadPolicies();
     super.initState();
   }
+
+  // @override
+  // void didChangeDependencies() {
+  //   loadPolicies();
+  //   super.didChangeDependencies();
+  // }
+
   Future<void> loadPolicies() async {
     if (isInitiated) return;
     isLoading = true;

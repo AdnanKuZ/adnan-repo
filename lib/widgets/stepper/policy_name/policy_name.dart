@@ -20,8 +20,8 @@ import '../../../responsive.dart';
 
 class PolicyNameStepWidget extends StatelessWidget {
   final String value = '';
-  final GlobalKey<FormState> formKey;
-  PolicyNameStepWidget({Key? key, required this.formKey}) : super(key: key);
+  final policyNameFormKey;
+  PolicyNameStepWidget({Key? key, required this.policyNameFormKey}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -57,7 +57,7 @@ class PolicyNameStepWidget extends StatelessWidget {
                         textColor: Colors.white,
                         title: "Proceed to Summary",
                         onpressed: () {
-                          if (!formKey.currentState!.validate()) {
+                          if (!policyNameFormKey.currentState!.validate()) {
                             AuthDialog(
                               title: 'Please enter device name.',
                             );
@@ -80,7 +80,7 @@ class PolicyNameStepWidget extends StatelessWidget {
           SizedBox(
             width: 300,
             child: Form(
-              key: formKey,
+              key: policyNameFormKey,
               child: TextFormField(
                 controller: textFieldController,
                 style: TextStyle(color: Colors.black),

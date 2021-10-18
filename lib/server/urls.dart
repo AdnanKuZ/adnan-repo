@@ -8,4 +8,4 @@ const GET_METADATA_URL = "${BASE_URL}Metadata/";
 const GET_APPLICATIONS_URL = "${BASE_URL}Applications/";
 const SEARCH_APPLICATIONS_URL = "${BASE_URL}Applications?search=";
 const REGISTER_URL = "${ACCOUNT_URL}Register";
-const DELETE_POLICY_URL = "${BASE_URL}Policies/:";
+const DELETE_POLICY_URL = "${BASE_URL}Policies/";

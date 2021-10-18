@@ -341,7 +341,7 @@ class _StepperScreenState extends State<StepperScreen> {
                                               : Colors.grey),
                                     ),
                                     content: PolicyNameStepWidget(
-                                        formKey: policyNameStepFormKey))
+                                        policyNameFormKey: policyNameStepFormKey))
                                 : EnhanceStep(
                                     isActive:
                                         instance.stageStates[4] ? true : false,

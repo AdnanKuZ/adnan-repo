@@ -1,3 +1,7 @@
+import 'package:admin/dialogs/auth_error_dialog.dart';
+import 'package:admin/dialogs/delete_dialog.dart';
+import 'package:admin/dialogs/loading_dialog.dart';
+import 'package:admin/dialogs/log_out_dialog.dart';
 import 'package:admin/models/policy.dart';
 import 'package:admin/server/requests.dart';
 import 'package:admin/widgets/dashboard/policies/policy/seperator.dart';
@@ -9,6 +13,8 @@ import 'bandwidth.dart';
 import 'connection_type.dart';
 import 'members.dart';
 import 'members_and_devices.dart';
+
+typedef LoadPolicies = Function();
 
 class PolicyWidget extends StatefulWidget {
   final PolicyModel policy;
@@ -34,7 +40,15 @@ class _PolicyWidgetState extends State<PolicyWidget> {
   }
 
   void deletePolicy(String policyId) async {
-    requestDeletePolicy(policyId);
+    Navigator.pop(context);
+    showDialog(
+        context: context,
+        builder: (context) => Container(
+            width: 50, height: 50, child: CircularProgressIndicator()));
+    print('loading...');
+    var result = await requestDeletePolicy(policyId);
+    print('loading2...');
+    Navigator.pop(context);
   }
 
   @override
@@ -64,8 +78,15 @@ class _PolicyWidgetState extends State<PolicyWidget> {
                           title: widget.policy.name,
                           isExpanded: _isOpen,
                           onEdit: () {},
-                          onDelete: () {
-                            deletePolicy(widget.policy.id!);
+                          onDelete: () async {
+                            await showDialog(
+                                context: context,
+                                builder: (context) => DeleteDialog(
+                                      title: "Are you sure ?",
+                                      onDel: () {
+                                        deletePolicy(widget.policy.id!);
+                                      },
+                                    ));
                           },
                           onLayoutChanged: () => collapse()),
                       // Seperator
@@ -84,10 +105,11 @@ class _PolicyWidgetState extends State<PolicyWidget> {
                                     .toString(),
                                 type: widget.policy.bandwidths![index].bandwidth
                                     .toString(),
-                                time: widget.policy.bandwidths![index].day != 'All Days'?
-                                widget.policy.bandwidths![index].date 
-                                    .toString() : ''
-                                );
+                                time: widget.policy.bandwidths![index].day !=
+                                        'All Days'
+                                    ? widget.policy.bandwidths![index].date
+                                        .toString()
+                                    : '');
                           }),
                       // BandwidthLimitWidget(
                       //     days: 'Sun, Thu',
@@ -115,15 +137,22 @@ class _PolicyWidgetState extends State<PolicyWidget> {
                                 days: widget.policy.connectionTypes![index].day
                                     .toString(),
                                 type: widget.policy.connectionTypes![index]
-                                            .port == null
-                                    ? widget.policy.connectionTypes![index].type == 'vni-0/0.0'? 'Internet':'LTE'
+                                            .port ==
+                                        null
+                                    ? widget.policy.connectionTypes![index]
+                                                .type ==
+                                            'vni-0/0.0'
+                                        ? 'Internet'
+                                        : 'LTE'
                                     : widget.policy.connectionTypes![index]
                                         .port!.title
                                         .toString(),
-                                time: widget.policy.connectionTypes![index].day != 'All Days'?
-                                widget.policy.connectionTypes![index].date
-                                    .toString() : ''
-                              );
+                                time: widget.policy.connectionTypes![index]
+                                            .day !=
+                                        'All Days'
+                                    ? widget.policy.connectionTypes![index].date
+                                        .toString()
+                                    : '');
                           }),
                       // ConnectionTypeWidget(
                       //     days: 'Sun, Mon',
@@ -175,8 +204,8 @@ class _PolicyWidgetState extends State<PolicyWidget> {
                     isExpanded: _isOpen,
                     onEdit: () {},
                     onDelete: () {
-                            deletePolicy(widget.policy.id!);
-                          },
+                      deletePolicy(widget.policy.id!);
+                    },
                     onLayoutChanged: () => expand()),
               ),
             ),
