@@ -94,6 +94,7 @@ class LoginWidget extends StatelessWidget {
                       )
                     ]),
                     child: CustomTextField(
+                      maxLines: 1,
                       controller: emailController,
                       onChanged: (value) {
                         RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")

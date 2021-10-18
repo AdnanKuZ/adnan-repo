@@ -32,16 +32,16 @@ class ConnectionStepperWidget extends StatelessWidget {
               Spacer(),
               FilledButton(
                 onPress: () {
-                  // if (connectionProvider.checkConnectionIsValid()) {
+                  if (connectionProvider.checkConnectionIsValid()) {
                     provider.setStageState = 2;
                     provider.incrementIndex();
-                  // } else {
-                  //   showDialog(
-                  //       context: context,
-                  //       builder: (context) => AuthDialog(
-                  //             title: "Please Fill Atleast one day",
-                  //           ));
-                  // }
+                  } else {
+                    showDialog(
+                        context: context,
+                        builder: (context) => AuthDialog(
+                              title: "Please Fill Atleast one day",
+                            ));
+                  }
                 },
                 title: 'Next Step'
               ),

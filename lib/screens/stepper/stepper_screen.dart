@@ -4,6 +4,7 @@ import 'package:admin/models/device.dart';
 import 'package:admin/models/member.dart';
 import 'package:admin/providers/add_policy_provider.dart';
 import 'package:admin/providers/appsProvider.dart';
+import 'package:admin/providers/bandwidthProvider.dart';
 import 'package:admin/providers/conncetionProvider.dart';
 import 'package:admin/server/requests.dart';
 import 'package:admin/widgets/stepper/apps_step.dart';
@@ -89,7 +90,8 @@ class _StepperScreenState extends State<StepperScreen> {
     final appModels = applications
         .map<AppModel>((e) => AppModel(
             // name: e.name,
-             title: e.title, image: "assets/images/chrome.png"))
+            title: e.title,
+            image: "assets/images/chrome.png"))
         .toList();
     provider.setDefaultApps(appModels);
     return appModels;
@@ -98,6 +100,11 @@ class _StepperScreenState extends State<StepperScreen> {
   @override
   Widget build(BuildContext context) {
     final _stageProvider = Provider.of<StageProvider>(context, listen: false);
+    final bandwidthProvider =
+        Provider.of<BandwidthProvider>(context, listen: false);
+    final connectionProvider =
+        Provider.of<ConnectionProvider>(context, listen: false);
+    final appsProvider = Provider.of<AppsProvider>(context, listen: false);
     return Scaffold(
       body: SingleChildScrollView(child: LayoutBuilder(
         builder: (context, BoxConstraints constraints) {
@@ -123,6 +130,8 @@ class _StepperScreenState extends State<StepperScreen> {
                           _stageProvider.setStagesStateFalse();
                           _stageProvider.setIndex = 0;
                           _stageProvider.setIsLastStep = false;
+                          bandwidthProvider.abortBandwidth();
+                          connectionProvider.abortconnection();
                         },
                         child: Icon(
                           Icons.arrow_back_sharp,
@@ -146,6 +155,8 @@ class _StepperScreenState extends State<StepperScreen> {
                             _stageProvider.setStagesStateFalse();
                             _stageProvider.setIndex = 0;
                             _stageProvider.setIsLastStep = false;
+                            bandwidthProvider.abortBandwidth();
+                          connectionProvider.abortconnection();
                           },
                           child: Icon(
                             Icons.disabled_by_default_rounded,
@@ -302,14 +313,13 @@ class _StepperScreenState extends State<StepperScreen> {
                                 ),
                                 content: Consumer<AppsProvider>(
                                     builder: (context, appinstance, child) {
-                                    return FutureBuilder(
-                                        future: loadApplicationsFuture,
-                                        builder: (context, snapshot) {
-                                          print('@');
-                                          return AppsStepScreen();
-                                        });
-                                }
-                                )),
+                                  return FutureBuilder(
+                                      future: loadApplicationsFuture,
+                                      builder: (context, snapshot) {
+                                        print('@');
+                                        return AppsStepScreen();
+                                      });
+                                })),
                             !instance.islaststep
                                 ? EnhanceStep(
                                     icon: instance.stageIndex == 4
@@ -330,7 +340,8 @@ class _StepperScreenState extends State<StepperScreen> {
                                               ? primaryColor
                                               : Colors.grey),
                                     ),
-                                    content: PolicyNameStepWidget(formKey: policyNameStepFormKey))
+                                    content: PolicyNameStepWidget(
+                                        formKey: policyNameStepFormKey))
                                 : EnhanceStep(
                                     isActive:
                                         instance.stageStates[4] ? true : false,

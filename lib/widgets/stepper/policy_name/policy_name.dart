@@ -85,7 +85,7 @@ class PolicyNameStepWidget extends StatelessWidget {
                 controller: textFieldController,
                 style: TextStyle(color: Colors.black),
                 decoration: const InputDecoration(
-                  hintText: 'New Member Name',
+                  hintText: 'New Policy Name',
                   hintStyle: TextStyle(color: Colors.grey),
                   labelStyle: TextStyle(color: Colors.grey),
                   enabledBorder: UnderlineInputBorder(

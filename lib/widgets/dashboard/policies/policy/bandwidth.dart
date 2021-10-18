@@ -35,7 +35,7 @@ class BandwidthLimitWidget extends StatelessWidget {
                     ?.copyWith(color: Colors.black),
               ),
               Text(
-                " | ",
+                time.isNotEmpty ? " | " : '',
                 style: Theme.of(context)
                     .textTheme
                     .caption

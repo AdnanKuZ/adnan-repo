@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 
 class BandwidthProvider extends ChangeNotifier {
   bool bandwidthIsChecked = true;
-  
 
   Map<String, TimeOfDay?> bandwidthtimeFrom = {
     "All Days": null, //1
@@ -104,11 +103,24 @@ class BandwidthProvider extends ChangeNotifier {
     days.forEach((element) {
       bandwidthtimeFrom[element] != null && bandwidthtimeTo[element] != null
           ? counter = counter + 1
-          : counter = counter ;
+          : counter = counter;
     });
     if (counter == 0)
       return false;
     else
       return true;
+  }
+
+  void abortBandwidth() {
+    bandwidthtimeFrom.forEach((key, value) {
+      bandwidthSetTimeFrom(null, key);
+    });
+    bandwidthtimeTo.forEach((key, value) {
+      bandwidthSetTimeTo(null, key);
+    });
+    _bandwidthChosenValue.forEach((key, value) {
+      setBandwidthDropDownValue('Full Bandwidth', key);
+    });
+    notifyListeners();
   }
 }

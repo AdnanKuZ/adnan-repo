@@ -84,8 +84,10 @@ class _PolicyWidgetState extends State<PolicyWidget> {
                                     .toString(),
                                 type: widget.policy.bandwidths![index].bandwidth
                                     .toString(),
-                                time: widget.policy.bandwidths![index].date
-                                    .toString());
+                                time: widget.policy.bandwidths![index].day != 'All Days'?
+                                widget.policy.bandwidths![index].date 
+                                    .toString() : ''
+                                );
                           }),
                       // BandwidthLimitWidget(
                       //     days: 'Sun, Thu',
@@ -113,15 +115,15 @@ class _PolicyWidgetState extends State<PolicyWidget> {
                                 days: widget.policy.connectionTypes![index].day
                                     .toString(),
                                 type: widget.policy.connectionTypes![index]
-                                            .port ==
-                                        null
-                                    ? widget.policy.connectionTypes![index].type
-                                        .toString()
+                                            .port == null
+                                    ? widget.policy.connectionTypes![index].type == 'vni-0/0.0'? 'Internet':'LTE'
                                     : widget.policy.connectionTypes![index]
                                         .port!.title
                                         .toString(),
-                                time: widget.policy.connectionTypes![index].date
-                                    .toString());
+                                time: widget.policy.connectionTypes![index].day != 'All Days'?
+                                widget.policy.connectionTypes![index].date
+                                    .toString() : ''
+                              );
                           }),
                       // ConnectionTypeWidget(
                       //     days: 'Sun, Mon',

@@ -2,6 +2,7 @@ import 'package:admin/constants.dart';
 import 'package:admin/dialogs/auth_error_dialog.dart';
 import 'package:admin/providers/add_policy_provider.dart';
 import 'package:admin/providers/bandwidthProvider.dart';
+import 'package:admin/providers/metaDataProvider.dart';
 import 'package:admin/widgets/common/elevated_button_widget.dart';
 import 'package:admin/widgets/common/text_field_widget.dart';
 import 'package:flutter/material.dart';
@@ -16,14 +17,14 @@ class BandwidthStepperWidget extends StatelessWidget {
   final BoxConstraints? constraints;
   BandwidthStepperWidget({Key? key, this.constraints}) : super(key: key);
 
-  final lteController = TextEditingController();
+  // final lteController = TextEditingController();
   final cableController = TextEditingController();
   @override
   Widget build(BuildContext context) {
-    final bandwidthProvider = Provider.of<BandwidthProvider>(context);
     final provider = Provider.of<StageProvider>(context, listen: false);
     final membersAdnDevicesProvider =
         Provider.of<AddPolicyProvider>(context, listen: false);
+    final bandwidthProvider = Provider.of<BandwidthProvider>(context, listen: false);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -40,21 +41,20 @@ class BandwidthStepperWidget extends StatelessWidget {
             ),
             Spacer(),
             FilledButton(
-              onPress: () {
-                // print(provider.stageIndex.toString());
-                // if (bandwidthProvider.checkBandwidthIsValid()) {
+                onPress: () {
+                  print(provider.stageIndex.toString());
+                  if (bandwidthProvider.checkBandwidthIsValid()) {
                   provider.setStageState = 1;
                   provider.incrementIndex();
-                // } else {
-                //   showDialog(
-                //       context: context,
-                //       builder: (context) => AuthDialog(
-                //             title: "Please Fill Atleast one day",
-                //           ));
-                // }
-              },
-              title: 'Next Step'
-            ),
+                  } else {
+                    showDialog(
+                        context: context,
+                        builder: (context) => AuthDialog(
+                              title: "Please Fill Atleast one day",
+                            ));
+                  }
+                },
+                title: 'Next Step'),
           ],
         ),
         SizedBox(height: 10),
@@ -73,18 +73,22 @@ class BandwidthStepperWidget extends StatelessWidget {
               SizedBox(
                 width: 30,
               ),
-              Container(
-                width: 220,
-                child: CustomTextField(
-                  suffix: Text('Kbps'),
-                  controller: lteController,
-                  keyboardType: TextInputType.number,
-                  hintText: 'Bandwidth 0-1000',
-                  onChanged: (value) {
-                    membersAdnDevicesProvider.setCable(value);
-                  },
-                ),
-              ),
+              Consumer<MetadataProvider>(builder: (context, instance, child) {
+                cableController.text =
+                    instance.getmetadata["maxBandwidth"].toString();
+                return Container(
+                  width: 220,
+                  child: CustomTextField(
+                    suffix: Text('Kbps'),
+                    controller: cableController,
+                    keyboardType: TextInputType.number,
+                    hintText: 'Bandwidth 0-1000',
+                    onChanged: (value) {
+                      membersAdnDevicesProvider.setCable(value);
+                    },
+                  ),
+                );
+              }),
             ],
           ),
         ),
