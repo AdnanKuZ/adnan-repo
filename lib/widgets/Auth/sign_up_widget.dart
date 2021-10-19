@@ -264,6 +264,8 @@ class SignUpWidget extends StatelessWidget {
                                   builder: (context) => AuthDialog(
                                     title: "Sign up credentials not correct",
                                   ));
+                              signupMode.setMode("Otp");
+                              signupMode.setMode("Sign Up");
                             } else if(result == 'Not Allowed'){
                               print('Unauthorized');
                               showDialog(
@@ -271,6 +273,8 @@ class SignUpWidget extends StatelessWidget {
                                   builder: (context) => AuthDialog(
                                     title: "you are not allowed to do this",
                                   ));
+                              signupMode.setMode("Otp");
+                              signupMode.setMode("Sign Up");
                             }
                             else {
                               print('server error');
@@ -280,6 +284,8 @@ class SignUpWidget extends StatelessWidget {
                                     title: "Something wrong has happend, Please try again",
                                   ));
                               isLoading.setLoadingState(false);
+                              signupMode.setMode("Otp");
+                              signupMode.setMode("Sign Up");
                             }
                           }
                         },

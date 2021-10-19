@@ -44,7 +44,7 @@ class BandwidthStepperWidget extends StatelessWidget {
                 onPress: () {
                   print(provider.stageIndex.toString());
                   if (bandwidthProvider.checkBandwidthIsValid()) {
-                  provider.setStageState = 1;
+                  provider.setStageState = 3;
                   provider.incrementIndex();
                   } else {
                     showDialog(
@@ -58,40 +58,40 @@ class BandwidthStepperWidget extends StatelessWidget {
           ],
         ),
         SizedBox(height: 10),
-        Container(
-          height: 70,
-          child: Row(
-            children: [
-              Text(
-                'Your internet provider speed ',
-                // maxLines: 1,
-                style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 22,
-                    fontWeight: FontWeight.bold),
-              ),
-              SizedBox(
-                width: 30,
-              ),
-              Consumer<MetadataProvider>(builder: (context, instance, child) {
-                cableController.text =
-                    instance.getmetadata["maxBandwidth"].toString();
-                return Container(
-                  width: 220,
-                  child: CustomTextField(
-                    suffix: Text('Kbps'),
-                    controller: cableController,
-                    keyboardType: TextInputType.number,
-                    hintText: 'Bandwidth 0-1000',
-                    onChanged: (value) {
-                      membersAdnDevicesProvider.setCable(value);
-                    },
-                  ),
-                );
-              }),
-            ],
-          ),
-        ),
+        // Container(
+        //   height: 70,
+        //   child: Row(
+        //     children: [
+        //       Text(
+        //         'Your internet provider speed ',
+        //         // maxLines: 1,
+        //         style: TextStyle(
+        //             color: Colors.black,
+        //             fontSize: 22,
+        //             fontWeight: FontWeight.bold),
+        //       ),
+        //       SizedBox(
+        //         width: 30,
+        //       ),
+        //       Consumer<MetadataProvider>(builder: (context, instance, child) {
+        //         cableController.text =
+        //             instance.getmetadata["maxBandwidth"].toString();
+        //         return Container(
+        //           width: 220,
+        //           child: CustomTextField(
+        //             suffix: Text('Kbps'),
+        //             controller: cableController,
+        //             keyboardType: TextInputType.number,
+        //             hintText: 'Bandwidth 0-1000',
+        //             onChanged: (value) {
+        //               membersAdnDevicesProvider.setCable(value);
+        //             },
+        //           ),
+        //         );
+        //       }),
+        //     ],
+        //   ),
+        // ),
         SizedBox(
           height: 10,
         ),

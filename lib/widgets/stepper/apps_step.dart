@@ -71,7 +71,7 @@ class _AppsStepScreenState extends State<AppsStepScreen> {
                   return;
                 }
 
-                provider.setStageState = 3;
+                provider.setStageState = 1;
                 provider.incrementIndex();
               },
             ),

@@ -253,22 +253,22 @@ class _StepperScreenState extends State<StepperScreen> {
                                 state: StepState.complete,
                                 title: Text(
                                   constraints.maxWidth > 1008
-                                      ? ' Speed   '
+                                      ? ' Apps   '
                                       : '',
                                   style: TextStyle(
                                       color: instance.stageStates[1]
                                           ? primaryColor
                                           : Colors.grey),
                                 ),
-                                content: Container(
-                                  child: Column(
-                                    children: [
-                                      BandwidthStepperWidget(
-                                        constraints: constraints,
-                                      )
-                                    ],
-                                  ),
-                                )),
+                                content: Consumer<AppsProvider>(
+                                    builder: (context, appinstance, child) {
+                                  return FutureBuilder(
+                                      future: loadApplicationsFuture,
+                                      builder: (context, snapshot) {
+                                        print('@');
+                                        return AppsStepScreen();
+                                      });
+                                })),
                             EnhanceStep(
                                 icon: instance.stageIndex == 2
                                     ? Icon(
@@ -305,21 +305,15 @@ class _StepperScreenState extends State<StepperScreen> {
                                     instance.stageStates[3] ? true : false,
                                 state: StepState.complete,
                                 title: Text(
-                                  constraints.maxWidth > 1008 ? ' Apps   ' : '',
+                                  constraints.maxWidth > 1008 ? ' Speed   ' : '',
                                   style: TextStyle(
                                       color: instance.stageStates[3]
                                           ? primaryColor
                                           : Colors.grey),
                                 ),
-                                content: Consumer<AppsProvider>(
-                                    builder: (context, appinstance, child) {
-                                  return FutureBuilder(
-                                      future: loadApplicationsFuture,
-                                      builder: (context, snapshot) {
-                                        print('@');
-                                        return AppsStepScreen();
-                                      });
-                                })),
+                                content: BandwidthStepperWidget(
+                                  constraints: constraints,
+                                )),
                             !instance.islaststep
                                 ? EnhanceStep(
                                     icon: instance.stageIndex == 4

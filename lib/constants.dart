@@ -15,6 +15,6 @@ const textGray = Color(0xFF7F7F7F);
 
 const defaultPadding = 16.0;
 const menuPadding = 48.0;
-const digitCode = 8;
+const digitCode = 6;
 
 const fontFamily = "Poppins";

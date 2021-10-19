@@ -113,7 +113,9 @@ class ConnectionRowWidget extends StatelessWidget {
                                       : Colors.black,
                             ),
                           )
-                        : Text(instance.connectionDropDownValue[day]!.title.toString(),
+                        : Text(
+                            instance.connectionDropDownValue[day]!.title
+                                .toString(),
                             style: TextStyle(
                               color: allDays
                                   ? _provider.connectionIsChecked
@@ -126,11 +128,19 @@ class ConnectionRowWidget extends StatelessWidget {
                     elevation: 10,
                     style: TextStyle(color: Colors.white),
                     iconEnabledColor: Colors.black,
-                    items: metaInstance.getmetadata["ports"].map<DropdownMenuItem<Port>>((Port value) {
+                    items: metaInstance.getmetadata["ports"]
+                        .map<DropdownMenuItem<Port>>((Port value) {
+                      if (value.title.toString() == "Internet") {
+                        value.title = "Cable";
+                      } else if (value.title.toString() == "Lte" ||
+                          value.title.toString() == "LTE") {
+                            value.title = "Sim";
+                          }
                       return DropdownMenuItem<Port>(
                         value: value,
                         child: Text(
                           value.title.toString(),
+                          // value.title == "Internet" ? 'Cable' : value.title == "Lte" ? "Sim" : value.title == "LTE" ? 'Sim': 'None',
                           style: TextStyle(
                             color: allDays
                                 ? _provider.connectionischecked
@@ -243,6 +253,7 @@ class ConnectionRowWidget extends StatelessWidget {
       ],
     ));
   }
+
   double convertTo24(double time, DayPeriod period) {
     if (period == DayPeriod.am) {
       return time;
@@ -252,11 +263,10 @@ class ConnectionRowWidget extends StatelessWidget {
   }
 
   void setTimeTo(
-    ConnectionProvider provider, String day, BuildContext context) async {
+      ConnectionProvider provider, String day, BuildContext context) async {
     TimeOfDay timeTo = TimeOfDay.now();
 
     if (provider.connectiontimeFrom[day] != null) {
-      
       TimeOfDay timeFrom = (provider.connectiontimeFrom[day])!;
       timeTo = (await showTimePicker(
           context: context, initialTime: TimeOfDay.now()))!;
@@ -272,9 +282,11 @@ class ConnectionRowWidget extends StatelessWidget {
       if ((timeTo24Format - timeFrom24Format) > 0) {
         provider.connectionSetTimeTo(timeTo, day);
       } else {
-        showDialog(context: context, builder: (context) => AuthDialog(
-          title: 'Please Choose a valid time within the same day',
-        ));
+        showDialog(
+            context: context,
+            builder: (context) => AuthDialog(
+                  title: 'Please Choose a valid time within the same day',
+                ));
       }
     }
   }
