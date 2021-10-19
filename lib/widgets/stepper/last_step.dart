@@ -113,6 +113,7 @@ class LastStepWidget extends StatelessWidget {
                       connectionState, child) {
                     return PolicyWidget(
                         policy: PolicyModel(
+                            userIds: [],
                             name: membersState.policyName,
                             bandwidths: [
                           ...bandwidthState.getBandwidthList()

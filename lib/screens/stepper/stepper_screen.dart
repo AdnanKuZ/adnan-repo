@@ -253,7 +253,7 @@ class _StepperScreenState extends State<StepperScreen> {
                                 state: StepState.complete,
                                 title: Text(
                                   constraints.maxWidth > 1008
-                                      ? ' Bandwidth   '
+                                      ? ' Speed   '
                                       : '',
                                   style: TextStyle(
                                       color: instance.stageStates[1]

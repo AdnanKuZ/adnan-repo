@@ -33,6 +33,63 @@ AddDeviceDialog({required BuildContext context, Color? color, MemberModel? selec
                     mainAxisSize: MainAxisSize.min,
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
+                      Text('Member Name :',style: TextStyle(color: Colors.black87,fontSize: 14),),
+                      Consumer<AddDeviceProvider>(
+                          builder: (context, state, child) {
+                        return DropdownButton<MemberModel>(
+                          isExpanded: true,
+                          hint: Text(
+                            state.selectedMemberModel == null
+                                ? "Member"
+                                : state.selectedMemberModel!.getName(),
+                            style: TextStyle(color: Colors.black),
+                          ),
+                          items: <MemberModel>[...addDeviceProvider.members]
+                              .map((MemberModel value) {
+                            return DropdownMenuItem<MemberModel>(
+                              value: value,
+                              child: Text(
+                                value.getName(),
+                                style: TextStyle(color: Colors.black),
+                              ),
+                            );
+                          }).toList(),
+                          onChanged: (value) {
+                            if (value != null) {
+                              addDeviceProvider.setSelectedMember(value);
+                              print(
+                                  addDeviceProvider.selectedMemberModel?.getName());
+                            }
+                          },
+                        );
+                      }),
+                      
+                      SizedBox(height: 10),
+                      // // Device name
+                      // TextFormField(
+                      //   style: TextStyle(color: Colors.black),
+                      //   decoration: const InputDecoration(
+                      //     hintText: 'Device Name',
+                      //     hintStyle: TextStyle(color: lightGrayColor),
+                      //     labelStyle: TextStyle(color: lightGrayColor),
+                      //     enabledBorder: UnderlineInputBorder(
+                      //       borderSide: BorderSide(color: lightGrayColor),
+                      //     ),
+                      //     focusedBorder: UnderlineInputBorder(
+                      //       borderSide: BorderSide(color: Colors.black),
+                      //     ),
+                      //   ),
+                      //   validator: (String? value) {
+                      //     if (value == null || value.isEmpty) {
+                      //       return 'Please enter some text';
+                      //     }
+                      //     return null;
+                      //   },
+                      //   onChanged: (value) {
+                      //     addDeviceProvider.setDeviceName(value);
+                      //   },
+                      // ),
+                      Text('Device Name :',style: TextStyle(color: Colors.black87,fontSize: 14),),
                       Consumer<AddDeviceProvider>(
                           builder: (context, state, child) {
                         print(state.getDeviceName.trim().length > 0);
@@ -67,31 +124,6 @@ AddDeviceDialog({required BuildContext context, Color? color, MemberModel? selec
                         );
                       }),
                       SizedBox(height: 10),
-                      // // Device name
-                      // TextFormField(
-                      //   style: TextStyle(color: Colors.black),
-                      //   decoration: const InputDecoration(
-                      //     hintText: 'Device Name',
-                      //     hintStyle: TextStyle(color: lightGrayColor),
-                      //     labelStyle: TextStyle(color: lightGrayColor),
-                      //     enabledBorder: UnderlineInputBorder(
-                      //       borderSide: BorderSide(color: lightGrayColor),
-                      //     ),
-                      //     focusedBorder: UnderlineInputBorder(
-                      //       borderSide: BorderSide(color: Colors.black),
-                      //     ),
-                      //   ),
-                      //   validator: (String? value) {
-                      //     if (value == null || value.isEmpty) {
-                      //       return 'Please enter some text';
-                      //     }
-                      //     return null;
-                      //   },
-                      //   onChanged: (value) {
-                      //     addDeviceProvider.setDeviceName(value);
-                      //   },
-                      // ),
-                      SizedBox(height: 10),
                       // TextFormField(
                       //   style: TextStyle(color: Colors.black),
                       //   decoration: const InputDecoration(
@@ -117,35 +149,7 @@ AddDeviceDialog({required BuildContext context, Color? color, MemberModel? selec
                       // ),
                       // SizedBox(height: 10),
                       // Members
-                      Consumer<AddDeviceProvider>(
-                          builder: (context, state, child) {
-                        return DropdownButton<MemberModel>(
-                          isExpanded: true,
-                          hint: Text(
-                            state.selectedMemberModel == null
-                                ? "Member"
-                                : state.selectedMemberModel!.getName(),
-                            style: TextStyle(color: Colors.black),
-                          ),
-                          items: <MemberModel>[...addDeviceProvider.members]
-                              .map((MemberModel value) {
-                            return DropdownMenuItem<MemberModel>(
-                              value: value,
-                              child: Text(
-                                value.getName(),
-                                style: TextStyle(color: Colors.black),
-                              ),
-                            );
-                          }).toList(),
-                          onChanged: (value) {
-                            if (value != null) {
-                              addDeviceProvider.setSelectedMember(value);
-                              print(
-                                  addDeviceProvider.selectedMemberModel?.getName());
-                            }
-                          },
-                        );
-                      }),
+                      
                       Container(
                         margin: EdgeInsets.fromLTRB(0, 30, 0, 0),
                         child: ElevatedButton(

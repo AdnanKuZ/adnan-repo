@@ -112,14 +112,17 @@ class MembersAndDevicesStepperWidget extends StatelessWidget {
               ),
               Wrap(
                 children: [
-                  BorderButton(
-                    title: "Associate",
-                    icon: Icons.add,
-                    onPress: () async {
-                      showAssociateDialog(
-                          context, addDeviceProvider, provider, null);
-                    },
-                  ),
+                  Consumer<AddPolicyProvider>(builder: (context, obj, child) {
+                    return obj.members.isNotEmpty?
+                     BorderButton(
+                      title: "Associate",
+                      icon: Icons.add,
+                      onPress: () async {
+                        showAssociateDialog(
+                            context, addDeviceProvider, provider, null);
+                      },
+                    ) :  SizedBox.shrink();
+                  }),
                   Container(
                     width: 8,
                   ),
@@ -251,12 +254,22 @@ class StepperDevicesList extends StatelessWidget {
                           Container(
                             width: 20,
                           ),
-                          Text(
-                            instance.devices[index].name.toString(),
-                            style: TextStyle(
-                                color: instance.getAllDevicesChecked
-                                    ? textGray
-                                    : Colors.black),
+                          Tooltip(
+                            message: instance.devices[index].mac.toString(),
+                            child: Text(
+                              instance.devices[index].name == null
+                                  ? 'Unknown Device'
+                                  : instance.devices[index].name!.isEmpty
+                                      ? 'Unknown Device'
+                                      : instance.devices[index].name == '<none>'
+                                          ? 'Unknown Device'
+                                          : instance.devices[index].name
+                                              .toString(),
+                              style: TextStyle(
+                                  color: instance.getAllDevicesChecked
+                                      ? textGray
+                                      : Colors.black),
+                            ),
                           )
                         ],
                       ),
