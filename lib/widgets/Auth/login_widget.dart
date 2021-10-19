@@ -94,6 +94,7 @@ class LoginWidget extends StatelessWidget {
                       )
                     ]),
                     child: CustomTextField(
+                      textInputAction: TextInputAction.next,
                       maxLines: 1,
                       controller: emailController,
                       onChanged: (value) {
@@ -141,6 +142,7 @@ class LoginWidget extends StatelessWidget {
                         )
                       ]),
                       child: CustomTextField(
+                        textInputAction: TextInputAction.done,
                         maxLines: 1,
                         controller: passController,
                         suffixIcon: IconButton(
@@ -150,9 +152,8 @@ class LoginWidget extends StatelessWidget {
                           },
                           icon: Icon(
                             FontAwesomeIcons.eye,
-                            color: !passHiddenProvider.state
-                                ? primaryColor
-                                : Colors.grey,
+                            color:
+                                !state.passHidden ? primaryColor : Colors.grey,
                             size: 16,
                           ),
                         ),
@@ -164,6 +165,10 @@ class LoginWidget extends StatelessWidget {
                             return 'password empty';
                           else
                             return null;
+                        },
+                        submit: (s) async {
+                          await submetForm(
+                              authData, isLoading, context, signupMode);
                         },
                       ),
                     ),
@@ -201,56 +206,8 @@ class LoginWidget extends StatelessWidget {
                       child: !state.isLoadingState
                           ? CustomElevatedButton(
                               onpressed: () async {
-                                authData = {
-                                  "email": emailController.text,
-                                  "password": passController.text,
-                                };
-
-                                if (loginFormKey.currentState!.validate()) {
-                                  isLoading.setLoadingState(true);
-                                  String result = await login(authData);
-                                  if (result == 'Login Failed') {
-                                    print("loginError");
-                                    isLoading.setLoadingState(false);
-                                    showDialog(
-                                        context: context,
-                                        builder: (context) => AuthDialog(
-                                              title:
-                                                  'invalid username/password',
-                                            ));
-                                  } else if (result == 'Success') {
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                DashboardScreen()));
-                                    isLoading.setLoadingState(false);
-                                  } else if (result == 'emailNotConfirmed') {
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                SignUpScreen()));
-                                    signupMode.setMode("Otp");
-                                    isLoading.setLoadingState(false);
-                                  } else if (result == 'Unauthorized') {
-                                    print('Unauthorized');
-                                    isLoading.setLoadingState(false);
-                                    showDialog(
-                                        context: context,
-                                        builder: (context) => AuthDialog(
-                                              title: "You are not allowed to do this",
-                                            ));
-                                  } else {
-                                    print("Server Error");
-                                    isLoading.setLoadingState(false);
-                                    showDialog(
-                                        context: context,
-                                        builder: (context) => AuthDialog(
-                                              title: "Something wrong has happend, Please try again",
-                                            ));
-                                  }
-                                }
+                                await submetForm(
+                                    authData, isLoading, context, signupMode);
                               },
                               buttonColor: primaryColor,
                               icon: FontAwesomeIcons.signInAlt,
@@ -287,5 +244,52 @@ class LoginWidget extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  Future<void> submetForm(Map<String, String> authData, IsLoading isLoading,
+      BuildContext context, SignUpModes signupMode) async {
+    authData = {
+      "email": emailController.text,
+      "password": passController.text,
+    };
+
+    if (loginFormKey.currentState!.validate()) {
+      isLoading.setLoadingState(true);
+      String result = await login(authData);
+      if (result == 'Login Failed') {
+        print("loginError");
+        isLoading.setLoadingState(false);
+        showDialog(
+            context: context,
+            builder: (context) => AuthDialog(
+                  title: 'invalid username/password',
+                ));
+      } else if (result == 'Success') {
+        Navigator.push(context,
+            MaterialPageRoute(builder: (context) => DashboardScreen()));
+        isLoading.setLoadingState(false);
+      } else if (result == 'emailNotConfirmed') {
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => SignUpScreen()));
+        signupMode.setMode("Otp");
+        isLoading.setLoadingState(false);
+      } else if (result == 'Unauthorized') {
+        print('Unauthorized');
+        isLoading.setLoadingState(false);
+        showDialog(
+            context: context,
+            builder: (context) => AuthDialog(
+                  title: "You are not allowed to do this",
+                ));
+      } else {
+        print("Server Error");
+        isLoading.setLoadingState(false);
+        showDialog(
+            context: context,
+            builder: (context) => AuthDialog(
+                  title: "Something wrong has happend, Please try again",
+                ));
+      }
+    }
   }
 }

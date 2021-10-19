@@ -58,12 +58,13 @@ class SignUpWidget extends StatelessWidget {
           child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          
           Text(
             'SIGN UP',
             style: TextStyle(
-              fontFamily: fontFamily,
-                color: Colors.black, fontWeight: FontWeight.w800, fontSize: 18),
+                fontFamily: fontFamily,
+                color: Colors.black,
+                fontWeight: FontWeight.w800,
+                fontSize: 18),
           ),
           SizedBox(
             height: 12,
@@ -71,8 +72,10 @@ class SignUpWidget extends StatelessWidget {
           Text(
             'Fill the data below to create your account',
             style: TextStyle(
-              fontFamily: fontFamily,
-                color: Colors.grey, fontSize: 13, fontWeight: FontWeight.w400),
+                fontFamily: fontFamily,
+                color: Colors.grey,
+                fontSize: 13,
+                fontWeight: FontWeight.w400),
           ),
           SizedBox(
             height: 33,
@@ -91,6 +94,7 @@ class SignUpWidget extends StatelessWidget {
                     )
                   ]),
                   child: CustomTextField(
+                    textInputAction: TextInputAction.next,
                     maxLines: 1,
                     onChanged: (value) {
                       RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
@@ -137,6 +141,7 @@ class SignUpWidget extends StatelessWidget {
                     )
                   ]),
                   child: CustomTextField(
+                    textInputAction: TextInputAction.next,
                     maxLines: 1,
                     controller: passController,
                     suffixIcon: IconButton(
@@ -179,6 +184,7 @@ class SignUpWidget extends StatelessWidget {
                     )
                   ]),
                   child: CustomTextField(
+                    textInputAction: TextInputAction.next,
                     maxLines: 1,
                     state: passHiddenProvider.state,
                     hintText: 'Confirm password',
@@ -204,6 +210,7 @@ class SignUpWidget extends StatelessWidget {
                     )
                   ]),
                   child: CustomTextField(
+                    textInputAction: TextInputAction.done,
                     suffixIcon: Tooltip(
                       message: 'Check the router for device identifier code',
                       child: Icon(Icons.info_outline_rounded),
@@ -218,18 +225,24 @@ class SignUpWidget extends StatelessWidget {
                       // else
                       return null;
                     },
+                    submit: (s) async{
+                      await submitForm(passValidProvider, authData, isLoading, signupMode, context);
+                    },
                   ),
                 ),
                 Consumer<PassValidProvider>(
-              builder: (context, instance, child) => instance.passValidState
-                  ? SizedBox.shrink()
-                  : Container(
-                    margin: EdgeInsets.only(top: 8),
-                    child: Text(
-                        'password must have : capital letters, small letters, characters and numbers',
-                        style: TextStyle(fontFamily: fontFamily,color: Colors.red),
-                      ),
-                  )),
+                    builder: (context, instance, child) =>
+                        instance.passValidState
+                            ? SizedBox.shrink()
+                            : Container(
+                                margin: EdgeInsets.only(top: 8),
+                                child: Text(
+                                  'password must have : capital letters, small letters, characters and numbers',
+                                  style: TextStyle(
+                                      fontFamily: fontFamily,
+                                      color: Colors.red),
+                                ),
+                              )),
               ],
             ),
           ),
@@ -242,52 +255,7 @@ class SignUpWidget extends StatelessWidget {
                 child: !state.isLoadingState
                     ? CustomElevatedButton(
                         onpressed: () async {
-                          signUpFormKey.currentState!.validate()
-                              ? passValidProvider.setPassValidState(true)
-                              : passValidProvider.setPassValidState(false);
-                          authData = {
-                            "email": emailController.text,
-                            "password": passController.text,
-                            "deviceId": deviceIdController.text,
-                          };
-                          if (signUpFormKey.currentState!.validate()) {
-                            isLoading.setLoadingState(true);
-                            String result = await register(authData);
-                            if (result == 'Success') {
-                              signupMode.setMode("Otp");
-                              isLoading.setLoadingState(false);
-                            } else if (result == 'Bad Request') {
-                              print('bad request');
-                              isLoading.setLoadingState(false);
-                              showDialog(
-                                  context: context,
-                                  builder: (context) => AuthDialog(
-                                    title: "Sign up credentials not correct",
-                                  ));
-                              signupMode.setMode("Otp");
-                              signupMode.setMode("Sign Up");
-                            } else if(result == 'Not Allowed'){
-                              print('Unauthorized');
-                              showDialog(
-                                  context: context,
-                                  builder: (context) => AuthDialog(
-                                    title: "you are not allowed to do this",
-                                  ));
-                              signupMode.setMode("Otp");
-                              signupMode.setMode("Sign Up");
-                            }
-                            else {
-                              print('server error');
-                              showDialog(
-                                  context: context,
-                                  builder: (context) => AuthDialog(
-                                    title: "Something wrong has happend, Please try again",
-                                  ));
-                              isLoading.setLoadingState(false);
-                              signupMode.setMode("Otp");
-                              signupMode.setMode("Sign Up");
-                            }
-                          }
+                          await submitForm(passValidProvider, authData, isLoading, signupMode, context);
                         },
                         buttonColor: primaryColor,
                         icon: FontAwesomeIcons.userPlus,
@@ -323,5 +291,55 @@ class SignUpWidget extends StatelessWidget {
         ],
       )),
     );
+  }
+
+  Future<void> submitForm(PassValidProvider passValidProvider, Map<String, String> authData, IsLoading isLoading, SignUpModes signupMode, BuildContext context) async {
+    signUpFormKey.currentState!.validate()
+        ? passValidProvider.setPassValidState(true)
+        : passValidProvider.setPassValidState(false);
+    authData = {
+      "email": emailController.text,
+      "password": passController.text,
+      "deviceId": deviceIdController.text,
+    };
+    if (signUpFormKey.currentState!.validate()) {
+      isLoading.setLoadingState(true);
+      String result = await register(authData);
+      if (result == 'Success') {
+        signupMode.setMode("Otp");
+        isLoading.setLoadingState(false);
+      } else if (result == 'Bad Request') {
+        print('bad request');
+        isLoading.setLoadingState(false);
+        showDialog(
+            context: context,
+            builder: (context) => AuthDialog(
+                  title:
+                      "Sign up credentials not correct",
+                ));
+        signupMode.setMode("Otp");
+        signupMode.setMode("Sign Up");
+      } else if (result == 'Not Allowed') {
+        print('Unauthorized');
+        showDialog(
+            context: context,
+            builder: (context) => AuthDialog(
+                  title: "you are not allowed to do this",
+                ));
+        signupMode.setMode("Otp");
+        signupMode.setMode("Sign Up");
+      } else {
+        print('server error');
+        showDialog(
+            context: context,
+            builder: (context) => AuthDialog(
+                  title:
+                      "Something wrong has happend, Please try again",
+                ));
+        isLoading.setLoadingState(false);
+        signupMode.setMode("Otp");
+        signupMode.setMode("Sign Up");
+      }
+    }
   }
 }

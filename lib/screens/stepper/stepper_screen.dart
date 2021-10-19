@@ -198,10 +198,19 @@ class _StepperScreenState extends State<StepperScreen> {
                           steps: [
                             EnhanceStep(
                                 icon: instance.stageIndex == 0
-                                    ? Icon(
-                                        Icons.edit_outlined,
-                                        color: primaryColor,
-                                      )
+                                    ? Container(
+                                      decoration: BoxDecoration(
+                                        shape: BoxShape.circle,
+                                        color: primaryColor
+                                      ),
+                                      child: Center(
+                                        child: Icon(
+                                            Icons.edit_outlined,
+                                            size: 18,
+                                            color: Colors.white,
+                                          ),
+                                      ),
+                                    )
                                     : null,
                                 isActive:
                                     instance.stageStates[0] ? true : false,
@@ -211,7 +220,7 @@ class _StepperScreenState extends State<StepperScreen> {
                                       ? ' Members & Devices   '
                                       : '',
                                   style: TextStyle(
-                                      color: instance.stageStates[0]
+                                      color: instance.stageStates[0] ? primaryColor : instance.stageIndex == 0
                                           ? primaryColor
                                           : Colors.grey),
                                 ),
@@ -243,10 +252,19 @@ class _StepperScreenState extends State<StepperScreen> {
                                 )),
                             EnhanceStep(
                                 icon: instance.stageIndex == 1
-                                    ? Icon(
-                                        Icons.edit_outlined,
-                                        color: primaryColor,
-                                      )
+                                    ? Container(
+                                      decoration: BoxDecoration(
+                                        shape: BoxShape.circle,
+                                        color: primaryColor
+                                      ),
+                                      child: Center(
+                                        child: Icon(
+                                            Icons.edit_outlined,
+                                            size: 18,
+                                            color: Colors.white,
+                                          ),
+                                      ),
+                                    )
                                     : null,
                                 isActive:
                                     instance.stageStates[1] ? true : false,
@@ -256,7 +274,7 @@ class _StepperScreenState extends State<StepperScreen> {
                                       ? ' Apps   '
                                       : '',
                                   style: TextStyle(
-                                      color: instance.stageStates[1]
+                                      color: instance.stageStates[1]? primaryColor : instance.stageIndex == 1
                                           ? primaryColor
                                           : Colors.grey),
                                 ),
@@ -271,10 +289,19 @@ class _StepperScreenState extends State<StepperScreen> {
                                 })),
                             EnhanceStep(
                                 icon: instance.stageIndex == 2
-                                    ? Icon(
-                                        Icons.edit_outlined,
-                                        color: primaryColor,
-                                      )
+                                    ? Container(
+                                      decoration: BoxDecoration(
+                                        shape: BoxShape.circle,
+                                        color: primaryColor
+                                      ),
+                                      child: Center(
+                                        child: Icon(
+                                            Icons.edit_outlined,
+                                            size: 18,
+                                            color: Colors.white,
+                                          ),
+                                      ),
+                                    )
                                     : null,
                                 isActive:
                                     instance.stageStates[2] ? true : false,
@@ -284,7 +311,7 @@ class _StepperScreenState extends State<StepperScreen> {
                                       ? ' Connection   '
                                       : '',
                                   style: TextStyle(
-                                      color: instance.stageStates[2]
+                                      color: instance.stageStates[2]? primaryColor : instance.stageIndex == 2
                                           ? primaryColor
                                           : Colors.grey),
                                 ),
@@ -296,10 +323,19 @@ class _StepperScreenState extends State<StepperScreen> {
                                         }))),
                             EnhanceStep(
                                 icon: instance.stageIndex == 3
-                                    ? Icon(
-                                        Icons.edit_outlined,
-                                        color: primaryColor,
-                                      )
+                                    ? Container(
+                                      decoration: BoxDecoration(
+                                        shape: BoxShape.circle,
+                                        color: primaryColor
+                                      ),
+                                      child: Center(
+                                        child: Icon(
+                                            Icons.edit_outlined,
+                                            size: 18,
+                                            color: Colors.white,
+                                          ),
+                                      ),
+                                    )
                                     : null,
                                 isActive:
                                     instance.stageStates[3] ? true : false,
@@ -307,7 +343,7 @@ class _StepperScreenState extends State<StepperScreen> {
                                 title: Text(
                                   constraints.maxWidth > 1008 ? ' Speed   ' : '',
                                   style: TextStyle(
-                                      color: instance.stageStates[3]
+                                      color: instance.stageStates[3]? primaryColor : instance.stageIndex == 3
                                           ? primaryColor
                                           : Colors.grey),
                                 ),
@@ -317,10 +353,19 @@ class _StepperScreenState extends State<StepperScreen> {
                             !instance.islaststep
                                 ? EnhanceStep(
                                     icon: instance.stageIndex == 4
-                                        ? Icon(
+                                        ? Container(
+                                      decoration: BoxDecoration(
+                                        shape: BoxShape.circle,
+                                        color: primaryColor
+                                      ),
+                                      child: Center(
+                                        child: Icon(
                                             Icons.edit_outlined,
-                                            color: primaryColor,
-                                          )
+                                            size: 18,
+                                            color: Colors.white,
+                                          ),
+                                      ),
+                                    )
                                         : null,
                                     isActive:
                                         instance.stageStates[4] ? true : false,
@@ -330,7 +375,7 @@ class _StepperScreenState extends State<StepperScreen> {
                                           ? ' Policy Name   '
                                           : '',
                                       style: TextStyle(
-                                          color: instance.stageStates[4]
+                                          color: instance.stageStates[4]? primaryColor : instance.stageIndex == 4
                                               ? primaryColor
                                               : Colors.grey),
                                     ),

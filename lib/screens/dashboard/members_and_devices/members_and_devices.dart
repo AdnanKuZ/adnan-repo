@@ -26,8 +26,10 @@ class MembersAndDevicesScreen extends StatefulWidget {
 
 class _MembersAndDevicesScreenState extends State<MembersAndDevicesScreen> {
   bool initiated = false;
+  late Future<void> loaddevicesAndMembers = loadDevicesAndMembers();
 
   Future<void> loadDevicesAndMembers() async {
+    print('getting called');
     if (initiated) return;
     final provider = Provider.of<AddPolicyProvider>(context, listen: false);
     List<DeviceModel> devices = await requestMappedDevices();
@@ -103,7 +105,7 @@ class _MembersAndDevicesScreenState extends State<MembersAndDevicesScreen> {
                   ),
                   borderRadius: BorderRadius.all(Radius.circular(15))),
               child: FutureBuilder(
-                future: loadDevicesAndMembers(),
+                future: loaddevicesAndMembers,
                 builder: (context, snapshot) {
                   return Consumer<AddPolicyProvider>(
                       builder: (context, state, child) {
