@@ -336,8 +336,9 @@ class StepperMemberList extends StatelessWidget {
                         Icons.delete,
                         color: Colors.red,
                       ),
-                      onTap: ()  {
-                        print(member.id);
+                      onTap: () async {
+                        await requestDeleteMember(member.id!);
+                        reloadMembersAndDevices(context, provider);
                       },
                     ),
                     InkWell(

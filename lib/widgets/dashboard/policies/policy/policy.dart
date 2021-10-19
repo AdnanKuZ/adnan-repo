@@ -42,8 +42,8 @@ class _PolicyWidgetState extends State<PolicyWidget> {
     });
   }
 
-  Future<void> refreshPolicies() async {
-    final provider = Provider.of<PoliciesListProvider>(context, listen: false);
+  void refreshPolicies(
+      BuildContext context, PoliciesListProvider provider) async {
     print(3);
     var policies = await requestPolicies();
     print("policies are $policies");
@@ -53,6 +53,8 @@ class _PolicyWidgetState extends State<PolicyWidget> {
 
   @override
   Widget build(BuildContext context) {
+    final policyProvider =
+        Provider.of<PoliciesListProvider>(context, listen: false);
     return ExpandableNotifier(
       child: Column(
         children: [
@@ -88,7 +90,8 @@ class _PolicyWidgetState extends State<PolicyWidget> {
                                         await requestDeletePolicy(
                                             widget.policy.id!);
                                         // loadingProvider.setLoadingState(false);
-                                        await refreshPolicies();
+                                        refreshPolicies(
+                                            context, policyProvider);
                                       },
                                     ));
                           },
@@ -213,8 +216,10 @@ class _PolicyWidgetState extends State<PolicyWidget> {
                           builder: (context) => DeleteDialog(
                                 title: "Are you sure ?",
                                 onDel: () async {
+                                  // loadingProvider.setLoadingState(true);
                                   await requestDeletePolicy(widget.policy.id!);
-                                  await refreshPolicies();
+                                  // loadingProvider.setLoadingState(false);
+                                  refreshPolicies(context, policyProvider);
                                 },
                               ));
                     },
