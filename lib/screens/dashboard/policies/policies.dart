@@ -1,5 +1,6 @@
 import 'package:admin/constants.dart';
 import 'package:admin/models/policy.dart';
+import 'package:admin/providers/authProviders.dart';
 import 'package:admin/providers/policies_list_provider.dart';
 import 'package:admin/responsive.dart';
 import 'package:admin/widgets/dashboard/policies/policies_body.dart';
@@ -46,19 +47,21 @@ class _PoliciesScreenState extends State<PoliciesScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<PoliciesListProvider>(builder: (context, state, child) {
-      if (!isLoading) {
-        if (state.getPolicies.isEmpty) {
-          return SafeArea(child: PoliciesEmptyScreen());
+    return Consumer<PoliciesListProvider>(
+        builder: (context, state, child) {
+        if (!isLoading) {
+          if (state.getPolicies.isEmpty) {
+            return SafeArea(child: PoliciesEmptyScreen());
+          } else {
+            return PoliciesFilledScreen(policies: state.getPolicies);
+          }
         } else {
-          return PoliciesFilledScreen(policies: state.getPolicies);
+          return Center(
+              child: Container(
+                  width: 50, height: 50, child: CircularProgressIndicator()));
         }
-      } else {
-        return Center(
-            child: Container(
-                width: 50, height: 50, child: CircularProgressIndicator()));
       }
-    });
+    );
   }
 }
 

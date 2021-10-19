@@ -597,7 +597,7 @@ Future<bool> requestDeleteMember(MemberModel member) async {
   return false;
 }
 
-Future<String> requestDeletePolicy(String id) async {
+Future<void> requestDeletePolicy(String id) async {
   print(id);
   SharedPreferences _prefs = await SharedPreferences.getInstance();
   String token = _prefs.getString('token').toString();
@@ -608,9 +608,4 @@ Future<String> requestDeletePolicy(String id) async {
       'Authorization': 'Bearer ${token}',
     },
   );
-  if (response.statusCode == 204) {
-    return 'Success';
-  } else {
-    return 'Failure';
-  }
 }

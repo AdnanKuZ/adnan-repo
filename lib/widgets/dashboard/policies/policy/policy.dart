@@ -3,11 +3,14 @@ import 'package:admin/dialogs/delete_dialog.dart';
 import 'package:admin/dialogs/loading_dialog.dart';
 import 'package:admin/dialogs/log_out_dialog.dart';
 import 'package:admin/models/policy.dart';
+import 'package:admin/providers/authProviders.dart';
+import 'package:admin/providers/policies_list_provider.dart';
 import 'package:admin/server/requests.dart';
 import 'package:admin/widgets/dashboard/policies/policy/seperator.dart';
 import 'package:expandable/expandable.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'apps.dart';
 import 'bandwidth.dart';
 import 'connection_type.dart';
@@ -39,16 +42,13 @@ class _PolicyWidgetState extends State<PolicyWidget> {
     });
   }
 
-  void deletePolicy(String policyId) async {
-    Navigator.pop(context);
-    showDialog(
-        context: context,
-        builder: (context) => Container(
-            width: 50, height: 50, child: CircularProgressIndicator()));
-    print('loading...');
-    var result = await requestDeletePolicy(policyId);
-    print('loading2...');
-    Navigator.pop(context);
+  Future<void> refreshPolicies() async {
+    final provider = Provider.of<PoliciesListProvider>(context, listen: false);
+    print(3);
+    var policies = await requestPolicies();
+    print("policies are $policies");
+    provider.setPolicies(policies);
+    print(4);
   }
 
   @override
@@ -79,12 +79,16 @@ class _PolicyWidgetState extends State<PolicyWidget> {
                           isExpanded: _isOpen,
                           onEdit: () {},
                           onDelete: () async {
-                            await showDialog(
+                            showDialog(
                                 context: context,
                                 builder: (context) => DeleteDialog(
                                       title: "Are you sure ?",
-                                      onDel: () {
-                                        deletePolicy(widget.policy.id!);
+                                      onDel: () async {
+                                        // loadingProvider.setLoadingState(true);
+                                        await requestDeletePolicy(
+                                            widget.policy.id!);
+                                        // loadingProvider.setLoadingState(false);
+                                        await refreshPolicies();
                                       },
                                     ));
                           },
@@ -203,8 +207,16 @@ class _PolicyWidgetState extends State<PolicyWidget> {
                     title: widget.policy.name,
                     isExpanded: _isOpen,
                     onEdit: () {},
-                    onDelete: () {
-                      deletePolicy(widget.policy.id!);
+                    onDelete: () async {
+                      showDialog(
+                          context: context,
+                          builder: (context) => DeleteDialog(
+                                title: "Are you sure ?",
+                                onDel: () async {
+                                  await requestDeletePolicy(widget.policy.id!);
+                                  await refreshPolicies();
+                                },
+                              ));
                     },
                     onLayoutChanged: () => expand()),
               ),

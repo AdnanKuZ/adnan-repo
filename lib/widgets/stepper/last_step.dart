@@ -24,11 +24,15 @@ class LastStepWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final stageProvider = Provider.of<StageProvider>(context);
+    final stageProvider = Provider.of<StageProvider>(context, listen: false);
     final memberAndDevicesProvider =
         Provider.of<AddPolicyProvider>(context, listen: false);
     final policiesProvider =
         Provider.of<PoliciesListProvider>(context, listen: false);
+    final bandwidthProvider =
+        Provider.of<BandwidthProvider>(context, listen: false);
+    final connectionProvider =
+        Provider.of<ConnectionProvider>(context, listen: false);
 
     return Container(
       child: Column(
@@ -48,10 +52,10 @@ class LastStepWidget extends StatelessWidget {
                   ),
                   Wrap(
                     children: [
-                      Consumer4<AppsProvider,AddPolicyProvider, BandwidthProvider,
-                              ConnectionProvider>(
-                          builder: (context, appsState,membersState, bandwidthState,
-                              connectionState, child) {
+                      Consumer4<AppsProvider, AddPolicyProvider,
+                              BandwidthProvider, ConnectionProvider>(
+                          builder: (context, appsState, membersState,
+                              bandwidthState, connectionState, child) {
                         return CustomElevatedButton(
                           buttonColor: primaryColor,
                           splashColor: Colors.white,
@@ -84,10 +88,12 @@ class LastStepWidget extends StatelessWidget {
                             policiesProvider.setPolicies(policies);
                             Navigator.pop(context);
                             Navigator.pop(context);
-                            
+
                             stageProvider.setStagesStateFalse();
                             stageProvider.setIndex = 0;
                             stageProvider.setIsLastStep = false;
+                            bandwidthProvider.abortBandwidth();
+                            connectionProvider.abortconnection();
                           },
                         );
                       })
@@ -101,9 +107,9 @@ class LastStepWidget extends StatelessWidget {
             children: [
               Container(
                 width: 400,
-                child: Consumer4<AppsProvider,AddPolicyProvider, BandwidthProvider,
-                    ConnectionProvider>(
-                  builder: (context, appsState,membersState, bandwidthState,
+                child: Consumer4<AppsProvider, AddPolicyProvider,
+                    BandwidthProvider, ConnectionProvider>(
+                  builder: (context, appsState, membersState, bandwidthState,
                       connectionState, child) {
                     return PolicyWidget(
                         policy: PolicyModel(
