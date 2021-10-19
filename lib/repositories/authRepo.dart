@@ -129,3 +129,16 @@ void changePassword(Map<String, String> passwords) async {
   );
   print(response.statusCode);
 }
+
+void requestResendEmail() async {
+  SharedPreferences _prefs = await SharedPreferences.getInstance();
+  var email = _prefs.get('email');
+  final Uri url = Uri.parse('$BASE_URL' + 'Account/' + 'ResendConfirmationEmail');
+  http.Response response = await http.post(
+    url,
+    body: jsonEncode({email}),
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  );
+}
