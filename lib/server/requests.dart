@@ -506,6 +506,7 @@ Future<List<PolicyModel>> requestPolicies() async {
 
     oldPolicies.add(PolicyModel(
         id: element.id,
+        userIds: element.userIds,
         apps: oldApps,
         bandwidths: oldBandwidth,
         name: element.title.toString(),

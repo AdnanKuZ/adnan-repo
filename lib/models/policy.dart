@@ -7,6 +7,7 @@ import 'package:admin/models/member.dart';
 class PolicyModel {
   final String? id;
   final String name;
+  final List<String>? userIds;
   final List<BandwidthModel>? bandwidths;
   final List<ConnectionTypeModel>? connectionTypes;
   final List<MemberModel>? members;
@@ -17,6 +18,7 @@ class PolicyModel {
       {required this.name,
       this.bandwidths,
       this.id,
+      this.userIds,
       this.connectionTypes,
       this.members,
       this.devices,

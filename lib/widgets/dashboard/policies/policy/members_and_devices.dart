@@ -1,10 +1,11 @@
+import 'package:admin/models/policy.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class MembersAndDevicesWidget extends StatelessWidget {
   final Function onClick;
-
-  const MembersAndDevicesWidget({required this.onClick, Key? key})
+  final PolicyModel? policy;
+  const MembersAndDevicesWidget({required this.onClick,this.policy ,Key? key})
       : super(key: key);
 
   @override
@@ -37,7 +38,7 @@ class MembersAndDevicesWidget extends StatelessWidget {
                     )
                   ],
                 ),
-                Wrap(
+                !policy!.userIds!.isEmpty ? Wrap(
                   crossAxisAlignment: WrapCrossAlignment.center,
                   children: [
                     Text(
@@ -53,6 +54,10 @@ class MembersAndDevicesWidget extends StatelessWidget {
                     ),
                   ],
                 )
+                : Text(
+                      "All",
+                      style: TextStyle(color: Colors.white, fontSize: 12),
+                    ),
               ],
             ),
           ),

@@ -175,6 +175,7 @@ class _PolicyWidgetState extends State<PolicyWidget> {
                       //     time: '12:00 am to 01:00 am'),
                       SeperatorWidget(),
                       MembersAndDevicesWidget(
+                        policy:widget.policy,
                         onClick: () {},
                       ),
                       ListView.builder(
