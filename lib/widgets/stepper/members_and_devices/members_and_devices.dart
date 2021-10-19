@@ -4,6 +4,7 @@ import 'package:admin/constants.dart';
 import 'package:admin/dialogs/add_device_dialog.dart';
 import 'package:admin/dialogs/add_member_dialog.dart';
 import 'package:admin/dialogs/auth_error_dialog.dart';
+import 'package:admin/dialogs/change_deviceName_dialog.dart';
 import 'package:admin/dialogs/edit_member_dialog.dart';
 import 'package:admin/dialogs/loading_dialog.dart';
 import 'package:admin/models/device.dart';
@@ -113,15 +114,16 @@ class MembersAndDevicesStepperWidget extends StatelessWidget {
               Wrap(
                 children: [
                   Consumer<AddPolicyProvider>(builder: (context, obj, child) {
-                    return obj.members.isNotEmpty?
-                     BorderButton(
-                      title: "Associate",
-                      icon: Icons.add,
-                      onPress: () async {
-                        showAssociateDialog(
-                            context, addDeviceProvider, provider, null);
-                      },
-                    ) :  SizedBox.shrink();
+                    return obj.members.isNotEmpty
+                        ? BorderButton(
+                            title: "Associate",
+                            icon: Icons.add,
+                            onPress: () async {
+                              showAssociateDialog(
+                                  context, addDeviceProvider, provider, null);
+                            },
+                          )
+                        : SizedBox.shrink();
                   }),
                   Container(
                     width: 8,
@@ -270,14 +272,35 @@ class StepperDevicesList extends StatelessWidget {
                                       ? textGray
                                       : Colors.black),
                             ),
-                          )
+                          ),
+                          Spacer(),
+                          InkWell(
+                            child: Icon(
+                              Icons.edit,
+                              color: lightGrayColor,
+                            ),
+                            onTap: () async{
+                              var deviceInfo = {
+                                "name": instance.devices[index].name,
+                                "macAddress": instance.devices[index].mac,
+                              };
+                              print(deviceInfo);
+                              String i = await showDialog(
+                                  context: context,
+                                  builder: (context) {
+                                    return ChangeDeviceNameDialog(
+                                        context: context);
+                                  });
+                              print(i);
+                            },
+                          ),
                         ],
                       ),
                     ),
                   );
                 });
           },
-        )
+        ),
       ],
     );
   }
@@ -424,7 +447,29 @@ class StepperMemberList extends StatelessWidget {
                           Text(
                             instance.members[gridIndex].devices![index].name!,
                             style: TextStyle(color: Colors.black),
-                          )
+                          ),
+                          Spacer(),
+                          InkWell(
+                            child: Icon(
+                              Icons.edit,
+                              color: lightGrayColor,
+                            ),
+                            onTap: () async {
+                              var deviceInfo = {
+                                "name": member.devices![index].name,
+                                "macAddress": member.devices![index].mac,
+                                "member": {"id": member.id, "name": member.name}
+                              };
+                              print(deviceInfo);
+                              String i = await showDialog(
+                                  context: context,
+                                  builder: (context) {
+                                    return ChangeDeviceNameDialog(
+                                        context: context);
+                                  });
+                              print(i);
+                            },
+                          ),
                         ],
                       ),
                     ),

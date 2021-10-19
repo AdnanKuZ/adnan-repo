@@ -385,6 +385,7 @@ Future<bool> requestEditMemberDevice(
 }
 
 Future<List<DeviceModel>> requestMappedDevices() async {
+  print("getting called somewhere else");
   List<DeviceModel> devicesResponse = await requestDevices();
   List<DeviceModel> _devices = [];
 
