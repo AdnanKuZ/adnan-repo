@@ -467,8 +467,8 @@ class StepperMemberList extends StatelessWidget {
                           ),
                           InkWell(
                             child: Icon(
-                              Icons.disabled_by_default_outlined,
-                              color: Colors.red,
+                              Icons.disabled_by_default_rounded,
+                              color: Color(0xFFEEA3A3),
                             ),
                             onTap: () async {
                               var deviceInfo = {
