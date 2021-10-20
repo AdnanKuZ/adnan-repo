@@ -31,7 +31,7 @@ class OtpWidget extends StatelessWidget {
                 : BorderRadius.circular(40)),
         /////Pc and Tablet
         padding: isPc
-            ? EdgeInsets.symmetric(horizontal: 85, vertical: 50) //Pc
+            ? EdgeInsets.symmetric(horizontal: 75, vertical: 50) //Pc
             : isMobile
                 ? EdgeInsets.symmetric(horizontal: 15, vertical: 40) //Mobile
                 : EdgeInsets.symmetric(horizontal: 70, vertical: 40), //Tablet
