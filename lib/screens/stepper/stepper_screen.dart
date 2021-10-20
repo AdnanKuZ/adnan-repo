@@ -37,7 +37,6 @@ class _StepperScreenState extends State<StepperScreen> {
   late Future<void> loadDevicesAndMembersFuture = loadDevicesAndMembers();
   late Future<void> loadMetaDataFuture = loadMetaData();
   late Future<void> loadApplicationsFuture = loadApplications();
-  // late Future<void> loadSearchedApplicationsFuture = loadSearchedApplications();
 
   Future<MetadataModel> loadMetaData() async {
     final provider = Provider.of<MetadataProvider>(context, listen: false);
