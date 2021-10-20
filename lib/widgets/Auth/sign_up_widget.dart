@@ -225,8 +225,9 @@ class SignUpWidget extends StatelessWidget {
                       // else
                       return null;
                     },
-                    submit: (s) async{
-                      await submitForm(passValidProvider, authData, isLoading, signupMode, context);
+                    submit: (s) async {
+                      await submitForm(passValidProvider, authData, isLoading,
+                          signupMode, context);
                     },
                   ),
                 ),
@@ -255,7 +256,8 @@ class SignUpWidget extends StatelessWidget {
                 child: !state.isLoadingState
                     ? CustomElevatedButton(
                         onpressed: () async {
-                          await submitForm(passValidProvider, authData, isLoading, signupMode, context);
+                          await submitForm(passValidProvider, authData,
+                              isLoading, signupMode, context);
                         },
                         buttonColor: primaryColor,
                         icon: FontAwesomeIcons.userPlus,
@@ -293,7 +295,12 @@ class SignUpWidget extends StatelessWidget {
     );
   }
 
-  Future<void> submitForm(PassValidProvider passValidProvider, Map<String, String> authData, IsLoading isLoading, SignUpModes signupMode, BuildContext context) async {
+  Future<void> submitForm(
+      PassValidProvider passValidProvider,
+      Map<String, String> authData,
+      IsLoading isLoading,
+      SignUpModes signupMode,
+      BuildContext context) async {
     signUpFormKey.currentState!.validate()
         ? passValidProvider.setPassValidState(true)
         : passValidProvider.setPassValidState(false);
@@ -304,22 +311,21 @@ class SignUpWidget extends StatelessWidget {
     };
     if (signUpFormKey.currentState!.validate()) {
       isLoading.setLoadingState(true);
-      String result = await register(authData);
-      if (result == 'Success') {
+      Map<String, String> result = await register(authData);
+      if (result['state'] == 'Success') {
         signupMode.setMode("Otp");
         isLoading.setLoadingState(false);
-      } else if (result == 'Bad Request') {
+      } else if (result['state'] == 'Bad Request') {
         print('bad request');
         isLoading.setLoadingState(false);
         showDialog(
             context: context,
             builder: (context) => AuthDialog(
-                  title:
-                      "Sign up credentials not correct",
+                  title: "Sign up credentials not correct \n ${result["message"]}",
                 ));
         signupMode.setMode("Otp");
         signupMode.setMode("Sign Up");
-      } else if (result == 'Not Allowed') {
+      } else if (result['state'] == 'Not Allowed') {
         print('Unauthorized');
         showDialog(
             context: context,
@@ -333,8 +339,7 @@ class SignUpWidget extends StatelessWidget {
         showDialog(
             context: context,
             builder: (context) => AuthDialog(
-                  title:
-                      "Something wrong has happend, Please try again",
+                  title: "Something wrong has happend, Please try again",
                 ));
         isLoading.setLoadingState(false);
         signupMode.setMode("Otp");
