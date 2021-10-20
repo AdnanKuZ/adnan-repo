@@ -604,3 +604,28 @@ Future<void> requestDeletePolicy(String id) async {
     },
   );
 }
+
+Future<void> requestRenameDevice(Map<String,dynamic> dataMap) async{
+  SharedPreferences _prefs = await SharedPreferences.getInstance();
+  String token = _prefs.getString('token').toString();
+  http.Response response = await http.put(
+    Uri.parse(DEVICES_URL),
+    body: jsonEncode(dataMap),
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ${token}',
+    },
+  );
+}
+Future<void> requestDeassociateDevice(Map<String,dynamic> dataMap) async{
+  SharedPreferences _prefs = await SharedPreferences.getInstance();
+  String token = _prefs.getString('token').toString();
+  http.Response response = await http.put(
+    Uri.parse(DEVICES_URL),
+    body: jsonEncode(dataMap),
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ${token}',
+    },
+  );
+}

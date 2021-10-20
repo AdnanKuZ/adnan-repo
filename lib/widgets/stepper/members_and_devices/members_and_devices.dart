@@ -279,21 +279,19 @@ class StepperDevicesList extends StatelessWidget {
                               Icons.edit,
                               color: lightGrayColor,
                             ),
-                            onTap: () async{
+                            onTap: () async {
+                              String i = await ChangeDeviceNameDialog(
+                                  context: context);
+                              print(i);
                               var deviceInfo = {
-                                "name": instance.devices[index].name,
+                                "name": i,
                                 "macAddress": instance.devices[index].mac,
                               };
-                              print(deviceInfo);
-                              String i = await showDialog(
-                                  context: context,
-                                  builder: (context) {
-                                    return ChangeDeviceNameDialog(
-                                        context: context);
-                                  });
-                              print(i);
+                              requestRenameDevice(deviceInfo);
+                              reloadMembersAndDevices(context, provider);
                             },
                           ),
+                          
                         ],
                       ),
                     ),
@@ -455,19 +453,30 @@ class StepperMemberList extends StatelessWidget {
                               color: lightGrayColor,
                             ),
                             onTap: () async {
+                              String i = await ChangeDeviceNameDialog(
+                                  context: context);
                               var deviceInfo = {
-                                "name": member.devices![index].name,
+                                "name": i,
                                 "macAddress": member.devices![index].mac,
                                 "member": {"id": member.id, "name": member.name}
                               };
-                              print(deviceInfo);
-                              String i = await showDialog(
-                                  context: context,
-                                  builder: (context) {
-                                    return ChangeDeviceNameDialog(
-                                        context: context);
-                                  });
                               print(i);
+                              requestRenameDevice(deviceInfo);
+                              reloadMembersAndDevices(context, provider);
+                            },
+                          ),
+                          InkWell(
+                            child: Icon(
+                              Icons.disabled_by_default_outlined,
+                              color: Colors.red,
+                            ),
+                            onTap: () async {
+                              var deviceInfo = {
+                                "name": member.devices![index].name,
+                                "macAddress": member.devices![index].mac,
+                              };
+                              requestDeassociateDevice(deviceInfo);
+                              reloadMembersAndDevices(context, provider);
                             },
                           ),
                         ],

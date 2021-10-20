@@ -133,7 +133,9 @@ void changePassword(Map<String, String> passwords) async {
 void requestResendEmail() async {
   SharedPreferences _prefs = await SharedPreferences.getInstance();
   var email = _prefs.get('email');
-  final Uri url = Uri.parse('$BASE_URL' + 'Account/' + 'ResendConfirmationEmail');
+  final Uri url =
+      Uri.parse('$BASE_URL' + 'Account/' + 'ResendConfirmationEmail');
+  print('email is $email url is $url');
   http.Response response = await http.post(
     url,
     body: jsonEncode({email}),

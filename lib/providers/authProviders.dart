@@ -46,7 +46,7 @@ class SignUpModes extends ChangeNotifier {
   ///'Sign Up'
   ///'Otp'
   ///'Account Created'
-  String signupMode = 'Sign Up';
+  String signupMode = 'Otp';
   String get mode => signupMode;
   void setMode(String mode) {
     signupMode = mode;
