@@ -86,12 +86,15 @@ class _PolicyWidgetState extends State<PolicyWidget> {
                                 builder: (context) => DeleteDialog(
                                       title: "Are you sure ?",
                                       onDel: () async {
-                                        // loadingProvider.setLoadingState(true);
+                                        var loadingProvider =
+                                            Provider.of<IsLoading>(context,
+                                                listen: false);
+                                        loadingProvider.setLoadingState(true);
                                         await requestDeletePolicy(
                                             widget.policy.id!);
-                                        // loadingProvider.setLoadingState(false);
                                         refreshPolicies(
                                             context, policyProvider);
+                                        loadingProvider.setLoadingState(false);
                                       },
                                     ));
                           },
@@ -175,7 +178,7 @@ class _PolicyWidgetState extends State<PolicyWidget> {
                       //     time: '12:00 am to 01:00 am'),
                       SeperatorWidget(),
                       MembersAndDevicesWidget(
-                        policy:widget.policy,
+                        policy: widget.policy,
                         onClick: () {},
                       ),
                       ListView.builder(
@@ -217,10 +220,13 @@ class _PolicyWidgetState extends State<PolicyWidget> {
                           builder: (context) => DeleteDialog(
                                 title: "Are you sure ?",
                                 onDel: () async {
-                                  // loadingProvider.setLoadingState(true);
+                                  var loadingProvider = Provider.of<IsLoading>(
+                                      context,
+                                      listen: false);
+                                  loadingProvider.setLoadingState(true);
                                   await requestDeletePolicy(widget.policy.id!);
-                                  // loadingProvider.setLoadingState(false);
                                   refreshPolicies(context, policyProvider);
+                                  loadingProvider.setLoadingState(false);
                                 },
                               ));
                     },

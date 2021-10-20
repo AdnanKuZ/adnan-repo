@@ -21,7 +21,7 @@ class _PoliciesScreenState extends State<PoliciesScreen> {
   bool isFilled = false;
   var requestPolicy;
   bool isInitiated = false;
-  bool isLoading = false;
+  // bool isLoading = false;
   @override
   void initState() {
     // requestPolicy = requestPolicies();
@@ -36,20 +36,21 @@ class _PoliciesScreenState extends State<PoliciesScreen> {
   // }
 
   Future<void> loadPolicies() async {
+    var isloadingProvider = Provider.of<IsLoading>(context,listen: false);
     if (isInitiated) return;
-    isLoading = true;
+    isloadingProvider.setLoadingState(true);
     final provider = Provider.of<PoliciesListProvider>(context, listen: false);
     var policies = await requestPolicies();
     provider.setPolicies(policies);
     isInitiated = true;
-    isLoading = false;
+    isloadingProvider.setLoadingState(false);
   }
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<PoliciesListProvider>(
-        builder: (context, state, child) {
-        if (!isLoading) {
+    return Consumer2<PoliciesListProvider,IsLoading>(
+        builder: (context, state,state2, child) {
+        if (!state2.isLoadingState) {
           if (state.getPolicies.isEmpty) {
             return SafeArea(child: PoliciesEmptyScreen());
           } else {
