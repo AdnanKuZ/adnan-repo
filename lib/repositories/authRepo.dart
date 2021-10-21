@@ -18,7 +18,7 @@ Future<Map<String, String>> register(Map<String, String> signUpData) async {
     },
   );
   Map<String, String> responeMap = {"state": "", "message": ""};
-  var jsonData = jsonDecode(response.body);
+  List jsonData = jsonDecode(response.body);
   print(jsonData);
   print('body : ' + response.body);
   print('status code : ' + response.statusCode.toString());
@@ -27,11 +27,11 @@ Future<Map<String, String>> register(Map<String, String> signUpData) async {
     return responeMap;
   } else if (response.statusCode == 400) {
     responeMap["state"] = 'Bad Request';
-    responeMap["message"] = jsonData[0];
+    responeMap["message"] = jsonData.isNotEmpty ? jsonData[0] : '';
     return responeMap;
   } else if (response.statusCode == 403) {
     responeMap["state"] = 'Sucess';
-    responeMap["message"] = jsonData[0];
+    responeMap["message"] = jsonData.isNotEmpty ? jsonData[0] : '';
     return responeMap;
   } else {
     responeMap["state"] = 'Sucess';
