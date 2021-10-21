@@ -262,7 +262,7 @@ class LoginWidget extends StatelessWidget {
         showDialog(
             context: context,
             builder: (context) => AuthDialog(
-                  title: 'invalid username/password',
+                  title: 'Invalid username/password',
                 ));
       } else if (result == 'Success') {
         Navigator.push(context,

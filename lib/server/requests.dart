@@ -522,6 +522,7 @@ Future<List<PolicyModel>> requestPolicies() async {
 }
 
 Future<MetadataModel> requestMetadata() async {
+  print('requesrting metadata');
   SharedPreferences _prefs = await SharedPreferences.getInstance();
   String token = _prefs.getString('token').toString();
 
@@ -605,7 +606,7 @@ Future<void> requestDeletePolicy(String id) async {
   );
 }
 
-Future<void> requestRenameDevice(Map<String,dynamic> dataMap) async{
+Future<void> requestRenameDevice(Map<String, dynamic> dataMap) async {
   SharedPreferences _prefs = await SharedPreferences.getInstance();
   String token = _prefs.getString('token').toString();
   http.Response response = await http.put(
@@ -617,7 +618,8 @@ Future<void> requestRenameDevice(Map<String,dynamic> dataMap) async{
     },
   );
 }
-Future<void> requestDeassociateDevice(Map<String,dynamic> dataMap) async{
+
+Future<void> requestDeassociateDevice(Map<String, dynamic> dataMap) async {
   SharedPreferences _prefs = await SharedPreferences.getInstance();
   String token = _prefs.getString('token').toString();
   http.Response response = await http.put(

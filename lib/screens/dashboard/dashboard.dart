@@ -27,6 +27,7 @@ class _DashboardScreenState extends State {
   late Future<void> loadMetaDataFuture = loadMetaData();
 
   Future<MetadataModel> loadMetaData() async {
+    print('fashboard metadata');
     final provider = Provider.of<MetadataProvider>(context, listen: false);
     final connectionProvider =
         Provider.of<ConnectionProvider>(context, listen: false);
@@ -108,27 +109,27 @@ class _DashboardScreenState extends State {
             if (!Responsive.isMobile(context)) SideMenu(),
             Expanded(
                 child: FutureBuilder(
-                  future: loadMetaDataFuture,
-                  builder: (context,snapshot) {
-                    return IndexedStack(
-              index: getStackIndex(
-                      Provider.of<MenuProvider>(context).dashboardRoute),
-              children: [
-                    HomeScreen(),
-                    PoliciesScreen(),
-                    Statistics(),
-                    ConctactUsScreen(),
-                    FAQsScreen(),
-                    SizedBox(),
-                    MembersAndDevicesScreen(),
-                    // Terms And Conditions
-                    SizedBox(),
-                    // Legal Statment
-                    SizedBox()
-              ],
-            );
-                  }
-                )),
+                    future: loadMetaDataFuture,
+                    builder: (context, snapshot) {
+                      return IndexedStack(
+                        index: getStackIndex(
+                            Provider.of<MenuProvider>(context).dashboardRoute),
+                        children: [
+                          HomeScreen(),
+                          PoliciesScreen(),
+                          Statistics(),
+                          ConctactUsScreen(),
+                          FAQsScreen(),
+                          SizedBox(),
+                          // MembersAndDevicesScreen(),
+                          SizedBox(),
+                          // Terms And Conditions
+                          SizedBox(),
+                          // Legal Statment
+                          SizedBox()
+                        ],
+                      );
+                    })),
           ],
         ),
       ),
