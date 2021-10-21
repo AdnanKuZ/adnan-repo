@@ -3,7 +3,7 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
 
-Future<Map<String,String>> register(Map<String, String> signUpData) async {
+Future<Map<String, String>> register(Map<String, String> signUpData) async {
   SharedPreferences _prefs = await SharedPreferences.getInstance();
   _prefs.setString('email', signUpData['email'].toString());
   final Uri url = Uri.parse('$BASE_URL' + 'Account/' + 'Register');
@@ -19,6 +19,7 @@ Future<Map<String,String>> register(Map<String, String> signUpData) async {
   );
   Map<String, String> responeMap = {"state": "", "message": ""};
   var jsonData = jsonDecode(response.body);
+  print(jsonData);
   print('body : ' + response.body);
   print('status code : ' + response.statusCode.toString());
   if (response.statusCode == 204) {
@@ -26,11 +27,11 @@ Future<Map<String,String>> register(Map<String, String> signUpData) async {
     return responeMap;
   } else if (response.statusCode == 400) {
     responeMap["state"] = 'Bad Request';
-    responeMap["message"] = jsonData;
+    responeMap["message"] = jsonData[0];
     return responeMap;
   } else if (response.statusCode == 403) {
     responeMap["state"] = 'Sucess';
-    responeMap["message"] = jsonData;
+    responeMap["message"] = jsonData[0];
     return responeMap;
   } else {
     responeMap["state"] = 'Sucess';

@@ -92,8 +92,8 @@ class MyApp extends StatelessWidget {
           //   canvasColor: backgroundColor,
           // ),
           home:
-          // LoginScreen()
-              token == null || token == '' ? LoginScreen() : DashboardScreen(),
+          LoginScreen()
+              // token == null || token == '' ? LoginScreen() : DashboardScreen(),
         ));
   }
 }

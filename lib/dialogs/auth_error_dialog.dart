@@ -14,8 +14,8 @@ class AuthDialog extends StatelessWidget {
       shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.all(Radius.circular(10))),
       content: Container(
-        padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 20),
-        height: 130,
+        padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 15),
+        height: 160,
         width: 250,
         child: Container(
           child: Column(
