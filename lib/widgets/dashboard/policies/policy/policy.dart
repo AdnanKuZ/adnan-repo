@@ -164,18 +164,6 @@ class _PolicyWidgetState extends State<PolicyWidget> {
                                         .toString()
                                     : '');
                           }),
-                      // ConnectionTypeWidget(
-                      //     days: 'Sun, Mon',
-                      //     type: 'Cable',
-                      //     time: '12:00 am to 01:00 am'),
-                      // ConnectionTypeWidget(
-                      //     days: 'Sun, Mon',
-                      //     type: 'Full Bandwidth',
-                      //     time: '12:00 am to 01:00 am'),
-                      // ConnectionTypeWidget(
-                      //     days: 'Sun, Mon',
-                      //     type: 'Full Bandwidth',
-                      //     time: '12:00 am to 01:00 am'),
                       SeperatorWidget(),
                       MembersAndDevicesWidget(
                         policy: widget.policy,
@@ -280,14 +268,12 @@ class PolicyHeader extends StatelessWidget {
         //     },
         //     iconSize: 20,
         //     constraints: BoxConstraints()),
-        IconButton(
-            padding: EdgeInsets.fromLTRB(0, 0, 8, 0),
-            color: Colors.red,
-            icon: Icon(Icons.delete),
-            iconSize: 20,
-            onPressed: () {
+        InkWell(
+            child: Icon(Icons.delete,size: 20,color: Colors.red,),
+            onTap: () {
               onDelete();
             }),
+        SizedBox(width: 6,),
         Container(
           height: 20,
           width: 20,
@@ -297,14 +283,14 @@ class PolicyHeader extends StatelessWidget {
                 color: Color(0xFF95C93D),
               ),
               borderRadius: BorderRadius.all(Radius.circular(4))),
-          child: IconButton(
-              color: Colors.white,
-              icon: Icon(isExpanded
+          child: InkWell(
+              child: Icon(isExpanded
                   ? Icons.keyboard_arrow_down_rounded
-                  : Icons.keyboard_arrow_right_rounded),
-              iconSize: 18,
-              padding: EdgeInsets.all(0),
-              onPressed: () {
+                  : Icons.keyboard_arrow_right_rounded,
+                  size: 20,
+                  color: Colors.white,
+                  ),
+              onTap: () {
                 onLayoutChanged();
               }),
           constraints: BoxConstraints(),

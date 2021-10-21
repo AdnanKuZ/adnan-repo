@@ -132,6 +132,7 @@ class MembersAndDevicesStepperWidget extends StatelessWidget {
                     title: "Add New Member",
                     icon: Icons.add,
                     onPress: () async {
+                      var policyProvider = Provider.of<AddPolicyProvider>(context,listen: false);
                       String result = await AddMemberDialog(context: context);
                       print("result " + result);
                       if (result.isEmpty) {
@@ -143,6 +144,7 @@ class MembersAndDevicesStepperWidget extends StatelessWidget {
                         provider
                             .addMember(MemberModel(name: result, devices: []));
                       }
+                      reloadMembersAndDevices(context, policyProvider);
                       Navigator.pop(context);
                     },
                   ),
@@ -291,7 +293,6 @@ class StepperDevicesList extends StatelessWidget {
                               reloadMembersAndDevices(context, provider);
                             },
                           ),
-                          
                         ],
                       ),
                     ),
@@ -371,7 +372,7 @@ class StepperMemberList extends StatelessWidget {
                         color: Colors.red,
                       ),
                       onTap: () async {
-                        await requestDeleteMember(member.id!);
+                        requestDeleteMember(member.id!);
                         reloadMembersAndDevices(context, provider);
                       },
                     ),

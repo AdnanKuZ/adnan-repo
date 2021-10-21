@@ -27,8 +27,8 @@ class MembersAndDevicesHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var provider = Provider.of<AddPolicyProvider>(context, listen: false);
-    var addDeviceProvider =
-        Provider.of<AddDeviceProvider>(context, listen: false);
+    // var addDeviceProvider =
+    //     Provider.of<AddDeviceProvider>(context, listen: false);
 
     return Column(
       children: [

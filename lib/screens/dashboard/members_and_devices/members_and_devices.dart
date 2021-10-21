@@ -152,8 +152,9 @@ class _MembersAndDevicesScreenState extends State<MembersAndDevicesScreen> {
                                   member: state
                                       .members[index - state.devices.length],
                                   onDeleteMember: (member) async {
+                                    print('member id on delete${state.members[index].id}');
                                     LoadingDialog(context: context);
-                                    await requestDeleteMember(member);
+                                    // await requestDeleteMember(member[index].id);
                                     initiated = false;
                                     await loadDevicesAndMembers();
                                     Navigator.pop(context);

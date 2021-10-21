@@ -18,7 +18,7 @@ class DeleteDialog extends StatelessWidget {
       shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.all(Radius.circular(10))),
       content: Container(
-        padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 20),
+        padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 20),
         height: 200,
         width: 200,
         child: Container(

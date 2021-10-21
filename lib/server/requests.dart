@@ -581,7 +581,7 @@ Future<List<Application>> requestSearchApplications(String search) async {
   return [];
 }
 
-Future<void> requestDeleteMember(String memberId) async {
+void requestDeleteMember(String memberId) async {
   SharedPreferences _prefs = await SharedPreferences.getInstance();
   String token = _prefs.getString('token').toString();
 

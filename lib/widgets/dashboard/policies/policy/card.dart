@@ -50,14 +50,14 @@ class NestedCardHeader extends StatelessWidget {
                           color: Color(0xFF95C93D),
                         ),
                         borderRadius: BorderRadius.all(Radius.circular(4))),
-                    child: IconButton(
-                        color: Colors.white,
-                        icon: Icon(isExpanded
+                    child: InkWell(
+                        child: Icon(isExpanded
                             ? Icons.keyboard_arrow_down_rounded
-                            : Icons.keyboard_arrow_right_rounded),
-                        iconSize: 18,
-                        padding: EdgeInsets.all(0),
-                        onPressed: () {
+                            : Icons.keyboard_arrow_right_rounded,
+                            color: Colors.white,
+                            size: 18,
+                          ),
+                        onTap: () {
                           onLayoutChanged();
                         }),
                     constraints: BoxConstraints(),
@@ -121,14 +121,14 @@ class NestedCardBody extends StatelessWidget {
                           color: Color(0xFF95C93D),
                         ),
                         borderRadius: BorderRadius.all(Radius.circular(4))),
-                    child: IconButton(
-                        color: Colors.white,
-                        icon: Icon(isExpanded
+                    child: InkWell(
+                        child: Icon(isExpanded
                             ? Icons.keyboard_arrow_down_rounded
-                            : Icons.keyboard_arrow_right_rounded),
-                        iconSize: 18,
-                        padding: EdgeInsets.all(0),
-                        onPressed: () {
+                            : Icons.keyboard_arrow_right_rounded,
+                            color: Colors.white,
+                            size: 18,
+                          ),
+                        onTap: () {
                           onLayoutChanged();
                         }),
                     constraints: BoxConstraints(),
