@@ -9,7 +9,7 @@ class BandwidthProvider extends ChangeNotifier {
     "Sunday": null, //2
     "Monday": null, //3
     "Tuesday": null, //4
-    "Wednsday": null, //5
+    "Wednesday": null, //5
     "Thursday": null, //6
     "Friday": null, //7
     "Saturday": null, //8
@@ -19,7 +19,7 @@ class BandwidthProvider extends ChangeNotifier {
     "Sunday": null, //2
     "Monday": null, //3
     "Tuesday": null, //4
-    "Wednsday": null, //5
+    "Wednesday": null, //5
     "Thursday": null, //6
     "Friday": null, //7
     "Saturday": null, //8
@@ -29,7 +29,7 @@ class BandwidthProvider extends ChangeNotifier {
     "Sunday": 'Full Bandwidth', //2
     "Monday": 'Full Bandwidth', //3
     "Tuesday": 'Full Bandwidth', //4
-    "Wednsday": 'Full Bandwidth', //5
+    "Wednesday": 'Full Bandwidth', //5
     "Thursday": 'Full Bandwidth', //6
     "Friday": 'Full Bandwidth', //7
     "Saturday": 'Full Bandwidth', //8
@@ -95,7 +95,7 @@ class BandwidthProvider extends ChangeNotifier {
       "Sunday",
       "Monday",
       "Tuesday",
-      "Wednsday",
+      "Wednesday",
       "Thursday",
       "Friday",
       "Saturday",

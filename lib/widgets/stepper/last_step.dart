@@ -44,7 +44,7 @@ class LastStepWidget extends StatelessWidget {
                 alignment: WrapAlignment.spaceBetween,
                 children: [
                   Text(
-                    'What do you like to call this new policy ?',
+                    'That\'s how the policy card is going to look like!',
                     style: TextStyle(
                         color: Colors.black,
                         fontSize: 22,

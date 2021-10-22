@@ -50,7 +50,7 @@ class BandwidthStepperWidget extends StatelessWidget {
                     showDialog(
                         context: context,
                         builder: (context) => AuthDialog(
-                              title: "Please Fill Atleast one day",
+                              title: "Please select at least one day",
                             ));
                   }
                 },
@@ -119,14 +119,14 @@ class BandwidthStepperWidget extends StatelessWidget {
               ),
               BandwidthRowWidget(
                 constraints: constraints,
-                day: "Thursday",
-                title: "Thursday",
+                day: "Tuesday",
+                title: "Tuesday",
                 allDays: false,
               ),
               BandwidthRowWidget(
                 constraints: constraints,
-                day: "Wednsday",
-                title: "Wednsday",
+                day: "Wednesday",
+                title: "Wednesday",
                 allDays: false,
               ),
               BandwidthRowWidget(
