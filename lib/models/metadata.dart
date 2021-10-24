@@ -4,6 +4,7 @@
 
 import 'dart:convert';
 
+
 MetadataModel metadataModelFromJson(String str) => MetadataModel.fromJson(json.decode(str));
 
 // String metadataModelToJson(MetadataModel data) => json.encode(data.toJson());
@@ -11,17 +12,17 @@ MetadataModel metadataModelFromJson(String str) => MetadataModel.fromJson(json.d
 class MetadataModel {
     MetadataModel({
         this.ports,
-        this.maxBandwidth,
+        this.bandwidthSpeeds,
         this.cpeIdentifier
     });
 
     List<Port>? ports;
-    int? maxBandwidth;
+    List<BandwidthSpeed>? bandwidthSpeeds;
     String? cpeIdentifier;
 
     factory MetadataModel.fromJson(Map<String, dynamic> json) => MetadataModel(
         ports: List<Port>.from(json["ports"].map((x) => Port.fromJson(x))),
-        maxBandwidth: json["maxBandwidth"],
+        bandwidthSpeeds: List<BandwidthSpeed>.from(json["bandwidthSpeeds"].map((x) => BandwidthSpeed.fromJson(x))),
         cpeIdentifier: json["cpeIdentifier"],
     );
 
@@ -54,4 +55,22 @@ class Port {
     //     "name": name,
     //     "isLte": isLte,
     }
+class BandwidthSpeed {
+    BandwidthSpeed({
+        this.name,
+        this.value,
+    });
 
+    String? name;
+    int? value;
+
+    factory BandwidthSpeed.fromJson(Map<String, dynamic> json) => BandwidthSpeed(
+        name: json["name"],
+        value: json["value"],
+    );
+
+    // Map<String, dynamic> toJson() => {
+    //     "name": name,
+    //     "value": value,
+    // };
+}

@@ -2,6 +2,7 @@ import 'package:admin/dialogs/settings_dialog.dart';
 import 'package:admin/enums/RouteEnum.dart';
 import 'package:admin/models/metadata.dart';
 import 'package:admin/providers/MenuProvider.dart';
+import 'package:admin/providers/bandwidthProvider.dart';
 import 'package:admin/providers/conncetionProvider.dart';
 import 'package:admin/providers/metaDataProvider.dart';
 import 'package:admin/responsive.dart';
@@ -26,16 +27,19 @@ class DashboardScreen extends StatefulWidget {
 class _DashboardScreenState extends State {
   late Future<void> loadMetaDataFuture = loadMetaData();
 
-  Future<MetadataModel> loadMetaData() async {
+  Future<void> loadMetaData() async {
     print('fashboard metadata');
     final provider = Provider.of<MetadataProvider>(context, listen: false);
     final connectionProvider =
         Provider.of<ConnectionProvider>(context, listen: false);
-    final meta = await requestMetadata();
+    final bandwidthProvider =
+        Provider.of<BandwidthProvider>(context, listen: false);
+    final MetadataModel meta = await requestMetadata();
     provider.setMetaData(meta);
     if ((meta.ports?.length ?? 0) > 0)
       connectionProvider.setConnectionDropDownValueForAllDays(meta.ports![0]);
-    return meta;
+    if ((meta.bandwidthSpeeds?.length ?? 0) > 0)
+      bandwidthProvider.setBandwidthDropDownValueForAllDays(meta.bandwidthSpeeds![0]);
   }
 
   int getStackIndex(DashboardRoute route) {

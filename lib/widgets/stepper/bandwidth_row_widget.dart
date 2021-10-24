@@ -1,6 +1,8 @@
 import 'package:admin/constants.dart';
 import 'package:admin/dialogs/auth_error_dialog.dart';
+import 'package:admin/models/metadata.dart';
 import 'package:admin/providers/bandwidthProvider.dart';
+import 'package:admin/providers/metaDataProvider.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
@@ -92,10 +94,10 @@ class BandwidthRowWidget extends StatelessWidget {
               EdgeInsets.only(right: MediaQuery.of(context).size.width * 0.08),
           child: Container(
             width: 160,
-            child: Consumer<BandwidthProvider>(
-              builder: (context, instance, child) =>
+            child: Consumer2<BandwidthProvider, MetadataProvider>(
+              builder: (context, instance, metaInstance, child) =>
                   DropdownButtonHideUnderline(
-                child: DropdownButton<String>(
+                child: DropdownButton<BandwidthSpeed>(
                     dropdownColor: Color(0xFFF8F8F8),
                     icon: Icon(
                       Icons.keyboard_arrow_down,
@@ -103,22 +105,41 @@ class BandwidthRowWidget extends StatelessWidget {
                     ),
                     isExpanded: false,
                     focusColor: Colors.white,
-                    value: instance.bandwidthDropDownValue[day] == null
-                        ? instance.bandwidthDropDownValue["All Days"]
-                        : instance.bandwidthDropDownValue[day],
+                    hint: instance.bandwidthDropDownValue[day] == null
+                        ? Text(
+                            'None',
+                            style: TextStyle(
+                              color: allDays
+                                  ? _provider.bandwidthIsChecked
+                                      ? Colors.black
+                                      : Colors.grey
+                                  : _provider.bandwidthIsChecked
+                                      ? Colors.grey
+                                      : Colors.black,
+                            ),
+                          )
+                        : Text(
+                            instance.bandwidthDropDownValue[day]!.name
+                                .toString().trim(),
+                            style: TextStyle(
+                              color: allDays
+                                  ? _provider.bandwidthIsChecked
+                                      ? Colors.black
+                                      : Colors.grey
+                                  : _provider.bandwidthIsChecked
+                                      ? Colors.grey
+                                      : Colors.black,
+                            )),
                     elevation: 10,
                     style: TextStyle(color: Colors.white),
                     iconEnabledColor: Colors.black,
-                    items: <String>[
-                      'Full Bandwidth',
-                      'Medium Bandwidth',
-                      'Small Bandwidth',
-                      'Block'
-                    ].map<DropdownMenuItem<String>>((String value) {
-                      return DropdownMenuItem<String>(
+                    items: metaInstance.getmetadata["bandwidthSpeeds"]
+                        .map<DropdownMenuItem<BandwidthSpeed>>(
+                            (BandwidthSpeed value) {
+                      return DropdownMenuItem<BandwidthSpeed>(
                         value: value,
                         child: Text(
-                          value,
+                          value.name!.trim(),
                           style: TextStyle(
                             color: allDays
                                 ? _provider.bandwidthischecked
@@ -133,14 +154,14 @@ class BandwidthRowWidget extends StatelessWidget {
                     }).toList(),
                     onChanged: allDays
                         ? _provider.bandwidthischecked
-                            ? (String? value) {
+                            ? (BandwidthSpeed? value) {
                                 _provider.setBandwidthDropDownValue(
                                     value!, day);
                               }
                             : null
                         : _provider.bandwidthischecked
                             ? null
-                            : (String? value) {
+                            : (BandwidthSpeed? value) {
                                 _provider.setBandwidthDropDownValue(
                                     value!, day);
                               }),
@@ -252,11 +273,10 @@ class BandwidthRowWidget extends StatelessWidget {
   }
 
   void setTimeTo(
-    BandwidthProvider provider, String day, BuildContext context) async {
+      BandwidthProvider provider, String day, BuildContext context) async {
     TimeOfDay timeTo = TimeOfDay.now();
 
     if (provider.bandwidthtimeFrom[day] != null) {
-
       TimeOfDay timeFrom = (provider.bandwidthtimeFrom[day])!;
       timeTo = (await showTimePicker(
           context: context, initialTime: TimeOfDay.now()))!;
@@ -272,9 +292,11 @@ class BandwidthRowWidget extends StatelessWidget {
       if ((timeTo24Format - timeFrom24Format) > 0) {
         provider.bandwidthSetTimeTo(timeTo, day);
       } else {
-        showDialog(context: context, builder: (context) => AuthDialog(
-          title: 'Please Choose a valid time within the same day',
-        ));
+        showDialog(
+            context: context,
+            builder: (context) => AuthDialog(
+                  title: 'Please Choose a valid time within the same day',
+                ));
       }
     }
   }

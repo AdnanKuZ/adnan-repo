@@ -35,20 +35,20 @@ class _StepperScreenState extends State<StepperScreen> {
   bool isLoading = false;
 
   late Future<void> loadDevicesAndMembersFuture = loadDevicesAndMembers();
-  late Future<void> loadMetaDataFuture = loadMetaData();
+  // late Future<void> loadMetaDataFuture = loadMetaData();
   late Future<void> loadApplicationsFuture = loadApplications();
 
-  Future<MetadataModel> loadMetaData() async {
-    print('stepper metadata');
-    final provider = Provider.of<MetadataProvider>(context, listen: false);
-    final connectionProvider =
-        Provider.of<ConnectionProvider>(context, listen: false);
-    final meta = await requestMetadata();
-    provider.setMetaData(meta);
-    if ((meta.ports?.length ?? 0) > 0)
-      connectionProvider.setConnectionDropDownValueForAllDays(meta.ports![0]);
-    return meta;
-  }
+  // Future<MetadataModel> loadMetaData() async {
+  //   print('stepper metadata');
+  //   final provider = Provider.of<MetadataProvider>(context, listen: false);
+  //   final connectionProvider =
+  //       Provider.of<ConnectionProvider>(context, listen: false);
+  //   final meta = await requestMetadata();
+  //   provider.setMetaData(meta);
+  //   if ((meta.ports?.length ?? 0) > 0)
+  //     connectionProvider.setConnectionDropDownValueForAllDays(meta.ports![0]);
+  //   return meta;
+  // }
 
   Future<void> loadDevicesAndMembers() async {
     print("loadDevicesAndMembers");
@@ -317,11 +317,13 @@ class _StepperScreenState extends State<StepperScreen> {
                                               : Colors.grey),
                                 ),
                                 content: Container(
-                                    child: FutureBuilder(
-                                        future: loadMetaDataFuture,
-                                        builder: (context, snapshot) {
-                                          return ConnectionStepperWidget();
-                                        }))),
+                                    child: ConnectionStepperWidget()
+                                    // FutureBuilder(
+                                    //     future: loadMetaDataFuture,
+                                    //     builder: (context, snapshot) {
+                                    //       return ConnectionStepperWidget();
+                                    //     })
+                                    )),
                             EnhanceStep(
                                 icon: instance.stageIndex == 3
                                     ? Container(
