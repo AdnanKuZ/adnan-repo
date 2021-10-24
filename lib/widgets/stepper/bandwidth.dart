@@ -119,8 +119,8 @@ class BandwidthStepperWidget extends StatelessWidget {
               ),
               BandwidthRowWidget(
                 constraints: constraints,
-                day: "Thursday",
-                title: "Thursday",
+                day: "Tuesday",
+                title: "Tuesday",
                 allDays: false,
               ),
               BandwidthRowWidget(

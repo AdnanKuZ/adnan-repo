@@ -70,8 +70,8 @@ class ConnectionStepperWidget extends StatelessWidget {
                   allDays: false,
                 ),
                 ConnectionRowWidget(
-                  day: "Thursday",
-                  title: "Thursday",
+                  day: "Tuesday",
+                  title: "Tuesday",
                   allDays: false,
                 ),
                 ConnectionRowWidget(

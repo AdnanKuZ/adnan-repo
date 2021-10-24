@@ -8,6 +8,7 @@ LoadingDialog({required BuildContext context}) async {
   }
   
   return showDialog<String>(
+    barrierDismissible: false,
       context: context,
       builder: (context) {
         return Container(
