@@ -39,7 +39,7 @@ class ConnectionStepperWidget extends StatelessWidget {
                     showDialog(
                         context: context,
                         builder: (context) => AuthDialog(
-                              title: "Please Fill Atleast one day",
+                              title: "Please select at least one day",
                             ));
                   }
                 },
@@ -75,8 +75,8 @@ class ConnectionStepperWidget extends StatelessWidget {
                   allDays: false,
                 ),
                 ConnectionRowWidget(
-                  day: "Wednsday",
-                  title: "Wednsday",
+                  day: "Wednesday",
+                  title: "Wednesday",
                   allDays: false,
                 ),
                 ConnectionRowWidget(

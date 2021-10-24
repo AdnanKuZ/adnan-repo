@@ -10,7 +10,7 @@ class ConnectionProvider extends ChangeNotifier {
     "Sunday": null, //2
     "Monday": null, //3
     "Tuesday": null, //4
-    "Wednsday": null, //5
+    "Wednesday": null, //5
     "Thursday": null, //6
     "Friday": null, //7
     "Saturday": null, //8
@@ -20,7 +20,7 @@ class ConnectionProvider extends ChangeNotifier {
     "Sunday": null, //2
     "Monday": null, //3
     "Tuesday": null, //4
-    "Wednsday": null, //5
+    "Wednesday": null, //5
     "Thursday": null, //6
     "Friday": null, //7
     "Saturday": null, //8
@@ -30,7 +30,7 @@ class ConnectionProvider extends ChangeNotifier {
     "Sunday": null, //2
     "Monday": null, //3
     "Tuesday": null, //4
-    "Wednsday": null, //5
+    "Wednesday": null, //5
     "Thursday": null, //6
     "Friday": null, //7
     "Saturday": null, //8
@@ -106,7 +106,7 @@ class ConnectionProvider extends ChangeNotifier {
       "Sunday",
       "Monday",
       "Tuesday",
-      "Wednsday",
+      "Wednesday",
       "Thursday",
       "Friday",
       "Saturday",

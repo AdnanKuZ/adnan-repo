@@ -66,7 +66,7 @@ class _AppsStepScreenState extends State<AppsStepScreen> {
                   showDialog(
                       context: context,
                       builder: (context) => AuthDialog(
-                            title: "Select one app at least",
+                            title: "Please select at least one app",
                           ));
                   return;
                 }

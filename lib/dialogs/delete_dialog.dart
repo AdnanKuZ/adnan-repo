@@ -58,7 +58,7 @@ class DeleteDialog extends StatelessWidget {
                     onpressed: () {
                       Navigator.pop(context);
                     },
-                    title: "cancel",
+                    title: "Cancel",
                   )),
             ],
           ),
